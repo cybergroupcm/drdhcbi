@@ -124,7 +124,6 @@ application/logs/*
 /vendor/
 
 /documentation/*
-/user_guide/*
 /application/config/rest.php
 /application/config/database.php
 /nbproject/*
