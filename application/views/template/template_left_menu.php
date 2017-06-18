@@ -47,8 +47,15 @@
                 <li><a href="index2.html"><i class="fa fa-circle-o"></i> รายงานจำนวนเรื่องร้องทุกข์ตามประเภทเรื่อง</a></li>
               </ul>
             </li>
+            <li class="header text-uppercase"><?php echo 'User Manager'; ?></li>
+            <li class="">
+              <a href="<?php echo site_url('admin/dashboard'); ?>">
+                <i class="fa fa-dashboard"></i> <span><?php echo 'user_manger'; ?></span>
+              </a>
+            </li>
 
           </ul>
+
         </section>
         <!-- /.sidebar -->
       </aside>
