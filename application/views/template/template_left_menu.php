@@ -45,6 +45,14 @@
                 <li><a href="index.html"><i class="fa fa-circle-o"></i> รายงานรวมเรื่องร้องทุกข์</a></li>
                 <li><a href="index2.html"><i class="fa fa-circle-o"></i> รายงานจำนวนเรื่องร้องทุกข์ตามทางการร้อง/ตามหน่วยงาน</a></li>
                 <li><a href="index2.html"><i class="fa fa-circle-o"></i> รายงานจำนวนเรื่องร้องทุกข์ตามประเภทเรื่อง</a></li>
+
+                <li><a href="index.html"><i class="fa fa-circle-o"></i> รายงานรายละอียดผู้ร้องเรียน/ร้องทุกข์</a></li>
+                <li><a href="index2.html"><i class="fa fa-circle-o"></i> รายงานรายละอียดผู้ถูกร้องเรียน/ร้องทุกข์</a></li>
+                <li><a href="index2.html"><i class="fa fa-circle-o"></i> รายงานสถิติเรื่องร้องเรียนร้องทุกข์(ประเภทเรื่อง)</a></li>
+                <li><a href="index2.html"><i class="fa fa-circle-o"></i> รายงานภาพรวมสถิติเรื่องร้องทุกข์(สถานะ)</a></li>
+                <li><a href="index2.html"><i class="fa fa-circle-o"></i> รายงานภาพรวมสถิติเปรียบเทียบเรื่องร้องทุกข์</a></li>
+
+
               </ul>
             </li>
             <li class="header text-uppercase"><?php echo 'User Manager'; ?></li>

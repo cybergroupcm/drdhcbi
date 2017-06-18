@@ -26,7 +26,7 @@ class Main extends CI_Controller {
 	{
 
 		//$this->load->model('Template_libraries', 'libraries');
-		$this->libraries->template('main',$arr_data=array());
+		$this->libraries->template('main',$arr_data=array('test'=>'test'));
 
 		//$this->load->view('main');
 	}
