@@ -1,5 +1,4 @@
 
-
       <!-- Right side column. Contains the navbar and content of the page -->
         <!-- Content Header (Page header) -->
         <section class="content-header">
