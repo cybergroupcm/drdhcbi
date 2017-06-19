@@ -4,13 +4,25 @@
         padding-top: 50px;
         padding-left: 50px;
         padding-bottom: 50px;
-        width: 90%;
+        width: 98%;
         position: relative;
         margin: auto;
     }
+    .title {
+        font-size: 20px;
+        font-weight: bold;
+        padding-bottom:20px;
+    }
+    .required:after {
+        content: "*";
+        color:red;
+    }
+    .right{
+        text-align: right;
+    }
 </style>
 <div class="row frame">
-    <div class="row">
+    <div class="row title">
         <div class="col-md-12">
             <div class="form-group">บันทึกเรื่องร้องทุกข์/ร้องเรียน</div>
         </div>
@@ -19,7 +31,7 @@
         <div class="col-md-12">
             <div class="col-md-6">
               <div class="form-group">
-                <label class="col-sm-5">
+                <label class="col-sm-5 right required">
                     วันที่ร้องทุกข์ : 
                 </label>
                 <label class="col-sm-7">
@@ -27,16 +39,461 @@
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="text" class="form-control pull-right" id="reservation"/>
+                        <input type="text" id="complaint_date" class="form-control pull-right datepicker" />
                     </div>
                 </label>
                 </div>
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="col-sm-5 right required">
+                    ผู้รับแจ้ง : 
+                </label>
+                <label class="col-sm-7">
+                    <input type="text" class="form-control" />
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="col-sm-5 right">
+                    วันที่หนังสือส่งเข้า : 
+                </label>
+                <label class="col-sm-7">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" id="book_in_date" class="form-control pull-right datepicker" />
+                    </div>
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="col-sm-5 right">
+                    เลขที่หนังสือส่งเข้า : 
+                </label>
+                <label class="col-sm-7">
+                    <input type="text" class="form-control" />
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="col-sm-5 right">
+                    วันที่หนังสือส่งออก : 
+                </label>
+                <label class="col-sm-7">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="text" id="book_in_date" class="form-control pull-right datepicker" />
+                    </div>
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="col-sm-5 right">
+                    เลขที่หนังสือส่งออก : 
+                </label>
+                <label class="col-sm-7">
+                    <input type="text" class="form-control" />
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="col-sm-5 right">
+                    ผู้บันทึก : 
+                </label>
+                <label class="col-sm-7">
+                    เจ้าหน้าที่รับผิดชอบเรื่องร้องเรียนจังหวัด ชลบุรี
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row title">
+        <div class="col-md-12">
+            <div class="form-group">บันทึกเนื้อหาเรื่องร้องทุกข์/ร้องเรียน</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="col-sm-5 right required">
+                    ประเภทเรื่อง : 
+                </label>
+                <label class="col-sm-7">
+                    <select class="form-control">
+                        <option value="">ร้องเรียน/ร้องทุกข์</option>
+                    </select>
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="col-sm-5 right required">
+                    หัวข้อเรื่อง : 
+                </label>
+                <label class="col-sm-7">
+                    <input type="text" class="form-control" />
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="col-sm-5 right required">
+                    ช่องทางรับเรื่อง : 
+                </label>
+                <label class="col-sm-7">
+                    <select class="form-control">
+                        <option value="">ศูนย์ดำรงธรรมส่วนกลาง</option>
+                    </select>
+                </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-sm-5 right required">
+                        ลักษณะเรื่อง : 
+                    </label>
+                    <label class="col-sm-7">
+                        <select class="form-control">
+                            <option value="">ทั่วไป</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#tab1">ผู้ร้องทุกข์</a></li>
+        <li><a data-toggle="tab" href="#tab2">ประเภทเรื่องร้องทุกข์หลัก</a></li>
+        <li><a data-toggle="tab" href="#tab3">หน่วยงานหรือผู้ถูกร้องเรียนร้องทุกข์</a></li>
+        <li><a data-toggle="tab" href="#tab4">เนื้อหาสาระ</a></li>
+        <li><a data-toggle="tab" href="#tab5">ความประสงค์ในการดำเนินการ</a></li>
+        <li><a data-toggle="tab" href="#tab6">หลักฐานประกอบเรื่องร้องทุกข์</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="tab1" class="tab-pane fade in active">
+            <div class="row"><div class="col-md-12">&nbsp;</div></div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="radio" name="complainter" value="1"> ไม่ประสงค์ออกนาม
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="radio" name="complainter" value="2"> บันทึก/เลือกผู้ร้องทุกข์
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-5 right required">
+                                ชื่อผู้ร้องทุกข์ : 
+                            </label>
+                            <label class="col-sm-7">
+                                <input type="text" class="form-control">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="tab2" class="tab-pane fade">
+            <div class="row"><div class="col-md-12">&nbsp;</div></div>
+            <?php 
+            $i=1;
+            foreach($complaint_type as $key => $value){ ?>
+                <?php if(($i%2)!=0){ ?>
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                <?php } ?>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input type="radio" name="complaint_type" value="<?php echo $key; ?>"> <?php echo $value; ?>
+                            </div>
+                        </div>
+                <?php if(($i%2)==0){ ?>
+                    </div>
+                <?php } ?>
+            <?php $i++; } ?>
+        </div>
+        <div id="tab3" class="tab-pane fade">
+            <div class="row"><div class="col-md-12">&nbsp;</div></div>
+            <div class="row">
+                    <div class="col-md-1"></div>
+                <?php foreach($complainant as $key => $value){ ?>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input type="radio" name="complaint_type" value="<?php echo $key; ?>"> <?php echo $value; ?>
+                        </div>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+        <div id="tab4" class="tab-pane fade">
+            <div class="row"><div class="col-md-12">&nbsp;</div></div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-5 right">
+                                วันเดือนปีที่เกิดเหตุ(ถ้ามี) : 
+                            </label>
+                            <label class="col-sm-7">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" id="date_happen" class="form-control pull-right datepicker" />
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-5 right required">
+                                สถานที่เกิดเหตุ : 
+                            </label>
+                            <label class="col-sm-7">
+                                <input type="text"  class="form-control" />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-5 right required">
+                                จังหวัด : 
+                            </label>
+                            <label class="col-sm-7">
+                                <select class="form-control">
+                                    <option value="">--กรุณาเลือก--</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-5 right required">
+                                อำเภอ : 
+                            </label>
+                            <label class="col-sm-7">
+                                <select class="form-control">
+                                    <option value="">--กรุณาเลือก--</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-5 right required">
+                                ตำบล : 
+                            </label>
+                            <label class="col-sm-7">
+                                <select class="form-control">
+                                    <option value="">--กรุณาเลือก--</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-5 right required">
+                                เหตุการณ์/พฤติการณ์ : 
+                            </label>
+                            <label class="col-sm-7">
+                                <textarea class="form-control" cols="20" rows="5"></textarea>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="tab5" class="tab-pane fade">
+            <div class="row"><div class="col-md-12">&nbsp;</div></div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-5 right required">
+                                ความประสงค์ : 
+                            </label>
+                            <span class="col-sm-7">
+                                <input type="checkbox" > ขอความช่วยเหลือ
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-5 right"></label>
+                            <span class="col-sm-7">
+                                <input type="checkbox" > ขอความเป็นธรรม
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-5 right"></label>
+                            <span class="col-sm-7">
+                                <input type="checkbox" > ขอตรวจสอบข้อเท็จจริง
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-5 right">
+                                ความประสงค์เพิ่มเติม : 
+                            </label>
+                            <label class="col-sm-7">
+                                <textarea class="form-control" cols="20" rows="5"></textarea>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="tab6" class="tab-pane fade">
+            <div class="row"><div class="col-md-12">&nbsp;</div></div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-5 right">
+                                แนบไฟล์เอกสารหลักฐาน : 
+                            </label>
+                            <label class="col-sm-7">
+                                <input type="file" multiple id="myFile" onchange="myFunction()" accept=".jpg, .png, .pdf">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <span class="col-sm-12 right" style="color:red;">
+                                อณุญาตให้แนบไฟล์นามสกุล .jpg, .png, .pdf ขนาดไม่เกิน 1 MB 
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 right"></label>
+                        <span class="col-sm-10"><p id="demo"></p></span>
+                    </div>
+                </div>
+                
+                <script>
+                function myFunction(){
+                    var x = document.getElementById("myFile");
+                    var txt = "";
+                    if ('files' in x) {
+                        var j=1;
+                        for (var i = 0; i < x.files.length; i++) {
+                            var file = x.files[i];
+                            if(parseInt(file.size)>1048576){
+                                txt += "ไม่สามารถแนบไฟล์ " + file.name + " ได้เนื่องจากไฟล์มีขนาดใหญ่เกินไป<br>";
+                            }else{
+                                txt += "<br><strong>" + (j) + ". file</strong><br>";
+                                if ('name' in file) {
+                                    txt += "name: " + file.name + "<br>";
+                                }
+                                if ('size' in file) {
+                                    txt += "size: " + file.size + " bytes <br>";
+                                }
+                                j++;
+                            }
+                        }
+                    }
+                    console.log(x.files);
+                    document.getElementById("demo").innerHTML = txt;
+                }
+                </script>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
 $( document ).ready(function() {
-    alert('sss');
+    $('.datepicker').datepicker();
 });
 </script>
