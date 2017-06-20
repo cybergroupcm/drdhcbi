@@ -92,6 +92,14 @@
                 'type' => 'text/css'
       );
       echo link_tag($link);
+      
+      #Sweet Alert
+      $link = array(
+                'href' => 'assets/css/sweetalert.css',
+                'rel' => 'stylesheet',
+                'type' => 'text/css'
+      );
+      echo link_tag($link);
       ?>
       <?php
       #jQuery 2.1.3
@@ -217,7 +225,13 @@
                 'type' => 'text/javascript'
       );
       echo script_tag($link);
-
+      
+      #Sweet Alert App
+      $link = array(
+                'src' => 'assets/js/sweetalert.min.js',
+                'type' => 'text/javascript'
+      );
+      echo script_tag($link);
       ?>
     </head>
     <body class="<?php echo $body_class;?>">

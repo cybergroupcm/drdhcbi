@@ -1,26 +1,11 @@
-<style>
-    .frame{
-        background-color: white;
-        padding-top: 50px;
-        padding-left: 50px;
-        padding-bottom: 50px;
-        width: 98%;
-        position: relative;
-        margin: auto;
-    }
-    .title {
-        font-size: 20px;
-        font-weight: bold;
-        padding-bottom:20px;
-    }
-    .required:after {
-        content: "*";
-        color:red;
-    }
-    .right{
-        text-align: right;
-    }
-</style>
+<?php 
+$link = array(
+                'href' => '/assets/css/key_in.css',
+                'type' => 'text/css',
+                'rel' => 'stylesheet'
+       );
+       echo link_tag($link);
+?>
 <div class="row frame">
     <div class="row title">
         <div class="col-md-12">
@@ -54,7 +39,7 @@
                     ผู้รับแจ้ง : 
                 </label>
                 <label class="col-sm-7">
-                    <input type="text" class="form-control" />
+                    <input type="text" id="employer" class="form-control" />
                 </label>
                 </div>
             </div>
@@ -153,7 +138,7 @@
                     ประเภทเรื่อง : 
                 </label>
                 <label class="col-sm-7">
-                    <select class="form-control">
+                    <select class="form-control" id="complaint_type">
                         <option value="">ร้องเรียน/ร้องทุกข์</option>
                     </select>
                 </label>
@@ -169,7 +154,7 @@
                     หัวข้อเรื่อง : 
                 </label>
                 <label class="col-sm-7">
-                    <input type="text" class="form-control" />
+                    <input type="text" id="complaint_title" class="form-control" />
                 </label>
                 </div>
             </div>
@@ -183,7 +168,7 @@
                     ช่องทางรับเรื่อง : 
                 </label>
                 <label class="col-sm-7">
-                    <select class="form-control">
+                    <select class="form-control" id="complaint_way">
                         <option value="">ศูนย์ดำรงธรรมส่วนกลาง</option>
                     </select>
                 </label>
@@ -199,7 +184,7 @@
                         ลักษณะเรื่อง : 
                     </label>
                     <label class="col-sm-7">
-                        <select class="form-control">
+                        <select class="form-control" id="complaint_aspect">
                             <option value="">ทั่วไป</option>
                         </select>
                     </label>
@@ -223,7 +208,7 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="radio" name="complainter" value="1"> ไม่ประสงค์ออกนาม
+                            <input type="radio" id="complainter1" name="complainter" value="1"> ไม่ประสงค์ออกนาม
                         </div>
                     </div>
                 </div>
@@ -231,7 +216,7 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="radio" name="complainter" value="2"> บันทึก/เลือกผู้ร้องทุกข์
+                            <input type="radio" id="complainter2" name="complainter" value="2"> บันทึก/เลือกผู้ร้องทุกข์
                         </div>
                     </div>
                 </div>
@@ -243,7 +228,7 @@
                                 ชื่อผู้ร้องทุกข์ : 
                             </label>
                             <label class="col-sm-7">
-                                <input type="text" class="form-control">
+                                <input type="text" id="complainter_name" class="form-control">
                             </label>
                         </div>
                     </div>
@@ -261,7 +246,7 @@
                 <?php } ?>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <input type="radio" name="complaint_type" value="<?php echo $key; ?>"> <?php echo $value; ?>
+                                <input type="radio" name="complaint_type" class="complaint_type" value="<?php echo $key; ?>"> <?php echo $value; ?>
                             </div>
                         </div>
                 <?php if(($i%2)==0){ ?>
@@ -276,7 +261,7 @@
                 <?php foreach($complainant as $key => $value){ ?>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <input type="radio" name="complaint_type" value="<?php echo $key; ?>"> <?php echo $value; ?>
+                            <input type="radio" name="complainant" class="complainant" value="<?php echo $key; ?>"> <?php echo $value; ?>
                         </div>
                     </div>
                 <?php } ?>
@@ -311,7 +296,7 @@
                                 สถานที่เกิดเหตุ : 
                             </label>
                             <label class="col-sm-7">
-                                <input type="text"  class="form-control" />
+                                <input type="text" id="place_happen"  class="form-control" />
                             </label>
                         </div>
                     </div>
@@ -325,7 +310,7 @@
                                 จังหวัด : 
                             </label>
                             <label class="col-sm-7">
-                                <select class="form-control">
+                                <select class="form-control" id="province">
                                     <option value="">--กรุณาเลือก--</option>
                                 </select>
                             </label>
@@ -341,7 +326,7 @@
                                 อำเภอ : 
                             </label>
                             <label class="col-sm-7">
-                                <select class="form-control">
+                                <select class="form-control" id="district">
                                     <option value="">--กรุณาเลือก--</option>
                                 </select>
                             </label>
@@ -357,7 +342,7 @@
                                 ตำบล : 
                             </label>
                             <label class="col-sm-7">
-                                <select class="form-control">
+                                <select class="form-control" id="sub_district">
                                     <option value="">--กรุณาเลือก--</option>
                                 </select>
                             </label>
@@ -373,7 +358,7 @@
                                 เหตุการณ์/พฤติการณ์ : 
                             </label>
                             <label class="col-sm-7">
-                                <textarea class="form-control" cols="20" rows="5"></textarea>
+                                <textarea class="form-control" id="case_event" cols="20" rows="5"></textarea>
                             </label>
                         </div>
                     </div>
@@ -390,7 +375,7 @@
                                 ความประสงค์ : 
                             </label>
                             <span class="col-sm-7">
-                                <input type="checkbox" > ขอความช่วยเหลือ
+                                <input type="checkbox" class="desire" > ขอความช่วยเหลือ
                             </span>
                         </div>
                     </div>
@@ -400,7 +385,7 @@
                         <div class="form-group">
                             <label class="col-sm-5 right"></label>
                             <span class="col-sm-7">
-                                <input type="checkbox" > ขอความเป็นธรรม
+                                <input type="checkbox" class="desire" > ขอความเป็นธรรม
                             </span>
                         </div>
                     </div>
@@ -410,7 +395,7 @@
                         <div class="form-group">
                             <label class="col-sm-5 right"></label>
                             <span class="col-sm-7">
-                                <input type="checkbox" > ขอตรวจสอบข้อเท็จจริง
+                                <input type="checkbox" class="desire" > ขอตรวจสอบข้อเท็จจริง
                             </span>
                         </div>
                     </div>
@@ -441,7 +426,7 @@
                                 แนบไฟล์เอกสารหลักฐาน : 
                             </label>
                             <label class="col-sm-7">
-                                <input type="file" multiple id="myFile" onchange="myFunction()" accept=".jpg, .png, .pdf">
+                                <input type="file" multiple id="myFile" onchange="checkFile()" accept=".jpg, .png, .pdf">
                             </label>
                         </div>
                     </div>
@@ -458,42 +443,31 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="col-sm-2 right"></label>
-                        <span class="col-sm-10"><p id="demo"></p></span>
+                        <span class="col-sm-10"><p id="checkFile"></p></span>
                     </div>
                 </div>
-                
-                <script>
-                function myFunction(){
-                    var x = document.getElementById("myFile");
-                    var txt = "";
-                    if ('files' in x) {
-                        var j=1;
-                        for (var i = 0; i < x.files.length; i++) {
-                            var file = x.files[i];
-                            if(parseInt(file.size)>1048576){
-                                txt += "ไม่สามารถแนบไฟล์ " + file.name + " ได้เนื่องจากไฟล์มีขนาดใหญ่เกินไป<br>";
-                            }else{
-                                txt += "<br><strong>" + (j) + ". file</strong><br>";
-                                if ('name' in file) {
-                                    txt += "name: " + file.name + "<br>";
-                                }
-                                if ('size' in file) {
-                                    txt += "size: " + file.size + " bytes <br>";
-                                }
-                                j++;
-                            }
-                        }
-                    }
-                    console.log(x.files);
-                    document.getElementById("demo").innerHTML = txt;
-                }
-                </script>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="col-sm-5 right">
+                        <input type="button" class="btn btn-bitbucket" value="บันทึก" onclick="validateForm()">
+                    </label>
+                    <label class="col-sm-5">
+                        <input type="button" class="btn btn-default" value="ยกเลิก">
+                    </label>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<script>
-$( document ).ready(function() {
-    $('.datepicker').datepicker();
-});
-</script>
+<?php 
+$link = array(
+                'src' => 'assets/js/key_in.js',
+                'type' => 'text/javascript'
+       );
+       echo script_tag($link);
+?>
