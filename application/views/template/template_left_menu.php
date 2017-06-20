@@ -55,8 +55,15 @@
 
               </ul>
             </li>
+            <li class="header text-uppercase"><?php echo 'User Manager'; ?></li>
+            <li class="">
+              <a href="<?php echo site_url('admin/dashboard'); ?>">
+                <i class="fa fa-dashboard"></i> <span><?php echo 'user_manger'; ?></span>
+              </a>
+            </li>
 
           </ul>
+
         </section>
         <!-- /.sidebar -->
       </aside>
