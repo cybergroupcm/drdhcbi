@@ -6,7 +6,8 @@ class Template_libraries extends CI_Model {
 		//$this->load->database();
 		# Load libraries
 		//$this->load->library('parser');
-		$this->load->helper('html');
+		$this->load->helper(array('html', 'url'));
+
 	}
 
 	public function template($bodyFile='', $arr_data=array()){
