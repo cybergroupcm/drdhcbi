@@ -6,11 +6,13 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h4 class="modal-title">ส่งต่อเรื่องร้องทุกข์</h4>
                 </div>
+                <form class="form-horizontal" role="form" method="POST" action="" name="form_save_send" id="form_save_send">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="col-md-10">
                                 <div class="form-group">
+                                    <input type="hidden" name="req_id_send" id="req_id_send" value="">
                                     <label class="col-sm-5 text-right">
                                         กำหนดวันที่ส่งกลับ :
                                     </label>
@@ -91,8 +93,9 @@
                         </div>
                     </div>
                 </div>
+                </form>
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" class="btn btn-primary">บันทึกส่งต่อเรื่องร้องทุกข์</button>
+                    <button type="button" name="btSaveSend" id="btSaveSend" class="btn btn-primary">บันทึกส่งต่อเรื่องร้องทุกข์</button>
                 </div>
             </div>
         </div>

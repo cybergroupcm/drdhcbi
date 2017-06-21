@@ -179,8 +179,15 @@
       <?php
       #datepicker
       $link = array(
-                'src' => 'template/plugins/datepicker/bootstrap-datepicker.js',
-                'type' => 'text/javascript'
+          'src' => 'template/plugins/datepicker/bootstrap-datepicker.js',
+          'type' => 'text/javascript'
+      );
+      echo script_tag($link);
+
+      #datepicker th
+      $link = array(
+          'src' => 'template/plugins/datepicker/locales/bootstrap-datepicker.th.js',
+          'type' => 'text/javascript'
       );
       echo script_tag($link);
 
@@ -232,6 +239,33 @@
                 'type' => 'text/javascript'
       );
       echo script_tag($link);
+
+      #bootstrap-select
+      $link = array(
+          'src' => 'template/plugins/bootstrap-select/js/bootstrap-select.js',
+          'type' => 'text/javascript'
+      );
+      echo script_tag($link);
+
+      $link = array(
+          'src' => 'template/plugins/bootstrap-select/js/bootstrap-select.min.js',
+          'type' => 'text/javascript'
+      );
+      echo script_tag($link);
+
+      $link = array(
+          'href' => 'template/plugins/bootstrap-select/css/bootstrap-select.css',
+          'rel' => 'stylesheet',
+          'type' => 'text/css'
+      );
+      echo link_tag($link);
+
+      $link = array(
+          'href' => 'template/plugins/bootstrap-select/css/bootstrap-select.min.css',
+          'rel' => 'stylesheet',
+          'type' => 'text/css'
+      );
+      echo link_tag($link);
       ?>
     </head>
     <body class="<?php echo $body_class;?>">
