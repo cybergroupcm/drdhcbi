@@ -119,4 +119,37 @@ class Complaint extends CI_Controller {
         echo json_encode($result);
         exit;
     }
+
+    public function view_detail($req_id)
+    {
+        $arr_data=array(
+            'arr_data' => array(
+                '0'=>array(
+                    'req_status'=>'อยู่ระหว่างตรวจสอบ',
+                    'req_title'=>'เรื่องร้องทุกข์1',
+                    'req_name'=>'นายก',
+                    'req_date'=>'2017-06-01',
+                    'req_money'=>'2000',
+                ),
+                '1'=>array(
+                    'req_status'=>'อยู่ระหว่างตรวจสอบ',
+                    'req_title'=>'เรื่องร้องทุกข์2',
+                    'req_name'=>'นายข',
+                    'req_date'=>'2017-06-02',
+                    'req_money'=>'2000',
+                ),
+                '2'=>array(
+                    'req_status'=>'รอเจ้าหน้าที่รับเรื่องร้องทุกข์',
+                    'req_title'=>'เรื่องร้องทุกข์3',
+                    'req_name'=>'นายค',
+                    'req_date'=>'2017-06-03',
+                    'req_money'=>'2000',
+                ),
+            ),
+            'data_detail' => array(
+                'req_id' => $req_id
+            )
+        );
+        $this->libraries->template('complaint/view_detail',$arr_data);
+    }
 }
