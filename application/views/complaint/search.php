@@ -6,6 +6,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h4 class="modal-title">ค้นหาข้อมูล</h4>
                 </div>
+                <form class="form-horizontal" role="form" method="POST" action="" name="form_search" id="form_search">
                 <div class="modal-body" style="margin-left: -30px;">
                     <div class="row">
                         <div class="col-md-12">
@@ -84,8 +85,9 @@
                         </div>
                     </div>
                 </div>
+                </form>
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" class="btn btn-primary">ค้นหาข้อมูล</button>
+                    <button type="button" name="btSearch" id="btSearch" class="btn btn-primary">ค้นหาข้อมูล</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">ล้างค่า</button>
                 </div>
             </div>

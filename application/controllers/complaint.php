@@ -61,6 +61,62 @@ class Complaint extends CI_Controller {
                 '2'=>'ทดสอบ3'
             )
         );
+
+        //start แบ่งหน้า
+        $this->load->library('pagination');
+        $config['base_url'] = base_url().'complaint/dashboard/page';
+        $config['total_rows'] = 200; // Count total rows in the query
+        $config['full_tag_open'] = '<div class="container text-center"><ul class="pagination">';
+        $config['full_tag_close'] = '</ul></div>';
+        $config['per_page'] = 20;
+        $config['num_links'] = 5;
+        $config['page_query_string'] = TRUE;
+        $config['prev_link'] = '&lt; <';
+        $config['prev_tag_open'] = '<li>';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_link'] = '> &gt;';
+        $config['next_tag_open'] = '<li>';
+        $config['next_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+        $config['first_link'] = FALSE;
+        $config['last_link'] = FALSE;
+        $this->pagination->initialize($config);
+        $arr_data['pagination'] = $this->pagination->create_links();
+        //end แบ่งหน้า
+
         $this->libraries->template('complaint/dashboard',$arr_data);
+    }
+
+    public function getDataReceived($req_id)
+    {
+        //echo $req_id;
+        $arr_data=array(
+            'data_received' => array(
+                '0001'=>array(
+                    'req_id'=>'0001',
+                    'req_title'=>'เรื่องร้องทุกข์1',
+                    'req_name'=>'นายก',
+                    'send_date'=>'2017-06-01',
+                ),
+                '0002'=>array(
+                    'req_id'=>'0002',
+                    'req_title'=>'เรื่องร้องทุกข์2',
+                    'req_name'=>'นายข',
+                    'send_date'=>'2017-06-02',
+                ),
+                '0003'=>array(
+                    'req_id'=>'0003',
+                    'req_title'=>'เรื่องร้องทุกข์3',
+                    'req_name'=>'นายค',
+                    'send_date'=>'2017-06-03',
+                )
+            )
+        );
+        $result = $arr_data['data_received'][$req_id];
+        echo json_encode($result);
+        exit;
     }
 }
