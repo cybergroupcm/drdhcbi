@@ -94,12 +94,6 @@
       echo link_tag($link);
       
       #Sweet Alert
-      $link = array(
-                'href' => 'assets/css/sweetalert.css',
-                'rel' => 'stylesheet',
-                'type' => 'text/css'
-      );
-      echo link_tag($link);
       ?>
       <?php
       #jQuery 2.1.3
@@ -235,7 +229,20 @@
       
       #Sweet Alert App
       $link = array(
-                'src' => 'assets/js/sweetalert.min.js',
+          'href' => 'template/plugins/bootstrap-sweetalert/css/sweetalert.css',
+          'rel' => 'stylesheet',
+          'type' => 'text/css'
+      );
+      echo link_tag($link);
+
+      $link = array(
+          'src' => 'template/plugins/bootstrap-sweetalert/js/sweetalert.js',
+          'type' => 'text/javascript'
+      );
+      echo script_tag($link);
+
+      $link = array(
+                'src' => 'template/plugins/bootstrap-sweetalert/js/sweetalert.min.js',
                 'type' => 'text/javascript'
       );
       echo script_tag($link);
