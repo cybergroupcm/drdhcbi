@@ -127,3 +127,4 @@ application/logs/*
 /application/config/rest.php
 /application/config/database.php
 /nbproject/*
+/application/config/config.php
