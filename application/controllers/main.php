@@ -26,7 +26,7 @@ class Main extends CI_Controller {
 	{
 
 		//$this->load->model('Template_libraries', 'libraries');
-		$this->libraries->template('main',$arr_data=array('test'=>'test'));
+		$this->libraries->template('main',$arr_data=array());
 
 		//$this->load->view('main');
 	}
@@ -45,10 +45,11 @@ class Main extends CI_Controller {
 
 	}
         
-        public function register()
+  public function register()
 	{
 
 		$this->libraries->template('register/register',$arr_data=array());
+    
 	}
 }
 
