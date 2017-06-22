@@ -38,7 +38,7 @@ class NuSoapServer extends CI_Controller {
 		}
 		$this->nusoap_server->service(file_get_contents("php://input"));
 	}
-	
+
 	function get_member() {
 		function getMember($id) {
 			echo "True";
@@ -53,5 +53,3 @@ class NuSoapServer extends CI_Controller {
 	}
 }
 ?>
-
-
