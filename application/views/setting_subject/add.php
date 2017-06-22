@@ -1,5 +1,5 @@
 
-<form class="form-horizontal" role="form" method="POST" action="<?php echo base_url('setting_channel/dashboard')?>" name="form_add" id="form_add">
+<form class="form-horizontal" role="form" method="POST" action="<?php echo base_url('setting_subject/dashboard')?>" name="form_add" id="form_add">
     <style>
         .btn-info {
             background-color: #4db6ac;
@@ -12,7 +12,7 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">เพิ่ม/แก้ไขข้อมูลช่องทางรับเรื่อง</h3>
+                        <h3 class="box-title">เพิ่ม/แก้ไขข้อมูลลักษณะเรื่อง</h3>
                     </div>
                     <div class="box-body"  style="height: 400px;">
                         <div class="row">&nbsp;</div>
@@ -21,10 +21,10 @@
                                 <div class="col-md-10">
                                     <div class="form-group">
                                         <label class="col-sm-5 text-right">
-                                            รหัสช่องทางรับเรื่อง :
+                                            รหัสลักษณะเรื่อง :
                                         </label>
                                         <label class="col-sm-3">
-                                            <input type="text" name="channel_id" id="channel_id" class="form-control" value="<?php echo @$data['channel_id'];?>" readonly="readonly" />
+                                            <input type="text" name="subject_id" id="subject_id" class="form-control" value="<?php echo @$data['subject_id'];?>" readonly="readonly" />
                                         </label>
                                     </div>
                                 </div>
@@ -35,10 +35,10 @@
                                 <div class="col-md-10">
                                     <div class="form-group">
                                         <label class="col-sm-5 text-right">
-                                            ช่องทางรับเรื่อง :
+                                            ลักษณะเรื่อง  :
                                         </label>
                                         <label class="col-sm-7">
-                                            <input type="text" name="channel_name" id="channel_name" class="form-control" value="<?php echo @$data['channel_name'];?>" />
+                                            <input type="text" name="subject_name" id="subject_name" class="form-control" value="<?php echo @$data['subject_name'];?>" />
                                         </label>
                                     </div>
                                 </div>
