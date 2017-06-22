@@ -27,9 +27,9 @@
 | -------------------------------------------------------------------------
 | Database table names.
 */
-$config['tables']['users']           = 'users';
-$config['tables']['groups']          = 'groups';
-$config['tables']['users_groups']    = 'users_groups';
+$config['tables']['users']           = 'au_users';
+$config['tables']['groups']          = 'au_groups';
+$config['tables']['users_groups']    = 'au_users_groups';
 $config['tables']['login_attempts']  = 'login_attempts';
 
 /*
