@@ -206,29 +206,83 @@ $link = array(
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-1"></div>
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <div class="form-group">
-                            <input type="radio" id="complainter1" name="complainter" value="1"> ไม่ประสงค์ออกนาม
+                            <input type="radio" id="complainter1" onclick="change_complainter()" name="complainter" value="1"> ไม่ประสงค์ออกนาม
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input type="radio" id="complainter2" onclick="change_complainter()" name="complainter" value="2"> บันทึก/เลือกผู้ร้องทุกข์
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row" id="complainter_detail" style="display: none;">
                 <div class="col-md-12">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <input type="radio" id="complainter2" name="complainter" value="2"> บันทึก/เลือกผู้ร้องทุกข์
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="col-md-1"></div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="col-sm-5 right required">
-                                ชื่อผู้ร้องทุกข์ : 
+                                รหัสประจำตัวประชาชน : 
                             </label>
                             <label class="col-sm-7">
-                                <input type="text" id="complainter_name" class="form-control">
+                                <input type="text" id="complainter_idcard" class="form-control">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-5 right required">
+                                คำนำหน้าชื่อ : 
+                            </label>
+                            <label class="col-sm-7">
+                                <select id='complainter_prename' class='form-control'>
+                                    <option value=''>--กรุณาระบุ--</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-5 right required">
+                                ชื่อ : 
+                            </label>
+                            <label class="col-sm-7">
+                                <select id='complainter_name' class='form-control'>
+                                    <option value=''>--กรุณาระบุ--</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-5 right required">
+                                นามสกุล : 
+                            </label>
+                            <label class="col-sm-7">
+                                <select id='complainter_surname' class='form-control'>
+                                    <option value=''>--กรุณาระบุ--</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-5 right required">
+                                โทรศัพท์เคลื่อนที่ : <br>(ที่สามารถติดต่อได้) 
+                            </label>
+                            <label class="col-sm-7">
+                                <select id='complainter_phone' class='form-control'>
+                                    <option value=''>--กรุณาระบุ--</option>
+                                </select>
                             </label>
                         </div>
                     </div>
@@ -355,12 +409,47 @@ $link = array(
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="col-sm-5 right required">
-                                เหตุการณ์/พฤติการณ์ : 
+                                รายละเอียดการร้องเรียน/ร้องทุกข์ : 
                             </label>
                             <label class="col-sm-7">
                                 <textarea class="form-control" id="case_event" cols="20" rows="5"></textarea>
                             </label>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-5 right required">
+                                จุดเกิดเหตุ : 
+                            </label>
+                            <label class="col-sm-2">
+                                ละติจูด
+                            </label>
+                            <label class="col-sm-5">
+                                <input type="text" class="form-control" readonly="true" id="txt_lat">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-3">
+                                ลองติจูด
+                            </label>
+                            <label class="col-sm-5">
+                                <input type="text" class="form-control" readonly="true" id="txt_lon">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <div id="map_canvas" style="width:100%; height:300px;"></div>
                     </div>
                 </div>
             </div>
@@ -449,7 +538,7 @@ $link = array(
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row footer">
         <div class="col-md-12">
             <div class="col-md-6">
                 <div class="form-group">
@@ -465,6 +554,16 @@ $link = array(
     </div>
 </div>
 <?php 
+$link = array(
+                ' src' => 'http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=true&amp;key=AIzaSyACSdMKi4OrvylAegEJXXR3--RnLUYUBtw',
+                ' type' => 'text/javascript'
+       );
+       echo script_tag($link);
+$link = array(
+                'src' => 'assets/js/map.js',
+                'type' => 'text/javascript'
+       );
+       echo script_tag($link);
 $link = array(
                 'src' => 'assets/js/key_in.js',
                 'type' => 'text/javascript'

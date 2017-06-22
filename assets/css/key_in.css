@@ -1,0 +1,24 @@
+.frame{
+    background-color: white;
+    padding-top: 50px;
+    padding-left: 50px;
+    padding-bottom: 50px;
+    width: 98%;
+    position: relative;
+    margin: auto;
+}
+.title {
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom:20px;
+}
+.footer {
+    padding-top:50px;
+}
+.required:after {
+    content: "*";
+    color:red;
+}
+.right{
+    text-align: right;
+}
