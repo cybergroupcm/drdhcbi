@@ -6,7 +6,7 @@
           <!-- Sidebar user panel -->
           <div class="user-panel">
             <div class="pull-left image">
-              <img src="template/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+              <?php echo img(array('src'=>'template/dist/img/user2-160x160.jpg', 'alt'=> 'User Image','class'=>'img-circle')); ?>
             </div>
             <div class="pull-left info">
               <p>Alexander Pierce</p>
@@ -59,11 +59,6 @@
             <li class="">
               <a href="<?php echo site_url('admin/dashboard'); ?>">
                 <i class="fa fa-user"></i> <span>บริหารจัดการผู้ใช้งาน</span>
-              </a>
-            </li>
-            <li class="">
-              <a href="<?php echo site_url('main/login'); ?>">
-                <i class="fa fa-sign-out"></i> <span>ออกจากระบบ</span>
               </a>
             </li>
           </ul>

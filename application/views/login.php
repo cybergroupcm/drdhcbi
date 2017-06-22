@@ -1,10 +1,10 @@
 <div class="login-box">
       <div class="login-logo">
-        <a href="#"><b>Admin</b>LTE</a>
+        <a href="#"><b>ศูนย์ดำรงธรรม</b><br/>จังหวัดชลบุรี</a>
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session</p>
-        <form action="main" method="post">
+        <form action="<?php echo site_url('main'); ?>" method="post">
           <div class="form-group has-feedback">
             <input type="text" class="form-control" placeholder="Email"/>
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -34,7 +34,7 @@
         </div><!-- /.social-auth-links -->
 
         <a href="#">I forgot my password</a><br>
-        <a href="<?php echo site_url('register/register'); ?>" class="text-center">Register a new membership</a>
+        <a href="<?php echo site_url('main/register'); ?>" class="text-center">Register a new membership</a>
 
       </div><!-- /.login-box-body -->
     </div><!-- /.login-box -->
