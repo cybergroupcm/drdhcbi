@@ -55,7 +55,7 @@ $this->load->view('complaint/send');
                                         <span onclick="window.location.href='<?php echo base_url('complaint/key_in/'.$val['req_id'])?>';">
                                             <?php echo img(array('src'=>'assets/images/edit.png', 'title'=> 'แก้ไข','width'=>'36px','style'=>'cursor:pointer'));?>
                                         </span>
-                                        <span onclick="window.location.href='<?php echo base_url('complaint/view/'.$val['req_id'])?>';">
+                                        <span onclick="window.location.href='<?php echo base_url('complaint/view_detail/'.$val['req_id'])?>';">
                                             <?php echo img(array('src'=>'assets/images/edit-article.png', 'title'=> 'ดูรายละเอียด','width'=>'36px','style'=>'cursor:pointer'));?>
                                         </span>
                                         <?php
