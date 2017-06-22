@@ -44,11 +44,12 @@ class Main extends CI_Controller {
 		$this->libraries->template('template',$arr_data);*/
 
 	}
-
-	public function register()
+        
+  public function register()
 	{
 
-			$this->libraries->template('register/register',$arr_data=array());
+		$this->libraries->template('register/register',$arr_data=array());
+    
 	}
 }
 
