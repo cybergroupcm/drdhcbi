@@ -29,8 +29,8 @@ class Dashboard extends Admin_Controller {
             $this->data['breadcrumb'] = $this->breadcrumbs->show();
 
             /* Data */
-            $this->data['count_users']       = $this->dashboard_model->get_count_record('users');
-            $this->data['count_groups']      = $this->dashboard_model->get_count_record('groups');
+            $this->data['count_users']       = $this->dashboard_model->get_count_record('au_users');
+            $this->data['count_groups']      = $this->dashboard_model->get_count_record('au_groups');
             $this->data['disk_totalspace']   = $this->dashboard_model->disk_totalspace(DIRECTORY_SEPARATOR);
             $this->data['disk_freespace']    = $this->dashboard_model->disk_freespace(DIRECTORY_SEPARATOR);
             $this->data['disk_usespace']     = $this->data['disk_totalspace'] - $this->data['disk_freespace'];

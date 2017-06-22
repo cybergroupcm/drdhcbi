@@ -11,7 +11,7 @@ class Prefs_model extends CI_Model {
 
     public function admin_prefs()
     {
-        $query = $this->db->get('admin_preferences');
+        $query = $this->db->get('au_admin_preferences');
         foreach ($query->result_array() as $value)
         {
             $data['user_panel']         = $value['user_panel'];

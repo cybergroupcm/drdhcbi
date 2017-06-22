@@ -64,7 +64,7 @@ class Prefs extends Admin_Controller {
 
             /* Data */
             $this->data['message_admin']        = (validation_errors()) ? validation_errors() : NULL;
-            $this->data['admin_pref_interface'] = $this->preferences_model->get_interface('admin_preferences');
+            $this->data['admin_pref_interface'] = $this->preferences_model->get_interface('au_admin_preferences');
 
             if ($this->form_validation->run() == TRUE)
             {
@@ -79,7 +79,7 @@ class Prefs extends Admin_Controller {
                     'transition_page'    => (bool) $this->input->post('transition_page')
                 );
 
-                $this->preferences_model->update_interfaces('admin_preferences', $data);
+                $this->preferences_model->update_interfaces('au_admin_preferences', $data);
 
                 redirect('admin/prefs/interfaces/admin', 'refresh');
             }
@@ -100,7 +100,7 @@ class Prefs extends Admin_Controller {
 
             /* Data */
             $this->data['message_public']        = (validation_errors()) ? validation_errors() : NULL;
-            $this->data['public_pref_interface'] = $this->preferences_model->get_interface('public_preferences');
+            $this->data['public_pref_interface'] = $this->preferences_model->get_interface('au_public_preferences');
 
             if ($this->form_validation->run() == TRUE)
             {
@@ -108,7 +108,7 @@ class Prefs extends Admin_Controller {
                     'transition_page' => (bool) $this->input->post('transition_page')
                 );
 
-                $this->preferences_model->update_interfaces('public_preferences', $data);
+                $this->preferences_model->update_interfaces('au_public_preferences', $data);
 
                 redirect('admin/prefs/interfaces/public', 'refresh');
             }
@@ -144,7 +144,7 @@ class Prefs extends Admin_Controller {
                 'transition_page'    => '0'
             );
 
-            $this->preferences_model->update_interfaces('admin_preferences', $data);
+            $this->preferences_model->update_interfaces('au_admin_preferences', $data);
 
             redirect('admin/prefs/interfaces/admin', 'refresh');
         }
@@ -163,7 +163,7 @@ class Prefs extends Admin_Controller {
                 'transition_page' => '0'
             );
 
-            $this->preferences_model->update_interfaces('public_preferences', $data);
+            $this->preferences_model->update_interfaces('au_public_preferences', $data);
 
             redirect('admin/prefs/interfaces/public', 'refresh');
         }
