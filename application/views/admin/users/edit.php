@@ -21,6 +21,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                                     <?php echo form_open(uri_string(), array('class' => 'form-horizontal', 'id' => 'form-edit_user')); ?>
                                         <div class="form-group">
+                                            <?php echo lang('users_personal_id', 'personal_id', array('class' => 'col-sm-2 control-label')); ?>
+                                            <div class="col-sm-10">
+                                                <?php echo form_input($personal_id);?>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <?php echo lang('users_prename', 'prename', array('class' => 'col-sm-2 control-label')); ?>
+                                            <div class="col-sm-10">
+                                                <?php echo form_input($prename);?>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
                                             <?php echo lang('users_firstname', 'first_name', array('class' => 'col-sm-2 control-label')); ?>
                                             <div class="col-sm-10">
                                                 <?php echo form_input($first_name);?>
@@ -30,6 +42,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <?php echo lang('users_lastname', 'last_name', array('class' => 'col-sm-2 control-label')); ?>
                                             <div class="col-sm-10">
                                                 <?php echo form_input($last_name);?>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <?php echo lang('users_prename_eng', 'prename_eng', array('class' => 'col-sm-2 control-label')); ?>
+                                            <div class="col-sm-10">
+                                                <?php echo form_input($prename_eng);?>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <?php echo lang('users_firstname_eng', 'first_name_eng', array('class' => 'col-sm-2 control-label')); ?>
+                                            <div class="col-sm-10">
+                                                <?php echo form_input($first_name_eng);?>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <?php echo lang('users_lastname_eng', 'last_name_eng', array('class' => 'col-sm-2 control-label')); ?>
+                                            <div class="col-sm-10">
+                                                <?php echo form_input($last_name_eng);?>
                                             </div>
                                         </div>
                                         <div class="form-group">
