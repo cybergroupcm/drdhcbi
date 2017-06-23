@@ -61,6 +61,11 @@
                 <i class="fa fa-user"></i> <span>บริหารจัดการผู้ใช้งาน</span>
               </a>
             </li>
+            <li class="">
+              <a href="<?php echo site_url('setting_system'); ?>">
+                <i class="fa fa-user"></i> <span>ตั้งค่าข้อมูลพื้นฐานระบบ</span>
+              </a>
+            </li>
           </ul>
 
         </section>
