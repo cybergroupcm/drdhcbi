@@ -99,7 +99,7 @@ class Auth extends MY_Controller {
         }
         else
         {
-            redirect('main', 'refresh');
+            redirect('auth/login', 'refresh');
         }
    }
 
@@ -119,5 +119,42 @@ class Auth extends MY_Controller {
             redirect('/', 'refresh');
         }
 	}
+
+    function register()
+    {
+        /* Load */
+        $this->load->config('admin/dp_config');
+        $this->load->config('common/dp_config');
+
+        /* Valid form */
+        $this->form_validation->set_rules('identity', 'Identity', 'required');
+        $this->form_validation->set_rules('password', 'Password', 'required');
+
+        /* Data */
+        $this->data['title']               = $this->config->item('title');
+        $this->data['title_lg']            = $this->config->item('title_lg');
+        $this->data['auth_social_network'] = $this->config->item('auth_social_network');
+        $this->data['forgot_password']     = $this->config->item('forgot_password');
+        $this->data['new_membership']      = $this->config->item('new_membership');
+
+        $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+
+        $this->data['identity'] = array(
+            'name'        => 'identity',
+            'id'          => 'identity',
+            'type'        => 'email',
+            'value'       => $this->form_validation->set_value('identity'),
+            'class'       => 'form-control',
+            'placeholder' => lang('auth_your_email')
+        );
+        $this->data['password'] = array(
+            'name'        => 'password',
+            'id'          => 'password',
+            'type'        => 'password',
+            'class'       => 'form-control',
+            'placeholder' => lang('auth_your_password')
+        );
+        $this->template->auth_render('auth/register',$this->data);
+    }
 
 }
