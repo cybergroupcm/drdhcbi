@@ -24,6 +24,7 @@
                                             รหัสประเภทผู้ถูกร้องเรียน :
                                         </label>
                                         <label class="col-sm-3">
+                                            <input type="hidden" id="action"  value="<?php echo @$data['action'];?>"/>
                                             <input type="text" name="accused_type_id" id="accused_type_id" class="form-control" value="<?php echo @$data['accused_type_id'];?>" readonly="readonly" />
                                         </label>
                                     </div>
@@ -46,8 +47,8 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 text-center">
-                                <button class="btn btn-info" title="เพิ่ม" id="bt_add"><i class="fa fa-save"></i> บันทึกข้อมูล</button>
-                                <button class="btn btn-info" title="ยกเลิก" id="bt_cancel"><i class="fa fa-times"></i> ยกเลิก</button>
+                                <button type="button" class="btn btn-info" title="เพิ่ม" id="bt_add"><i class="fa fa-save"></i> บันทึกข้อมูล</button>
+                                <button type="button" class="btn btn-info" title="ยกเลิก" id="bt_cancel"><i class="fa fa-times"></i> ยกเลิก</button>
                             </div>
                         </div>
                     </div>
@@ -57,3 +58,15 @@
     </section>
     <div id="base_url" class="<?php echo base_url();?>"></div>
 </form>
+<?php
+$link = array(
+    'src' => 'assets/js/js.cookie.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    'src' => 'assets/js/setteing_accused_type.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+?>

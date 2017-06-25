@@ -63,6 +63,14 @@ $route['admin'] = 'admin/dashboard';
 $route['api/example/users/(:num)'] = 'api/example/users/id/$1'; // Example 4
 $route['api/example/users/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'api/example/users/id/$1/format/$3$4'; // Example 8
 
+//Complaint  REST API Routes
+$route['api/complaint/dashboard'] = 'api/complaint/dashboard';
+
+//Setting  REST API Routes
+$route['api/setting/accused_type/(:num)'] = 'api/setting/accused_type/id/$1'; // Example 4
+
+
+
 /*
 | -------------------------------------------------------------------------
 | Sample SOAP Routes
