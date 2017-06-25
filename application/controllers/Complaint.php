@@ -1,6 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Complaint extends CI_Controller {
+    function __construct()
+    {
+        // Construct the parent class
+        parent::__construct();
+        $this->load->helper('dateformat');
+    }
 
 	public function key_in()
 	{
@@ -30,18 +36,21 @@ class Complaint extends CI_Controller {
                     'req_title'=>'เรื่องร้องทุกข์1',
                     'req_name'=>'นายก',
                     'req_date'=>'2017-06-01',
+                    'req_status'=>'ดำเนินการ',
                 ),
                 '1'=>array(
                     'req_id'=>'0002',
                     'req_title'=>'เรื่องร้องทุกข์2',
                     'req_name'=>'นายข',
                     'req_date'=>'2017-06-02',
+                    'req_status'=>'เสร็จสิ้น',
                 ),
                 '2'=>array(
                     'req_id'=>'0003',
                     'req_title'=>'เรื่องร้องทุกข์3',
                     'req_name'=>'นายค',
                     'req_date'=>'2017-06-03',
+                    'req_status'=>'ดำเนินการ',
                 ),
             ),
             'data_filter' => array(

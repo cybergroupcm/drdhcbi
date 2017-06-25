@@ -23,7 +23,7 @@
                                     <label class="col-sm-8"></label>
                                     <label class="col-sm-4 text-right">
                                         วันที่ร้องทุกข์ :
-                                        <span style="font-weight: normal;">2017-08-14</span>
+                                        <span style="font-weight: normal;"><?php echo date_thai('2017-08-14',true);?></span>
                                     </label>
                                 </div>
                             </div>
@@ -346,7 +346,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-12">
                                         วันเดือนปีที่เกิดเหตุ (ถ้ามี) :
-                                        <span style="font-weight: normal;">2017-08-14</span>
+                                        <span style="font-weight: normal;"><?php echo date_thai('2017-08-14',true);?></span>
                                     </label>
                                 </div>
                             </div>
@@ -437,7 +437,7 @@
                                 <tr>
                                     <td class="text-center"><?php echo $runno;?></td>
                                     <td><?php echo $val['req_status'];?></td>
-                                    <td><?php echo $val['req_date'];?></td>
+                                    <td><?php echo date_thai($val['req_date'],true);?></td>
                                     <td><?php echo $val['req_title'];?></td>
                                     <td class="text-right"><?php echo number_format($val['req_money'],2);?></td>
                                     <td><?php echo $val['req_name'];?></td>

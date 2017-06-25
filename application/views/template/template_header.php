@@ -163,22 +163,13 @@
       );
       echo script_tag($link);
 
-      #datepicker
+      #datepicker th
       $link = array(
-                'src' => 'template/plugins/datepicker/bootstrap-datepicker.js',
-                'type' => 'text/javascript'
-      );
-      echo script_tag($link);
-      ?>
-      <?php
-      #datepicker
-      $link = array(
-          'src' => 'template/plugins/datepicker/bootstrap-datepicker.js',
+          'src' => 'template/plugins/datepicker/bootstrap-datepicker-custom.js',
           'type' => 'text/javascript'
       );
       echo script_tag($link);
 
-      #datepicker th
       $link = array(
           'src' => 'template/plugins/datepicker/locales/bootstrap-datepicker.th.js',
           'type' => 'text/javascript'

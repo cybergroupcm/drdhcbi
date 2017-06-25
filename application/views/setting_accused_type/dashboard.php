@@ -1,3 +1,10 @@
+<?php
+$link = array(
+'src' => 'assets/js/setting_accused_type.js',
+'type' => 'text/javascript'
+);
+echo script_tag($link);
+?>
 <style>
     .btn-info {
         background-color: #4db6ac;
@@ -34,7 +41,7 @@
                                         <span onclick="window.location.href='<?php echo base_url('setting_accused_type/add/'.$val['accused_type_id'])?>';">
                                             <?php echo img(array('src'=>'assets/images/edit.png', 'title'=> 'แก้ไข','width'=>'36px','style'=>'cursor:pointer'));?>
                                         </span>
-                                        <span class="bt_delete" id="<?php echo $val['accused_type_id'];?>">
+                                        <span class="bt_delete" id="<?php echo $val['accused_type_id'];?>" onclick="bt_delete(<?php echo $val['accused_type_id'];?>)">
                                             <?php echo img(array('src'=>'assets/images/bin.png', 'title'=> 'ลบ','width'=>'36px','style'=>'cursor:pointer'));?>
                                         </span>
                                     </td>
@@ -50,21 +57,3 @@
         </div>
     </section>
 <div id="base_url" class="<?php echo base_url();?>"></div>
-<script>
-    $( document ).ready(function() {
-        $('.bt_delete').click(function(){
-            swal({title: "คุณต้องการจะลบข้อมูลหรือไม่?",
-                    text: "",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "ใช่, ต้องการจะลบข้อมูล!",
-                    cancelButtonText: "ไม่",
-                    closeOnConfirm: false},
-                function () {
-                    var  link = $('#base_url').attr("class")+"setting_accused_type/dashboard";
-                    window.location = link;
-                });
-        });
-    });
-</script>
