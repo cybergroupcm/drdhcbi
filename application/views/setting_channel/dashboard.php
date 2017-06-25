@@ -1,3 +1,10 @@
+<?php
+$link = array(
+    'src' => 'assets/js/setting_channel.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+?>
 <style>
     .btn-info {
         background-color: #4db6ac;
@@ -34,7 +41,7 @@
                                         <span onclick="window.location.href='<?php echo base_url('setting_channel/add/'.$val['channel_id'])?>';">
                                             <?php echo img(array('src'=>'assets/images/edit.png', 'title'=> 'แก้ไข','width'=>'36px','style'=>'cursor:pointer'));?>
                                         </span>
-                                        <span class="bt_delete" id="<?php echo $val['channel_id'];?>">
+                                        <span class="bt_delete" id="<?php echo $val['channel_id'];?>" onclick="bt_delete(<?php echo $val['channel_id'];?>)">
                                             <?php echo img(array('src'=>'assets/images/bin.png', 'title'=> 'ลบ','width'=>'36px','style'=>'cursor:pointer'));?>
                                         </span>
                                     </td>
