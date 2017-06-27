@@ -12,6 +12,20 @@ class KeyinData_model extends MY_Model
         $this->timestamps = TRUE;
         $this->_created_at_field = 'create_datetime';
         $this->_updated_at_field = 'update_datetime';
+        $this->has_many_pivot['Accused'] = array(
+            'foreign_model' => 'AccusedType_model',
+            'pivot_table' => 'dt_complain_type',
+            'local_key' => 'keyin_id',
+            'pivot_local_key' => 'keyin_id',
+            'pivot_foreign_key' => 'complain_type_id',
+            'foreign_key' => 'complain_type_id');
+        $this->has_many_pivot['Wish'] = array(
+            'foreign_model' => 'Wish_model',
+            'pivot_table' => 'dt_wish',
+            'local_key' => 'keyin_id',
+            'pivot_local_key' => 'keyin_id',
+            'pivot_foreign_key' => 'wish_id',
+            'foreign_key' => 'wish_id');
     }
 
     public function get_dashboard_data()
@@ -61,8 +75,7 @@ class KeyinData_model extends MY_Model
     {
         $this->db->select('complain_type_id,complain_type_name');
         $query = $this->db->get('ms_complain_type');
-        foreach ($query->result_array() as $row)
-        {
+        foreach ($query->result_array() as $row) {
             $result[$row['complain_type_id']] = $row['complain_type_name'];
         }
         return $result;
@@ -72,18 +85,17 @@ class KeyinData_model extends MY_Model
     {
         $this->db->select('accused_type_id,accused_type');
         $query = $this->db->get('ms_accused_type');
-        foreach ($query->result_array() as $row)
-        {
+        foreach ($query->result_array() as $row) {
             $result[$row['accused_type_id']] = $row['accused_type'];
         }
         return $result;
     }
+
     public function get_channel()
     {
         $this->db->select('channel_id,channel_name');
         $query = $this->db->get('ms_channel');
-        foreach ($query->result_array() as $row)
-        {
+        foreach ($query->result_array() as $row) {
             $result[$row['channel_id']] = $row['channel_name'];
         }
         return $result;
