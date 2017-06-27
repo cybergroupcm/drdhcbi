@@ -75,22 +75,22 @@ class Complaint extends CI_Controller {
         $arr_data = array(
             'data_received' => array(
                 '0001' => array(
-                    'req_id' => '0001',
-                    'req_title' => 'เรื่องร้องทุกข์1',
-                    'req_name' => 'นายก',
-                    'send_date' => '2017-06-01',
+                    'complain_no' => '0001',
+                    'complain_name' => 'เรื่องร้องทุกข์1',
+                    'recipient' => 'นายก',
+                    'doc_receive_date' => '2017-06-01',
                 ),
                 '0002' => array(
-                    'req_id' => '0002',
-                    'req_title' => 'เรื่องร้องทุกข์2',
-                    'req_name' => 'นายข',
-                    'send_date' => '2017-06-02',
+                    'complain_no' => '0002',
+                    'complain_name' => 'เรื่องร้องทุกข์2',
+                    'recipient' => 'นายข',
+                    'doc_receive_date' => '2017-06-02',
                 ),
                 '0003' => array(
-                    'req_id' => '0003',
-                    'req_title' => 'เรื่องร้องทุกข์3',
-                    'req_name' => 'นายค',
-                    'send_date' => '2017-06-03',
+                    'complain_no' => '0003',
+                    'complain_name' => 'เรื่องร้องทุกข์3',
+                    'recipient' => 'นายค',
+                    'doc_receive_date' => '2017-06-03',
                 )
             )
         );
