@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+$admin_prefs['transition_page'] = FALSE;
 ?>
 <!doctype html>
 <html lang="<?php echo $lang; ?>">
