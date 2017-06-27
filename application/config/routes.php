@@ -68,7 +68,11 @@ $route['api/complaint/dashboard'] = 'api/complaint/dashboard';
 $route['api/user/user'] = 'api/user/user';
 
 //Setting  REST API Routes
+$route['api/setting/complaint_type/(:num)'] = 'api/setting/complaint_type/id/$1'; // Example 4
 $route['api/setting/accused_type/(:num)'] = 'api/setting/accused_type/id/$1'; // Example 4
+$route['api/setting/channel/(:num)'] = 'api/setting/channel/id/$1'; // Example 4
+$route['api/setting/subject/(:num)'] = 'api/setting/subject/id/$1'; // Example 4
+$route['api/setting/wish/(:num)'] = 'api/setting/wish/id/$1'; // Example 4
 
 
 

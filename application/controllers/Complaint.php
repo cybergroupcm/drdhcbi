@@ -1,6 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Complaint extends CI_Controller {
+class Complaint extends CI_Controller
+{
 
     public function __construct()
     {
@@ -10,18 +11,40 @@ class Complaint extends CI_Controller {
         //$this->load->helper('cookie');
         //$this->load->helper('api');
         $this->load->helper('form');
+        $this->load->helper('form_additional');
         $this->load->model('complaint_model');
         $this->load->helper('dateformat');
+
     }
 
     public function key_in()
     {
-        $url = "http://localhost/drdhcbi/api/complaint/complaint_type";
-        $arr_data['complaint_type'] = api_call_get($url);
-        $url = "http://localhost/drdhcbi/api/complaint/accused_type";
-        $arr_data['complainant'] = api_call_get($url);
-        $url = "http://localhost/drdhcbi/api/complaint/channel";
-        $arr_data['channel'] = api_call_get($url);
+        $cookie = array(
+            'name' => 'token',
+            'value' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDk4NDg2NzA0LCJleHAiOjE0OTg1NzMyMDR9.ouJVDu4BtgwfOnTD9FakaKCnpHrLvBsD0NCDFLkGolE',
+            'expire' => '86500',
+        );
+        //$this->input->set_cookie($cookie);
+
+
+        $url = "http://localhost/drdhcbi/api/setting/complain_type";
+        $arr_data['complain_type'] = list_options(api_call_get($url),'complain_type_id','complain_type_name','กรุณาเลือก');
+
+        $url = "http://localhost/drdhcbi/api/setting/accused_type";
+        $arr_data['accused_type'] = list_options(api_call_get($url),'accused_type_id','accused_type');
+
+        $url = "http://localhost/drdhcbi/api/setting/channel";
+        $arr_data['channel'] = list_options(api_call_get($url),'channel_id','channel_name','กรุณาเลือก');
+
+        $url = "http://localhost/drdhcbi/api/setting/subject";
+        $arr_data['subject'] = list_options(api_call_get($url),'subject_id','subject_name','กรุณาเลือก');
+
+        $url = "http://localhost/drdhcbi/api/setting/wish";
+        $arr_data['wish'] = list_options(api_call_get($url),'wish_id','wish_name');
+        /*echo '<pre>';
+        print_r($arr_data);
+        echo '<pre>';*/
+        //die();
         $this->libraries->template('complaint/key_in', $arr_data);
     }
 
@@ -37,13 +60,13 @@ class Complaint extends CI_Controller {
         $url = "http://localhost/drdhcbi/api/complaint/dashboard";
 
         $arr_data = api_call_get($url);
-        /*echo '<pre>';
+        echo '<pre>';
         print_r($arr_data);
-        echo '</pre>';*/
+        echo '</pre>';
 
         //start แบ่งหน้า
         $this->load->library('pagination');
-        $config['base_url'] = base_url().'complaint/dashboard/page';
+        $config['base_url'] = base_url() . 'complaint/dashboard/page';
         $config['total_rows'] = 200; // Count total rows in the query
         $config['full_tag_open'] = '<div class="container text - center"><ul class="pagination">';
         $config['full_tag_close'] = '</ul></div>';
@@ -75,22 +98,22 @@ class Complaint extends CI_Controller {
         $arr_data = array(
             'data_received' => array(
                 '0001' => array(
-                    'req_id' => '0001',
-                    'req_title' => 'เรื่องร้องทุกข์1',
-                    'req_name' => 'นายก',
-                    'send_date' => '2017-06-01',
+                    'complain_no' => '0001',
+                    'complain_name' => 'เรื่องร้องทุกข์1',
+                    'recipient' => 'นายก',
+                    'doc_receive_date' => '2017-06-01',
                 ),
                 '0002' => array(
-                    'req_id' => '0002',
-                    'req_title' => 'เรื่องร้องทุกข์2',
-                    'req_name' => 'นายข',
-                    'send_date' => '2017-06-02',
+                    'complain_no' => '0002',
+                    'complain_name' => 'เรื่องร้องทุกข์2',
+                    'recipient' => 'นายข',
+                    'doc_receive_date' => '2017-06-02',
                 ),
                 '0003' => array(
-                    'req_id' => '0003',
-                    'req_title' => 'เรื่องร้องทุกข์3',
-                    'req_name' => 'นายค',
-                    'send_date' => '2017-06-03',
+                    'complain_no' => '0003',
+                    'complain_name' => 'เรื่องร้องทุกข์3',
+                    'recipient' => 'นายค',
+                    'doc_receive_date' => '2017-06-03',
                 )
             )
         );

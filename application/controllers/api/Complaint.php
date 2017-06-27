@@ -8,12 +8,12 @@ class Complaint extends REST_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('complaint_model');
+        $this->load->model('data/KeyIn_model');
     }
 
-    public function dashboard_get()
+    /*public function dashboard_get()
     {
-        $users = $this->complaint_model->get_dashboard_data();
+        $users = $this->complaint_model->get_all();
 
         $id = $this->get('id');
 
@@ -64,24 +64,22 @@ class Complaint extends REST_Controller
                 'message' => 'User could not be found'
             ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
         }
+    }*/
+
+    public function key_in_get(){
+
     }
 
-    public function complaint_type_get(){
-        $complaint_type = $this->complaint_model->get_complaint_type();
-        if ($complaint_type) {
-            $this->response($complaint_type, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
-        }
+    public function key_in_post(){
+
     }
-    public function accused_type_get(){
-        $accused_type = $this->complaint_model->get_accused_type();
-        if ($accused_type) {
-            $this->response($accused_type, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
-        }
+
+    public function key_in_put(){
+
     }
-    public function channel_get(){
-        $channel = $this->complaint_model->get_channel();
-        if ($channel) {
-            $this->response($channel, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
-        }
+
+    public function key_in_delete(){
+
     }
+
 }

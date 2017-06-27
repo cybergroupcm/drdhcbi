@@ -6,7 +6,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h4 class="modal-title">บันทึกรับเรื่องร้องทุกข์</h4>
                 </div>
-                <form class="form-horizontal" role="form" method="POST" action="" name="form_save_received" id="form_save_received">
+                <form class="form-horizontal" role="form" method="POST" action="<?php echo base_url('complaint/dashboard')?>" name="form_save_received" id="form_save_received">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -15,8 +15,9 @@
                                     <label class="col-sm-5 text-right">
                                         เลขที่เรื่องร้องทุกข์ :
                                     </label>
-                                    <label class="col-sm-7" id="text_req_id"></label>
-                                    <input type="hidden" name="req_id" id="req_id" value="">
+                                    <label class="col-sm-7" id="text_complain_no"></label>
+                                    <input type="hidden" id="action"  value="<?php echo @$data['action'];?>"/>
+                                    <input type="hidden" name="complain_no" id="complain_no" value="">
                                 </div>
                             </div>
                         </div>
@@ -28,8 +29,8 @@
                                     <label class="col-sm-5 text-right">
                                         เรื่องร้องทุกข์ :
                                     </label>
-                                    <label class="col-sm-7" id="text_req_title"></label>
-                                    <input type="hidden" name="req_title" id="req_title" value="">
+                                    <label class="col-sm-7" id="text_complain_name"></label>
+                                    <input type="hidden" name="complain_name" id="complain_name" value="">
                                 </div>
                             </div>
                         </div>
@@ -41,8 +42,8 @@
                                     <label class="col-sm-5 text-right">
                                         ผู้ส่งเรื่องร้องทุกข์ :
                                     </label>
-                                    <label class="col-sm-7" id="text_req_name"></label>
-                                    <input type="hidden" name="req_name" id="req_name" value="">
+                                    <label class="col-sm-7" id="text_recipient"></label>
+                                    <input type="hidden" name="recipient" id="recipient" value="">
                                 </div>
                             </div>
                         </div>
@@ -54,8 +55,8 @@
                                     <label class="col-sm-5 text-right">
                                         วันที่ส่งเรื่องร้องทุกข์ :
                                     </label>
-                                    <label class="col-sm-7" id="text_send_date"></label>
-                                    <input type="hidden" name="send_date" id="send_date" value="">
+                                    <label class="col-sm-7" id="text_doc_receive_date"></label>
+                                    <input type="hidden" name="doc_receive_date" id="doc_receive_date" value="">
                                 </div>
                             </div>
                         </div>
@@ -72,7 +73,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" id="complaint_date" class="form-control pull-right datepicker" />
+                                            <input type="text" name="receive_date" id="receive_date" class="form-control pull-right datepicker" />
                                         </div>
                                     </label>
                                 </div>
@@ -85,7 +86,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-5 text-right"></label>
                                     <label class="col-sm-7 text-left">
-                                        <input type="checkbox" id="" name=""> รับเรื่องร้องทุกข์
+                                        <input type="checkbox" id="receive_status" name="receive_status" value="1"> รับเรื่องร้องทุกข์
                                     </label>
                                 </div>
                             </div>
@@ -100,3 +101,15 @@
         </div>
     </div>
 </div>
+<?php
+$link = array(
+    'src' => 'assets/js/js.cookie.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    'src' => 'assets/js/complaint_received.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+?>
