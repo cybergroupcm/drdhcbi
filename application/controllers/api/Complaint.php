@@ -8,10 +8,10 @@ class Complaint extends REST_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('complaint_model');
+        $this->load->model('data/KeyIn_model');
     }
 
-    public function dashboard_get()
+    /*public function dashboard_get()
     {
         $users = $this->complaint_model->get_all();
 
@@ -64,7 +64,7 @@ class Complaint extends REST_Controller
                 'message' => 'User could not be found'
             ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
         }
-    }
+    }*/
 
     public function key_in_get(){
 
