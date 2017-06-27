@@ -170,6 +170,19 @@ class Groups extends Admin_Controller {
             'class'    => 'form-control'
 		);
 
+		$this->data['applications'] = array();
+        $this->data['applications'][0] = array(
+            'app_id' => '1',
+            'app_name' => 'ระบบบันทึกข้อมูลเรื่องร้องทุกข์',
+            'app_detail' => 'ระบบบันทึกข้อมูลเรื่องร้องทุกข์',
+            'checkbox_type' => 'success'
+        );
+        $this->data['applications'][1] = array(
+            'app_id' => '2',
+            'app_name' => 'รายงานสำหรับผู้บริหาร',
+            'app_detail' => 'รายงานสำหรับผู้บริหาร',
+            'checkbox_type' => 'warning'
+        );
         /* Load Template */
         $this->template->admin_render('admin/groups/edit', $this->data);
 	}
