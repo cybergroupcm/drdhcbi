@@ -6,12 +6,14 @@ $link = array(
        );
        echo link_tag($link);
 ?>
+    <form id="frm_user" >
 <div class="row frame">
     <div class="row title">
         <div class="col-md-12">
             <div class="form-group">สมัครสมาชิก</div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
@@ -19,7 +21,7 @@ $link = array(
                     ชื่อผู้ใช้งาน : 
                 </label>
                 <label class="col-sm-3">
-                    <input type="text" id="username" class="form-control letter_and_number" onkeypress="check_first_letters(this, event)" maxlength='10' />
+                    <input type="text" name="username" id="username" class="form-control letter_and_number" onkeypress="check_first_letters(this, event)" maxlength='10' />
                 </label>
             </div>
         </div>
@@ -41,7 +43,7 @@ $link = array(
                     รหัสผ่าน : 
                 </label>
                 <label class="col-sm-3">
-                    <input type="password" id="password" class="form-control no_symbol" maxlength='10' />
+                    <input type="password" name="password" id="password" class="form-control no_symbol" maxlength='10' />
                 </label>
             </div>
         </div>
@@ -76,7 +78,7 @@ $link = array(
                     อีเมล์ : 
                 </label>
                 <label class="col-sm-3">
-                    <input type="text" id="email" onblur='return validateEmail(this)' class="form-control" />
+                    <input type="text" name="email" id="email"  onblur='return validateEmail(this)' class="form-control" />
                 </label>
             </div>
         </div>
@@ -101,7 +103,7 @@ $link = array(
                     รหัสประจำตัวประชาชน : 
                 </label>
                 <label class="col-sm-3">
-                    <input type="text" id="idcard" class="form-control numbers" maxlength='13' />
+                    <input type="text" name="idcard" id="idcard" class="form-control numbers" maxlength='13' />
                 </label>
             </div>
         </div>
@@ -113,8 +115,8 @@ $link = array(
                     คำนำหน้าชื่อ : 
                 </label>
                 <label class="col-sm-3">
-                    <select id='prename_th' class='form-control'>
-                        <option value=''>--กรุณาระบุ--</option>
+                    <select id="prename_th" name="prename_th" class="form-control">
+                        <option value='1'>--กรุณาระบุ--</option>
                     </select>
                 </label>
             </div>
@@ -127,7 +129,7 @@ $link = array(
                     ชื่อ : 
                 </label>
                 <label class="col-sm-3">
-                    <input type="text" id="name_th" class="form-control" />
+                    <input type="text" id="name_th" name="first_name" class="form-control" />
                 </label>
             </div>
         </div>
@@ -139,7 +141,7 @@ $link = array(
                     นามสกุล : 
                 </label>
                 <label class="col-sm-3">
-                    <input type="text" id="surname_th" class="form-control" />
+                    <input type="text" id="surname_th" name="last_name" class="form-control" />
                 </label>
             </div>
         </div>
@@ -151,7 +153,7 @@ $link = array(
                     คำนำหน้าชื่อ :<br>(ภาษาอังกฤษ)
                 </label>
                 <label class="col-sm-3">
-                    <select id='prename_en' class='form-control'>
+                    <select id="prename_en" name="prename_en" class="form-control">
                         <option value=''>--กรุณาระบุ--</option>
                     </select>
                 </label>
@@ -165,7 +167,7 @@ $link = array(
                     ชื่อ :<br>(ภาษาอังกฤษ)
                 </label>
                 <label class="col-sm-3">
-                    <input type="text" id="name_en" class="form-control" />
+                    <input type="text" id="name_en" name="first_name_en" class="form-control" />
                 </label>
             </div>
         </div>
@@ -177,7 +179,7 @@ $link = array(
                     นามสกุล : <br>(ภาษาอังกฤษ)
                 </label>
                 <label class="col-sm-3">
-                    <input type="text" id="surname_en" class="form-control" />
+                    <input type="text" id="surname_en" name="last_name_en" class="form-control" />
                 </label>
             </div>
         </div>
@@ -189,8 +191,8 @@ $link = array(
                     เพศ :
                 </label>
                 <label class="col-sm-3">
-                    <input type="radio" class='gentle' id="gentle1" value="M" /> ชาย 
-                    <input type="radio" class='gentle' id="gentle2" value="F" /> หญิง 
+                    <input type="radio" name="gender" class='gentle' id="gentle1" value="M" /> ชาย
+                    <input type="radio" name="gender" class='gentle' id="gentle2" value="F" /> หญิง
                 </label>
             </div>
         </div>
@@ -202,7 +204,7 @@ $link = array(
                     หน่วยงาน/แผนก ที่สังกัด :
                 </label>
                 <label class="col-sm-3">
-                    <input type="text" id="section" class="form-control" />
+                    <input type="text"  name="company" id="section" class="form-control" />
                 </label>
             </div>
         </div>
@@ -214,7 +216,7 @@ $link = array(
                     ตำแหน่ง :
                 </label>
                 <label class="col-sm-3">
-                    <input type="text" id="position" class="form-control" />
+                    <input type="text"  name="position" id="position" class="form-control" />
                 </label>
             </div>
         </div>
@@ -226,7 +228,7 @@ $link = array(
                     ที่อยู่ :
                 </label>
                 <label class="col-sm-4">
-                    <input type="text" id="address" class="form-control" />
+                    <input type="text" id="address" name="address" class="form-control" />
                 </label>
             </div>
         </div>
@@ -238,8 +240,8 @@ $link = array(
                     จังหวัด : 
                 </label>
                 <label class="col-sm-3">
-                    <select class="form-control" id="province">
-                        <option value="">--กรุณาเลือก--</option>
+                    <select class="form-control" name="province" id="province">
+                        <option value="1">--กรุณาเลือก--</option>
                     </select>
                 </label>
             </div>
@@ -252,8 +254,8 @@ $link = array(
                     อำเภอ : 
                 </label>
                 <label class="col-sm-3">
-                    <select class="form-control" id="district">
-                        <option value="">--กรุณาเลือก--</option>
+                    <select class="form-control" id="district" name="district">
+                        <option value="1">--กรุณาเลือก--</option>
                     </select>
                 </label>
             </div>
@@ -266,8 +268,8 @@ $link = array(
                     ตำบล : 
                 </label>
                 <label class="col-sm-3">
-                    <select class="form-control" id="sub_district">
-                        <option value="">--กรุณาเลือก--</option>
+                    <select class="form-control" id="sub_district" name="sub_district">
+                        <option value="1">--กรุณาเลือก--</option>
                     </select>
                 </label>
             </div>
@@ -280,7 +282,7 @@ $link = array(
                     หมายเลขโทรศัพท์ :
                 </label>
                 <label class="col-sm-4">
-                    <input type="text" id="phone_number" class="form-control numbers" />
+                    <input type="text" id="phone_number" name="phone" class="form-control numbers" />
                 </label>
             </div>
         </div>
@@ -300,7 +302,10 @@ $link = array(
         </div>
     </div>
 </div>
-<?php 
+    </form>
+<script>var base_url = '<?php echo base_url() ?>';</script>
+<?php
+
 $link = array(
                 'src' => 'assets/js/register.js',
                 'type' => 'text/javascript'

@@ -157,4 +157,24 @@ class Auth extends MY_Controller {
         $this->template->auth_render('auth/register',$this->data);
     }
 
+    function save_user(){
+        $data = array(
+            'first_name' => $this->input->post('first_name'),
+            'last_name'  => $this->input->post('last_name'),
+            'company'    => $this->input->post('company'),
+            'phone'      => $this->input->post('phone'),
+            'email'      => $this->input->post('email'),
+            'password'      => $this->input->post('password'),
+            'idcard' => $this->input->post('idcard'),
+            'prename'=> $this->input->post('prename'),
+            'prename_eng'=> $this->input->post('prename_en'),
+            'first_name_eng' => $this->input->post('first_name_en'),
+            'last_name_eng'  => $this->input->post('last_name_en')
+        );
+        $url = "http://localhost/drdhcbi/api/user/user/";
+        $save_user = api_call_post($url,$data);
+        //echo $save_user;
+    }
+
 }
+

@@ -52,6 +52,17 @@
         if (text_warning != "") {
             swal("กรุณาระบุข้อมูลต่อไปนี้", text_warning, "warning");
             return false;
+        }else{
+
+            var data = $("#frm_user").serialize();
+            $.ajax({
+                    method: "POST",
+                    url: base_url +"auth/save_user",
+                    data: data
+                })
+                .done(function( msg ) {
+                    console.log( "Data Saved: " + msg );
+                });
         }
     }
     

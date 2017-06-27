@@ -61,24 +61,25 @@ class User extends REST_Controller
 
     public function user_post()
     {
-        $username = strtolower($this->input->post('first_name')) . ' ' . strtolower($this->input->post('last_name'));
-        $email    = strtolower($this->input->post('email'));
+        $username = strtolower($this->post('first_name')) . ' ' . strtolower($this->post('last_name'));
+        $email    = strtolower($this->post('email'));
         $password = $this->input->post('password');
 
         $additional_data = array(
-            'first_name' => $this->input->post('first_name'),
-            'last_name'  => $this->input->post('last_name'),
-            'company'    => $this->input->post('company'),
-            'phone'      => $this->input->post('phone'),
-            'idcard' => $this->input->post('personal_id'),
-            'prename_th'=> $this->input->post('prename'),
-            'prename_en'=> $this->input->post('prename_eng'),
-            'first_name_en' => $this->input->post('first_name_eng'),
-            'last_name_en'  => $this->input->post('last_name_eng')
+            'first_name' => $this->post('first_name'),
+            'last_name'  => $this->post('last_name'),
+            'company'    => $this->post('company'),
+            'phone'      => $this->post('phone'),
+            'idcard' => $this->post('personal_id'),
+            'prename_th'=> $this->post('prename'),
+            'prename_en'=> $this->post('prename_eng'),
+            'first_name_en' => $this->post('first_name_eng'),
+            'last_name_en'  => $this->post('last_name_eng')
         );
 
-        $ids = $this->ion_auth->register($username, $password, $email, $additional_data);
-        $this->set_response($ids, REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
+        //$ids = $this->ion_auth->register($username, $password, $email, $additional_data);
+        $this->response($this->post(), REST_Controller::HTTP_OK); // CREATED (201) being the HTTP response code
+        //$this->set_response($ids, REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
     }
 
     public function user_put()
