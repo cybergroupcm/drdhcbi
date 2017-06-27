@@ -74,19 +74,19 @@ function getDataReceived(req_id){
         url: url
     }).done(function (result) {
         var  dataReceived = JSON.parse(result);
-        $('#req_id').val(dataReceived.req_id);
-        $('#text_req_id').html(dataReceived.req_id);
-        $('#req_title').val(dataReceived.req_title);
-        $('#text_req_title').html(dataReceived.req_title);
-        $('#req_name').val(dataReceived.req_name);
-        $('#text_req_name').html(dataReceived.req_name);
-        $('#send_date').val(dataReceived.send_date);
-        $('#text_send_date').html(thaidateformat(dataReceived.send_date));
+        $('#complain_no').val(dataReceived.complain_no);
+        $('#text_complain_no').html(dataReceived.complain_no);
+        $('#complain_name').val(dataReceived.complain_name);
+        $('#text_complain_name').html(dataReceived.complain_name);
+        $('#recipient').val(dataReceived.recipient);
+        $('#text_recipient').html(dataReceived.recipient);
+        $('#doc_receive_date').val(dataReceived.doc_receive_date);
+        $('#text_doc_receive_date').html(thaidateformat(dataReceived.doc_receive_date));
     });
 }
 
 function getDataSend(req_id){
-    $('#req_id_send').val(req_id);
+    $('#complain_no_send').val(req_id);
 }
 
 function bt_delete(req_id) {
