@@ -1,26 +1,26 @@
     function validateForm() {
         var text_warning = "";
-        if ($('#complaint_date').val() == "") {
+        if ($('#complain_date').val() == "") {
             text_warning += " - วันที่ร้องทุกข์\n";
         }
-        if ($('#employer').val() == "") {
+        if ($('#recipient').val() == "") {
             text_warning += " - ผู้รับแจ้ง\n";
         }
-        if ($('#complaint_type').val() == "") {
+        if ($('#complain_type_id').val() == "") {
             text_warning += " - ประเภทเรื่อง\n";
         }
-        if ($('#complaint_title').val() == "") {
+        if ($('#complain_name').val() == "") {
             text_warning += " - หัวข้อเรื่อง\n";
         }
-        if ($('#complaint_way').val() == "") {
+        if ($('#channel_id').val() == "") {
             text_warning += " - ช่องทางรับเรื่อง\n";
         }
-        if ($('#complaint_aspect').val() == "") {
+        if ($('#subject_id').val() == "") {
             text_warning += " - ลักษณะเรื่อง\n";
         }
-        if ($('#complainter1').is(':checked') === false && $('#complainter2').is(':checked') === false) {
+        if ($('#user_complain_1').is(':checked') === false && $('#user_complain_2').is(':checked') === false) {
             text_warning += " - ผู้ร้องทุกข์\n";
-        }else if($('#complainter2').is(':checked') === true){
+        }else if($('#user_complain_2').is(':checked') === true){
             if($('#complainter_name').val() == ""){
                 text_warning += " - ชื่อผู้ร้องทุกข์\n";
             }
@@ -103,14 +103,17 @@
         document.getElementById("checkFile").innerHTML = txt;
     }
     
-    function change_complainter(){
-        if($('#complainter1').is(':checked') === true){
-            $('#complainter_detail').hide();
+    function changeUserComplain(){
+        if($('#user_complain_1').is(':checked') === true){
+            $('#user_complain_detail').hide();
         }else{
-            $('#complainter_detail').show();
+            $('#user_complain_detail').show();
         }
     }
-    
-    $( document ).ready(function() {
-        $('.datepicker').datepicker();
+
+    $(document).ready(function () {
+        $('.datepicker').datepicker({
+            language: 'th',
+            thaiyear: true
+        });
     });
