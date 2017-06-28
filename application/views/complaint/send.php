@@ -14,6 +14,7 @@
                                 <div class="form-group">
                                     <input type="hidden" id="action"  value="<?php echo @$data['action'];?>"/>
                                     <input type="hidden" name="complain_no_send" id="complain_no_send" value="">
+                                    <input type="hidden" name="keyin_id_send" id="keyin_id_send" value="">
                                     <label class="col-sm-5 text-right">
                                         กำหนดวันที่ส่งกลับ :
                                     </label>

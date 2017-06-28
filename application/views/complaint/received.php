@@ -18,6 +18,7 @@
                                     <label class="col-sm-7" id="text_complain_no"></label>
                                     <input type="hidden" id="action"  value="<?php echo @$data['action'];?>"/>
                                     <input type="hidden" name="complain_no" id="complain_no" value="">
+                                    <input type="hidden" name="keyin_id" id="keyin_id" value="">
                                 </div>
                             </div>
                         </div>

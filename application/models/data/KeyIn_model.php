@@ -33,18 +33,21 @@ class KeyIn_model extends MY_Model
         $arr_data = [
             'arr_data' => [
                 '0' => [
+                    'keyin_id' => '1',
                     'req_id' => '0001',
                     'req_title' => 'เรื่องร้องทุกข์1',
                     'req_name' => 'นายก',
                     'req_date' => '2017-06-01',
                 ],
                 '1' => [
+                    'keyin_id' => '2',
                     'req_id' => '0002',
                     'req_title' => 'เรื่องร้องทุกข์2',
                     'req_name' => 'นายข',
                     'req_date' => '2017-06-02',
                 ],
                 '2' => [
+                    'keyin_id' => '3',
                     'req_id' => '0003',
                     'req_title' => 'เรื่องร้องทุกข์3',
                     'req_name' => 'นายค',

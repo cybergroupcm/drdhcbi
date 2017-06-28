@@ -12,19 +12,19 @@ class Complaint extends CI_Controller
         //$this->load->helper('api');
         $this->load->helper('form');
         $this->load->helper('form_additional');
-        $this->load->model('complaint_model');
+        //$this->load->model('complaint_model');
         $this->load->helper('dateformat');
 
     }
 
     public function key_in()
     {
-        $cookie = array(
+        /*$cookie = array(
             'name' => 'token',
-            'value' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDk4NDg2NzA0LCJleHAiOjE0OTg1NzMyMDR9.ouJVDu4BtgwfOnTD9FakaKCnpHrLvBsD0NCDFLkGolE',
+            'value' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDk4NTcyNTc2LCJleHAiOjE0OTg2NTkwNzZ9.7GCfaZSKdXMO9GTmTHQb-ow2glgMktSVH1C-mwwTB6Y',
             'expire' => '86500',
         );
-        //$this->input->set_cookie($cookie);
+        $this->input->set_cookie($cookie);*/
 
 
         $url = "http://localhost/drdhcbi/api/setting/complain_type";
@@ -51,18 +51,18 @@ class Complaint extends CI_Controller
     public function dashboard()
     {
 
-        /*$cookie = array(
+        $cookie = array(
             'name' => 'token',
-            'value' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDk4MzI0OTA0LCJleHAiOjE0OTg0MTE0MDR9.68uPmgihXhR862kxXYU_blfVzxyJGC4O77gTgHaDtJI',
+            'value' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDk4NjYyNzI5LCJleHAiOjE0OTg3NDkyMjl9.mCXvz70nSJJ0qOQFoPGK2I8dhnF4ExcZUaorUfDdKBw',
             'expire' => '86500',
-        );*/
-        //$this->input->set_cookie($cookie);
+        );
+        $this->input->set_cookie($cookie);
         $url = "http://localhost/drdhcbi/api/complaint/dashboard";
 
         $arr_data = api_call_get($url);
-        echo '<pre>';
-        print_r($arr_data);
-        echo '</pre>';
+//        echo '<pre>';
+//        print_r($arr_data);
+//        echo '</pre>';
 
         //start แบ่งหน้า
         $this->load->library('pagination');
@@ -92,32 +92,12 @@ class Complaint extends CI_Controller
         $this->libraries->template('complaint/dashboard', $arr_data);
     }
 
-    public function getDataReceived($req_id)
+    public function getDataReceived($id)
     {
-        //echo $req_id;
-        $arr_data = array(
-            'data_received' => array(
-                '0001' => array(
-                    'complain_no' => '0001',
-                    'complain_name' => 'เรื่องร้องทุกข์1',
-                    'recipient' => 'นายก',
-                    'doc_receive_date' => '2017-06-01',
-                ),
-                '0002' => array(
-                    'complain_no' => '0002',
-                    'complain_name' => 'เรื่องร้องทุกข์2',
-                    'recipient' => 'นายข',
-                    'doc_receive_date' => '2017-06-02',
-                ),
-                '0003' => array(
-                    'complain_no' => '0003',
-                    'complain_name' => 'เรื่องร้องทุกข์3',
-                    'recipient' => 'นายค',
-                    'doc_receive_date' => '2017-06-03',
-                )
-            )
-        );
-        $result = $arr_data['data_received'][$req_id];
+        $url = "http://localhost/drdhcbi/api/complaint/key_in/".$id;
+        $arr_data['data_received'] = api_call_get($url);
+        //echo '<pre>'; print_r($arr_data); echo '</pre>';
+        $result = $arr_data['data_received'];
         echo json_encode($result);
         exit;
     }

@@ -4,7 +4,8 @@ $( document ).ready(function() {
         todayBtn: true,
         language: 'th',             //เปลี่ยน label ต่างของ ปฏิทิน ให้เป็น ภาษาไทย   (ต้องใช้ไฟล์ bootstrap-datepicker.th.min.js นี้ด้วย)
         thaiyear: true              //Set เป็นปี พ.ศ.
-    }).datepicker("setDate", "0");  //กำหนดเป็นวันปัจุบัน
+    });
+    //datepicker("setDate", "0");  //กำหนดเป็นวันปัจุบัน
 
 
     //start ปฏิทิน
@@ -67,26 +68,37 @@ $( document ).ready(function() {
     });
 });
 
-function getDataReceived(req_id){
-    var url = $('#base_url').attr("class")+"complaint/getDataReceived/"+req_id;
+function getDataReceived(id){
+    var url = $('#base_url').attr("class")+"complaint/getDataReceived/"+id;
     $.ajax({
         method: "GET",
         url: url
     }).done(function (result) {
         var  dataReceived = JSON.parse(result);
+        $('#keyin_id').val(dataReceived.keyin_id);
         $('#complain_no').val(dataReceived.complain_no);
         $('#text_complain_no').html(dataReceived.complain_no);
         $('#complain_name').val(dataReceived.complain_name);
         $('#text_complain_name').html(dataReceived.complain_name);
         $('#recipient').val(dataReceived.recipient);
         $('#text_recipient').html(dataReceived.recipient);
-        $('#doc_receive_date').val(dataReceived.doc_receive_date);
-        $('#text_doc_receive_date').html(thaidateformat(dataReceived.doc_receive_date));
+        if((dataReceived.doc_receive_date != '') && (dataReceived.doc_receive_date != '0000-00-00')) {
+            $('#doc_receive_date').val(dataReceived.doc_receive_date);
+            $('#text_doc_receive_date').html(thaidateformat(dataReceived.doc_receive_date));
+        }else{
+            $('#text_doc_receive_date').html('-');
+        }
+
+        if((dataReceived.receive_date != '') && (dataReceived.receive_date != '0000-00-00')) {
+            var arr_receive_date = dataReceived.receive_date.split('/');
+            var receive_date = arr_receive_date[0]+'/'+arr_receive_date[1]+'/'+arr_receive_date[2];
+            $('#receive_date').datepicker("setDate", receive_date);  //กำหนดวัน
+        }
     });
 }
 
-function getDataSend(req_id){
-    $('#complain_no_send').val(req_id);
+function getDataSend(id){
+    $('#keyin_id_send').val(id);
 }
 
 function bt_delete(req_id) {
