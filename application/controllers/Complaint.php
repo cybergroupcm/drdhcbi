@@ -53,7 +53,7 @@ class Complaint extends CI_Controller
 
         $cookie = array(
             'name' => 'token',
-            'value' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDk4NTcyNTc2LCJleHAiOjE0OTg2NTkwNzZ9.7GCfaZSKdXMO9GTmTHQb-ow2glgMktSVH1C-mwwTB6Y',
+            'value' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDk4NjYyNzI5LCJleHAiOjE0OTg3NDkyMjl9.mCXvz70nSJJ0qOQFoPGK2I8dhnF4ExcZUaorUfDdKBw',
             'expire' => '86500',
         );
         $this->input->set_cookie($cookie);
@@ -94,42 +94,9 @@ class Complaint extends CI_Controller
 
     public function getDataReceived($id)
     {
-//        $url = "http://localhost/drdhcbi/api/complaint/key_in/".$id;
-//        $arr_data['data_received'] = api_call_get($url);
+        $url = "http://localhost/drdhcbi/api/complaint/key_in/".$id;
+        $arr_data['data_received'] = api_call_get($url);
         //echo '<pre>'; print_r($arr_data); echo '</pre>';
-
-        if($id == '1') {
-            $arr_data = array(
-                'data_received' => array(
-                    'keyin_id' => '1',
-                    'complain_no' => '0001',
-                    'complain_name' => 'เรื่องร้องทุกข์1',
-                    'recipient' => 'นายก',
-                    'doc_receive_date' => '2017-06-01',
-                )
-            );
-        }else if($id == '2') {
-            $arr_data = array(
-                'data_received' => array(
-                    'keyin_id' => '2',
-                    'complain_no' => '0002',
-                    'complain_name' => 'เรื่องร้องทุกข์2',
-                    'recipient' => 'นายข',
-                    'doc_receive_date' => '2017-06-02',
-                )
-            );
-        }else if($id == '3') {
-            $arr_data = array(
-                'data_received' => array(
-                    'keyin_id' => '3',
-                    'complain_no' => '0003',
-                    'complain_name' => 'เรื่องร้องทุกข์3',
-                    'recipient' => 'นายค',
-                    'doc_receive_date' => '2017-06-03',
-                )
-            );
-        }
-
         $result = $arr_data['data_received'];
         echo json_encode($result);
         exit;
