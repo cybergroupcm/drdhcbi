@@ -67,13 +67,14 @@ $( document ).ready(function() {
     });
 });
 
-function getDataReceived(req_id){
-    var url = $('#base_url').attr("class")+"complaint/getDataReceived/"+req_id;
+function getDataReceived(id){
+    var url = $('#base_url').attr("class")+"complaint/getDataReceived/"+id;
     $.ajax({
         method: "GET",
         url: url
     }).done(function (result) {
         var  dataReceived = JSON.parse(result);
+        $('#keyin_id').val(dataReceived.keyin_id);
         $('#complain_no').val(dataReceived.complain_no);
         $('#text_complain_no').html(dataReceived.complain_no);
         $('#complain_name').val(dataReceived.complain_name);
@@ -85,8 +86,8 @@ function getDataReceived(req_id){
     });
 }
 
-function getDataSend(req_id){
-    $('#complain_no_send').val(req_id);
+function getDataSend(id){
+    $('#keyin_id_send').val(id);
 }
 
 function bt_delete(req_id) {

@@ -11,9 +11,9 @@ class Complaint extends REST_Controller
         $this->load->model('data/KeyIn_model');
     }
 
-    /*public function dashboard_get()
+    public function dashboard_get()
     {
-        $users = $this->complaint_model->get_all();
+        $users = $this->KeyIn_model->get_dashboard_data();
 
         $id = $this->get('id');
 
@@ -64,7 +64,7 @@ class Complaint extends REST_Controller
                 'message' => 'User could not be found'
             ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
         }
-    }*/
+    }
 
     public function key_in_get(){
 
@@ -82,4 +82,23 @@ class Complaint extends REST_Controller
 
     }
 
+    //รับเรื่อง
+    public function received_put(){
+        $ids = $this->KeyIn_model->update(array('receive_date' => $this->put('receive_date')), $this->put('keyin_id'));
+        if ($ids) {
+            $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }
+    }
+
+    //ส่งต่อเรื่องร้องทุกข์
+    public function send_put(){
+        $ids = $this->KeyIn_model->update(array(
+            'reply_date' => $this->put('reply_date'),
+            'send_org_date' => $this->put('send_org_date'),
+            'send_org_id' => $this->put('send_org_id'),
+        ), $this->put('keyin_id'));
+        if ($ids) {
+            $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }
+    }
 }
