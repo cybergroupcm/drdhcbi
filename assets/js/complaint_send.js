@@ -10,7 +10,15 @@ $(document).ready(function () {
         var arr_send_org_date = $('#send_org_date').val().split('/');
         var send_org_date = (arr_send_org_date[2]-543)+'-'+arr_send_org_date[1]+'-'+arr_send_org_date[0];
 
-        var send_org_id = $('#send_org_id :selected').val();
+        if($('input[name=send_org_parent]:checked').val() == '2'){
+            send_org_id = $('input[name=send_org_parent]:checked').val();
+        }else{
+            if(send_org_id == ''){
+                send_org_id = $('input[name=send_org_parent]:checked').val();
+            }else{
+                send_org_id = $('#send_org_id :selected').val();
+            }
+        }
 
         $.ajax({
             type: 'PUT', //GET, POST, PUT

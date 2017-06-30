@@ -24,7 +24,6 @@ $( document ).ready(function() {
     });
 
     $('.datepickerstart').on('changeDate', function(){
-        //var dateMin = $(this).val();
         var arrDateMin= $(this).val().split('/');
         var dateMin = parseInt(arrDateMin[0])+'/'+parseInt(arrDateMin[1])+'/'+parseInt((arrDateMin[2]-543));
         $('.datepickerend').datepicker('setStartDate', dateMin);
@@ -89,16 +88,54 @@ function getDataReceived(id){
             $('#text_doc_receive_date').html('-');
         }
 
-        if((dataReceived.receive_date != '') && (dataReceived.receive_date != '0000-00-00')) {
-            var arr_receive_date = dataReceived.receive_date.split('/');
-            var receive_date = arr_receive_date[0]+'/'+arr_receive_date[1]+'/'+arr_receive_date[2];
-            $('#receive_date').datepicker("setDate", receive_date);  //กำหนดวัน
+        console.log(dataReceived.receive_date);
+        if((dataReceived.receive_date.trim() != '') && (dataReceived.receive_date.trim() != '0000-00-00')) {
+            var arr_receive_date = dataReceived.receive_date.split('-');
+            var receive_date_eng = arr_receive_date[2]+'/'+arr_receive_date[1]+'/'+arr_receive_date[0];
+            $('#receive_date').datepicker("setDate", receive_date_eng);  //กำหนดวัน
+            $("#receive_status").attr('checked','checked');
+        }else{
+            $('#receive_date').datepicker("setDate", "");
+            $("#receive_status").removeAttr('checked','');
+            //$("#receive_status").remove('checked', false);
         }
     });
 }
 
 function getDataSend(id){
     $('#keyin_id_send').val(id);
+    var url = $('#base_url').attr("class")+"complaint/getDataSend/"+id;
+    $.ajax({
+        method: "GET",
+        url: url
+    }).done(function (result) {
+        var  dataSend = JSON.parse(result);
+        if((dataSend.reply_date != '') && (dataSend.reply_date != '0000-00-00')) {
+            var arr_reply_date = dataSend.reply_date.split('-');
+            var reply_date_eng = arr_reply_date[2]+'/'+arr_reply_date[1]+'/'+arr_reply_date[0];
+            $('#reply_date').datepicker("setDate", reply_date_eng);  //กำหนดวัน
+        }else{
+            $('#reply_date').datepicker("setDate", "");
+        }
+
+        if((dataSend.send_org_date != '') && (dataSend.send_org_date != '0000-00-00')) {
+            var arr_send_org_date = dataSend.send_org_date.split('-');
+            var send_org_date_eng = arr_send_org_date[2]+'/'+arr_send_org_date[1]+'/'+arr_send_org_date[0];
+            $('#send_org_date').datepicker("setDate", send_org_date_eng);  //กำหนดวัน
+        }else{
+            $('#send_org_date').datepicker("setDate", "");
+        }
+
+        var send_org_id = dataSend.send_org_id;
+        if(send_org_id != '') {
+            $('#send_org_id option[value=' + send_org_id + ']').attr('selected', 'selected');
+            if (send_org_id == '2') {
+                $('input[name=send_org_parent][value="2"]').attr('checked', true);
+            } else {
+                $('input[name=send_org_parent][value="1"]').attr('checked', true);
+            }
+        }
+    });
 }
 
 function bt_delete(req_id) {
