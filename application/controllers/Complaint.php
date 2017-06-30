@@ -53,13 +53,26 @@ class Complaint extends CI_Controller
 
         $cookie = array(
             'name' => 'token',
-            'value' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDk4NjYyNzI5LCJleHAiOjE0OTg3NDkyMjl9.mCXvz70nSJJ0qOQFoPGK2I8dhnF4ExcZUaorUfDdKBw',
+            'value' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDk4NzQ5MzY1LCJleHAiOjE0OTg4MzU4NjV9.MOrBK-wwE3aHnhpcpZt9iW7fkdIwsNERP_cEadfIlKw',
             'expire' => '86500',
         );
         $this->input->set_cookie($cookie);
         $url = "http://localhost/drdhcbi/api/complaint/dashboard";
 
         $arr_data = api_call_get($url);
+
+        $arr_data['send_org'] = array(
+            '1' => array(
+                '3'=>'ผู้ว่าราชการจังหวัด/รองผู้ว่าราชการจังหวัด',
+                '4'=>'หัวหน้าสำนักงานจังหวัด'
+            )
+        );
+
+        $arr_data['send_org_parent'] = array(
+            '1'=>'หน่วยงานภายในสักกัดกระทรวงหมาดไทย',
+            '2'=>'หน่วยงานอื่นที่เกี่ยวข้อง'
+        );
+
 //        echo '<pre>';
 //        print_r($arr_data);
 //        echo '</pre>';
@@ -133,5 +146,15 @@ class Complaint extends CI_Controller
             )
         );
         $this->libraries->template('complaint/view_detail', $arr_data);
+    }
+
+    public function getDataSend($id)
+    {
+        $url = "http://localhost/drdhcbi/api/complaint/key_in/".$id;
+        $arr_data['data_send'] = api_call_get($url);
+        //echo '<pre>'; print_r($arr_data); echo '</pre>';
+        $result = $arr_data['data_send'];
+        echo json_encode($result);
+        exit;
     }
 }
