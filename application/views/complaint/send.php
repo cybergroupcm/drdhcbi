@@ -14,6 +14,7 @@
                                 <div class="form-group">
                                     <input type="hidden" id="action"  value="<?php echo @$data['action'];?>"/>
                                     <input type="hidden" name="complain_no_send" id="complain_no_send" value="">
+                                    <input type="hidden" name="keyin_id_send" id="keyin_id_send" value="">
                                     <label class="col-sm-5 text-right">
                                         กำหนดวันที่ส่งกลับ :
                                     </label>
@@ -37,44 +38,31 @@
                                         กำหนดหน่วยงานส่งต่อเรื่องร้องทุกข์ :
                                     </label>
                                     <label class="col-sm-7 text-left">
-                                        <input type="radio" id="send_org_parent" name="send_org_parent" value="1"> หน่วยงานภายในสังกัดกระทรวงมหาดไทย
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="col-md-10">
-                                <div class="form-group">
-                                    <label class="col-sm-5 text-right"></label>
-                                    <label class="col-sm-7 text-left">
-                                        <select class="form-control" name="send_org_id" id="send_org_id">
-                                            <option>--กรุณาเลือก--</option>
-                                            <?php
-                                            foreach($data_department AS $key=> $val){
-                                                echo "<option value='".$key."'>".$val."</option>";
-                                            }
+                                    <?php
+                                        foreach($send_org_parent AS $key_parent=>$val_parent) {
                                             ?>
-                                        </select>
+                                            <input type="radio" id="send_org_parent<?php echo $key_parent; ?>" name="send_org_parent" value="<?php echo $key_parent; ?>"> <?php echo $val_parent; ?><br>
+                                            <?php
+                                            if(!empty($send_org[$key_parent])){
+                                                ?>
+                                            <select class="form-control" name="send_org_id" id="send_org_id">
+                                                <option value=''>--กรุณาเลือก--</option>
+                                                <?php
+                                                foreach ($send_org[$key_parent] AS $key => $val) {
+                                                    echo "<option value='" . $key . "'>" . $val . "</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                            <br>
+                                            <?php
+                                            }
+                                        }
+                                    ?>
                                     </label>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="col-md-10">
-                                <div class="form-group">
-                                    <label class="col-sm-5 text-right"></label>
-                                    <label class="col-sm-7 text-left">
-                                        <input type="radio" id="send_org_parent" name="send_org_parent" value="2"> หน่วยงานอื่นที่เกี่ยวข้อง
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="col-md-10">
