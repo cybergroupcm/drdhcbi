@@ -6,13 +6,15 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h4 class="modal-title">ส่งต่อเรื่องร้องทุกข์</h4>
                 </div>
-                <form class="form-horizontal" role="form" method="POST" action="" name="form_save_send" id="form_save_send">
+                <form class="form-horizontal" role="form" method="POST" action="<?php echo base_url('complaint/dashboard')?>" name="form_save_send" id="form_save_send">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="col-md-10">
                                 <div class="form-group">
-                                    <input type="hidden" name="req_id_send" id="req_id_send" value="">
+                                    <input type="hidden" id="action"  value="<?php echo @$data['action'];?>"/>
+                                    <input type="hidden" name="complain_no_send" id="complain_no_send" value="">
+                                    <input type="hidden" name="keyin_id_send" id="keyin_id_send" value="">
                                     <label class="col-sm-5 text-right">
                                         กำหนดวันที่ส่งกลับ :
                                     </label>
@@ -21,7 +23,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" id="complaint_date" class="form-control pull-right datepicker" />
+                                            <input type="text" name="reply_date" id="reply_date" class="form-control pull-right datepicker" />
                                         </div>
                                     </label>
                                 </div>
@@ -36,44 +38,31 @@
                                         กำหนดหน่วยงานส่งต่อเรื่องร้องทุกข์ :
                                     </label>
                                     <label class="col-sm-7 text-left">
-                                        <input type="radio" id="" name=""> หน่วยงานภายในสังกัดกระทรวงมหาดไทย
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="col-md-10">
-                                <div class="form-group">
-                                    <label class="col-sm-5 text-right"></label>
-                                    <label class="col-sm-7 text-left">
-                                        <select class="form-control">
-                                            <option>--กรุณาเลือก--</option>
-                                            <?php
-                                            foreach($data_department AS $key=> $val){
-                                                echo "<option value='".$key."'>".$val."</option>";
-                                            }
+                                    <?php
+                                        foreach($send_org_parent AS $key_parent=>$val_parent) {
                                             ?>
-                                        </select>
+                                            <input type="radio" id="send_org_parent<?php echo $key_parent; ?>" name="send_org_parent" value="<?php echo $key_parent; ?>"> <?php echo $val_parent; ?><br>
+                                            <?php
+                                            if(!empty($send_org[$key_parent])){
+                                                ?>
+                                            <select class="form-control" name="send_org_id" id="send_org_id">
+                                                <option value=''>--กรุณาเลือก--</option>
+                                                <?php
+                                                foreach ($send_org[$key_parent] AS $key => $val) {
+                                                    echo "<option value='" . $key . "'>" . $val . "</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                            <br>
+                                            <?php
+                                            }
+                                        }
+                                    ?>
                                     </label>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="col-md-10">
-                                <div class="form-group">
-                                    <label class="col-sm-5 text-right"></label>
-                                    <label class="col-sm-7 text-left">
-                                        <input type="radio" id="" name=""> หน่วยงานอื่นที่เกี่ยวข้อง
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="col-md-10">
@@ -86,7 +75,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" id="complaint_date" class="form-control pull-right datepicker" />
+                                        <input type="text" name="send_org_date" id="send_org_date" class="form-control pull-right datepicker" />
                                     </div>
                                 </label>
                             </div>
@@ -101,3 +90,15 @@
         </div>
     </div>
 </div>
+<?php
+$link = array(
+    'src' => 'assets/js/js.cookie.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    'src' => 'assets/js/complaint_send.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+?>
