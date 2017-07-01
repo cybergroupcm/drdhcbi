@@ -42,15 +42,15 @@
                 <i class="fa fa-table"></i> <span>รายงานสำหรับผู้บริหาร </span> <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-circle-o"></i> รายงานรวมเรื่องร้องทุกข์</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> รายงานจำนวนเรื่องร้องทุกข์ตามทางการร้อง/ตามหน่วยงาน</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> รายงานจำนวนเรื่องร้องทุกข์ตามประเภทเรื่อง</a></li>
+                <li><a href="<?php echo site_url('report/report_all_complaint');?>"><i class="fa fa-circle-o"></i> รายงานรวมเรื่องร้องทุกข์</a></li>
+                <li><a href="<?php echo site_url('report/report_by_chanel');?>"><i class="fa fa-circle-o"></i> รายงานจำนวนเรื่องร้องทุกข์ตามช่องทางการร้องทุกข์/ตามหน่วยงาน</a></li>
+                <li><a href="<?php echo site_url('report/report_by_type');?>"><i class="fa fa-circle-o"></i> รายงานจำนวนเรื่องร้องทุกข์ตามประเภทเรื่อง</a></li>
 
-                <li><a href="#"><i class="fa fa-circle-o"></i> รายงานรายละอียดผู้ร้องเรียน/ร้องทุกข์</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> รายงานรายละอียดผู้ถูกร้องเรียน/ร้องทุกข์</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> รายงานสถิติเรื่องร้องเรียนร้องทุกข์(ประเภทเรื่อง)</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> รายงานภาพรวมสถิติเรื่องร้องทุกข์(สถานะ)</a></li>
-                <li><a href="#"><i class="fa fa-circle-o"></i> รายงานภาพรวมสถิติเปรียบเทียบเรื่องร้องทุกข์</a></li>
+                <li><a href="<?php echo site_url('report/report_by_complainer');?>"><i class="fa fa-circle-o"></i> รายงานรายละอียดผู้ร้องเรียน/ร้องทุกข์</a></li>
+                <li><a href="<?php echo site_url('report/report_by_complainant');?>"><i class="fa fa-circle-o"></i> รายงานรายละอียดผู้ถูกร้องเรียน/ร้องทุกข์</a></li>
+                <li><a href="<?php echo site_url('report/report_statistic_by_type');?>"><i class="fa fa-circle-o"></i> รายงานสถิติเรื่องร้องเรียนร้องทุกข์(ประเภทเรื่อง)</a></li>
+                <li><a href="<?php echo site_url('report/report_statistic_by_status');?>"><i class="fa fa-circle-o"></i> รายงานภาพรวมสถิติเรื่องร้องทุกข์(สถานะ)</a></li>
+                <li><a href="<?php echo site_url('report/report_statistic_compare');?>"><i class="fa fa-circle-o"></i> รายงานภาพรวมสถิติเปรียบเทียบเรื่องร้องทุกข์</a></li>
 
 
               </ul>

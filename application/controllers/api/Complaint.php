@@ -254,4 +254,23 @@ class Complaint extends REST_Controller
         }
     }
 
+    //รับเรื่อง
+    public function received_put(){
+        $ids = $this->KeyIn_model->update(array('receive_date' => $this->put('receive_date')), $this->put('keyin_id'));
+        if ($ids) {
+            $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }
+    }
+
+    //ส่งต่อเรื่องร้องทุกข์
+    public function send_put(){
+        $ids = $this->KeyIn_model->update(array(
+            'reply_date' => $this->put('reply_date'),
+            'send_org_date' => $this->put('send_org_date'),
+            'send_org_id' => $this->put('send_org_id'),
+        ), $this->put('keyin_id'));
+        if ($ids) {
+            $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }
+    }
 }

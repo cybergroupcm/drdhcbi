@@ -50,7 +50,7 @@ $this->load->view('complaint/send');
                                 <td class="text-center"><?php echo date_thai($val['req_date'],true);?></td>
                                 <td><?php echo $val['req_title'];?></td>
                                 <td><?php echo $val['req_name'];?></td>
-                                <td><?php echo $val['req_status'];?></td>
+                                <td><?php //echo $val['req_status'];?></td>
                                 <td class="text-center">
                                         <span onclick="window.location.href='<?php echo base_url('complaint/key_in/'.$val['req_id'])?>';">
                                             <?php echo img(array('src'=>'assets/images/edit.png', 'title'=> 'แก้ไข','width'=>'36px','style'=>'cursor:pointer'));?>
@@ -62,8 +62,8 @@ $this->load->view('complaint/send');
                                             <?php echo img(array('src'=>'assets/images/edit-article.png', 'title'=> 'ดูรายละเอียด','width'=>'36px','style'=>'cursor:pointer'));?>
                                         </span>
                                     <?php
-                                    echo img(array('src'=>'assets/images/circle-save.png', 'title'=> 'รับเรื่อง','width'=>'36px','style'=>'cursor:pointer','data-toggle'=>'modal','data-target'=>'#received','id'=>$val['req_id']));
-                                    echo img(array('src'=>'assets/images/send.png', 'title'=> 'ส่งเรื่องต่อ','width'=>'36px','style'=>'cursor:pointer','data-toggle'=>'modal','data-target'=>'#send','id'=>$val['req_id']));
+                                    echo img(array('src'=>'assets/images/circle-save.png', 'title'=> 'รับเรื่อง','width'=>'36px','style'=>'cursor:pointer','data-toggle'=>'modal','data-target'=>'#received','id'=>$val['keyin_id']));
+                                    echo img(array('src'=>'assets/images/send.png', 'title'=> 'ส่งเรื่องต่อ','width'=>'36px','style'=>'cursor:pointer','data-toggle'=>'modal','data-target'=>'#send','id'=>$val['keyin_id']));
                                     ?>
                                 </td>
                             </tr>

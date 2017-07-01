@@ -19,12 +19,12 @@ class Complaint extends CI_Controller
 
     public function key_in()
     {
-        $cookie = array(
+        /*$cookie = array(
             'name' => 'token',
             'value' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDk4NTcyNTc2LCJleHAiOjE0OTg2NTkwNzZ9.7GCfaZSKdXMO9GTmTHQb-ow2glgMktSVH1C-mwwTB6Y',
             'expire' => '86500',
         );
-        //$this->input->set_cookie($cookie);
+        $this->input->set_cookie($cookie);*/
 
 
         $url = "http://localhost/drdhcbi/api/dropdown/complain_type_lists";
@@ -51,18 +51,31 @@ class Complaint extends CI_Controller
     public function dashboard()
     {
 
-        /*$cookie = array(
+        $cookie = array(
             'name' => 'token',
-            'value' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDk4MzI0OTA0LCJleHAiOjE0OTg0MTE0MDR9.68uPmgihXhR862kxXYU_blfVzxyJGC4O77gTgHaDtJI',
+            'value' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDk4NzQ5MzY1LCJleHAiOjE0OTg4MzU4NjV9.MOrBK-wwE3aHnhpcpZt9iW7fkdIwsNERP_cEadfIlKw',
             'expire' => '86500',
-        );*/
-        //$this->input->set_cookie($cookie);
+        );
+        $this->input->set_cookie($cookie);
         $url = "http://localhost/drdhcbi/api/complaint/dashboard";
 
         $arr_data = api_call_get($url);
-        echo '<pre>';
-        print_r($arr_data);
-        echo '</pre>';
+
+        $arr_data['send_org'] = array(
+            '1' => array(
+                '3'=>'ผู้ว่าราชการจังหวัด/รองผู้ว่าราชการจังหวัด',
+                '4'=>'หัวหน้าสำนักงานจังหวัด'
+            )
+        );
+
+        $arr_data['send_org_parent'] = array(
+            '1'=>'หน่วยงานภายในสักกัดกระทรวงหมาดไทย',
+            '2'=>'หน่วยงานอื่นที่เกี่ยวข้อง'
+        );
+
+//        echo '<pre>';
+//        print_r($arr_data);
+//        echo '</pre>';
 
         //start แบ่งหน้า
         $this->load->library('pagination');
@@ -92,32 +105,12 @@ class Complaint extends CI_Controller
         $this->libraries->template('complaint/dashboard', $arr_data);
     }
 
-    public function getDataReceived($req_id)
+    public function getDataReceived($id)
     {
-        //echo $req_id;
-        $arr_data = array(
-            'data_received' => array(
-                '0001' => array(
-                    'req_id' => '0001',
-                    'req_title' => 'เรื่องร้องทุกข์1',
-                    'req_name' => 'นายก',
-                    'send_date' => '2017-06-01',
-                ),
-                '0002' => array(
-                    'req_id' => '0002',
-                    'req_title' => 'เรื่องร้องทุกข์2',
-                    'req_name' => 'นายข',
-                    'send_date' => '2017-06-02',
-                ),
-                '0003' => array(
-                    'req_id' => '0003',
-                    'req_title' => 'เรื่องร้องทุกข์3',
-                    'req_name' => 'นายค',
-                    'send_date' => '2017-06-03',
-                )
-            )
-        );
-        $result = $arr_data['data_received'][$req_id];
+        $url = "http://localhost/drdhcbi/api/complaint/key_in/".$id;
+        $arr_data['data_received'] = api_call_get($url);
+        //echo '<pre>'; print_r($arr_data); echo '</pre>';
+        $result = $arr_data['data_received'];
         echo json_encode($result);
         exit;
     }
@@ -153,5 +146,15 @@ class Complaint extends CI_Controller
             )
         );
         $this->libraries->template('complaint/view_detail', $arr_data);
+    }
+
+    public function getDataSend($id)
+    {
+        $url = "http://localhost/drdhcbi/api/complaint/key_in/".$id;
+        $arr_data['data_send'] = api_call_get($url);
+        //echo '<pre>'; print_r($arr_data); echo '</pre>';
+        $result = $arr_data['data_send'];
+        echo json_encode($result);
+        exit;
     }
 }
