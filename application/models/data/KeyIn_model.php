@@ -12,96 +12,88 @@ class KeyIn_model extends MY_Model
         $this->timestamps = TRUE;
         $this->_created_at_field = 'create_datetime';
         $this->_updated_at_field = 'update_datetime';
-        $this->has_many_pivot['Accused'] = array(
-            'foreign_model' => 'AccusedType_model',
+        $this->has_many_pivot['complaint_type'] = array(
+            'foreign_model' => 'master/ComplainType_model',
             'pivot_table' => 'dt_complain_type',
             'local_key' => 'keyin_id',
             'pivot_local_key' => 'keyin_id',
             'pivot_foreign_key' => 'complain_type_id',
             'foreign_key' => 'complain_type_id');
-        $this->has_many_pivot['Wish'] = array(
-            'foreign_model' => 'Wish_model',
+        $this->has_many_pivot['wish'] = array(
+            'foreign_model' => 'master/Wish_model',
             'pivot_table' => 'dt_wish',
             'local_key' => 'keyin_id',
             'pivot_local_key' => 'keyin_id',
             'pivot_foreign_key' => 'wish_id',
             'foreign_key' => 'wish_id');
+        $this->before_create[] = 'changeDateFormat';
+        $ci = get_instance();
+        $ci->load->helper('dateformat');
     }
 
-    public function get_dashboard_data()
-    {
-        $arr_data = [
-            'arr_data' => [
-                '0' => [
-                    'keyin_id' => '1',
-                    'req_id' => '0001',
-                    'req_title' => 'เรื่องร้องทุกข์1',
-                    'req_name' => 'นายก',
-                    'req_date' => '2017-06-01',
-                ],
-                '1' => [
-                    'keyin_id' => '2',
-                    'req_id' => '0002',
-                    'req_title' => 'เรื่องร้องทุกข์2',
-                    'req_name' => 'นายข',
-                    'req_date' => '2017-06-02',
-                ],
-                '2' => [
-                    'keyin_id' => '3',
-                    'req_id' => '0003',
-                    'req_title' => 'เรื่องร้องทุกข์3',
-                    'req_name' => 'นายค',
-                    'req_date' => '2017-06-03',
-                ],
+    /*public $rules = [
+        'insert' => [
+            'complain_date'=>[
+                'field'=>'complain_date',
+                'label'=>'complain_date',
+                'rules'=>'required'
             ],
-            'data_filter' => [
-                '0' => 'แจ้งเบาะแสการทำผิด',
-                '1' => 'ยานพาหนะ',
-                '2' => 'เรื่องทั่วไป'
+            'recipient'=>[
+                'field'=>'recipient',
+                'label'=>'recipient',
+                'rules'=>'required'
             ],
-            'data_received' => [
-                'req_id' => '0001',
-                'req_title' => 'เรื่องร้องทุกข์1',
-                'req_name' => 'นายก',
-                'send_date' => '2017-06-05'
+            'complain_type_id'=>[
+                'field'=>'complain_type_id',
+                'label'=>'complain_type_id',
+                'rules'=>'required'
             ],
-            'data_department' => [
-                '0' => 'ทดสอบ1',
-                '1' => 'ทดสอบ2',
-                '2' => 'ทดสอบ3'
+            'complain_name'=>[
+                'field'=>'complain_name',
+                'label'=>'complain_name',
+                'rules'=>'required'
+            ],
+            'channel_id'=>[
+                'field'=>'channel_id',
+                'label'=>'channel_id',
+                'rules'=>'required'
             ]
-        ];
-        return $arr_data;
+
+        ]
+    ];*/
+
+
+    protected function changeDateFormat($data)
+    {
+        $data['complain_date'] = date_eng($data['complain_date'] );
+        $data['doc_receive_date'] = date_eng($data['doc_receive_date'] );
+        $data['doc_send_date'] = date_eng($data['doc_send_date'] );
+        $data['scene_date'] = date_eng($data['scene_date'] );
+//        $data['receive_date'] = date_eng($data['receive_date'] );
+//        $data['reply_date'] = date_eng($data['reply_date'] );
+//        $data['send_org_date'] = date_eng($data['send_org_date'] );
+        return $data;
     }
 
-    public function get_complaint_type()
-    {
-        $this->db->select('complain_type_id,complain_type_name');
-        $query = $this->db->get('ms_complain_type');
-        foreach ($query->result_array() as $row) {
-            $result[$row['complain_type_id']] = $row['complain_type_name'];
-        }
-        return $result;
+    public function genComplainNo(){
+         /*$thisdb-->fields('complain_no')->where('complain_nod','like','201704','before')->get_all()*/
+        $query = $this->db->select('complain_no')->like('complain_no', '201704', 'before')->get('dt_keyin');
+        $row = $query->row();
+        return $row;
     }
 
-    public function get_accused_type()
+    public function insertPivotComplaintType($keyinId, $complainTypeId)
     {
-        $this->db->select('accused_type_id,accused_type');
-        $query = $this->db->get('ms_accused_type');
-        foreach ($query->result_array() as $row) {
-            $result[$row['accused_type_id']] = $row['accused_type'];
-        }
-        return $result;
+        //$this->db->delete('dt_complain_type',['keyin_id'=>$keyinId]);
+        $data = array('keyin_id' => $keyinId, 'complain_type_id' => $complainTypeId);
+        return $this->db->insert('dt_complain_type', $data);
     }
 
-    public function get_channel()
+    public function insertPivotWish($keyinId, $wishId)
     {
-        $this->db->select('channel_id,channel_name');
-        $query = $this->db->get('ms_channel');
-        foreach ($query->result_array() as $row) {
-            $result[$row['channel_id']] = $row['channel_name'];
-        }
-        return $result;
+        //$this->db->delete('dt_wish',['keyin_id'=>$keyinId]);
+        $data = array('keyin_id' => $keyinId, 'wish_id' => $wishId);
+        return $this->db->insert('dt_wish', $data);
     }
 
 }

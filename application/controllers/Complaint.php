@@ -27,24 +27,24 @@ class Complaint extends CI_Controller
         $this->input->set_cookie($cookie);*/
 
 
-        $url = "http://localhost/drdhcbi/api/setting/complain_type";
-        $arr_data['complain_type'] = list_options(api_call_get($url),'complain_type_id','complain_type_name','กรุณาเลือก');
+        $url = "http://localhost/drdhcbi/api/dropdown/complain_type_lists";
+        $arr_data['complain_type'] = api_call_get($url);
 
-        $url = "http://localhost/drdhcbi/api/setting/accused_type";
-        $arr_data['accused_type'] = list_options(api_call_get($url),'accused_type_id','accused_type');
+        $url = "http://localhost/drdhcbi/api/dropdown/accused_type_lists";
+        $arr_data['accused_type'] = api_call_get($url);
 
-        $url = "http://localhost/drdhcbi/api/setting/channel";
-        $arr_data['channel'] = list_options(api_call_get($url),'channel_id','channel_name','กรุณาเลือก');
+        $url = "http://localhost/drdhcbi/api/dropdown/channel_lists";
+        $arr_data['channel'] = api_call_get($url);
 
-        $url = "http://localhost/drdhcbi/api/setting/subject";
-        $arr_data['subject'] = list_options(api_call_get($url),'subject_id','subject_name','กรุณาเลือก');
+        $url = "http://localhost/drdhcbi/api/dropdown/subject_lists";
+        $arr_data['subject'] = api_call_get($url);
 
-        $url = "http://localhost/drdhcbi/api/setting/wish";
-        $arr_data['wish'] = list_options(api_call_get($url),'wish_id','wish_name');
-        /*echo '<pre>';
-        print_r($arr_data);
-        echo '<pre>';*/
-        //die();
+        $url = "http://localhost/drdhcbi/api/dropdown/wish_lists";
+        $arr_data['wish'] = api_call_get($url);
+
+        $url = "http://localhost/drdhcbi/api/dropdown/title_name_lists";
+        $arr_data['title_name'] = api_call_get($url);
+
         $this->libraries->template('complaint/key_in', $arr_data);
     }
 
