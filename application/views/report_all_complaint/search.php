@@ -52,6 +52,9 @@
                                     <label class="col-sm-7">
                                         <select class="form-control">
                                             <option value=''>--ไม่ระบุ--</option>
+                                            <?php foreach($complaint_type as $key => $value){ ?>
+                                            <option value='<?php echo $key; ?>'><?php echo $value; ?></option>
+                                            <?php } ?>
                                         </select>
                                     </label>
                                 </div>
@@ -68,6 +71,9 @@
                                     <label class="col-sm-7">
                                         <select class="form-control">
                                             <option value=''>--ไม่ระบุ--</option>
+                                            <?php foreach($channel as $key => $value){ ?>
+                                            <option value='<?php echo $key; ?>'><?php echo $value; ?></option>
+                                            <?php } ?>
                                         </select>
                                     </label>
                                 </div>
