@@ -5,6 +5,7 @@ $link = array(
     'rel' => 'stylesheet'
 );
 echo link_tag($link);
+echo form_open_multipart('',array('id' => 'keyInForm'))
 ?>
     <div class="row frame">
         <div class="row title">
@@ -142,11 +143,14 @@ echo link_tag($link);
                         </label>
                         <label class="col-sm-7">
                             <?php
+                            $dd1 = $complain_type;
+                            $dd1[''] = 'กรุณาเลือก';
+                            ksort($dd1);
                             echo form_dropdown([
                                 'name' => 'complain_type_id',
                                 'id' => 'complain_type_id',
                                 'class' => 'form-control'
-                            ], $complain_type, '');
+                            ], $dd1, '');
                             ?>
                         </label>
                     </div>
@@ -176,11 +180,14 @@ echo link_tag($link);
                         </label>
                         <label class="col-sm-7">
                             <?php
+                            $dd2 = $channel;
+                            $dd2[''] = 'กรุณาเลือก';
+                            ksort($dd2);
                             echo form_dropdown([
                                 'name' => 'channel_id',
                                 'id' => 'channel_id',
                                 'class' => 'form-control'
-                            ], $channel, '');
+                            ], $dd2, '');
                             ?>
                         </label>
                     </div>
@@ -196,11 +203,14 @@ echo link_tag($link);
                         </label>
                         <label class="col-sm-7">
                             <?php
+                            $dd3 = $subject;
+                            $dd3[''] = 'กรุณาเลือก';
+                            ksort($dd3);
                             echo form_dropdown([
                                 'name' => 'subject_id',
                                 'id' => 'subject_id',
                                 'class' => 'form-control'
-                            ], $subject, '');
+                            ], $dd3, '');
                             ?>
                         </label>
                     </div>
@@ -259,9 +269,16 @@ echo link_tag($link);
                                     คำนำหน้าชื่อ :
                                 </label>
                                 <label class="col-sm-7">
-                                    <select id='complainter_prename' class='form-control'>
-                                        <option value=''>--กรุณาระบุ--</option>
-                                    </select>
+                                    <?php
+                                    $dd4 = $title_name;
+                                    $dd4[''] = 'กรุณาเลือก';
+                                    ksort($dd4);
+                                    echo form_dropdown([
+                                        'name' => 'pn_id',
+                                        'id' => 'pn_id',
+                                        'class' => 'form-control'
+                                    ], $dd4, '');
+                                    ?>
                                 </label>
                             </div>
                         </div>
@@ -321,7 +338,7 @@ echo link_tag($link);
                             } ?>
                             <div class="<?php echo $class; ?>">
                                 <div class="form-group">
-                                    <input type="radio" name="complaint_type[]" id="complaint_type_<?php echo $key; ?>"
+                                    <input type="radio" class="complaint_type" name="complaint_type[]" id="complaint_type_<?php echo $key; ?>"
                                            value="<?php echo $key; ?>">
                                     <label for="complaint_type_<?php echo $key; ?>">&nbsp;<?php echo $value; ?></label>
                                 </div>
@@ -349,7 +366,7 @@ echo link_tag($link);
                             } ?>
                             <div class="<?php echo $class; ?>">
                                 <div class="form-group">
-                                    <input type="radio" id="accused_type_id_<?php echo $key; ?>" name="accused_type_id"
+                                    <input type="radio" class="accused_type" id="accused_type_id_<?php echo $key; ?>" name="accused_type_id"
                                            value="<?php echo $key; ?>">
                                     <label for="accused_type_id_<?php echo $key; ?>">&nbsp;<?php echo $value; ?></label>
                                 </div>
@@ -610,7 +627,7 @@ echo link_tag($link);
                                     แนบไฟล์เอกสารหลักฐาน :
                                 </label>
                                 <label class="col-sm-7">
-                                    <!--input type="file" multiple id="myFile" name="attach_file" onchange="checkFile()"
+                                    <!--input type="file" multiple id="myFile" name="attach_file[]" onchange="checkFile()"
                                            accept=".jpg, .png, .pdf"-->
                                     <input type="button" id="add_file" class="btn btn-primary" value="เพิ่มไฟล์" onclick="add_file()">
                                 </label>
@@ -654,6 +671,7 @@ echo link_tag($link);
         </div>
     </div>
 <?php
+echo form_close();
 $link = array(
     ' src' => 'http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=true&amp;key=AIzaSyACSdMKi4OrvylAegEJXXR3--RnLUYUBtw',
     ' type' => 'text/javascript'
@@ -661,6 +679,11 @@ $link = array(
 echo script_tag($link);
 $link = array(
     'src' => 'assets/js/map.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    'src' => 'assets/js/js.cookie.js',
     'type' => 'text/javascript'
 );
 echo script_tag($link);
