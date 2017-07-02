@@ -62,10 +62,14 @@ $route['translate_uri_dashes'] = TRUE;
 $route['admin'] = 'admin/dashboard';
 $route['api/example/users/(:num)'] = 'api/example/users/id/$1'; // Example 4
 $route['api/example/users/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'api/example/users/id/$1/format/$3$4'; // Example 8
+// api/example/users/
+//   api/example/users/1  api/example/users/id/1  api/example/users/id/1/html/
 
 //Complaint  REST API Routes
 $route['api/complaint/dashboard'] = 'api/complaint/dashboard';
+$route['api/complaint/key_in/(:num)'] = 'api/complaint/key_in/id/$1';
 $route['api/user/user'] = 'api/user/user';
+
 
 //Setting  REST API Routes
 $route['api/setting/complaint_type/(:num)'] = 'api/setting/complaint_type/id/$1'; // Example 4
