@@ -110,6 +110,10 @@
             $('#user_complain_detail').show();
         }
     }
+    
+    function add_file(){
+    
+    }
 
     $(document).ready(function () {
         $('.datepicker').datepicker({

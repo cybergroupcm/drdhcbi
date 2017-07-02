@@ -610,8 +610,9 @@ echo link_tag($link);
                                     แนบไฟล์เอกสารหลักฐาน :
                                 </label>
                                 <label class="col-sm-7">
-                                    <input type="file" multiple id="myFile" name="attach_file" onchange="checkFile()"
-                                           accept=".jpg, .png, .pdf">
+                                    <!--input type="file" multiple id="myFile" name="attach_file" onchange="checkFile()"
+                                           accept=".jpg, .png, .pdf"-->
+                                    <input type="button" id="add_file" class="btn btn-primary" value="เพิ่มไฟล์" onclick="add_file()">
                                 </label>
                             </div>
                         </div>
@@ -630,6 +631,9 @@ echo link_tag($link);
                             <label class="col-sm-2 right"></label>
                             <span class="col-sm-10"><p id="checkFile"></p></span>
                         </div>
+                    </div>
+                    <div id="file_add_space">
+                        
                     </div>
                 </div>
             </div>
