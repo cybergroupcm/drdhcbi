@@ -7,6 +7,7 @@ $link = array(
        echo link_tag($link);
 ?>
     <form id="frm_user" >
+        <input type="hidden" name="id" id="id" value="" />
 <div class="row frame">
     <div class="row title">
         <div class="col-md-12">
@@ -303,12 +304,13 @@ $link = array(
     </div>
 </div>
     </form>
-<script>var base_url = '<?php echo base_url() ?>';</script>
+<script>
+    var base_url = '<?php echo base_url() ?>';</script>
 <?php
 
 $link = array(
-                'src' => 'assets/js/register.js',
-                'type' => 'text/javascript'
-       );
-       echo script_tag($link);
+    'src' => 'assets/js/register.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
 ?>

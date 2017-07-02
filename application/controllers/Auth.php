@@ -64,7 +64,7 @@ class Auth extends MY_Controller {
 
                         /* Load Template */
                         //$this->template->auth_render('main', $this->data);
-                        redirect('main', 'refresh');
+                        redirect('admin', 'refresh');
                     }
                 }
                 else
@@ -99,7 +99,7 @@ class Auth extends MY_Controller {
         }
         else
         {
-            redirect('auth/login', 'refresh');
+            redirect('main', 'refresh');
         }
    }
 
@@ -157,7 +157,7 @@ class Auth extends MY_Controller {
         $this->template->auth_render('auth/register',$this->data);
     }
 
-    function save_user(){
+    /*function save_user(){
         $data = array(
             'first_name' => $this->input->post('first_name'),
             'last_name'  => $this->input->post('last_name'),
@@ -174,7 +174,7 @@ class Auth extends MY_Controller {
         $url = "http://localhost/drdhcbi/api/user/user/";
         $save_user = api_call_post($url,$data);
         //echo $save_user;
-    }
+    }*/
 
 }
 

@@ -1,4 +1,5 @@
-    function validateForm() {
+    function validateForm(action) {
+        console.log(action);
         var text_warning = "";
         if ($('#username').val() == "") {
             text_warning += " - ชื่อผู้ใช้งาน\n";
@@ -10,11 +11,13 @@
                 text_warning += " - การยืนยันรหัสผ่านไม่ตรงกัน\n";
             }
         }
-        if ($('#email').val() == "") {
+        if ($('#email').val() == "" ) {
             text_warning += " - อีเมล์\n";
         }else{
-            if($('#email').val() != $('#email2').val()){
-                text_warning += " - การยืนยัน email ไม่ตรงกัน\n";
+            if($('#email').val() != $('#email2').val() ){
+                if(action == "") {
+                    text_warning += " - การยืนยัน email ไม่ตรงกัน\n";
+                }
             }
         }
         if ($('#idcard').val() == "") {
@@ -29,8 +32,10 @@
         if ($('#surname_th').val() == "") {
             text_warning += " - นามสกุล\n";
         }
-        if ($('#gentle1').is(':checked') === false && $('#gentle2').is(':checked') === false) {
-            text_warning += " - เพศ\n";
+        if ($('#gentle1').is(':checked') === false && $('#gentle2').is(':checked') === false ) {
+         if(action == ""){
+             text_warning += " - เพศ\n";
+         }
         }
         if ($('#section').val() == "") {
             text_warning += " - หน่วยงาน/แผนก ที่สังกัด\n";
@@ -55,14 +60,27 @@
         }else{
 
             var data = $("#frm_user").serialize();
-            $.ajax({
-                    method: "POST",
-                    url: base_url +"auth/save_user",
-                    data: data
-                })
-                .done(function( msg ) {
-                    console.log( "Data Saved: " + msg );
-                });
+            if(action == ""){
+                $.ajax({
+                        method: "PUT",
+                        url: base_url +"api/user/user/",
+                        data: data
+                    })
+                    .done(function( msg ) {
+                        window.location.href=base_url+"main";
+                    });
+            }else {
+                $.ajax({
+                        method: "POST",
+                        url: base_url +"api/user/user/",
+                        data: data
+                    })
+                    .done(function( msg ) {
+                        console.log(msg);
+                        window.location.href=base_url+"auth/login";
+                    });
+            }
+
         }
     }
     
