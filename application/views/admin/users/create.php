@@ -44,24 +44,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <?php echo form_input($last_name);?>
                                             </div>
                                         </div>
-                                    <div class="form-group">
-                                        <?php echo lang('users_prename_eng', 'prename_eng', array('class' => 'col-sm-2 control-label')); ?>
-                                        <div class="col-sm-10">
-                                            <?php echo form_input($prename_eng);?>
+                                        <div class="form-group">
+                                            <?php echo lang('users_prename_eng', 'prename_eng', array('class' => 'col-sm-2 control-label')); ?>
+                                            <div class="col-sm-10">
+                                                <?php echo form_input($prename_eng);?>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <?php echo lang('users_firstname_eng', 'first_name_eng', array('class' => 'col-sm-2 control-label')); ?>
-                                        <div class="col-sm-10">
-                                            <?php echo form_input($first_name_eng);?>
+                                        <div class="form-group">
+                                            <?php echo lang('users_firstname_eng', 'first_name_eng', array('class' => 'col-sm-2 control-label')); ?>
+                                            <div class="col-sm-10">
+                                                <?php echo form_input($first_name_eng);?>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <?php echo lang('users_lastname_eng', 'last_name_eng', array('class' => 'col-sm-2 control-label')); ?>
-                                        <div class="col-sm-10">
-                                            <?php echo form_input($last_name_eng);?>
+                                        <div class="form-group">
+                                            <?php echo lang('users_lastname_eng', 'last_name_eng', array('class' => 'col-sm-2 control-label')); ?>
+                                            <div class="col-sm-10">
+                                                <?php echo form_input($last_name_eng);?>
+                                            </div>
                                         </div>
-                                    </div>
                                         <div class="form-group">
                                             <?php echo lang('users_company', 'company', array('class' => 'col-sm-2 control-label')); ?>
                                             <div class="col-sm-10">

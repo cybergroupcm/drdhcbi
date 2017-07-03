@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 ?>
             <div class="login-logo">
-                <a href="#"><b>Admin</b><?php echo $title_lg; ?></a>
+                <a href="#"><b>ศูนย์ดำรงธรรม</b><br> จังหวัดชลบุรี</a>
             </div>
 
             <div class="login-box-body">
@@ -44,6 +44,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <?php echo anchor('#', lang('auth_forgot_password')); ?><br />
 <?php endif; ?>
 <?php if ($new_membership == TRUE): ?>
-                <?php echo anchor('#', lang('auth_new_member')); ?><br />
+                <?php echo anchor('auth/register', lang('auth_new_member')); ?><br />
 <?php endif; ?>
             </div>

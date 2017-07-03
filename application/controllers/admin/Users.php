@@ -72,6 +72,11 @@ class Users extends Admin_Controller {
 				'last_name'  => $this->input->post('last_name'),
 				'company'    => $this->input->post('company'),
 				'phone'      => $this->input->post('phone'),
+				'idcard' => $this->input->post('personal_id'),
+				'prename_th'=> $this->input->post('prename'),
+				'prename_en'=> $this->input->post('prename_eng'),
+				'first_name_en' => $this->input->post('first_name_eng'),
+				'last_name_en'  => $this->input->post('last_name_eng')
 			);
 		}
 
@@ -239,7 +244,12 @@ class Users extends Admin_Controller {
 					'first_name' => $this->input->post('first_name'),
 					'last_name'  => $this->input->post('last_name'),
 					'company'    => $this->input->post('company'),
-					'phone'      => $this->input->post('phone')
+					'phone'      => $this->input->post('phone'),
+					'idcard' => $this->input->post('personal_id'),
+					'prename_th'=> $this->input->post('prename'),
+					'prename_en'=> $this->input->post('prename_eng'),
+					'first_name_en' => $this->input->post('first_name_eng'),
+					'last_name_en'  => $this->input->post('last_name_eng')
 				);
 
                 if ($this->input->post('password'))
@@ -302,6 +312,14 @@ class Users extends Admin_Controller {
 		$this->data['groups']        = $groups;
 		$this->data['currentGroups'] = $currentGroups;
 
+		$this->data['personal_id'] = array(
+			'name'  => 'personal_id',
+			'id'    => 'personal_id',
+			'type'  => 'text',
+			'class' => 'form-control',
+			'value' => $this->form_validation->set_value('personal_id',$user->idcard),
+		);
+
 		$this->data['first_name'] = array(
 			'name'  => 'first_name',
 			'id'    => 'first_name',
@@ -316,6 +334,37 @@ class Users extends Admin_Controller {
             'class' => 'form-control',
 			'value' => $this->form_validation->set_value('last_name', $user->last_name)
 		);
+
+		$this->data['prename'] = array(
+			'name'  => 'prename',
+			'id'    => 'prename',
+			'type'  => 'text',
+			'class' => 'form-control',
+			'value' => $this->form_validation->set_value('prename',$user->prename_th),
+		);
+
+		$this->data['prename_eng'] = array(
+			'name'  => 'prename_eng',
+			'id'    => 'prename_eng',
+			'type'  => 'text',
+			'class' => 'form-control',
+			'value' => $this->form_validation->set_value('prename_eng',$user->prename_en),
+		);
+		$this->data['first_name_eng'] = array(
+			'name'  => 'first_name_eng',
+			'id'    => 'first_name_eng',
+			'type'  => 'text',
+			'class' => 'form-control',
+			'value' => $this->form_validation->set_value('first_name_eng',$user->first_name_en),
+		);
+		$this->data['last_name_eng'] = array(
+			'name'  => 'last_name_eng',
+			'id'    => 'last_name_eng',
+			'type'  => 'text',
+			'class' => 'form-control',
+			'value' => $this->form_validation->set_value('last_name_eng',$user->last_name_en),
+		);
+
 		$this->data['company'] = array(
 			'name'  => 'company',
 			'id'    => 'company',
