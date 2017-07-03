@@ -1397,6 +1397,13 @@ class MY_Model extends CI_Model
                             //$model_dir = $model['model_dir'];
                             $foreign_model_name = $model['foreign_model_name'];
 
+                            if ($model['model_dir']) {
+                                $this->load->model($model['model_dir'] . strtolower($model['foreign_model']), $foreign_model_name);
+                            }
+                            else {
+                                $this->load->model($foreign_model, $foreign_model_name);
+                            }
+
                             $this->load->model($foreign_model, $foreign_model_name);
                             $foreign_table = $this->{$foreign_model_name}->table;
                             $foreign_key = $this->{$foreign_model_name}->primary_key;

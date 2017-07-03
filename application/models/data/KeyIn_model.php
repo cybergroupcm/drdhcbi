@@ -12,6 +12,10 @@ class KeyIn_model extends MY_Model
         $this->timestamps = TRUE;
         $this->_created_at_field = 'create_datetime';
         $this->_updated_at_field = 'update_datetime';
+        $this->has_one['prename'] = array(
+            'foreign_model' => 'master/TitleName_model',
+            'local_key' => 'pn_id',
+            'foreign_key' => 'pn_id');
         $this->has_many_pivot['complaint_type'] = array(
             'foreign_model' => 'master/ComplainType_model',
             'pivot_table' => 'dt_complain_type',
@@ -62,24 +66,32 @@ class KeyIn_model extends MY_Model
         ]
     ];*/
 
-
     protected function changeDateFormat($data)
     {
-        $data['complain_date'] = date_eng($data['complain_date'] );
-        $data['doc_receive_date'] = date_eng($data['doc_receive_date'] );
-        $data['doc_send_date'] = date_eng($data['doc_send_date'] );
-        $data['scene_date'] = date_eng($data['scene_date'] );
+        $data['complain_date'] = date_eng(@$data['complain_date'] );
+        $data['doc_receive_date'] = date_eng(@$data['doc_receive_date'] );
+        $data['doc_send_date'] = date_eng(@$data['doc_send_date'] );
+        $data['scene_date'] = date_eng(@$data['scene_date'] );
+        $data['complain_no'] = $this->genComplainNo(@$data['complain_date']);
 //        $data['receive_date'] = date_eng($data['receive_date'] );
 //        $data['reply_date'] = date_eng($data['reply_date'] );
 //        $data['send_org_date'] = date_eng($data['send_org_date'] );
         return $data;
     }
 
-    public function genComplainNo(){
-         /*$thisdb-->fields('complain_no')->where('complain_nod','like','201704','before')->get_all()*/
-        $query = $this->db->select('complain_no')->like('complain_no', '201704', 'before')->get('dt_keyin');
-        $row = $query->row();
-        return $row;
+    protected function genComplainNo($prefix){
+        $prefix  = explode('-',$prefix);
+        $search = $prefix[0].$prefix[1];
+        $query = $this->db->select('complain_no')->like('complain_no', $search , 'after')->order_by('complain_no', 'DESC')->limit(1)->get('dt_keyin');
+        if($query->num_rows()>0){
+            $row = $query->row();
+            $result = substr($row->complain_no,6,4);
+            $result = sprintf("%s%'.04d",$search,$result+1);
+        }else{
+            $result = $search."0001";
+        }
+
+        return $result;
     }
 
     public function insertPivotComplaintType($keyinId, $complainTypeId)
@@ -94,6 +106,14 @@ class KeyIn_model extends MY_Model
         //$this->db->delete('dt_wish',['keyin_id'=>$keyinId]);
         $data = array('keyin_id' => $keyinId, 'wish_id' => $wishId);
         return $this->db->insert('dt_wish', $data);
+    }
+    public function beforeInsertPivotComplaintType($keyinId)
+    {
+        return $this->db->delete('dt_complain_type',['keyin_id'=>$keyinId]);
+    }
+    public function beforeInsertPivotWish($keyinId)
+    {
+        return $this->db->delete('dt_wish',['keyin_id'=>$keyinId]);
     }
 
 }
