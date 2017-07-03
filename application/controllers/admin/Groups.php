@@ -108,14 +108,14 @@ class Groups extends Admin_Controller {
 		{
 			redirect('auth', 'refresh');
 		}
-
+		$this->load->model('../../models/admin/core_model');
         /* Breadcrumbs */
         $this->breadcrumbs->unshift(2, lang('menu_groups_edit'), 'admin/groups/edit');
         $this->data['breadcrumb'] = $this->breadcrumbs->show();
 
         /* Variables */
 		$group = $this->ion_auth->group($id)->row();
-
+		$group_permiss = $this->core_model->get_group_permiss($id);
 		/* Validate form input */
         $this->form_validation->set_rules('group_name', $this->lang->line('edit_group_validation_name_label'), 'required|alpha_dash');
 
@@ -127,10 +127,11 @@ class Groups extends Admin_Controller {
 
 				if ($group_update)
 				{
+					$save_permiss = $this->core_model->save_permiss($_POST['jsfields'],$id);
 					$this->session->set_flashdata('message', $this->lang->line('edit_group_saved'));
 
                     /* IN TEST */
-                    $this->db->update('groups', array('bgcolor' => $_POST['group_bgcolor']), 'id = '.$id);
+                    $this->db->update('au_groups', array('bgcolor' => $_POST['group_bgcolor']), 'id = '.$id);
 				}
 				else
 				{
@@ -170,6 +171,29 @@ class Groups extends Admin_Controller {
             'class'    => 'form-control'
 		);
 
+		$this->data['jsfields'] = array(
+			'type'     => 'hidden',
+			'name'     => 'jsfields',
+			'id'       => 'jsfields',
+			'value'    => implode(",",$group_permiss)
+		);
+
+		$this->data['applications'] = array();
+        $this->data['applications'][0] = array(
+            'app_id' => '1',
+            'app_name' => 'ระบบบันทึกข้อมูลเรื่องร้องทุกข์',
+            'app_detail' => 'ระบบบันทึกข้อมูลเรื่องร้องทุกข์',
+            'checkbox_type' => 'success'
+        );
+        $this->data['applications'][1] = array(
+            'app_id' => '2',
+            'app_name' => 'รายงานสำหรับผู้บริหาร',
+            'app_detail' => 'รายงานสำหรับผู้บริหาร',
+            'checkbox_type' => 'warning'
+        );
+
+		$this->data['org'] = $this->core_model->getOrg();
+		$this->data['orgTree'] = $this->core_model->genOrgTree($this->data['org'],0);
         /* Load Template */
         $this->template->admin_render('admin/groups/edit', $this->data);
 	}
