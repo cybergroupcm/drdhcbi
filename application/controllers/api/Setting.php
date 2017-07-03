@@ -143,7 +143,7 @@ class Setting extends REST_Controller
 
     public function channel_post()
     {
-        $ids = $this->AccusedType_model->insert(array('accused_type' => $this->post('accused_type')));
+        $ids = $this->Channel_model->insert(array('channel_name' => $this->post('channel_name')));
         $this->set_response($ids, REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
     }
 
@@ -151,7 +151,7 @@ class Setting extends REST_Controller
     {
         //$id = $this->put('accused_type');
         //$ids = $this->AccusedType_model->update(array('accused_type' => $this->put('accused_type')),$id);
-        $ids = $this->AccusedType_model->update(array('accused_type' => $this->put('accused_type')), $this->put('accused_type_id'));
+        $ids = $this->Channel_model->update(array('channel_name' => $this->put('channel_name')), $this->put('channel_id'));
         if ($ids) {
             $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -167,7 +167,7 @@ class Setting extends REST_Controller
             $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
         }
 
-        $ids = $this->AccusedType_model->delete($id);
+        $ids = $this->Channel_model->delete($id);
 
         $this->set_response($ids, REST_Controller::HTTP_NO_CONTENT); // NO_CONTENT (204) being the HTTP response code
     }
@@ -222,7 +222,7 @@ class Setting extends REST_Controller
 
     public function complain_type_post()
     {
-        $ids = $this->AccusedType_model->insert(array('accused_type' => $this->post('accused_type')));
+        $ids = $this->ComplainType_model->insert(array('complain_type_name' => $this->post('complain_type_name')));
         $this->set_response($ids, REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
     }
 
@@ -230,7 +230,7 @@ class Setting extends REST_Controller
     {
         //$id = $this->put('accused_type');
         //$ids = $this->AccusedType_model->update(array('accused_type' => $this->put('accused_type')),$id);
-        $ids = $this->AccusedType_model->update(array('accused_type' => $this->put('accused_type')), $this->put('accused_type_id'));
+        $ids = $this->ComplainType_model->update(array('complain_type_name' => $this->put('complain_type_name')), $this->put('complain_type_id'));
         if ($ids) {
             $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -246,7 +246,7 @@ class Setting extends REST_Controller
             $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
         }
 
-        $ids = $this->AccusedType_model->delete($id);
+        $ids = $this->ComplainType_model->delete($id);
 
         $this->set_response($ids, REST_Controller::HTTP_NO_CONTENT); // NO_CONTENT (204) being the HTTP response code
     }
@@ -301,15 +301,13 @@ class Setting extends REST_Controller
 
     public function subject_post()
     {
-        $ids = $this->AccusedType_model->insert(array('accused_type' => $this->post('accused_type')));
+        $ids = $this->Subject_model->insert(array('subject_name' => $this->post('subject_name')));
         $this->set_response($ids, REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
     }
 
     public function subject_put()
     {
-        //$id = $this->put('accused_type');
-        //$ids = $this->AccusedType_model->update(array('accused_type' => $this->put('accused_type')),$id);
-        $ids = $this->AccusedType_model->update(array('accused_type' => $this->put('accused_type')), $this->put('accused_type_id'));
+        $ids = $this->Subject_model->update(array('subject_name' => $this->put('subject_name')), $this->put('subject_id'));
         if ($ids) {
             $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -325,7 +323,7 @@ class Setting extends REST_Controller
             $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
         }
 
-        $ids = $this->AccusedType_model->delete($id);
+        $ids = $this->Subject_model->delete($id);
 
         $this->set_response($ids, REST_Controller::HTTP_NO_CONTENT); // NO_CONTENT (204) being the HTTP response code
     }
@@ -380,15 +378,13 @@ class Setting extends REST_Controller
 
     public function wish_post()
     {
-        $ids = $this->AccusedType_model->insert(array('accused_type' => $this->post('accused_type')));
+        $ids = $this->Wish_model->insert(array('wish_name' => $this->post('wish_name')));
         $this->set_response($ids, REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
     }
 
     public function wish_put()
     {
-        //$id = $this->put('accused_type');
-        //$ids = $this->AccusedType_model->update(array('accused_type' => $this->put('accused_type')),$id);
-        $ids = $this->AccusedType_model->update(array('accused_type' => $this->put('accused_type')), $this->put('accused_type_id'));
+        $ids = $this->Wish_model->update(array('wish_name' => $this->put('wish_name')), $this->put('wish_id'));
         if ($ids) {
             $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -404,7 +400,7 @@ class Setting extends REST_Controller
             $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
         }
 
-        $ids = $this->AccusedType_model->delete($id);
+        $ids = $this->Wish_model->delete($id);
 
         $this->set_response($ids, REST_Controller::HTTP_NO_CONTENT); // NO_CONTENT (204) being the HTTP response code
     }

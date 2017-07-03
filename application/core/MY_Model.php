@@ -1796,6 +1796,7 @@ class MY_Model extends CI_Model
      */
     private function _the_timestamp()
     {
+        date_default_timezone_set('Asia/Bangkok');
         if($this->timestamps_format=='timestamp')
         {
             return time();
