@@ -34,7 +34,7 @@ class User extends REST_Controller
 
     public function user_post()
     {
-        $username = strtolower($this->post('first_name')) . ' ' . strtolower($this->post('last_name'));
+        $username = strtolower($this->post('username'));
         $email    = strtolower($this->post('email'));
         $password = $this->post('password');
 
@@ -43,11 +43,11 @@ class User extends REST_Controller
             'last_name'  => $this->post('last_name'),
             'company'    => $this->post('company'),
             'phone'      => $this->post('phone'),
-            'idcard' => $this->post('personal_id'),
-            'prename_th'=> $this->post('prename'),
-            'prename_en'=> $this->post('prename_eng'),
-            'first_name_en' => $this->post('first_name_eng'),
-            'last_name_en'  => $this->post('last_name_eng')
+            'idcard' => $this->post('idcard'),
+            'prename_th'=> $this->post('prename_th'),
+            'prename_en'=> $this->post('prename_en'),
+            'first_name_en' => $this->post('first_name_en'),
+            'last_name_en'  => $this->post('last_name_en')
         );
 
         $ids = $this->ion_auth->register($username, $password, $email, $additional_data);

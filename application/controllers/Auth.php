@@ -80,7 +80,7 @@ class Auth extends MY_Controller {
                 $this->data['identity'] = array(
                     'name'        => 'identity',
                     'id'          => 'identity',
-                    'type'        => 'email',
+                    'type'        => 'text',
                     'value'       => $this->form_validation->set_value('identity'),
                     'class'       => 'form-control',
                     'placeholder' => lang('auth_your_email')
@@ -154,6 +154,10 @@ class Auth extends MY_Controller {
             'class'       => 'form-control',
             'placeholder' => lang('auth_your_password')
         );
+
+        $url = "http://localhost/drdhcbi/api/dropdown/title_name_lists";
+        $this->data['title_name'] = api_call_get($url);
+
         $this->template->auth_render('auth/register',$this->data);
     }
 

@@ -22,7 +22,10 @@ $link = array(
                     ชื่อผู้ใช้งาน : 
                 </label>
                 <label class="col-sm-3">
-                    <input type="text" name="username" id="username" class="form-control letter_and_number" onkeypress="check_first_letters(this, event)" maxlength='10' />
+                    <?php
+                        echo $data['user']['username'];
+                    ?>
+                    <!--<input type="text" name="username" id="username" class="form-control letter_and_number" onkeypress="check_first_letters(this, event)" maxlength='10' />-->
                 </label>
             </div>
         </div>
@@ -79,7 +82,7 @@ $link = array(
                     อีเมล์ : 
                 </label>
                 <label class="col-sm-3">
-                    <input type="text" name="email" id="email"  onblur='return validateEmail(this)' class="form-control" />
+                    <input type="text" name="email" id="email"  onblur='return validateEmail(this)' class="form-control" value="<?php echo $data['user']['email']?>" />
                 </label>
             </div>
         </div>
@@ -91,7 +94,7 @@ $link = array(
                     ยืนยันอีเมล์ : 
                 </label>
                 <label class="col-sm-3">
-                    <input type="text" id="email2" onblur="confirm_input('email','email2','email_confirm_text')" class="form-control" />
+                    <input type="text" id="email2" onblur="confirm_input('email','email2','email_confirm_text')" class="form-control" value="<?php echo $data['user']['email']?>" />
                 </label>
                 <label id="email_confirm_text" style="color:red;"></label>
             </div>
@@ -104,7 +107,7 @@ $link = array(
                     รหัสประจำตัวประชาชน : 
                 </label>
                 <label class="col-sm-3">
-                    <input type="text" name="idcard" id="idcard" class="form-control numbers" maxlength='13' />
+                    <input type="text" name="idcard" id="idcard" class="form-control numbers" maxlength='13' value="<?php echo $data['user']['idcard']?>" />
                 </label>
             </div>
         </div>
@@ -116,9 +119,19 @@ $link = array(
                     คำนำหน้าชื่อ : 
                 </label>
                 <label class="col-sm-3">
-                    <select id="prename_th" name="prename_th" class="form-control">
+                    <?php
+                    $prename = $title_name;
+                    $prename[''] = 'กรุณาเลือกคำนำหน้าชื่อ';
+                    ksort($prename);
+                    echo form_dropdown([
+                        'name' => 'prename_th',
+                        'id' => 'prename_th',
+                        'class' => 'form-control'
+                    ], $prename, $data['user']['prename_th']);
+                    ?>
+                    <!--<select id="prename_th" name="prename_th" class="form-control">
                         <option value='1'>--กรุณาระบุ--</option>
-                    </select>
+                    </select>-->
                 </label>
             </div>
         </div>
@@ -130,7 +143,7 @@ $link = array(
                     ชื่อ : 
                 </label>
                 <label class="col-sm-3">
-                    <input type="text" id="name_th" name="first_name" class="form-control" />
+                    <input type="text" id="name_th" name="first_name" class="form-control" value="<?php echo $data['user']['first_name']?>" />
                 </label>
             </div>
         </div>
@@ -142,7 +155,7 @@ $link = array(
                     นามสกุล : 
                 </label>
                 <label class="col-sm-3">
-                    <input type="text" id="surname_th" name="last_name" class="form-control" />
+                    <input type="text" id="surname_th" name="last_name" class="form-control" value="<?php echo $data['user']['last_name']?>" />
                 </label>
             </div>
         </div>
@@ -168,7 +181,7 @@ $link = array(
                     ชื่อ :<br>(ภาษาอังกฤษ)
                 </label>
                 <label class="col-sm-3">
-                    <input type="text" id="name_en" name="first_name_en" class="form-control" />
+                    <input type="text" id="name_en" name="first_name_en" class="form-control" value="<?php echo $data['user']['first_name_en']?>" />
                 </label>
             </div>
         </div>
@@ -180,7 +193,7 @@ $link = array(
                     นามสกุล : <br>(ภาษาอังกฤษ)
                 </label>
                 <label class="col-sm-3">
-                    <input type="text" id="surname_en" name="last_name_en" class="form-control" />
+                    <input type="text" id="surname_en" name="last_name_en" class="form-control" value="<?php echo $data['user']['last_name_en']?>" />
                 </label>
             </div>
         </div>
@@ -205,7 +218,7 @@ $link = array(
                     หน่วยงาน/แผนก ที่สังกัด :
                 </label>
                 <label class="col-sm-3">
-                    <input type="text"  name="company" id="section" class="form-control" />
+                    <input type="text"  name="company" id="section" class="form-control" value="<?php echo $data['user']['company']?>" />
                 </label>
             </div>
         </div>
@@ -217,7 +230,7 @@ $link = array(
                     ตำแหน่ง :
                 </label>
                 <label class="col-sm-3">
-                    <input type="text"  name="position" id="position" class="form-control" />
+                    <input type="text"  name="position" id="position" class="form-control" value="<?php echo @$data['user']['position']?>" />
                 </label>
             </div>
         </div>
@@ -229,7 +242,7 @@ $link = array(
                     ที่อยู่ :
                 </label>
                 <label class="col-sm-4">
-                    <input type="text" id="address" name="address" class="form-control" />
+                    <input type="text" id="address" name="address" class="form-control" value="<?php echo @$data['user']['address']?>" />
                 </label>
             </div>
         </div>

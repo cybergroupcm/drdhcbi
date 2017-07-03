@@ -16,9 +16,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <input type="text" class="form-control" name="idcard" id="idcard" placeholder="รหัสประจำตัวประชาชน"/>
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
+            <span class="text-danger">*</span>
             <div class="form-group has-feedback">
-                <input type="text" class="form-control" id="prename_th" name="prename_th" placeholder="คำนำหน้าชื่อ (ภาษาไทย)"/>
-                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                <?php
+                $prename = $title_name;
+                $prename[''] = 'กรุณาเลือกคำนำหน้าชื่อ';
+                ksort($prename);
+                echo form_dropdown([
+                    'name' => 'prename_th',
+                    'id' => 'prename_th',
+                    'class' => 'form-control'
+                ], $prename, '');
+                ?>
+<!--                <input type="text" class="form-control" id="prename_th" name="prename_th" placeholder="คำนำหน้าชื่อ (ภาษาไทย)"/>-->
+                <!--<span class="glyphicon glyphicon-user form-control-feedback"></span>-->
             </div>
             <span class="text-danger">*</span>
             <div class="form-group has-feedback">
