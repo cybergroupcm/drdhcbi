@@ -14,7 +14,7 @@ if (!function_exists('api_call_get')) {
         $response = curl_exec($ch);
         curl_close($ch);
         $result = json_decode($response, true);
-        if(isset($result['error'])){
+        if(@$result['error']!=''){
             redirect('/main/login/');
         }
         return $result;
@@ -39,7 +39,7 @@ if (!function_exists('api_call_post')) {
         $response = curl_exec($ch);
         curl_close($ch);
         $result = json_decode($response, true);
-        if(isset($result['error'])){
+        if(@$result['error']!=''){
             redirect('/main/login/');
         }
         return $result;
@@ -65,7 +65,7 @@ if (!function_exists('api_call_put')) {
         $response = curl_exec($ch);
         curl_close($ch);
         $result = json_decode($response, true);
-        if(isset($result['error'])){
+        if(@$result['error']!=''){
             redirect('/main/login/');
         }
         return $result;
@@ -86,7 +86,7 @@ if (!function_exists('api_call_delete')) {
         $response = curl_exec($ch);
         curl_close($ch);
         $result = json_decode($response, true);
-        if(isset($result['error'])){
+        if(@$result['error']!=''){
             redirect('/main/login/');
         }
         return $result;
