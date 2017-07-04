@@ -17,7 +17,7 @@ class Complaint extends CI_Controller
 
     }
 
-    public function key_in()
+    public function key_in($id='')
     {
         /*$cookie = array(
             'name' => 'token',
@@ -44,6 +44,10 @@ class Complaint extends CI_Controller
 
         $url = base_url("api/dropdown/title_name_lists");
         $arr_data['title_name'] = api_call_get($url);
+        if($id!=''){
+            $url = "http://localhost/drdhcbi/api/complaint/key_in/".$id;
+            $arr_data['key_in_data'] = api_call_get($url);
+        }
 
         $this->libraries->template('complaint/key_in', $arr_data);
     }
@@ -156,5 +160,27 @@ class Complaint extends CI_Controller
         $result = $arr_data['data_send'];
         echo json_encode($result);
         exit;
+    }
+    
+    public function get_district_list($id,$default='')
+    {
+        $arr_data['id'] = $id;
+        $arr_data['default'] = $default;
+        $arr_data['test_list'][1][1] = 'test11';
+        $arr_data['test_list'][1][2] = 'test12';
+        $arr_data['test_list'][2][1] = 'test21';
+        $arr_data['test_list'][2][2] = 'test22';
+        $this->load->view('complaint/get_district_list', $arr_data);
+    }
+    
+    public function get_subdistrict_list($id,$default='')
+    {
+        $arr_data['id'] = $id;
+        $arr_data['default'] = $default;
+        $arr_data['test_list'][1][1] = 'test11';
+        $arr_data['test_list'][1][2] = 'test12';
+        $arr_data['test_list'][2][1] = 'test21';
+        $arr_data['test_list'][2][2] = 'test22';
+        $this->load->view('complaint/get_subdistrict_list', $arr_data);
     }
 }

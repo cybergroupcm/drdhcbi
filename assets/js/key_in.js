@@ -110,8 +110,8 @@ function validateForm() {
     }
 }
 
-function checkFile() {
-    var x = document.getElementById("myFile");
+function checkFile(id) {
+    var x = document.getElementById("attach_file_"+id);
     var txt = "";
     if ('files' in x) {
         var j = 1;
@@ -131,16 +131,44 @@ function checkFile() {
             }
         }
     }
-    console.log(x.files);
-    document.getElementById("checkFile").innerHTML = txt;
+    var file_show = '<span id="show_file_'+id+'">'+txt+'<input type="button" class="btn btn-danger" value="ลบ" onclick="delete_new_file(\''+id+'\')"></span>';
+    $('#checkFile').append(file_show);
+    //document.getElementById("checkFile").innerHTML = txt;
 }
 
 function changeUserComplain() {
-    if ($('#user_complain_1').is(':checked') === true) {
-        $('#user_complain_detail').hide();
-    } else {
+    console.log($('#user_complain_1').is(':checked'));
+    if ($('#user_complain_2').is(':checked') === true) {
         $('#user_complain_detail').show();
+    } else {
+        $('#user_complain_detail').hide();
     }
+}
+var file_count = 0;
+function add_new_file(){
+    file_count++;
+    var input = '<input type="file" name="attach_file[]" class="attach_file" onchange="checkFile(\''+file_count.toString()+'\')" id="attach_file_'+file_count.toString()+'" style="display:none;">';
+    $('#file_add_space').append(input);
+    $('#attach_file_'+file_count.toString()).trigger('click');
+}
+
+function delete_new_file(id){
+    $('#attach_file_'+id).remove();
+    $('#show_file_'+id).remove();
+}
+
+function get_district(value,defaule_value){
+    var url = 'http://localhost/drdhcbi/complaint/get_district_list/'+value+'/'+defaule_value;  //the url to call
+    $.post(url, {data: ''}, function (data) {
+        $('#district_span').html(data);
+    });
+}
+
+function get_subdistrict(value,defaule_value){
+    var url = 'http://localhost/drdhcbi/complaint/get_subdistrict_list/'+value+'/'+defaule_value;  //the url to call
+    $.post(url, {data: ''}, function (data) {
+        $('#subdistrict_span').html(data);
+    });
 }
 
 $(document).ready(function () {
@@ -148,4 +176,5 @@ $(document).ready(function () {
         language: 'th',
         thaiyear: true
     });
+    changeUserComplain();
 });

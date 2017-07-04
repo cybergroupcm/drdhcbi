@@ -5,7 +5,10 @@ $link = array(
     'rel' => 'stylesheet'
 );
 echo link_tag($link);
-echo form_open_multipart('',array('id' => 'keyInForm'))
+echo form_open_multipart('',array('id' => 'keyInForm'));
+    if(@$_GET['debug']=='on'){
+        echo"<pre>";print_r($key_in_data);echo"</pre>";
+    }
 ?>
     <div class="row frame">
         <div class="row title">
@@ -26,7 +29,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                     <i class="fa fa-calendar"></i>
                                 </div>
                                 <input type="text" name="complain_date" id="complain_date"
-                                       class="form-control pull-right datepicker">
+                                       class="form-control pull-right datepicker" value="<?php echo @$key_in_data['complain_date']!=''?date('d/m/Y',  strtotime(@$key_in_data['complain_date'])):''; ?>">
                             </div>
                         </label>
                     </div>
@@ -41,7 +44,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                             ผู้รับแจ้ง :
                         </label>
                         <label class="col-sm-7">
-                            <input type="text" name="recipient" id="recipient" class="form-control" value="">
+                            <input type="text" name="recipient" id="recipient" class="form-control" value="<?php echo @$key_in_data['recipient']; ?>">
                         </label>
                     </div>
                 </div>
@@ -60,7 +63,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                     <i class="fa fa-calendar"></i>
                                 </div>
                                 <input type="text" name="doc_receive_date" id="doc_receive_date"
-                                       class="form-control pull-right datepicker">
+                                       class="form-control pull-right datepicker" value="<?php echo @$key_in_data['doc_receive_date']!='0000-00-00' && @$key_in_data['doc_receive_date']!= ''?date('d/m/Y',  strtotime(@$key_in_data['doc_receive_date'])):''; ?>">
                             </div>
                         </label>
                     </div>
@@ -75,7 +78,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                             เลขที่หนังสือส่งเข้า :
                         </label>
                         <label class="col-sm-7">
-                            <input type="text" name="doc_receive_no" id="doc_receive_no" class="form-control" value="">
+                            <input type="text" name="doc_receive_no" id="doc_receive_no" class="form-control" value="<?php echo @$key_in_data['doc_receive_no']; ?>">
                         </label>
                     </div>
                 </div>
@@ -94,7 +97,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                     <i class="fa fa-calendar"></i>
                                 </div>
                                 <input type="text" name="doc_send_date" id="doc_send_date"
-                                       class="form-control pull-right datepicker">
+                                       class="form-control pull-right datepicker" value="<?php echo @$key_in_data['doc_send_date']!='0000-00-00' && @$key_in_data['doc_send_date']!= ''?date('d/m/Y',  strtotime(@$key_in_data['doc_send_date'])):''; ?>">
                             </div>
                         </label>
                     </div>
@@ -109,7 +112,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                             เลขที่หนังสือส่งออก :
                         </label>
                         <label class="col-sm-7">
-                            <input type="text" name="doc_send_no" id="doc_send_no" class="form-control" value="">
+                            <input type="text" name="doc_send_no" id="doc_send_no" class="form-control" value="<?php echo @$key_in_data['doc_send_no']; ?>">
                         </label>
                     </div>
                 </div>
@@ -150,7 +153,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                 'name' => 'complain_type_id',
                                 'id' => 'complain_type_id',
                                 'class' => 'form-control'
-                            ], $dd1, '');
+                            ], $dd1, @$key_in_data['complain_type_id']);
                             ?>
                         </label>
                     </div>
@@ -165,7 +168,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                             หัวข้อเรื่อง :
                         </label>
                         <label class="col-sm-7">
-                            <input type="text" name="complain_name" id="complain_name" class="form-control" value="">
+                            <input type="text" name="complain_name" id="complain_name" class="form-control" value="<?php echo @$key_in_data['complain_name']; ?>">
                         </label>
                     </div>
                 </div>
@@ -187,7 +190,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                 'name' => 'channel_id',
                                 'id' => 'channel_id',
                                 'class' => 'form-control'
-                            ], $dd2, '');
+                            ], $dd2, @$key_in_data['channel_id']);
                             ?>
                         </label>
                     </div>
@@ -210,7 +213,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                 'name' => 'subject_id',
                                 'id' => 'subject_id',
                                 'class' => 'form-control'
-                            ], $dd3, '');
+                            ], $dd3, @$key_in_data['subject_id']);
                             ?>
                         </label>
                     </div>
@@ -236,14 +239,14 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                         <div class="col-md-3">
                             <div class="form-group">
                                 <input type="radio" id="user_complain_1" onclick="changeUserComplain()"
-                                       name="user_complain_type_id" value="1">
+                                       name="user_complain_type_id" <?php echo @$key_in_data['user_complain_type_id']=='1'?'checked':''; ?> value="1">
                                 <label for="complainter1">&nbsp;ไม่ประสงค์ออกนาม</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <input type="radio" id="user_complain_2" onclick="changeUserComplain()"
-                                       name="user_complain_type_id" value="2">
+                                       name="user_complain_type_id" <?php echo @$key_in_data['user_complain_type_id']=='2'?'checked':''; ?> value="2">
                                 <label for="complainter2">&nbsp;บันทึก/เลือกผู้ร้องทุกข์</label>
                             </div>
                         </div>
@@ -257,7 +260,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                     รหัสประจำตัวประชาชน :
                                 </label>
                                 <label class="col-sm-7">
-                                    <input type="text" name="id_card" id="id_card" class="form-control">
+                                    <input type="text" name="id_card" id="id_card" value="<?php echo @$key_in_data['id_card']; ?>" class="form-control">
                                 </label>
                             </div>
                         </div>
@@ -277,7 +280,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                         'name' => 'pn_id',
                                         'id' => 'pn_id',
                                         'class' => 'form-control'
-                                    ], $dd4, '');
+                                    ], $dd4, @$key_in_data['pn_id']);
                                     ?>
                                 </label>
                             </div>
@@ -290,7 +293,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                     ชื่อ :
                                 </label>
                                 <label class="col-sm-7">
-                                    <input type="text" name="first_name" id="first_name" class='form-control' value="">
+                                    <input type="text" name="first_name" id="first_name" class='form-control' value="<?php echo @$key_in_data['first_name']; ?>">
                                 </label>
                             </div>
                         </div>
@@ -302,7 +305,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                     นามสกุล :
                                 </label>
                                 <label class="col-sm-7">
-                                    <input type="text" name="last_name" id="last_name" class='form-control' value="">
+                                    <input type="text" name="last_name" id="last_name" class='form-control' value="<?php echo @$key_in_data['last_name']; ?>">
                                 </label>
                             </div>
                         </div>
@@ -315,7 +318,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                 </label>
                                 <label class="col-sm-7">
                                     <input type="text" name="phone_number" id="phone_number" class='form-control'
-                                           value="">
+                                           value="<?php echo @$key_in_data['phone_number']; ?>">
                                 </label>
                             </div>
                         </div>
@@ -328,6 +331,11 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                 </div>
                 <div class="row">
                     <?php
+                    if(@$key_in_data['complaint_type']!=''){
+                        foreach(@$key_in_data['complaint_type'] as $key => $value){
+                            $complaint_type_id = $value['complain_type_id'];
+                        }
+                    }
                     $i = 1;
                     foreach ($complain_type as $key => $value) {
                         if (!empty($key)) {
@@ -339,7 +347,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                             <div class="<?php echo $class; ?>">
                                 <div class="form-group">
                                     <input type="radio" class="complaint_type" name="complaint_type[]" id="complaint_type_<?php echo $key; ?>"
-                                           value="<?php echo $key; ?>">
+                                           value="<?php echo $key; ?>" <?php echo @$complaint_type_id==$key?'checked':'' ?>>
                                     <label for="complaint_type_<?php echo $key; ?>">&nbsp;<?php echo $value; ?></label>
                                 </div>
                             </div>
@@ -367,7 +375,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                             <div class="<?php echo $class; ?>">
                                 <div class="form-group">
                                     <input type="radio" class="accused_type" id="accused_type_id_<?php echo $key; ?>" name="accused_type_id"
-                                           value="<?php echo $key; ?>">
+                                           value="<?php echo $key; ?>" <?php echo @$key_in_data['accused_type_id']==$key?'checked':'' ?>>
                                     <label for="accused_type_id_<?php echo $key; ?>">&nbsp;<?php echo $value; ?></label>
                                 </div>
                             </div>
@@ -385,7 +393,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                 </label>
                                 <label class="col-sm-7">
                                     <input type="text" name="accused_name" id="accused_name" class="form-control"
-                                           value="">
+                                           value="<?php echo @$key_in_data['accused_name']; ?>">
                                 </label>
                             </div>
                         </div>
@@ -409,7 +417,8 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                             <i class="fa fa-calendar"></i>
                                         </div>
                                         <input type="text" name="scene_date" id="scene_date"
-                                               class="form-control pull-right datepicker" value="">
+                                               class="form-control pull-right datepicker" 
+                                               value="<?php echo @$key_in_data['scene_date']!='0000-00-00' && @$key_in_data['scene_date']!=''?date('d/m/Y',  strtotime(@$key_in_data['scene_date'])):''; ?>">
                                     </div>
                                 </label>
                             </div>
@@ -424,7 +433,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                     สถานที่เกิดเหตุ :
                                 </label>
                                 <label class="col-sm-7">
-                                    <input type="text" name="place_scene" id="place_scene" class="form-control"/>
+                                    <input type="text" name="place_scene" id="place_scene" value="<?php echo @$key_in_data['place_scene']; ?>" class="form-control"/>
                                 </label>
                             </div>
                         </div>
@@ -438,8 +447,10 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                     จังหวัด :
                                 </label>
                                 <label class="col-sm-7">
-                                    <select class="form-control" name="province_id" id="province_id">
+                                    <select class="form-control" name="province_id" id="province_id" onchange="get_district(this.value,'')">
                                         <option value="">--กรุณาเลือก--</option>
+                                        <option value="1">--test1--</option>
+                                        <option value="2">--test2--</option>
                                     </select>
                                 </label>
                             </div>
@@ -454,9 +465,11 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                     อำเภอ :
                                 </label>
                                 <label class="col-sm-7">
-                                    <select class="form-control" name="district_id" id="district_id">
-                                        <option value="">--กรุณาเลือก--</option>
-                                    </select>
+                                    <span id="district_span">
+                                        <select class="form-control" name="district_id" id="district_id" onchange="get_subdistrict(this.value,'')">
+                                            <option value="">--กรุณาเลือก--</option>
+                                        </select>
+                                    </span>
                                 </label>
                             </div>
                         </div>
@@ -470,9 +483,11 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                     ตำบล :
                                 </label>
                                 <label class="col-sm-7">
-                                    <select class="form-control" name="subdistrict_id" id="subdistrict_id">
-                                        <option value="">--กรุณาเลือก--</option>
-                                    </select>
+                                    <span id="subdistrict_span">
+                                        <select class="form-control" name="subdistrict_id" id="subdistrict_id">
+                                            <option value="">--กรุณาเลือก--</option>
+                                        </select>
+                                    </span>  
                                 </label>
                             </div>
                         </div>
@@ -487,7 +502,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                 </label>
                                 <label class="col-sm-7">
                                     <textarea class="form-control" name="complaint_detail" id="complaint_detail"
-                                              cols="20" rows="5"></textarea>
+                                              cols="20" rows="5"><?php echo @$key_in_data['complaint_detail']; ?></textarea>
                                 </label>
                             </div>
                         </div>
@@ -505,7 +520,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                 </label>
                                 <label class="col-sm-5">
                                     <input type="text" class="form-control" readonly id="txt_lat" name="latitude"
-                                           value="">
+                                           value="<?php echo @$key_in_data['latitude']; ?>">
                                 </label>
                             </div>
                         </div>
@@ -516,7 +531,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                 </label>
                                 <label class="col-sm-5">
                                     <input type="text" class="form-control" readonly id="txt_lon" name="longitude"
-                                           value="">
+                                           value="<?php echo @$key_in_data['longitude']; ?>">
                                 </label>
                             </div>
                         </div>
@@ -536,39 +551,12 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                     <div class="col-md-12">&nbsp;</div>
                 </div>
                 <div class="row">
-                    <!--<div class="col-md-12">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="col-sm-5 right required">
-                                    ความประสงค์ :
-                                </label>
-                                <span class="col-sm-7">
-                                <input type="checkbox" class="desire"> ขอความช่วยเหลือ
-                            </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="col-sm-5 right"></label>
-                                <span class="col-sm-7">
-                                <input type="checkbox" class="desire"> ขอความเป็นธรรม
-                            </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="col-sm-5 right"></label>
-                                <span class="col-sm-7">
-                                <input type="checkbox" class="desire"> ขอตรวจสอบข้อเท็จจริง
-                            </span>
-                            </div>
-                        </div>
-                    </div>-->
                     <?php
+                    if(@$key_in_data['wish']!=''){
+                        foreach(@$key_in_data['wish'] as $key => $value){
+                            $wish_id = $value['wish_id'];
+                        }
+                    }
                     $i = 1;
                     foreach ($wish as $key => $value) {
                         ?>
@@ -576,6 +564,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <?php
+                                    
                                     if($i == 1){
                                         $label = "ความประสงค์ :";
                                         $class = "required";
@@ -588,7 +577,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                     <label class="col-sm-5 right <?php echo $class;?>"><?php echo $label;?></label>
                                     <span class="col-sm-7">
                                         <input type="checkbox" class="desire" id="wish_<?php echo $key ?>" name="wish[]"
-                                               value="<?php echo $key; ?>">
+                                               value="<?php echo $key; ?>" <?php echo @$wish_id==$key?'checked':''; ?> >
                                         <label for="wish_<?php echo $key ?>">&nbsp;<?php echo $value; ?></label>
                                     </span>
                                 </div>
@@ -608,7 +597,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                 </label>
                                 <label class="col-sm-7">
                                     <textarea class="form-control" cols="100" rows="5" id="wish_detail"
-                                              name="wish_detail"></textarea>
+                                              name="wish_detail"><?php echo @$key_in_data['wish_detail']; ?></textarea>
                                 </label>
                             </div>
                         </div>
@@ -627,8 +616,9 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                                     แนบไฟล์เอกสารหลักฐาน :
                                 </label>
                                 <label class="col-sm-7">
-                                    <input type="file" multiple id="myFile" name="attach_file[]" onchange="checkFile()"
-                                           accept=".jpg, .png, .pdf">
+                                    <!--input type="file" multiple id="myFile" name="attach_file[]" onchange="checkFile()"
+                                           accept=".jpg, .png, .pdf"-->
+                                    <input type="button" id="add_file" class="btn btn-primary" value="เพิ่มไฟล์" onclick="add_new_file()">
                                 </label>
                             </div>
                         </div>
@@ -647,6 +637,9 @@ echo form_open_multipart('',array('id' => 'keyInForm'))
                             <label class="col-sm-2 right"></label>
                             <span class="col-sm-10"><p id="checkFile"></p></span>
                         </div>
+                    </div>
+                    <div id="file_add_space">
+                        
                     </div>
                 </div>
             </div>
