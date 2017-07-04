@@ -1,3 +1,4 @@
+var base_url = $('#base_url').attr('class');
 function saveForm() {
     var method = 'POST';
     if ($("#action").val() == 'edit') {
@@ -160,7 +161,7 @@ function delete_new_file(id){
 function get_district(value,defaule_value){
     if(value!=''){
         var province_code = value.substring(0, 3);
-        var url = 'http://localhost/drdhcbi/complaint/get_district_list/Aumpur/'+province_code+'/'+defaule_value;  //the url to call
+        var url = base_url+'complaint/get_district_list/Aumpur/'+province_code+'/'+defaule_value;  //the url to call
         $.post(url, {data: ''}, function (data) {
             $('#district_span').html(data);
             var subdistrict = '';
@@ -175,7 +176,7 @@ function get_district(value,defaule_value){
 function get_subdistrict(value,defaule_value){
     if(value!=''){
         var district_code = value.substring(0, 4);
-        var url = 'http://localhost/drdhcbi/complaint/get_district_list/Tamboon/'+district_code+'/'+defaule_value;  //the url to call
+        var url = base_url+'complaint/get_district_list/Tamboon/'+district_code+'/'+defaule_value;  //the url to call
         $.post(url, {data: ''}, function (data) {
             $('#subdistrict_span').html(data);
         });

@@ -681,6 +681,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
             </div>
         </div>
     </div>
+<div id="base_url" class="<?php echo base_url(); ?>"></div>
 <?php
 echo form_close();
 $link = array(
