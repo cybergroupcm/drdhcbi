@@ -70,9 +70,9 @@ $this->load->view('complaint/send');
                                         <span onclick="window.location.href='<?php echo base_url('complaint/view_detail/' . $val['keyin_id']) ?>';">
                                             <?php echo img(array('src' => 'assets/images/edit-article.png', 'title' => 'ดูรายละเอียด', 'width' => '36px', 'style' => 'cursor:pointer')); ?>
                                         </span>
-                                        <a href="<?php echo base_url('complaint/received/' . $val['keyin_id']) ?>" id="trigger" data-target="#received">Click me</a>
+<!--                                        <a href="--><?php //echo base_url('complaint/received/' . $val['keyin_id']) ?><!--" id="trigger" data-target="#received">Click me</a>-->
                                         <?php
-                                        //echo img(array('src' => 'assets/images/circle-save.png', 'title' => 'รับเรื่อง', 'width' => '36px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#received', 'id' => $val['keyin_id']));
+                                        echo img(array('src' => 'assets/images/circle-save.png', 'title' => 'รับเรื่อง', 'width' => '36px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#received', 'id' => $val['keyin_id']));
                                         echo img(array('src' => 'assets/images/send.png', 'title' => 'ส่งเรื่องต่อ', 'width' => '36px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#send', 'id' => $val['keyin_id']));
                                         ?>
                                     </td>
