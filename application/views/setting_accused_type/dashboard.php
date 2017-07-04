@@ -1,5 +1,10 @@
 <?php
 $link = array(
+    'src' => 'assets/js/js.cookie.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
 'src' => 'assets/js/setting_accused_type.js',
 'type' => 'text/javascript'
 );
@@ -21,7 +26,7 @@ echo script_tag($link);
                     </div>
                     <div class="box-body">
                         <div class="col-xs-12 text-right" style="margin-bottom: 5px;">
-                            <button class="btn btn-info" title="เพิ่ม" id="bt_add" onclick="window.location.href='<?php echo base_url('setting_accused_type/add')?>';"><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
+                            <button class="btn btn-info" title="เพิ่ม" id="bt_add_data" onclick="window.location.href='<?php echo base_url('setting_accused_type/add')?>';"><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
                         </div>
                         <table id="example1" class="table table-bordered table-striped table-hover dataTable">
                             <tr>

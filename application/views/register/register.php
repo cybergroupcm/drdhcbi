@@ -296,7 +296,7 @@ $link = array(
                     หมายเลขโทรศัพท์ :
                 </label>
                 <label class="col-sm-4">
-                    <input type="text" id="phone_number" name="phone" class="form-control numbers" />
+                    <input type="text" id="phone_number" name="phone" class="form-control numbers" value="<?php echo @$data['user']['phone']?>" />
                 </label>
             </div>
         </div>
