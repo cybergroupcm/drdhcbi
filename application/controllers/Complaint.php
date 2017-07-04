@@ -57,6 +57,8 @@ class Complaint extends CI_Controller
             'expire' => '86500',
         );
         $this->input->set_cookie($cookie);*/
+        $url = base_url("api/dropdown/complain_type_lists");
+        $arr_data['data_filter'] = api_call_get($url);
         $url = base_url('/api/complaint/total_row');
         $total_row = api_call_get($url);
         $url = base_url('/api/complaint/dashboard/page/'.$page);

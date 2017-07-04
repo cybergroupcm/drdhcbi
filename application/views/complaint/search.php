@@ -62,7 +62,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" id="complaint_date_start" class="form-control pull-right datepickerstart" />
+                                            <input type="text" id="complaint_date" class="form-control pull-right datepicker" />
                                         </div>
                                     </label>
                                 </div>
@@ -77,7 +77,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" id="complaint_date_end" class="form-control pull-right datepickerend" />
+                                            <input type="text" id="complaint_date" class="form-control pull-right datepicker" />
                                         </div>
                                     </label>
                                 </div>
