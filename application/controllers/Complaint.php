@@ -61,6 +61,12 @@ class Complaint extends CI_Controller
             'expire' => '86500',
         );
         $this->input->set_cookie($cookie);*/
+        $cookie = array(
+            'name' => 'token',
+            'value' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDk5MTY5NTY0LCJleHAiOjE0OTkyNTYwNjR9.v4JwMIucWoQD_Rm0z6MYQ0PZ1G05dJ-z5kBzRP5K6LQ',
+            'expire' => '86500',
+        );
+        $this->input->set_cookie($cookie);
         $url = base_url('/api/complaint/total_row');
         $total_row = api_call_get($url);
         $url = base_url('/api/complaint/dashboard/page/'.$page);
@@ -109,11 +115,21 @@ class Complaint extends CI_Controller
         $this->libraries->template('complaint/dashboard', $arr_data);
     }
 
+    public function received($id)
+    {
+        $arr_data = array(
+            'data_keyin' => array(
+                'keyin_id'=>$id
+            )
+        );
+        //$this->libraries->template('complaint/received',$arr_data);
+        $this->load->view('complaint/received',$arr_data);
+    }
+
     public function getDataReceived($id)
     {
-        $url = base_url("api/dropdown/api/complaint/key_in/".$id);
+        $url = base_url("api/complaint/key_in/".$id);
         $arr_data['data_received'] = api_call_get($url);
-        //echo '<pre>'; print_r($arr_data); echo '</pre>';
         $result = $arr_data['data_received'];
         echo json_encode($result);
         exit;
