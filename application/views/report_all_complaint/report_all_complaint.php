@@ -63,29 +63,7 @@ $this->load->view('report_all_complaint/search');
                         </tr>
                         </thead>
                         <tbody>
-                        <?php
-                        $runno = 0;
-                        foreach($arr_data AS $val) {
-                            $runno++;
-                            ?>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <?php
-                        }
-                        ?>
+                        
                         </tbody>
                     </table>
                     <?php //echo $pagination; ?>
