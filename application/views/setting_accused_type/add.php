@@ -65,7 +65,7 @@ $link = array(
 );
 echo script_tag($link);
 $link = array(
-    'src' => 'assets/js/setteing_accused_type.js',
+    'src' => 'assets/js/setting_accused_type.js',
     'type' => 'text/javascript'
 );
 echo script_tag($link);
