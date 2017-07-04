@@ -120,8 +120,10 @@ function checkFile(id) {
             var file = x.files[i];
             if (parseInt(file.size) > 1048576) {
                 txt += "ไม่สามารถแนบไฟล์ " + file.name + " ได้เนื่องจากไฟล์มีขนาดใหญ่เกินไป<br>";
+                var file_show = '<span id="show_file_'+id+'">'+txt+'</span><hr>';
+                $('#attach_file_'+id).remove();
             } else {
-                txt += "<br><strong>" + (j) + ". file</strong><br>";
+                //txt += "<br><strong>" + (j) + ". file</strong><br>";
                 if ('name' in file) {
                     txt += "name: " + file.name + "<br>";
                 }
@@ -129,10 +131,11 @@ function checkFile(id) {
                     txt += "size: " + file.size + " bytes <br>";
                 }
                 j++;
+                var file_show = '<span id="show_file_'+id+'">'+txt+'<input type="button" class="btn btn-danger" value="ลบ" onclick="delete_new_file(\''+id+'\')"></span><hr>';
             }
         }
     }
-    var file_show = '<span id="show_file_'+id+'">'+txt+'<input type="button" class="btn btn-danger" value="ลบ" onclick="delete_new_file(\''+id+'\')"></span>';
+    
     $('#checkFile').append(file_show);
     //document.getElementById("checkFile").innerHTML = txt;
 }
@@ -148,7 +151,7 @@ function changeUserComplain() {
 var file_count = 0;
 function add_new_file(){
     file_count++;
-    var input = '<input type="file" name="attach_file[]" class="attach_file" onchange="checkFile(\''+file_count.toString()+'\')" id="attach_file_'+file_count.toString()+'" style="display:none;">';
+    var input = '<input type="file" name="attach_file[]" class="attach_file" accept=".jpg, .png, .pdf" onchange="checkFile(\''+file_count.toString()+'\')" id="attach_file_'+file_count.toString()+'" style="display:none;">';
     $('#file_add_space').append(input);
     $('#attach_file_'+file_count.toString()).trigger('click');
 }
