@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Main extends CI_Controller {
+class Main extends MY_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -25,7 +25,7 @@ class Main extends CI_Controller {
 	public function index()
 	{
 
-		//$this->load->model('Template_libraries', 'libraries');
+		$this->load->model('Template_libraries', 'libraries');
 		$this->libraries->template('main',$arr_data=array());
 
 		//$this->load->view('main');
@@ -44,11 +44,14 @@ class Main extends CI_Controller {
 		$this->libraries->template('template',$arr_data);*/
 
 	}
-        
+
   public function register()
 	{
-
-		$this->libraries->template('register/register',$arr_data=array());
+		$url = "http://localhost/drdhcbi/api/user/user/35";
+		$arr_data['data'] = api_call_get($url);
+		$url = "http://localhost/drdhcbi/api/dropdown/title_name_lists";
+		$arr_data['title_name'] = api_call_get($url);
+		$this->libraries->template('register/register',$arr_data);
     
 	}
 }

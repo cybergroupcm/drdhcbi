@@ -52,9 +52,9 @@
                                     <label class="col-sm-7">
                                         <select class="form-control">
                                             <option value=''>--ไม่ระบุ--</option>
-                                            <option value='1'>หน่วยงานภายใน</option>
-                                            <option value='2'>หน่วยงานภายนอก</option>
-                                            <option value='2'>บุคคล/นิติบุคคล</option>
+                                            <?php foreach($complainant as $key => $value){ ?>
+                                            <option value='<?php echo $key; ?>'><?php echo $value; ?></option>
+                                            <?php } ?>
                                         </select>
                                     </label>
                                 </div>

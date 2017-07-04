@@ -43,7 +43,7 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="<?php echo site_url('report/report_all_complaint');?>"><i class="fa fa-circle-o"></i> รายงานรวมเรื่องร้องทุกข์</a></li>
-                <li><a href="<?php echo site_url('report/report_by_chanel');?>"><i class="fa fa-circle-o"></i> รายงานจำนวนเรื่องร้องทุกข์ตามช่องทางการร้องทุกข์/ตามหน่วยงาน</a></li>
+                <li><a href="<?php echo site_url('report/report_by_channel');?>"><i class="fa fa-circle-o"></i> รายงานจำนวนเรื่องร้องทุกข์ตามช่องทางการร้องทุกข์/ตามหน่วยงาน</a></li>
                 <li><a href="<?php echo site_url('report/report_by_type');?>"><i class="fa fa-circle-o"></i> รายงานจำนวนเรื่องร้องทุกข์ตามประเภทเรื่อง</a></li>
 
                 <li><a href="<?php echo site_url('report/report_by_complainer');?>"><i class="fa fa-circle-o"></i> รายงานรายละอียดผู้ร้องเรียน/ร้องทุกข์</a></li>

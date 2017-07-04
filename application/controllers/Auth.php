@@ -64,7 +64,7 @@ class Auth extends MY_Controller {
 
                         /* Load Template */
                         //$this->template->auth_render('main', $this->data);
-                        redirect('main', 'refresh');
+                        redirect('admin', 'refresh');
                     }
                 }
                 else
@@ -80,7 +80,7 @@ class Auth extends MY_Controller {
                 $this->data['identity'] = array(
                     'name'        => 'identity',
                     'id'          => 'identity',
-                    'type'        => 'email',
+                    'type'        => 'text',
                     'value'       => $this->form_validation->set_value('identity'),
                     'class'       => 'form-control',
                     'placeholder' => lang('auth_your_email')
@@ -120,4 +120,65 @@ class Auth extends MY_Controller {
         }
 	}
 
+    function register()
+    {
+        /* Load */
+        $this->load->config('admin/dp_config');
+        $this->load->config('common/dp_config');
+
+        /* Valid form */
+        $this->form_validation->set_rules('identity', 'Identity', 'required');
+        $this->form_validation->set_rules('password', 'Password', 'required');
+
+        /* Data */
+        $this->data['title']               = $this->config->item('title');
+        $this->data['title_lg']            = $this->config->item('title_lg');
+        $this->data['auth_social_network'] = $this->config->item('auth_social_network');
+        $this->data['forgot_password']     = $this->config->item('forgot_password');
+        $this->data['new_membership']      = $this->config->item('new_membership');
+
+        $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+
+        $this->data['identity'] = array(
+            'name'        => 'identity',
+            'id'          => 'identity',
+            'type'        => 'email',
+            'value'       => $this->form_validation->set_value('identity'),
+            'class'       => 'form-control',
+            'placeholder' => lang('auth_your_email')
+        );
+        $this->data['password'] = array(
+            'name'        => 'password',
+            'id'          => 'password',
+            'type'        => 'password',
+            'class'       => 'form-control',
+            'placeholder' => lang('auth_your_password')
+        );
+
+        $url = "http://localhost/drdhcbi/api/dropdown/title_name_lists";
+        $this->data['title_name'] = api_call_get($url);
+
+        $this->template->auth_render('auth/register',$this->data);
+    }
+
+    /*function save_user(){
+        $data = array(
+            'first_name' => $this->input->post('first_name'),
+            'last_name'  => $this->input->post('last_name'),
+            'company'    => $this->input->post('company'),
+            'phone'      => $this->input->post('phone'),
+            'email'      => $this->input->post('email'),
+            'password'      => $this->input->post('password'),
+            'idcard' => $this->input->post('idcard'),
+            'prename'=> $this->input->post('prename'),
+            'prename_eng'=> $this->input->post('prename_en'),
+            'first_name_eng' => $this->input->post('first_name_en'),
+            'last_name_eng'  => $this->input->post('last_name_en')
+        );
+        $url = "http://localhost/drdhcbi/api/user/user/";
+        $save_user = api_call_post($url,$data);
+        //echo $save_user;
+    }*/
+
 }
+
