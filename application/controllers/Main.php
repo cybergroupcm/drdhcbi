@@ -52,11 +52,11 @@ class Main extends MY_Controller {
 
   public function register()
 	{
-		$url = base_url()."api/jwt/token_info";
+		/*$url = base_url()."api/jwt/token_info";
 		$arr_data['data'] = api_call_get($url);
 		echo "<pre>";
 		print_r($arr_data['data']);
-		die();
+		die();*/
 		$url = base_url()."api/user/user/35";
 		$arr_data['data'] = api_call_get($url);
 		$url = base_url()."api/dropdown/title_name_lists";
