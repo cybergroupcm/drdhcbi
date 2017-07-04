@@ -158,17 +158,28 @@ function delete_new_file(id){
 }
 
 function get_district(value,defaule_value){
-    var url = 'http://localhost/drdhcbi/complaint/get_district_list/'+value+'/'+defaule_value;  //the url to call
-    $.post(url, {data: ''}, function (data) {
-        $('#district_span').html(data);
-    });
+    if(value!=''){
+        var province_code = value.substring(0, 3);
+        var url = 'http://localhost/drdhcbi/complaint/get_district_list/Aumpur/'+province_code+'/'+defaule_value;  //the url to call
+        $.post(url, {data: ''}, function (data) {
+            $('#district_span').html(data);
+            var subdistrict = '';
+            subdistrict += '<select name="subdistrict_id" class="form-control" id="subdistrict_id">';
+            subdistrict += '<option value="">กรุณาเลือก</option>';
+            subdistrict += '</select>';
+            $('#subdistrict_span').html(subdistrict);
+        });
+    }
 }
 
 function get_subdistrict(value,defaule_value){
-    var url = 'http://localhost/drdhcbi/complaint/get_subdistrict_list/'+value+'/'+defaule_value;  //the url to call
-    $.post(url, {data: ''}, function (data) {
-        $('#subdistrict_span').html(data);
-    });
+    if(value!=''){
+        var district_code = value.substring(0, 4);
+        var url = 'http://localhost/drdhcbi/complaint/get_district_list/Tamboon/'+district_code+'/'+defaule_value;  //the url to call
+        $.post(url, {data: ''}, function (data) {
+            $('#subdistrict_span').html(data);
+        });
+    }
 }
 
 $(document).ready(function () {

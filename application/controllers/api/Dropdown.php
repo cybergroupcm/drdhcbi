@@ -14,6 +14,7 @@ class Dropdown extends REST_Controller
         $this->load->model('master/Subject_model');
         $this->load->model('master/Wish_model');
         $this->load->model('master/TitleName_model');
+        $this->load->model('master/Ccaa_model');
     }
 
     public function accused_type_lists_get()
@@ -113,5 +114,25 @@ class Dropdown extends REST_Controller
             ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
         }
     }
-
+    
+    public function ccaa_lists_get($ccType,$ccaa_code='')
+    {
+        $conditions = array();
+        $conditions['ccType'] = $ccType;
+        if($ccaa_code!=''){
+            $conditions['ccDigi LIKE'] = $ccaa_code."%";
+        }
+        $types = $this->Ccaa_model->as_dropdown('ccName')->where($conditions)->get_all();
+        // Check if the users data store contains users (in case the database result returns NULL)
+        if ($types) {
+            // Set the response and exit
+            $this->response($types, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        } else {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'No title name were found'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
 }
