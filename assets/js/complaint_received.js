@@ -4,8 +4,7 @@ $(document).ready(function () {
         var jwt = Cookies.get("api_token");
         var keyin_id = $('#keyin_id').val();
         var complain_no = $('#complain_no').val();
-        var arr_receive_date = $('#receive_date').val().split('/');
-        var receive_date = (arr_receive_date[2]-543)+'-'+arr_receive_date[1]+'-'+arr_receive_date[0];
+        var receive_date = $('#receive_date').val();
 
         $.ajax({
             type: 'PUT', //GET, POST, PUT
