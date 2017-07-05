@@ -61,29 +61,17 @@ class Complaint extends CI_Controller
             'expire' => '86500',
         );
         $this->input->set_cookie($cookie);*/
-        $cookie = array(
-            'name' => 'token',
-            'value' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDk5MTY5NTY0LCJleHAiOjE0OTkyNTYwNjR9.v4JwMIucWoQD_Rm0z6MYQ0PZ1G05dJ-z5kBzRP5K6LQ',
-            'expire' => '86500',
-        );
-        $this->input->set_cookie($cookie);
         $url = base_url('/api/complaint/total_row');
         $total_row = api_call_get($url);
         $url = base_url('/api/complaint/dashboard/page/'.$page);
         $arr_data['data'] = api_call_get($url);
         $arr_data['start_row'] = (($page-1)*15)+1;
 
-        $arr_data['send_org'] = array(
-            '1' => array(
-                '3'=>'ผู้ว่าราชการจังหวัด/รองผู้ว่าราชการจังหวัด',
-                '4'=>'หัวหน้าสำนักงานจังหวัด'
-            )
-        );
+        $url = base_url("api/dropdown/send_org_parent_lists");
+        $arr_data['send_org_parent'] = api_call_get($url);
 
-        $arr_data['send_org_parent'] = array(
-            '1'=>'หน่วยงานภายในสักกัดกระทรวงหมาดไทย',
-            '2'=>'หน่วยงานอื่นที่เกี่ยวข้อง'
-        );
+        $url = base_url("api/dropdown/send_org_lists");
+        $arr_data['send_org'] = api_call_get($url);
 
         //start แบ่งหน้า
         //$this->load->library('pagination');
@@ -115,16 +103,16 @@ class Complaint extends CI_Controller
         $this->libraries->template('complaint/dashboard', $arr_data);
     }
 
-    public function received($id)
-    {
-        $arr_data = array(
-            'data_keyin' => array(
-                'keyin_id'=>$id
-            )
-        );
-        //$this->libraries->template('complaint/received',$arr_data);
-        $this->load->view('complaint/received',$arr_data);
-    }
+//    public function received($id)
+//    {
+//        $arr_data = array(
+//            'data_keyin' => array(
+//                'keyin_id'=>$id
+//            )
+//        );
+//        //$this->libraries->template('complaint/received',$arr_data);
+//        $this->load->view('complaint/received',$arr_data);
+//    }
 
     public function getDataReceived($id)
     {
@@ -170,9 +158,8 @@ class Complaint extends CI_Controller
 
     public function getDataSend($id)
     {
-        $url = base_url("api/dropdown/api/complaint/key_in/".$id);
+        $url = base_url("api/complaint/key_in/".$id);
         $arr_data['data_send'] = api_call_get($url);
-        //echo '<pre>'; print_r($arr_data); echo '</pre>';
         $result = $arr_data['data_send'];
         echo json_encode($result);
         exit;

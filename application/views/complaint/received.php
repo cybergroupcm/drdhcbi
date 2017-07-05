@@ -87,9 +87,6 @@
                                 <div class="form-group">
                                     <label class="col-sm-5 text-right"></label>
                                     <label class="col-sm-7 text-left">
-                                        <?php
-                                        echo '<pre>'; print_r($data_keyin); echo '</pre>';
-                                        ?>
                                         <input type="checkbox" id="receive_status" name="receive_status" value="1"> รับเรื่องร้องทุกข์
                                     </label>
                                 </div>

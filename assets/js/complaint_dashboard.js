@@ -43,14 +43,7 @@ $( document ).ready(function() {
     $('#received').on('show.bs.modal', function(e) {
         req_id = e.relatedTarget.id;
         getDataReceived(req_id);
-        alert(req_id);
     });
-
-    $("#trigger").click(function(){
-        //$($(this).data("target")).hide();
-        $("#received").modal('show');
-
-    })
 
     $('#send').on('show.bs.modal', function(e) {
         req_id = e.relatedTarget.id;
@@ -81,7 +74,6 @@ function getDataReceived(id){
         url: url
     }).done(function (result) {
         var  dataReceived = JSON.parse(result);
-        //console.log(dataReceived.keyin_id);
         $('#keyin_id').val(dataReceived.keyin_id);
         $('#complain_no').val(dataReceived.complain_no);
         $('#text_complain_no').html(dataReceived.complain_no);
@@ -96,22 +88,14 @@ function getDataReceived(id){
             $('#text_doc_receive_date').html('-');
         }
 
-        console.log(dataReceived.receive_date);
-        //alert(dataReceived.receive_date);
         if((dataReceived.receive_date.trim() != '') && (dataReceived.receive_date.trim() != '0000-00-00')) {
             var arr_receive_date = dataReceived.receive_date.split('-');
             var receive_date_eng = arr_receive_date[2]+'/'+arr_receive_date[1]+'/'+arr_receive_date[0];
             $('#receive_date').datepicker("setDate", receive_date_eng);  //กำหนดวัน
-            //$("#receive_status").attr('checked','checked');
-            $("#receive_status_"+id).attr('checked','checked');
-            //$(".check_receive").attr('checked','checked');
-            alert('A');
+            $("#receive_status").attr('checked','checked');
         }else{
             $('#receive_date').datepicker("setDate", "");
-            //$("#receive_status").removeAttr('checked','');
-            $(".check_receive_"+id).removeAttr('checked','');
-            //$("#receive_status").remove('checked', false);
-            alert('B');
+            $("#receive_status").removeAttr('checked','');
         }
     });
 }
