@@ -44,11 +44,29 @@ class Complaint extends CI_Controller
 
         $url = base_url("api/dropdown/title_name_lists");
         $arr_data['title_name'] = api_call_get($url);
+        
         if($id!=''){
-            $url = "http://localhost/drdhcbi/api/complaint/key_in/".$id;
+            $url = base_url("api/complaint/key_in/".$id);
             $arr_data['key_in_data'] = api_call_get($url);
         }
-
+        
+        $url = base_url("api/dropdown/ccaa_lists/Changwat");
+        $arr_data['province_list'] = api_call_get($url);
+        
+        if(@$arr_data['key_in_data']['province_id']!=''){
+            $ccaa_code = substr(@$arr_data['key_in_data']['province_id'], 0, 3);
+        }else{
+            $ccaa_code = '200';
+        }
+        $url = base_url("api/dropdown/ccaa_lists/Aumpur/".$ccaa_code);
+        $arr_data['district_list'] = api_call_get($url);
+        
+        if(@$arr_data['key_in_data']['district_id']!=''){
+            $ccaa_code = substr(@$arr_data['key_in_data']['district_id'], 0, 4);
+            $url = base_url("api/dropdown/ccaa_lists/Tamboon/".$ccaa_code);
+            $arr_data['subdistrict_list'] = api_call_get($url);
+        }
+        
         $this->libraries->template('complaint/key_in', $arr_data);
     }
 
@@ -165,25 +183,11 @@ class Complaint extends CI_Controller
         exit;
     }
     
-    public function get_district_list($id,$default='')
+    public function get_district_list($type,$id,$default='')
     {
-        $arr_data['id'] = $id;
-        $arr_data['default'] = $default;
-        $arr_data['test_list'][1][1] = 'test11';
-        $arr_data['test_list'][1][2] = 'test12';
-        $arr_data['test_list'][2][1] = 'test21';
-        $arr_data['test_list'][2][2] = 'test22';
+        $url = base_url("api/dropdown/ccaa_lists/".$type."/".$id);
+        $arr_data['type'] = $type;
+        $arr_data['district_list'] = api_call_get($url);
         $this->load->view('complaint/get_district_list', $arr_data);
-    }
-    
-    public function get_subdistrict_list($id,$default='')
-    {
-        $arr_data['id'] = $id;
-        $arr_data['default'] = $default;
-        $arr_data['test_list'][1][1] = 'test11';
-        $arr_data['test_list'][1][2] = 'test12';
-        $arr_data['test_list'][2][1] = 'test21';
-        $arr_data['test_list'][2][2] = 'test22';
-        $this->load->view('complaint/get_subdistrict_list', $arr_data);
     }
 }
