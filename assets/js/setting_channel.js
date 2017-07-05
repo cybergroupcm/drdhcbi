@@ -1,3 +1,4 @@
+var jwt = Cookies.get("api_token");
 $(document).ready(function () {
     var base_url = $('#base_url').attr('class');
     $("#bt_add").click(function () {
@@ -6,7 +7,7 @@ $(document).ready(function () {
             if ($("#action").val() == 'edit') {
                 method = 'PUT';
             }
-            var jwt = Cookies.get("api_token");
+
             var channel_id = $('#channel_id').val();
             var channel_name = $('#channel_name').val();
             $.ajax({
@@ -51,6 +52,7 @@ $(document).ready(function () {
 });
 
 function bt_delete(id) {
+    var base_url = $('#base_url').attr('class');
     swal({title: "คุณต้องการจะลบข้อมูลหรือไม่?",
             text: "",
             type: "warning",
@@ -61,8 +63,8 @@ function bt_delete(id) {
             closeOnConfirm: false},
         function () {
             $.ajax({
-                type: 'get', //GET, POST, PUT
-                url: 'http://localhost/drdhcbi/api/setting/accused_type/'+id,  //the url to call
+                type: 'DELETE', //GET, POST, PUT
+                url: base_url+'api/setting/channel/'+id,  //the url to call
                 //contentType: 'application/json',
                 beforeSend: function (xhr) {   //Include the bearer token in header
                     xhr.setRequestHeader("Authorization", 'Bearer ' + jwt);
@@ -79,18 +81,11 @@ function bt_delete(id) {
                     },
                     function(isConfirm){
                         if (isConfirm) {
-                            window.location.href=$('#base_url').attr('class')+'setting_accused_type/dashboard';
+                            window.location.href=base_url+'setting_channel/dashboard';
                         }
                     });
-
-
-                //alert(response);
-                //Response ok. process reuslt
             }).fail(function (err) {
-                //console.log(err);
                 swal("ลบข้อมูลไม่สำเร็จ", "", "error");
-                //alert(err);
-                //Error during request
             });
         });
 }
