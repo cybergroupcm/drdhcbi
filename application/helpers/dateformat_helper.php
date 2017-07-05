@@ -50,3 +50,14 @@ if (!function_exists('date_eng')) {
         }
     }
 }
+if (!function_exists('date_thai_num')) {
+    function date_thai_num($strDateTime)
+    {
+        if(empty($strDateTime)){
+            return '00/00/0000';
+        }else{
+            $dateTemp = explode('-',$strDateTime);
+            return  $dateTemp[2].'/'.$dateTemp[1].'/'.($dateTemp[0]+543);
+        }
+    }
+}
