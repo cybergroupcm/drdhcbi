@@ -48,21 +48,22 @@ class Complaint extends CI_Controller
         if($id!=''){
             $url = base_url("api/complaint/key_in/".$id);
             $arr_data['key_in_data'] = api_call_get($url);
+            $arr_data['id'] = $id;
         }
         
         $url = base_url("api/dropdown/ccaa_lists/Changwat");
         $arr_data['province_list'] = api_call_get($url);
         
-        if(@$arr_data['key_in_data']['province_id']!=''){
-            $ccaa_code = substr(@$arr_data['key_in_data']['province_id'], 0, 3);
+        if(@$arr_data['key_in_data']['address_id']!=''){
+            $ccaa_code = substr(@$arr_data['key_in_data']['address_id'], 0, 3);
         }else{
             $ccaa_code = '200';
         }
         $url = base_url("api/dropdown/ccaa_lists/Aumpur/".$ccaa_code);
         $arr_data['district_list'] = api_call_get($url);
         
-        if(@$arr_data['key_in_data']['district_id']!=''){
-            $ccaa_code = substr(@$arr_data['key_in_data']['district_id'], 0, 4);
+        if(@$arr_data['key_in_data']['address_id']!=''){
+            $ccaa_code = substr(@$arr_data['key_in_data']['address_id'], 0, 4);
             $url = base_url("api/dropdown/ccaa_lists/Tamboon/".$ccaa_code);
             $arr_data['subdistrict_list'] = api_call_get($url);
         }

@@ -11,6 +11,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
         echo"<pre>";print_r(@$district_list);echo"</pre>";
     }
 ?>
+<input type="hidden" id="action" value="<?php echo (@$id!='')?'edit':'add'; ?>">
     <div class="row frame">
         <div class="row title">
             <div class="col-md-12">
@@ -457,7 +458,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
                                         'id' => 'province_id',
                                         'class' => 'form-control',
                                         'onchange'=>"get_district(this.value,'')"
-                                    ], $province_arr, @$key_in_data['province_id']!=''?@$key_in_data['province_id']:'20000000');
+                                    ], $province_arr, @$key_in_data['address_id']!=''?  substr(@$key_in_data['address_id'],0,3)."00000":'20000000');
                                     ?>
                                 </label>
                             </div>
@@ -482,7 +483,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
                                             'id' => 'district_id',
                                             'class' => 'form-control',
                                             'onchange'=>"get_subdistrict(this.value,'')"
-                                        ], $district_arr, @$key_in_data['district_id']);
+                                        ], $district_arr, substr(@$key_in_data['address_id'],0,4)."0000");
                                         ?>
                                     </span>
                                 </label>
@@ -504,10 +505,10 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
                                         $subdistrict_arr[''] = 'กรุณาเลือก';
                                         ksort($subdistrict_arr);
                                         echo form_dropdown([
-                                            'name' => 'subdistrict_id',
-                                            'id' => 'subdistrict_id',
+                                            'name' => 'address_id',
+                                            'id' => 'address_id',
                                             'class' => 'form-control'
-                                        ], $subdistrict_arr, @$key_in_data['subdistrict_id']);
+                                        ], $subdistrict_arr, @$key_in_data['address_id']);
                                         ?>
                                     </span>  
                                 </label>

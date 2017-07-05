@@ -79,15 +79,15 @@ function validateForm() {
     if ($('#place_scene').val() == "") {
         text_warning += " - สถานที่เกิดเหตุ\n";
     }
-    /*if ($('#province_id').val() == "") {
+    if ($('#province_id').val() == "") {
         text_warning += " - จังหวัด\n";
     }
     if ($('#district_id').val() == "") {
         text_warning += " - อำเภอ\n";
     }
-    if ($('#subdistrict_id').val() == "") {
+    if ($('#address_id').val() == "") {
         text_warning += " - ตำบล\n";
-    }*/
+    }
     if ($('#complaint_detail').val() == "") {
         text_warning += " - เหตุการณ์/พฤติการณ์\n";
     }
