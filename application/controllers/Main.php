@@ -17,6 +17,11 @@ class Main extends MY_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->helper('url');
+	}
 	/*public function index()
 	{
 		$this->load->view('welcome_message');
@@ -47,9 +52,14 @@ class Main extends MY_Controller {
 
   public function register()
 	{
-		$url = "http://localhost/drdhcbi/api/user/user/35";
+		/*$url = base_url()."api/jwt/token_info";
 		$arr_data['data'] = api_call_get($url);
-		$url = "http://localhost/drdhcbi/api/dropdown/title_name_lists";
+		echo "<pre>";
+		print_r($arr_data['data']);
+		die();*/
+		$url = base_url()."api/user/user/35";
+		$arr_data['data'] = api_call_get($url);
+		$url = base_url()."api/dropdown/title_name_lists";
 		$arr_data['title_name'] = api_call_get($url);
 		$this->libraries->template('register/register',$arr_data);
     
