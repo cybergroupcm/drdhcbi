@@ -1,5 +1,10 @@
 <?php
 $link = array(
+    'src' => 'assets/js/js.cookie.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
     'src' => 'assets/js/setting_complain_type.js',
     'type' => 'text/javascript'
 );
@@ -21,7 +26,7 @@ echo script_tag($link);
                     </div>
                     <div class="box-body">
                         <div class="col-xs-12 text-right" style="margin-bottom: 5px;">
-                            <button class="btn btn-info" title="เพิ่ม" id="bt_add" onclick="window.location.href='<?php echo base_url('setting_complain_type/add')?>';"><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
+                            <button class="btn btn-info" title="เพิ่ม" id="bt_add_data" onclick="window.location.href='<?php echo base_url('setting_complain_type/add')?>';"><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
                         </div>
                         <table id="example1" class="table table-bordered table-striped table-hover dataTable">
                             <tr>
@@ -57,21 +62,3 @@ echo script_tag($link);
         </div>
     </section>
 <div id="base_url" class="<?php echo base_url();?>"></div>
-<script>
-    $( document ).ready(function() {
-        $('.bt_delete').click(function(){
-            swal({title: "คุณต้องการจะลบข้อมูลหรือไม่?",
-                    text: "",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "ใช่, ต้องการจะลบข้อมูล!",
-                    cancelButtonText: "ไม่",
-                    closeOnConfirm: false},
-                function () {
-                    var  link = $('#base_url').attr("class")+"setting_complain_type/dashboard";
-                    window.location = link;
-                });
-        });
-    });
-</script>

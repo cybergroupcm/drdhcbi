@@ -88,7 +88,6 @@ function getDataReceived(id){
             $('#text_doc_receive_date').html('-');
         }
 
-        console.log(dataReceived.receive_date);
         if((dataReceived.receive_date.trim() != '') && (dataReceived.receive_date.trim() != '0000-00-00')) {
             var arr_receive_date = dataReceived.receive_date.split('-');
             var receive_date_eng = arr_receive_date[2]+'/'+arr_receive_date[1]+'/'+arr_receive_date[0];
@@ -97,7 +96,6 @@ function getDataReceived(id){
         }else{
             $('#receive_date').datepicker("setDate", "");
             $("#receive_status").removeAttr('checked','');
-            //$("#receive_status").remove('checked', false);
         }
     });
 }
