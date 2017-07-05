@@ -31,7 +31,6 @@ class Template_libraries extends CI_Model {
 				$this->load->view('template/template_header', $arr_title);
 				$this->load->view('template/template_top_menu', $arr_header);
 				$this->load->view('template/template_left_menu', $arr_header);
-				$this->load->view('template/template_top_menu_bar', $arr_header);
 				$this->load->view($bodyFile, $arr_data);//file view show body
 				$this->load->view('template/template_footer');
 		}

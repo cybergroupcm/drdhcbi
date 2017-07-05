@@ -188,7 +188,8 @@ function get_subdistrict(value,defaule_value){
 
 $(document).ready(function () {
     $('.datepicker').datepicker({
-        language: 'th',
+        language: 'th-th',
+        format: 'dd/mm/yyyy',
         thaiyear: true
     });
     changeUserComplain();

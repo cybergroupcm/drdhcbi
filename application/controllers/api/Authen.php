@@ -3,18 +3,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require APPPATH . '/libraries/REST_Controller.php';
 
-class Authentication extends REST_Controller
+class Authen extends REST_Controller
 {
-    // Accounts data for login model emulation
-    private $accounts = [
-        'admin' => 'password',
-        'user' => 'password2',
-        'demo' => 'password3',
-    ];
+    private $user;
+    private $permission;
 
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('Ion_auth_model');
     }
 
     //User JWT authentication to get the toekn
@@ -32,47 +29,28 @@ class Authentication extends REST_Controller
 
         if ($this->form_validation->run() == TRUE) {
             if ($this->login($this->post('username'), $this->post('password'))) {
-                $token['username'] = $this->post('username');
+                $this->user_info($this->post('username'));
+                $this->permission_info($this->post('username'));
+                $token['userid'] = $this->user->id;
+                $token['username'] = $this->user->username;
+                $token['permission'] = $this->permission;
                 $date = new DateTime();
                 $token['iat'] = $date->getTimestamp();
                 $token['exp'] = $date->getTimestamp() + $this->config->item('jwt_token_expire');
                 $output_data['token'] = $this->jwt_encode($token);
                 $this->response($output_data, REST_Controller::HTTP_OK);
-            } else {
+            }
+            else {
                 $output_data[$this->config->item('rest_status_field_name')] = "invalid_credentials";
                 $output_data[$this->config->item('rest_message_field_name')] = "Invalid username or password!";
                 $this->response($output_data, REST_Controller::HTTP_UNAUTHORIZED);
             }
-        } else {
+        }
+        else {
             $output_data[$this->config->item('rest_status_field_name')] = "empty_fields";
             $output_data[$this->config->item('rest_message_field_name')] = $this->form_validation->error_array();
 
             $this->response($output_data, REST_Controller::HTTP_UNPROCESSABLE_ENTITY);
-        }
-    }
-
-    // Refresh the token with new expirey time
-    public function token_refresh_get()
-    {
-        try {
-            $decoded = $this->jwt_decode($this->jwt_token());
-
-            if ($this->username_check($decoded['username']) == FALSE) {
-                $output_data[$this->config->item('rest_status_field_name')] = "invalid_user";
-                $output_data[$this->config->item('rest_message_field_name')] = "The token user id is not exist in the system!";
-                $this->response($output_data, REST_Controller::HTTP_UNAUTHORIZED);
-            }
-
-            $token['username'] = $decoded['username'];
-            $date = new DateTime();
-            $token['iat'] = $date->getTimestamp();
-            $token['exp'] = $date->getTimestamp() + $this->config->item('jwt_token_expire');
-            $output_data['token'] = $this->jwt_encode($token);
-            $this->response($output_data, REST_Controller::HTTP_OK);
-        } catch (Exception $e) {
-            $output_data[$this->config->item('rest_status_field_name')] = "invalid_token";
-            $output_data[$this->config->item('rest_message_field_name')] = $e->getMessage();
-            $this->response($output_data, REST_Controller::HTTP_UNAUTHORIZED);
         }
     }
 
@@ -92,19 +70,20 @@ class Authentication extends REST_Controller
     // Login model emulation, login funcation
     private function login($username, $password)
     {
-        if (array_key_exists($username, $this->accounts) AND $this->accounts[$username] === $password) {
+        if ($this->Ion_auth_model->login_api($username, $password)) {
             return TRUE;
         }
         return FALSE;
     }
 
-    // Login model emulation, check if user exist on database
-    private function username_check($username)
+    private function user_info($username)
     {
-        if (array_key_exists($username, $this->accounts)) {
-            return TRUE;
-        }
-        return FALSE;
+        $this->user = $this->Ion_auth_model->user_api($username);
+    }
+
+    private function permission_info($username)
+    {
+        $this->permission = $this->Ion_auth_model->permission_api($username);
     }
 
 }
