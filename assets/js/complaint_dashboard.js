@@ -1,12 +1,43 @@
 $( document ).ready(function() {
     $('.datepicker').datepicker({
-        language: 'th',
-        thaiyear: true
-    }).datepicker("setDate", "0");  //กำหนดเป็นวันปัจุบัน
+        format: 'dd/mm/yyyy',
+        todayBtn: true,
+        language: 'th',             //เปลี่ยน label ต่างของ ปฏิทิน ให้เป็น ภาษาไทย   (ต้องใช้ไฟล์ bootstrap-datepicker.th.min.js นี้ด้วย)
+        thaiyear: true              //Set เป็นปี พ.ศ.
+    });
+    //datepicker("setDate", "0");  //กำหนดเป็นวันปัจุบัน
+
+
+    //start ปฏิทิน
+    $('.datepickerstart').datepicker({
+        format: 'dd/mm/yyyy',
+        todayBtn: true,
+        language: 'th',             //เปลี่ยน label ต่างของ ปฏิทิน ให้เป็น ภาษาไทย   (ต้องใช้ไฟล์ bootstrap-datepicker.th.min.js นี้ด้วย)
+        thaiyear: true              //Set เป็นปี พ.ศ.
+    });
+
+    $('.datepickerend').datepicker({
+        format: 'dd/mm/yyyy',
+        todayBtn: true,
+        language: 'th',             //เปลี่ยน label ต่างของ ปฏิทิน ให้เป็น ภาษาไทย   (ต้องใช้ไฟล์ bootstrap-datepicker.th.min.js นี้ด้วย)
+        thaiyear: true              //Set เป็นปี พ.ศ.
+    });
+
+    $('.datepickerstart').on('changeDate', function(){
+        var arrDateMin= $(this).val().split('/');
+        var dateMin = parseInt(arrDateMin[0])+'/'+parseInt(arrDateMin[1])+'/'+parseInt((arrDateMin[2]-543));
+        $('.datepickerend').datepicker('setStartDate', dateMin);
+    });
+    $('.datepickerend').on('changeDate', function(){
+        var arrDateMax= $(this).val().split('/');
+        var dateMax =parseInt(arrDateMax[0])+'/'+parseInt(arrDateMax[1])+'/'+parseInt((arrDateMax[2]-543));
+        $('.datepickerstart').datepicker('setEndDate', dateMax);
+    });
+    //end ปฏิทิน
 
     $('#bt_add').click(function(){
-      var  link = $('#base_url').attr("class")+"complaint/key_in";
-      window.location = link;
+        var  link = $('#base_url').attr("class")+"complaint/key_in";
+        window.location = link;
     });
 
     $('#received').on('show.bs.modal', function(e) {
