@@ -44,11 +44,30 @@ class Complaint extends CI_Controller
 
         $url = base_url("api/dropdown/title_name_lists");
         $arr_data['title_name'] = api_call_get($url);
+        
         if($id!=''){
-            $url = "http://localhost/drdhcbi/api/complaint/key_in/".$id;
+            $url = base_url("api/complaint/key_in/".$id);
             $arr_data['key_in_data'] = api_call_get($url);
+            $arr_data['id'] = $id;
         }
-
+        
+        $url = base_url("api/dropdown/ccaa_lists/Changwat");
+        $arr_data['province_list'] = api_call_get($url);
+        
+        if(@$arr_data['key_in_data']['address_id']!=''){
+            $ccaa_code = substr(@$arr_data['key_in_data']['address_id'], 0, 3);
+        }else{
+            $ccaa_code = '200';
+        }
+        $url = base_url("api/dropdown/ccaa_lists/Aumpur/".$ccaa_code);
+        $arr_data['district_list'] = api_call_get($url);
+        
+        if(@$arr_data['key_in_data']['address_id']!=''){
+            $ccaa_code = substr(@$arr_data['key_in_data']['address_id'], 0, 4);
+            $url = base_url("api/dropdown/ccaa_lists/Tamboon/".$ccaa_code);
+            $arr_data['subdistrict_list'] = api_call_get($url);
+        }
+        
         $this->libraries->template('complaint/key_in', $arr_data);
     }
 
@@ -61,23 +80,19 @@ class Complaint extends CI_Controller
             'expire' => '86500',
         );
         $this->input->set_cookie($cookie);*/
+        $url = base_url("api/dropdown/complain_type_lists");
+        $arr_data['data_filter'] = api_call_get($url);
         $url = base_url('/api/complaint/total_row');
         $total_row = api_call_get($url);
         $url = base_url('/api/complaint/dashboard/page/'.$page);
         $arr_data['data'] = api_call_get($url);
         $arr_data['start_row'] = (($page-1)*15)+1;
 
-        $arr_data['send_org'] = array(
-            '1' => array(
-                '3'=>'ผู้ว่าราชการจังหวัด/รองผู้ว่าราชการจังหวัด',
-                '4'=>'หัวหน้าสำนักงานจังหวัด'
-            )
-        );
+        $url = base_url("api/dropdown/send_org_parent_lists");
+        $arr_data['send_org_parent'] = api_call_get($url);
 
-        $arr_data['send_org_parent'] = array(
-            '1'=>'หน่วยงานภายในสักกัดกระทรวงหมาดไทย',
-            '2'=>'หน่วยงานอื่นที่เกี่ยวข้อง'
-        );
+        $url = base_url("api/dropdown/send_org_lists");
+        $arr_data['send_org'] = api_call_get($url);
 
         //start แบ่งหน้า
         //$this->load->library('pagination');
@@ -109,11 +124,21 @@ class Complaint extends CI_Controller
         $this->libraries->template('complaint/dashboard', $arr_data);
     }
 
+//    public function received($id)
+//    {
+//        $arr_data = array(
+//            'data_keyin' => array(
+//                'keyin_id'=>$id
+//            )
+//        );
+//        //$this->libraries->template('complaint/received',$arr_data);
+//        $this->load->view('complaint/received',$arr_data);
+//    }
+
     public function getDataReceived($id)
     {
-        $url = base_url("api/dropdown/api/complaint/key_in/".$id);
+        $url = base_url("api/complaint/key_in/".$id);
         $arr_data['data_received'] = api_call_get($url);
-        //echo '<pre>'; print_r($arr_data); echo '</pre>';
         $result = $arr_data['data_received'];
         echo json_encode($result);
         exit;
@@ -154,33 +179,18 @@ class Complaint extends CI_Controller
 
     public function getDataSend($id)
     {
-        $url = base_url("api/dropdown/api/complaint/key_in/".$id);
+        $url = base_url("api/complaint/key_in/".$id);
         $arr_data['data_send'] = api_call_get($url);
-        //echo '<pre>'; print_r($arr_data); echo '</pre>';
         $result = $arr_data['data_send'];
         echo json_encode($result);
         exit;
     }
     
-    public function get_district_list($id,$default='')
+    public function get_district_list($type,$id,$default='')
     {
-        $arr_data['id'] = $id;
-        $arr_data['default'] = $default;
-        $arr_data['test_list'][1][1] = 'test11';
-        $arr_data['test_list'][1][2] = 'test12';
-        $arr_data['test_list'][2][1] = 'test21';
-        $arr_data['test_list'][2][2] = 'test22';
+        $url = base_url("api/dropdown/ccaa_lists/".$type."/".$id);
+        $arr_data['type'] = $type;
+        $arr_data['district_list'] = api_call_get($url);
         $this->load->view('complaint/get_district_list', $arr_data);
-    }
-    
-    public function get_subdistrict_list($id,$default='')
-    {
-        $arr_data['id'] = $id;
-        $arr_data['default'] = $default;
-        $arr_data['test_list'][1][1] = 'test11';
-        $arr_data['test_list'][1][2] = 'test12';
-        $arr_data['test_list'][2][1] = 'test21';
-        $arr_data['test_list'][2][2] = 'test22';
-        $this->load->view('complaint/get_subdistrict_list', $arr_data);
     }
 }

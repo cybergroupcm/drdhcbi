@@ -1,3 +1,4 @@
+var base_url = $('#base_url').attr('class');
 function saveForm() {
     var method = 'POST';
     if ($("#action").val() == 'edit') {
@@ -78,15 +79,15 @@ function validateForm() {
     if ($('#place_scene').val() == "") {
         text_warning += " - สถานที่เกิดเหตุ\n";
     }
-    /*if ($('#province_id').val() == "") {
+    if ($('#province_id').val() == "") {
         text_warning += " - จังหวัด\n";
     }
     if ($('#district_id').val() == "") {
         text_warning += " - อำเภอ\n";
     }
-    if ($('#subdistrict_id').val() == "") {
+    if ($('#address_id').val() == "") {
         text_warning += " - ตำบล\n";
-    }*/
+    }
     if ($('#complaint_detail').val() == "") {
         text_warning += " - เหตุการณ์/พฤติการณ์\n";
     }
@@ -119,8 +120,10 @@ function checkFile(id) {
             var file = x.files[i];
             if (parseInt(file.size) > 1048576) {
                 txt += "ไม่สามารถแนบไฟล์ " + file.name + " ได้เนื่องจากไฟล์มีขนาดใหญ่เกินไป<br>";
+                var file_show = '<span id="show_file_'+id+'">'+txt+'</span><hr>';
+                $('#attach_file_'+id).remove();
             } else {
-                txt += "<br><strong>" + (j) + ". file</strong><br>";
+                //txt += "<br><strong>" + (j) + ". file</strong><br>";
                 if ('name' in file) {
                     txt += "name: " + file.name + "<br>";
                 }
@@ -128,10 +131,11 @@ function checkFile(id) {
                     txt += "size: " + file.size + " bytes <br>";
                 }
                 j++;
+                var file_show = '<span id="show_file_'+id+'">'+txt+'<input type="button" class="btn btn-danger" value="ลบ" onclick="delete_new_file(\''+id+'\')"></span><hr>';
             }
         }
     }
-    var file_show = '<span id="show_file_'+id+'">'+txt+'<input type="button" class="btn btn-danger" value="ลบ" onclick="delete_new_file(\''+id+'\')"></span>';
+    
     $('#checkFile').append(file_show);
     //document.getElementById("checkFile").innerHTML = txt;
 }
@@ -147,7 +151,7 @@ function changeUserComplain() {
 var file_count = 0;
 function add_new_file(){
     file_count++;
-    var input = '<input type="file" name="attach_file[]" class="attach_file" onchange="checkFile(\''+file_count.toString()+'\')" id="attach_file_'+file_count.toString()+'" style="display:none;">';
+    var input = '<input type="file" name="attach_file[]" class="attach_file" accept=".jpg, .png, .pdf" onchange="checkFile(\''+file_count.toString()+'\')" id="attach_file_'+file_count.toString()+'" style="display:none;">';
     $('#file_add_space').append(input);
     $('#attach_file_'+file_count.toString()).trigger('click');
 }
@@ -158,22 +162,34 @@ function delete_new_file(id){
 }
 
 function get_district(value,defaule_value){
-    var url = 'http://localhost/drdhcbi/complaint/get_district_list/'+value+'/'+defaule_value;  //the url to call
-    $.post(url, {data: ''}, function (data) {
-        $('#district_span').html(data);
-    });
+    if(value!=''){
+        var province_code = value.substring(0, 3);
+        var url = base_url+'complaint/get_district_list/Aumpur/'+province_code+'/'+defaule_value;  //the url to call
+        $.post(url, {data: ''}, function (data) {
+            $('#district_span').html(data);
+            var subdistrict = '';
+            subdistrict += '<select name="subdistrict_id" class="form-control" id="subdistrict_id">';
+            subdistrict += '<option value="">กรุณาเลือก</option>';
+            subdistrict += '</select>';
+            $('#subdistrict_span').html(subdistrict);
+        });
+    }
 }
 
 function get_subdistrict(value,defaule_value){
-    var url = 'http://localhost/drdhcbi/complaint/get_subdistrict_list/'+value+'/'+defaule_value;  //the url to call
-    $.post(url, {data: ''}, function (data) {
-        $('#subdistrict_span').html(data);
-    });
+    if(value!=''){
+        var district_code = value.substring(0, 4);
+        var url = base_url+'complaint/get_district_list/Tamboon/'+district_code+'/'+defaule_value;  //the url to call
+        $.post(url, {data: ''}, function (data) {
+            $('#subdistrict_span').html(data);
+        });
+    }
 }
 
 $(document).ready(function () {
     $('.datepicker').datepicker({
-        language: 'th',
+        language: 'th-th',
+        format: 'dd/mm/yyyy',
         thaiyear: true
     });
     changeUserComplain();

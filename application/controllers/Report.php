@@ -10,30 +10,30 @@ class Report extends CI_Controller {
         //$this->load->helper('cookie');
         //$this->load->helper('api');
         $this->load->helper('form');
-        $this->load->model('complaint_model');
+        //$this->load->model('complaint_model');
         $this->load->helper('dateformat');
         $this->load->library('mpdf');
     }
 
     public function report_all_complaint()
     {
-        $url = "http://localhost/drdhcbi/api/complaint/complaint_type";
+        $url = base_url('api/complaint/complaint_type');
         $arr_data['complaint_type'] = api_call_get($url);
-        $url = "http://localhost/drdhcbi/api/complaint/channel";
+        $url = base_url('api/complaint/channel');
         $arr_data['channel'] = api_call_get($url);
         $this->libraries->template('report_all_complaint/report_all_complaint', $arr_data);
     }
     
     public function report_by_channel()
     {
-        $url = "http://localhost/drdhcbi/api/complaint/channel";
+        $url = base_url('api/complaint/channel');
         $arr_data['channel'] = api_call_get($url);
         $this->libraries->template('report_by_channel/report_by_channel', $arr_data);
     }
     
     public function report_by_type()
     {
-        $url = "http://localhost/drdhcbi/api/complaint/complaint_type";
+        $url = base_url('api/complaint/complaint_type');
         $arr_data['complaint_type'] = api_call_get($url);
         $this->libraries->template('report_by_type/report_by_type', $arr_data);
     }
@@ -46,14 +46,14 @@ class Report extends CI_Controller {
     
     public function report_by_complainant()
     {
-        $url = "http://localhost/drdhcbi/api/complaint/accused_type";
+        $url = base_url('api/complaint/accused_type');
         $arr_data['complainant'] = api_call_get($url);
         $this->libraries->template('report_by_complainant/report_by_complainant', $arr_data);
     }
     
     public function report_statistic_by_type()
     {
-        $url = "http://localhost/drdhcbi/api/complaint/complaint_type";
+        $url = base_url('api/complaint/complaint_type');
         $arr_data['complaint_type'] = api_call_get($url);
         $this->libraries->template('report_statistic_by_type/report_statistic_by_type', $arr_data);
     }
@@ -66,17 +66,17 @@ class Report extends CI_Controller {
     
     public function report_statistic_compare()
     {
-        $url = "http://localhost/drdhcbi/api/complaint/complaint_type";
+        $url = base_url('api/complaint/complaint_type');
         $arr_data['complaint_type'] = api_call_get($url);
-        $url = "http://localhost/drdhcbi/api/complaint/channel";
+        $url = base_url('api/complaint/channel');
         $arr_data['channel'] = api_call_get($url);
         $this->libraries->template('report_statistic_compare/report_statistic_compare', $arr_data);
     }
     public function example_mpdf(){ 
         //load the view and saved it into $html variable
-        $url = "http://localhost/drdhcbi/api/complaint/complaint_type";
+        $url = base_url('api/complaint/complaint_type');
         $arr_data['complaint_type'] = api_call_get($url);
-        $url = "http://localhost/drdhcbi/api/complaint/channel";
+        $url = base_url('api/complaint/channel');
         $arr_data['channel'] = api_call_get($url);
         $html=$this->load->view('report_all_complaint/report_all_complaint',$arr_data, true);
  	 // As PDF creation takes a bit of memory, we're saving the created file in /downloads/reports/
@@ -97,9 +97,9 @@ class Report extends CI_Controller {
         // Add a page
         $pdf->AddPage();
             
-        $url = "http://localhost/drdhcbi/api/complaint/complaint_type";
+        $url = base_url('api/complaint/complaint_type');
         $arr_data['complaint_type'] = api_call_get($url);
-        $url = "http://localhost/drdhcbi/api/complaint/channel";
+        $url = base_url('api/complaint/channel');
         $arr_data['channel'] = api_call_get($url);
         //load the view and saved it into $html variable
         $html=$this->load->view('report_all_complaint/report_all_complaint',$arr_data, true);

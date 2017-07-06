@@ -1,11 +1,11 @@
 <?php
-    $list = @$test_list[@$id];
-    $list[''] = '--กรุณาเลือก--';
+    $list = @$district_list;
+    $list[''] = 'กรุณาเลือก';
     ksort($list);
     echo form_dropdown([
-        'name' => 'district_id',
-        'id' => 'district_id',
+        'name' => $type=='Aumpur'?'district_id':'address_id',
+        'id' => $type=='Aumpur'?'district_id':'address_id',
         'class' => 'form-control',
-        'onchange'=>"get_subdistrict(this.value,'')"
+        'onchange'=>$type=='Aumpur'?"get_subdistrict(this.value,'')":""
     ], $list, @$default);
 ?>

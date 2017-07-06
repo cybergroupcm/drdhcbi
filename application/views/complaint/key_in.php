@@ -7,9 +7,11 @@ $link = array(
 echo link_tag($link);
 echo form_open_multipart('',array('id' => 'keyInForm'));
     if(@$_GET['debug']=='on'){
-        echo"<pre>";print_r($key_in_data);echo"</pre>";
+        echo"<pre>";print_r(@$key_in_data);echo"</pre>";
+        echo"<pre>";print_r(@$district_list);echo"</pre>";
     }
 ?>
+<input type="hidden" id="action" value="<?php echo (@$id!='')?'edit':'add'; ?>">
     <div class="row frame">
         <div class="row title">
             <div class="col-md-12">
@@ -447,11 +449,17 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
                                     จังหวัด :
                                 </label>
                                 <label class="col-sm-7">
-                                    <select class="form-control" name="province_id" id="province_id" onchange="get_district(this.value,'')">
-                                        <option value="">--กรุณาเลือก--</option>
-                                        <option value="1">--test1--</option>
-                                        <option value="2">--test2--</option>
-                                    </select>
+                                    <?php
+                                    $province_arr = $province_list;
+                                    $province_arr[''] = 'กรุณาเลือก';
+                                    ksort($province_arr);
+                                    echo form_dropdown([
+                                        'name' => 'province_id',
+                                        'id' => 'province_id',
+                                        'class' => 'form-control',
+                                        'onchange'=>"get_district(this.value,'')"
+                                    ], $province_arr, @$key_in_data['address_id']!=''?  substr(@$key_in_data['address_id'],0,3)."00000":'20000000');
+                                    ?>
                                 </label>
                             </div>
                         </div>
@@ -466,9 +474,17 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
                                 </label>
                                 <label class="col-sm-7">
                                     <span id="district_span">
-                                        <select class="form-control" name="district_id" id="district_id" onchange="get_subdistrict(this.value,'')">
-                                            <option value="">--กรุณาเลือก--</option>
-                                        </select>
+                                        <?php
+                                        $district_arr = $district_list;
+                                        $district_arr[''] = 'กรุณาเลือก';
+                                        ksort($district_arr);
+                                        echo form_dropdown([
+                                            'name' => 'district_id',
+                                            'id' => 'district_id',
+                                            'class' => 'form-control',
+                                            'onchange'=>"get_subdistrict(this.value,'')"
+                                        ], $district_arr, substr(@$key_in_data['address_id'],0,4)."0000");
+                                        ?>
                                     </span>
                                 </label>
                             </div>
@@ -484,9 +500,16 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
                                 </label>
                                 <label class="col-sm-7">
                                     <span id="subdistrict_span">
-                                        <select class="form-control" name="subdistrict_id" id="subdistrict_id">
-                                            <option value="">--กรุณาเลือก--</option>
-                                        </select>
+                                        <?php
+                                        $subdistrict_arr = @$subdistrict_list;
+                                        $subdistrict_arr[''] = 'กรุณาเลือก';
+                                        ksort($subdistrict_arr);
+                                        echo form_dropdown([
+                                            'name' => 'address_id',
+                                            'id' => 'address_id',
+                                            'class' => 'form-control'
+                                        ], $subdistrict_arr, @$key_in_data['address_id']);
+                                        ?>
                                     </span>  
                                 </label>
                             </div>
@@ -659,6 +682,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
             </div>
         </div>
     </div>
+<div id="base_url" class="<?php echo base_url(); ?>"></div>
 <?php
 echo form_close();
 $link = array(

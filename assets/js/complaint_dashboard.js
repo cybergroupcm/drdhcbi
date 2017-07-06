@@ -36,8 +36,8 @@ $( document ).ready(function() {
     //end ปฏิทิน
 
     $('#bt_add').click(function(){
-      var  link = $('#base_url').attr("class")+"complaint/key_in";
-      window.location = link;
+        var  link = $('#base_url').attr("class")+"complaint/key_in";
+        window.location = link;
     });
 
     $('#received').on('show.bs.modal', function(e) {
@@ -71,7 +71,8 @@ function getDataReceived(id){
     var url = $('#base_url').attr("class")+"complaint/getDataReceived/"+id;
     $.ajax({
         method: "GET",
-        url: url
+        url: url,
+        async:false
     }).done(function (result) {
         var  dataReceived = JSON.parse(result);
         $('#keyin_id').val(dataReceived.keyin_id);
@@ -88,16 +89,20 @@ function getDataReceived(id){
             $('#text_doc_receive_date').html('-');
         }
 
-        console.log(dataReceived.receive_date);
         if((dataReceived.receive_date.trim() != '') && (dataReceived.receive_date.trim() != '0000-00-00')) {
             var arr_receive_date = dataReceived.receive_date.split('-');
             var receive_date_eng = arr_receive_date[2]+'/'+arr_receive_date[1]+'/'+arr_receive_date[0];
             $('#receive_date').datepicker("setDate", receive_date_eng);  //กำหนดวัน
-            $("#receive_status").attr('checked','checked');
+            if(!$('#receive_status').prop('checked')) {
+                $("#receive_status").prop("checked", true);
+                console.log('1')
+            }
         }else{
             $('#receive_date').datepicker("setDate", "");
-            $("#receive_status").removeAttr('checked','');
-            //$("#receive_status").remove('checked', false);
+            if($('#receive_status').prop('checked')) {
+                $("#receive_status").prop("checked", false);
+                console.log('2')
+            }
         }
     });
 }
@@ -107,7 +112,8 @@ function getDataSend(id){
     var url = $('#base_url').attr("class")+"complaint/getDataSend/"+id;
     $.ajax({
         method: "GET",
-        url: url
+        url: url,
+        async:false
     }).done(function (result) {
         var  dataSend = JSON.parse(result);
         if((dataSend.reply_date != '') && (dataSend.reply_date != '0000-00-00')) {
@@ -127,13 +133,16 @@ function getDataSend(id){
         }
 
         var send_org_id = dataSend.send_org_id;
-        if(send_org_id != '') {
-            $('#send_org_id option[value=' + send_org_id + ']').attr('selected', 'selected');
+
+        if(send_org_id != '' && send_org_id != '0') {
             if (send_org_id == '2') {
-                $('input[name=send_org_parent][value="2"]').attr('checked', true);
+                $('input[name=send_org_parent][value="2"]').prop('checked', true);
             } else {
-                $('input[name=send_org_parent][value="1"]').attr('checked', true);
+                $('input[name=send_org_parent][value="1"]').prop('checked', true);
+                $('#send_org_id option[value=' + send_org_id + ']').prop('selected', 'selected');
             }
+        }else{
+            $('#send_org_id option[value=""]').prop('selected', 'selected');
         }
     });
 }
