@@ -10,6 +10,7 @@ class Auth extends MY_Controller {
 		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 
 		$this->lang->load('auth');
+        $this->load->helper('url');
 
 	}
 
@@ -155,7 +156,7 @@ class Auth extends MY_Controller {
             'placeholder' => lang('auth_your_password')
         );
 
-        $url = "http://localhost/drdhcbi/api/dropdown/title_name_lists";
+        $url = base_url()."api/dropdown/title_name_lists";
         $this->data['title_name'] = api_call_get($url);
 
         $this->template->auth_render('auth/register',$this->data);
