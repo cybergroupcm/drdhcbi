@@ -188,7 +188,10 @@ class Complaint extends REST_Controller
     //รับเรื่อง
     public function received_put()
     {
-        $ids = $this->KeyIn_model->update(array('receive_date' => $this->put('receive_date')), $this->put('keyin_id'));
+        $ids = $this->KeyIn_model->update(array(
+            'receive_date' => $this->put('receive_date'),
+            'current_status_id' => $this->put('current_status_id')
+        ), $this->put('keyin_id'));
         if ($ids) {
             $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -201,6 +204,7 @@ class Complaint extends REST_Controller
             'reply_date' => $this->put('reply_date'),
             'send_org_date' => $this->put('send_org_date'),
             'send_org_id' => $this->put('send_org_id'),
+            'current_status_id' => $this->put('current_status_id')
         ), $this->put('keyin_id'));
         if ($ids) {
             $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code

@@ -63,25 +63,37 @@
                             </div>
                         </div>
                     </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="col-md-10">
-                            <div class="form-group">
-                                <label class="col-sm-5 text-right">
-                                    วันที่ส่งต่อเรื่องร้องทุกข์ :
-                                </label>
-                                <label class="col-sm-7">
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label class="col-sm-5 text-right">
+                                        วันที่ส่งต่อเรื่องร้องทุกข์ :
+                                    </label>
+                                    <label class="col-sm-7">
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" name="send_org_date" id="send_org_date" class="form-control pull-right datepicker" />
                                         </div>
-                                        <input type="text" name="send_org_date" id="send_org_date" class="form-control pull-right datepicker" />
-                                    </div>
-                                </label>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label class="col-sm-5 text-right"></label>
+                                    <label class="col-sm-7 text-left">
+                                        <input type="checkbox" id="send_status" name="send_status" value="1"> ส่งต่อเรื่องร้องทุกข์
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
                 <div class="modal-footer" style="text-align: center;">
                     <button type="button" name="btSaveSend" id="btSaveSend" class="btn btn-primary">บันทึกส่งต่อเรื่องร้องทุกข์</button>
