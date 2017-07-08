@@ -64,10 +64,18 @@ $this->load->view('complaint/send');
                                         <span onclick="window.location.href='<?php echo base_url('complaint/key_in/' . $val['keyin_id']) ?>';">
                                             <?php echo img(array('src' => 'assets/images/edit.png', 'title' => 'แก้ไข', 'width' => '36px', 'style' => 'cursor:pointer')); ?>
                                         </span>
+                                        <?php
+                                        if($val['current_status_id'] == '1') {
+                                        ?>
                                         <span class="bt_delete" id="<?php echo $val['keyin_id']; ?>"
                                               onclick="bt_delete(<?php echo $val['keyin_id']; ?>)">
-                                            <?php echo img(array('src' => 'assets/images/bin.png', 'title' => 'ลบ', 'width' => '36px', 'style' => 'cursor:pointer')); ?>
+                                        <?php echo img(array('src' => 'assets/images/bin.png', 'title' => 'ลบ', 'width' => '36px', 'style' => 'cursor:pointer')); ?>
                                         </span>
+                                        <?php
+                                        }else{
+                                            echo img(array('src' => 'assets/images/bin_mono.png', 'title' => 'ลบ', 'width' => '36px', 'style' => 'cursor:pointer'));
+                                        }
+                                        ?>
                                         <span onclick="window.location.href='<?php echo base_url('complaint/view_detail/' . $val['keyin_id']) ?>';">
                                             <?php echo img(array('src' => 'assets/images/edit-article.png', 'title' => 'ดูรายละเอียด', 'width' => '36px', 'style' => 'cursor:pointer')); ?>
                                         </span>
