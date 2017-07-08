@@ -4,12 +4,19 @@ $(document).ready(function () {
         var jwt = Cookies.get("api_token");
         var keyin_id = $('#keyin_id').val();
         var complain_no = $('#complain_no').val();
-        var receive_date = $('#receive_date').val();
+        //var receive_date = $('#receive_date').val();
+        var arr_receive_date = $('#receive_date').val().split('/');
+        var receive_date = (arr_receive_date[2]-543)+'-'+arr_receive_date[1]+'-'+arr_receive_date[0];
 
+        if($('#receive_status').prop('checked') == true){
+            receive_status = '2';
+        }else{
+            receive_status = '1';
+        }
         $.ajax({
             type: 'PUT', //GET, POST, PUT
             url: 'http://localhost/drdhcbi/api/complaint/received/',  //the url to call
-            data: { complain_no: complain_no , receive_date: receive_date , keyin_id: keyin_id },     //Data sent to server
+            data: { complain_no: complain_no , receive_date: receive_date , keyin_id: keyin_id,current_status_id:receive_status },     //Data sent to server
             //contentType: 'application/json',
             beforeSend: function (xhr) {   //Include the bearer token in header
                 xhr.setRequestHeader("Authorization", 'Bearer ' + jwt);
