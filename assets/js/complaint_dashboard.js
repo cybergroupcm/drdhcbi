@@ -1,3 +1,4 @@
+var jwt = Cookies.get("api_token");
 $( document ).ready(function() {
     $('.datepicker').datepicker({
         format: 'dd/mm/yyyy',
@@ -6,6 +7,7 @@ $( document ).ready(function() {
         thaiyear: true              //Set เป็นปี พ.ศ.
     });
     //datepicker("setDate", "0");  //กำหนดเป็นวันปัจุบัน
+    $(".datepicker").prop('readonly', 'readonly');
 
 
     //start ปฏิทิน
@@ -22,7 +24,6 @@ $( document ).ready(function() {
         language: 'th',             //เปลี่ยน label ต่างของ ปฏิทิน ให้เป็น ภาษาไทย   (ต้องใช้ไฟล์ bootstrap-datepicker.th.min.js นี้ด้วย)
         thaiyear: true              //Set เป็นปี พ.ศ.
     });
-
 
     $('.datepickerstart').on('changeDate', function(){
         var arrDateMin= $(this).val().split('/');
@@ -98,7 +99,7 @@ function getDataReceived(id){
             $('#receive_date').datepicker("setDate", "");
         }
 
-        if(dataReceived.current_status_id == '1' || dataReceived.current_status_id == '2'){
+        if(dataReceived.current_status_id == '2' || dataReceived.current_status_id == '3'){
             if(!$('#receive_status').prop('checked')) {
                 $("#receive_status").prop("checked", true);
             }
@@ -148,7 +149,7 @@ function getDataSend(id){
             $('#send_org_id option[value=""]').prop('selected', 'selected');
         }
 
-        if(dataSend.current_status_id == '2'){
+        if(dataSend.current_status_id == '3'){
             if(!$('#send_status').prop('checked')) {
                 $("#send_status").prop("checked", true);
             }
@@ -160,7 +161,8 @@ function getDataSend(id){
     });
 }
 
-function bt_delete(req_id) {
+function bt_delete(id) {
+    var base_url = $('#base_url').attr('class');
     swal({
             title: "คุณต้องการจะลบข้อมูลหรือไม่?",
             text: "",
@@ -172,8 +174,33 @@ function bt_delete(req_id) {
             closeOnConfirm: false
         },
         function () {
-            var  link = $('#base_url').attr("class")+"complaint/dashboard";
-            window.location = link;
+            $.ajax({
+                type: 'DELETE', //GET, POST, PUT
+                url: base_url+'api/complaint/key_in/'+id, //the url to call
+                async:false,
+                //contentType: 'application/json',
+                beforeSend: function (xhr) {   //Include the bearer token in header
+                    xhr.setRequestHeader("Authorization", 'Bearer ' + jwt);
+                }
+            }).done(function (response) {
+                swal({
+                        title: "ลบข้อมูลสำเร็จ",
+                        text: "",
+                        type: "success",
+                        showCancelButton: false,
+                        confirmButtonColor: "#00C0EF",
+                        confirmButtonText: "ตกลง",
+                        closeOnConfirm: false
+                    },
+                    function(isConfirm){
+                        if (isConfirm) {
+                            window.location.href=base_url+'complaint/dashboard';
+                        }
+                    });
+
+            }).fail(function (err) {
+                swal("ลบข้อมูลไม่สำเร็จ", "", "error");
+            });
         });
 }
 
