@@ -9,9 +9,9 @@ $(document).ready(function () {
         var receive_date = (arr_receive_date[2]-543)+'-'+arr_receive_date[1]+'-'+arr_receive_date[0];
 
         if($('#receive_status').prop('checked') == true){
-            receive_status = '1';
+            receive_status = '2';
         }else{
-            receive_status = '0';
+            receive_status = '1';
         }
         $.ajax({
             type: 'PUT', //GET, POST, PUT
