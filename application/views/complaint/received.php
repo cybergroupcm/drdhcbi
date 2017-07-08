@@ -74,7 +74,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" name="receive_date" id="receive_date" class="form-control pull-right datepicker" />
+                                            <input type="text" name="receive_date" id="receive_date" class="form-control pull-right datepicker key_date" />
                                         </div>
                                     </label>
                                 </div>

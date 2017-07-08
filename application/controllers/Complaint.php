@@ -94,6 +94,9 @@ class Complaint extends CI_Controller
         $url = base_url("api/dropdown/send_org_lists");
         $arr_data['send_org'] = api_call_get($url);
 
+        $url = base_url("api/dropdown/current_status_lists");
+        $arr_data['current_status'] = api_call_get($url);
+
         //start แบ่งหน้า
         //$this->load->library('pagination');
         $config['base_url'] = base_url() . 'complaint/dashboard';
