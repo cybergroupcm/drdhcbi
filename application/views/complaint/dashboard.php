@@ -59,7 +59,7 @@ $this->load->view('complaint/send');
                                     <td class="text-center"><?php echo $complain_date; ?></td>
                                     <td><?php echo $val['complaint_detail']; ?></td>
                                     <td><?php echo $user_complain; ?></td>
-                                    <td><?php echo @$current_status[$val['current_status_id']];?></td>
+                                    <td><?php echo @$val['current_status'][0]['current_status_name'];?></td>
                                     <td class="text-center">
                                         <span onclick="window.location.href='<?php echo base_url('complaint/key_in/' . $val['keyin_id']) ?>';">
                                             <?php echo img(array('src' => 'assets/images/edit.png', 'title' => 'แก้ไข', 'width' => '36px', 'style' => 'cursor:pointer')); ?>

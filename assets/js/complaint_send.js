@@ -22,9 +22,9 @@ $(document).ready(function () {
         }
 
         if($('#send_status').prop('checked') == true){
-            send_status = '2';
+            send_status = '3';
         }else{
-            send_status = '1';
+            send_status = '2';
         }
 
         $.ajax({
