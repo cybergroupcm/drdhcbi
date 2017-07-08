@@ -80,6 +80,12 @@ class Complaint extends CI_Controller
             'expire' => '86500',
         );
         $this->input->set_cookie($cookie);*/
+        $cookie = array(
+            'name' => 'token',
+            'value' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDk5NTA0NjE5LCJleHAiOjE0OTk1OTExMTl9.PBY4USK2ag0LfnF-1whx4K2da4AnuJEqROom-QkRcNE',
+            'expire' => '86500',
+        );
+        $this->input->set_cookie($cookie);
         $url = base_url("api/dropdown/complain_type_lists");
         $arr_data['data_filter'] = api_call_get($url);
         $url = base_url('/api/complaint/total_row');
@@ -93,9 +99,6 @@ class Complaint extends CI_Controller
 
         $url = base_url("api/dropdown/send_org_lists");
         $arr_data['send_org'] = api_call_get($url);
-
-        $url = base_url("api/dropdown/current_status_lists");
-        $arr_data['current_status'] = api_call_get($url);
 
         //start แบ่งหน้า
         //$this->load->library('pagination');
