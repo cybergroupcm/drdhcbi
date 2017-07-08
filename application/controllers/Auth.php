@@ -10,7 +10,7 @@ class Auth extends MY_Controller {
 		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 
 		$this->lang->load('auth');
-
+        $this->load->helper('url');
 	}
 
 
@@ -52,6 +52,20 @@ class Auth extends MY_Controller {
 
                 if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember))
                 {
+                    $data = [
+                        "username"=>$this->input->post('identity'),
+                        'password'=>$this->input->post('password')
+                    ];
+                    $url = base_url('api/authen/token');
+                    $token = api_call_post($url,$data);
+                    if(array_key_exists('token',$token)){
+                        $cookie = [
+                            'name' => 'token',
+                            'value' => $token['token'],
+                            'expire' => '43200',
+                        ];
+                        $this->input->set_cookie($cookie);
+                    }
                     if ( ! $this->ion_auth->is_admin())
                     {
                         $this->session->set_flashdata('message', $this->ion_auth->messages());
@@ -110,6 +124,8 @@ class Auth extends MY_Controller {
 
         $this->session->set_flashdata('message', $this->ion_auth->messages());
 
+        delete_cookie('token','122.155.197.104','/sysdamrongdham/','api_');
+
         if ($src == 'admin')
         {
             redirect('auth/login', 'refresh');
@@ -155,7 +171,7 @@ class Auth extends MY_Controller {
             'placeholder' => lang('auth_your_password')
         );
 
-        $url = "http://localhost/drdhcbi/api/dropdown/title_name_lists";
+        $url = base_url()."api/dropdown/title_name_lists";
         $this->data['title_name'] = api_call_get($url);
 
         $this->template->auth_render('auth/register',$this->data);
