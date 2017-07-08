@@ -174,14 +174,12 @@ class Complaint extends REST_Controller
 
     public function key_in_delete()
     {
-        $id = $this->delete('id');
-        $data = $this->delete();
+        $id = (int) $this->get('id');
         if ($id == NULL) {
-            /*$this->response([
+            $this->response([
                 'status' => FALSE,
                 'message' => 'complaint could not be delete'
-            ], REST_Controller::HTTP_NOT_ACCEPTABLE);*/
-            $this->response($data, REST_Controller::HTTP_NOT_ACCEPTABLE);
+            ], REST_Controller::HTTP_NOT_ACCEPTABLE);
         }
         else {
             $complaint = $this->Key_in_model->delete($id);
@@ -228,7 +226,7 @@ class Complaint extends REST_Controller
     //รับเรื่อง
     public function received_put()
     {
-        $ids = $this->KeyIn_model->update(array(
+        $ids = $this->Key_in_model->update(array(
             'receive_date' => $this->put('receive_date'),
             'current_status_id' => $this->put('current_status_id')
         ), $this->put('keyin_id'));
