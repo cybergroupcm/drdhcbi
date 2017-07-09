@@ -8,6 +8,7 @@ $this->load->view('complaint/search');
 $this->load->view('complaint/filter');
 $this->load->view('complaint/received');
 $this->load->view('complaint/send');
+$this->load->view('complaint/save_result');
 ?>
 <section class="content">
     <div class="row">
@@ -82,6 +83,7 @@ $this->load->view('complaint/send');
                                       <?php
                                         echo img(array('src' => 'assets/images/circle-save.png', 'title' => 'รับเรื่อง', 'width' => '36px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#received', 'id' => $val['keyin_id']));
                                         echo img(array('src' => 'assets/images/send.png', 'title' => 'ส่งเรื่องต่อ', 'width' => '36px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#send', 'id' => $val['keyin_id']));
+                                        echo img(array('src' => 'assets/images/save_result.png', 'title' => 'บันทึกผลการดำเนินการ', 'width' => '36px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#save_result', 'id' => $val['keyin_id']));
                                         ?>
                                     </td>
                                 </tr>
