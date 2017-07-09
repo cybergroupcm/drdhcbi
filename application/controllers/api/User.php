@@ -92,6 +92,20 @@ class User extends REST_Controller
         $this->set_response($ids, REST_Controller::HTTP_NO_CONTENT); // NO_CONTENT (204) being the HTTP response code
     }
 
+    public function user_groups_get()
+    {
+        $id = $this->get('id');
+        $data = $this->ion_auth->permission_data_detail($id);
+        if (!empty($data)) {
+            $this->set_response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        } else {
+            $this->set_response([
+                'status' => FALSE,
+                'message' => 'User could not be found'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
 
 
 }

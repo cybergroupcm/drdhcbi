@@ -6,7 +6,9 @@ class Template_libraries extends CI_Model {
 		//$this->load->database();
 		# Load libraries
 		//$this->load->library('parser');
-		$this->load->helper(array('html', 'url'));
+		$this->load->helper(array('html', 'url', 'api'));
+
+
 
 	}
 
@@ -21,6 +23,44 @@ class Template_libraries extends CI_Model {
 												'alt' => 'Welcome to our Restaurant'
 												)
 											);
+		$url = base_url("api/authen/token_info");
+		$user_data_id = api_call_get($url);
+		$url = base_url()."api/user/user/".$user_data_id['userid'];
+		$arr_header['user_data'] = api_call_get($url);
+		foreach($user_data_id['permission'] as $value){
+			$url = base_url()."api/user/user_groups/".$value;
+			$link_data = api_call_get($url);
+			if($link_data[$value]['mode_id'] == 1 ){
+				if($link_data[$value]['parent_id'] == 0 ){
+					$arr_header['main_menu'][$value] = $link_data[$value];
+				}else{
+					$arr_header['sub_menu'][$link_data[$value]['parent_id']][$value] = $link_data[$value];
+
+					$check_data = @$arr_header['main_menu'][$link_data[$value]['parent_id']];
+					if(empty($check_data)){
+						$url = base_url()."api/user/user_groups/".$link_data[$value]['parent_id'];
+						$link_main_data = api_call_get($url);
+						$arr_header['main_menu'][$link_data[$value]['parent_id']] = $link_main_data[$link_data[$value]['parent_id']];
+					}
+				}
+			}else{
+				$check_sub_data = @$arr_header['sub_menu'][$link_data[$value]['parent_id']];
+				if(empty($check_sub_data)){
+					$url = base_url()."api/user/user_groups/".$link_data[$value]['parent_id'];
+					$link_sub_data = api_call_get($url);
+					$arr_header['sub_menu'][$link_sub_data[$link_data[$value]['parent_id']]['parent_id']][$link_data[$value]['parent_id']] = $link_sub_data[$link_data[$value]['parent_id']];
+					$check_data = @$arr_header['main_menu'][$link_sub_data[$link_data[$value]['parent_id']]];
+					if(empty($check_data)){
+						$url = base_url()."api/user/user_groups/".$link_sub_data[$link_data[$value]['parent_id']]['parent_id'];
+						$link_main_data = api_call_get($url);
+						$arr_header['main_menu'][$link_sub_data[$link_data[$value]['parent_id']]['parent_id']] = $link_main_data[$link_sub_data[$link_data[$value]['parent_id']]['parent_id']];
+
+					}
+
+				}
+			}
+
+		}
 		if($bodyFile == 'login'){
 				$arr_title = array('title'=>'Home','body_class'=>'login-page');
 				$this->load->view('template/template_header', $arr_title);

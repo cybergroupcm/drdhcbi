@@ -8,6 +8,7 @@
 $(function () {
 
     $('#jstree_div').bind("loaded.jstree", function (event, data) {
+            $(this).jstree("open_all");
            // console.log(data);
             setTimeout(function(){
                 var user_org = $('#jsfields').val();

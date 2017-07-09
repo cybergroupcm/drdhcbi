@@ -78,7 +78,7 @@ class Auth extends MY_Controller {
 
                         /* Load Template */
                         //$this->template->auth_render('main', $this->data);
-                        redirect('admin', 'refresh');
+                        redirect('main', 'refresh');
                     }
                 }
                 else
@@ -171,7 +171,7 @@ class Auth extends MY_Controller {
             'placeholder' => lang('auth_your_password')
         );
 
-        $url = "http://localhost/drdhcbi/api/dropdown/title_name_lists";
+        $url = base_url()."api/dropdown/title_name_lists";
         $this->data['title_name'] = api_call_get($url);
 
         $this->template->auth_render('auth/register',$this->data);

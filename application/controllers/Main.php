@@ -17,6 +17,7 @@ class Main extends MY_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
+	public $user_data = array();
 	public function __construct()
 	{
 		parent::__construct();
@@ -32,6 +33,10 @@ class Main extends MY_Controller {
 	{
 		$this->load->model('Template_libraries', 'libraries');
 		$this->load->model('main/Main_model','main');
+
+//		echo "<pre>";
+//		print_r($arr_data);
+//		die();
 		//จำนวนสถานะการดำเนิดการ
 		$arr_data['sum_status'] = $this->main->get_sum_status();
 		//ข้อมูลเรื่องร้องทุกข์ทั้งหมดจำแนกรายพื้นที่
