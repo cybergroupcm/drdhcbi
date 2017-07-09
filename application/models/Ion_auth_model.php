@@ -1169,6 +1169,27 @@ ORDER BY t4.appid");
         return false;
     }
 
+	public function permission_data_detail($app_id)
+	{
+		$query = $this->db->query("SELECT
+									*
+									FROM  au_applications
+									WHERE
+									app_id = '{$app_id}'
+									ORDER BY order_by");
+
+		if ($query->num_rows() > 0)
+		{
+			$rows=[];
+			foreach ($query->result_array() as $row)
+			{
+				$rows[$row['app_id']] = $row;
+			}
+			return $rows;
+		}
+		return false;
+	}
+
 	/**
 	 * is_max_login_attempts_exceeded
 	 * Based on code from Tank Auth, by Ilya Konyukhov (https://github.com/ilkon/Tank-Auth)

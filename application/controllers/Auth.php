@@ -78,7 +78,7 @@ class Auth extends MY_Controller {
 
                         /* Load Template */
                         //$this->template->auth_render('main', $this->data);
-                        redirect('admin', 'refresh');
+                        redirect('main', 'refresh');
                     }
                 }
                 else
