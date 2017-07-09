@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class TitleName_model extends MY_Model
+class Title_name_model extends MY_Model
 {
     public function __construct()
     {

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class KeyIn_model extends MY_Model
+class Key_in_model extends MY_Model
 {
 
     public function __construct()
@@ -12,12 +12,18 @@ class KeyIn_model extends MY_Model
         $this->timestamps = TRUE;
         $this->_created_at_field = 'create_datetime';
         $this->_updated_at_field = 'update_datetime';
-        $this->has_one['prename'] = array(
-            'foreign_model' => 'master/TitleName_model',
-            'local_key' => 'pn_id',
-            'foreign_key' => 'pn_id');
+        $this->has_many['title_name'] = array(
+            'foreign_model'=>'master/Title_name_model',
+            'foreign_table'=>'ms_prename',
+            'foreign_key'=>'pn_id',
+            'local_key'=>'pn_id');
+        $this->has_many['current_status'] = array(
+            'foreign_model'=>'master/Current_status_model',
+            'foreign_table'=>'ms_current_status',
+            'foreign_key'=>'current_status_id',
+            'local_key'=>'current_status_id');
         $this->has_many_pivot['complaint_type'] = array(
-            'foreign_model' => 'master/ComplainType_model',
+            'foreign_model' => 'master/Complain_type_model',
             'pivot_table' => 'dt_complain_type',
             'local_key' => 'keyin_id',
             'pivot_local_key' => 'keyin_id',
@@ -30,7 +36,9 @@ class KeyIn_model extends MY_Model
             'pivot_local_key' => 'keyin_id',
             'pivot_foreign_key' => 'wish_id',
             'foreign_key' => 'wish_id');
-        $this->before_create[] = 'changeDateFormat';
+        $this->before_create = array('changeDateFormat','genComplainNo');
+        //$this->before_create[] =
+        $this->before_update[] = 'changeDateFormat';
         $ci = get_instance();
         $ci->load->helper('dateformat');
     }
@@ -68,30 +76,62 @@ class KeyIn_model extends MY_Model
 
     protected function changeDateFormat($data)
     {
-        $data['complain_date'] = date_eng(@$data['complain_date'] );
-        $data['doc_receive_date'] = date_eng(@$data['doc_receive_date'] );
-        $data['doc_send_date'] = date_eng(@$data['doc_send_date'] );
-        $data['scene_date'] = date_eng(@$data['scene_date'] );
-        $data['complain_no'] = $this->genComplainNo(@$data['complain_date']);
+        if (array_key_exists('complain_date',$data)){
+            $data['complain_date'] = date_eng($data['complain_date'] );
+//            $data['complain_no'] = $this->genComplainNo($data['complain_date']);
+        }
+
+        if (array_key_exists('doc_receive_date',$data)){
+            $data['doc_receive_date'] = date_eng($data['doc_receive_date'] );
+        }
+
+        if (array_key_exists('doc_send_date',$data)){
+            $data['doc_send_date'] = date_eng($data['doc_send_date'] );
+        }
+
+        if (array_key_exists('scene_date',$data)){
+            $data['scene_date'] = date_eng($data['scene_date'] );
+        }
+
+        if (array_key_exists('scene_date',$data)){
+            $data['scene_date'] = date_eng($data['scene_date'] );
+        }
+
+        if (array_key_exists('receive_date',$data)){
+            $data['receive_date'] = date_eng($data['receive_date'] );
+        }
+
+        if (array_key_exists('reply_date',$data)){
+            $data['reply_date'] = date_eng($data['reply_date'] );
+        }
+
+//        $data['doc_receive_date'] = date_eng(@$data['doc_receive_date'] );
+//        $data['doc_send_date'] = date_eng(@$data['doc_send_date'] );
+//        $data['scene_date'] = date_eng(@$data['scene_date'] );
+
 //        $data['receive_date'] = date_eng($data['receive_date'] );
 //        $data['reply_date'] = date_eng($data['reply_date'] );
 //        $data['send_org_date'] = date_eng($data['send_org_date'] );
         return $data;
     }
 
-    protected function genComplainNo($prefix){
+    protected function genComplainNo($data){
+        if (array_key_exists('complain_date',$data)){
+            $prefix = $data['complain_date'];
+        }else{
+            $prefix = date('Y-m-d');
+        }
         $prefix  = explode('-',$prefix);
         $search = $prefix[0].$prefix[1];
         $query = $this->db->select('complain_no')->like('complain_no', $search , 'after')->order_by('complain_no', 'DESC')->limit(1)->get('dt_keyin');
         if($query->num_rows()>0){
             $row = $query->row();
             $result = substr($row->complain_no,6,4);
-            $result = sprintf("%s%'.04d",$search,$result+1);
+            $data['complain_no'] = sprintf("%s%'.04d",$search,$result+1);
         }else{
-            $result = $search."0001";
+            $data['complain_no'] = $search."0001";
         }
-
-        return $result;
+        return $data;
     }
 
     public function insertPivotComplaintType($keyinId, $complainTypeId)
