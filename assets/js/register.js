@@ -4,8 +4,14 @@
         if ($('#username').val() == "") {
             text_warning += " - ชื่อผู้ใช้งาน\n";
         }
-        if ($('#password').val() == "") {
-            text_warning += " - รหัสผ่าน\n";
+        if(action == "") {
+            if ($('#password').val() == "") {
+                text_warning += " - รหัสผ่าน\n";
+            }else{
+                if($('#password').val() != $('#password2').val()){
+                    text_warning += " - การยืนยันรหัสผ่านไม่ตรงกัน\n";
+                }
+            }
         }else{
             if($('#password').val() != $('#password2').val()){
                 text_warning += " - การยืนยันรหัสผ่านไม่ตรงกัน\n";
@@ -32,7 +38,7 @@
         if ($('#surname_th').val() == "") {
             text_warning += " - นามสกุล\n";
         }
-        if ($('#gentle1').is(':checked') === false && $('#gentle2').is(':checked') === false ) {
+        if ($('#gender1').is(':checked') === false && $('#gender2').is(':checked') === false ) {
          if(action == ""){
              text_warning += " - เพศ\n";
          }
@@ -40,9 +46,9 @@
         if ($('#section').val() == "") {
             text_warning += " - หน่วยงาน/แผนก ที่สังกัด\n";
         }
-        if ($('#address').val() == "") {
-            text_warning += " - ที่อยู่\n";
-        }
+//        if ($('#address').val() == "") {
+//            text_warning += " - ที่อยู่\n";
+//        }
         if ($('#province').val() == "") {
             text_warning += " - จังหวัด\n";
         }
@@ -58,29 +64,22 @@
             swal("กรุณาระบุข้อมูลต่อไปนี้", text_warning, "warning");
             return false;
         }else{
-
-            var data = $("#frm_user").serialize();
-            if(action == ""){
-                $.ajax({
-                        method: "PUT",
-                        url: base_url +"api/user/user/",
-                        data: data
-                    })
-                    .done(function( msg ) {
-                        window.location.href=base_url+"main";
-                    });
-            }else {
-                $.ajax({
-                        method: "POST",
-                        url: base_url +"api/user/user/",
-                        data: data
-                    })
-                    .done(function( msg ) {
-                        console.log(msg);
-                        window.location.href=base_url+"auth/login";
-                    });
-            }
-
+            //var data = $("#frm_user").serialize();
+            var data = new FormData($("#frm_user")[0]);
+            
+            $.ajax({
+                    method: "POST",
+                    url: base_url +"api/user/user/",
+                    data: data,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                })
+                .done(function( msg ) {
+                    console.log(msg);
+                    window.location.href=base_url+$('#action_to').val();
+                });
         }
     }
     
@@ -150,3 +149,44 @@
             }
         });
     });
+    function readURL(input) {
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#show_photo').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    
+    function get_district(value,defaule_value){
+    if(value!=''){
+        var province_code = value.substring(0, 3);
+        var url = base_url+'complaint/get_district_list/Aumpur/'+province_code+'/'+defaule_value;  //the url to call
+        $.post(url, {data: ''}, function (data) {
+            $('#district_span').html(data);
+            var subdistrict = '';
+            subdistrict += '<select name="subdistrict_id" class="form-control" id="subdistrict_id">';
+            subdistrict += '<option value="">กรุณาเลือก</option>';
+            subdistrict += '</select>';
+            $('#subdistrict_span').html(subdistrict);
+        });
+    }
+}
+
+function get_subdistrict(value,defaule_value){
+    if(value!=''){
+        var district_code = value.substring(0, 4);
+        var url = base_url+'complaint/get_district_list/Tamboon/'+district_code+'/'+defaule_value;  //the url to call
+        $.post(url, {data: ''}, function (data) {
+            $('#subdistrict_span').html(data);
+        });
+    }
+}
+
+function get_list_text(id_from, id_to){
+    $('#'+id_to).val($('#'+id_from+' :selected').text());
+}

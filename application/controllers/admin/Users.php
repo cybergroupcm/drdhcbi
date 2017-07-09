@@ -43,7 +43,7 @@ class Users extends Admin_Controller {
 	}
 
 
-	public function create()
+	public function create_bk()
 	{
         /* Breadcrumbs */
         $this->breadcrumbs->unshift(2, lang('menu_users_create'), 'admin/users/create');
@@ -189,7 +189,7 @@ class Users extends Admin_Controller {
 			);
 
             /* Load Template */
-            $this->template->admin_render('admin/users/create', $this->data);
+            $this->template->admin_render('admin/users/create_bk', $this->data);
         }
 	}
 
@@ -517,4 +517,34 @@ class Users extends Admin_Controller {
 			return FALSE;
 		}
 	}
+public function create($id='')
+    {
+    $this->breadcrumbs->unshift(2, lang('menu_users_create'), 'admin/users/create');
+    $this->data['breadcrumb'] = $this->breadcrumbs->show();
+        $this->data['id'] = $id;
+        $url = base_url()."api/user/user/".$id;
+        $this->data['data'] = api_call_get($url);
+        $url = base_url()."api/dropdown/title_name_lists";
+        $this->data['title_name'] = api_call_get($url);
+        
+        $url = base_url("api/dropdown/ccaa_lists/Changwat");
+        $this->data['province_list'] = api_call_get($url);
+        
+        if(@$this->data['data']['user']['address_id']!=''){
+            $ccaa_code = substr(@$this->data['data']['address_id'], 0, 3);
+        }else{
+            $ccaa_code = '200';
+        }
+        $url = base_url("api/dropdown/ccaa_lists/Aumpur/".$ccaa_code);
+        $this->data['district_list'] = api_call_get($url);
+        
+        if(@$this->data['data']['user']['address_id']!=''){
+            $ccaa_code = substr(@$this->data['data']['address_id'], 0, 4);
+            $url = base_url("api/dropdown/ccaa_lists/Tamboon/".$ccaa_code);
+            $this->data['subdistrict_list'] = api_call_get($url);
+        }
+        
+        $this->template->admin_render('admin/users/create',$this->data);
+
+    }
 }
