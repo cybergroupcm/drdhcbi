@@ -87,7 +87,7 @@ class User extends REST_Controller
             $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
         }
 
-        $ids = $this->AccusedType_model->delete($id);
+        $ids = $this->Accused_type_model->delete($id);
 
         $this->set_response($ids, REST_Controller::HTTP_NO_CONTENT); // NO_CONTENT (204) being the HTTP response code
     }
