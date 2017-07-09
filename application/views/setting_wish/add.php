@@ -1,5 +1,5 @@
 
-<form class="form-horizontal" role="form" method="POST" action="<?php echo base_url('setting_wish/dashboard')?>" name="form_add" id="form_add">
+<!--<form class="form-horizontal" role="form" method="POST" action="--><?php //echo base_url('setting_wish/dashboard')?><!--" name="form_add" id="form_add">-->
     <style>
         .btn-info {
             background-color: #4db6ac;
@@ -24,6 +24,7 @@
                                             รหัสความประสงค์ :
                                         </label>
                                         <label class="col-sm-3">
+                                            <input type="hidden" id="action"  value="<?php echo @$data['action'];?>"/>
                                             <input type="text" name="wish_id" id="wish_id" class="form-control" value="<?php echo @$data['wish_id'];?>" readonly="readonly" />
                                         </label>
                                     </div>
@@ -47,7 +48,7 @@
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <button class="btn btn-info" title="เพิ่ม" id="bt_add"><i class="fa fa-save"></i> บันทึกข้อมูล</button>
-                                <button class="btn btn-info" title="ยกเลิก" id="bt_cancel"><i class="fa fa-times"></i> ยกเลิก</button>
+                                <button class="btn btn-info" title="ยกเลิก" id="bt_cancel" onclick="window.location.href='<?php echo base_url();?>setting_wish/dashboard'"><i class="fa fa-times"></i> ยกเลิก</button>
                             </div>
                         </div>
                     </div>
@@ -56,4 +57,16 @@
         </div>
     </section>
     <div id="base_url" class="<?php echo base_url();?>"></div>
-</form>
+<!--</form>-->
+<?php
+$link = array(
+    'src' => 'assets/js/js.cookie.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    'src' => 'assets/js/setting_wish.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+?>

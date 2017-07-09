@@ -25,4 +25,60 @@ class Core_model extends CI_Model {
             return $val;
         }
     }
+
+    public  function save_permiss($data,$id){
+        $this->db->where('gid',$id);
+        $this->db->delete('au_groups_permissions');
+        $org = explode(',', $data);
+        foreach ($org as $value) {
+            $this->db->set('appid',$value);
+            $this->db->set('gid',$id);
+            $this->db->set('authority','1');
+            $this->db->insert('au_groups_permissions');
+        }
+    }
+
+    public  function get_group_permiss($id){
+
+        $this->db->select('appid');
+        $this->db->where('gid',$id);
+        $this->db->from('au_groups_permissions');
+        $query = $this->db->get();
+        $data = array();
+        if(count($query->result()) != 0 ){
+            foreach($query->result() as $row){
+                $data[] = $row->appid;
+            }
+
+        }
+        return $data;
+    }
+
+    function getOrg($parent='0',&$data=array()){
+        $this->db->select('*');
+        $this->db->where('parent_id',$parent);
+        $this->db->from('au_applications');
+        $query = $this->db->get();
+        if( count($query->result()) != 0){
+            foreach($query->result() as $row){
+                $data[$parent][] = $row;
+                $this->getOrg($row->app_id,$data);
+            }
+            return $data;
+        }
+    }
+
+    function genOrgTree($org,$parent=0,&$ul=''){
+        $ul .= '<ul>';
+        foreach ($org[$parent] as $key => $value) {
+            $ul .= "<li id='{$value->app_id}'>".$value->app_name;
+            if(!empty($org[$value->app_id])){
+                $this->genOrgTree( $org, $value->app_id ,$ul);
+            }
+            $ul .= '</li>';
+        }
+        $ul .= '</ul>';
+
+        return $ul;
+    }
 }

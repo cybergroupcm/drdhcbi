@@ -104,6 +104,13 @@
       );
       echo script_tag($link);
 
+      $link = array(
+                'src' => 'assets/js/js.cookie.js',
+                'language' => 'javascript',
+                'type' => 'text/javascript'
+      );
+      echo script_tag($link);
+
       #jQuery UI 1.11.2
       $link = array(
                 'src' => 'template/plugins/jqueryUI/jquery-ui.min.js',
