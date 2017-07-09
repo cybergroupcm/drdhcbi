@@ -49,6 +49,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   'type' => 'text/javascript'
         );
         echo script_tag($link);
+        $link = array(
+                  'src' => 'assets/jquery/jquery.blockUI.js',
+                  'type' => 'text/javascript'
+        );
+        echo script_tag($link);
         ?>
     </body>
 </html>

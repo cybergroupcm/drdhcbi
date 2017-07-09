@@ -97,10 +97,10 @@ class Main extends MY_Controller {
     {
         $url = base_url()."api/jwt/token_info";
         $arr_data['token'] = api_call_get($url);
-        echo "<pre>";
-        print_r($arr_data['token']);
-        die();
-        $id='35';
+//        echo "<pre>";
+//        print_r($arr_data['token']);
+//        echo "</pre>";exit;
+        $id=$arr_data['token']['userid'];
         $arr_data['id'] = $id;
         $url = base_url()."api/user/user/".$id;
         $arr_data['data'] = api_call_get($url);

@@ -41,9 +41,11 @@ $link = array(
                                 echo $data['user']['username'];
                             }else{
                             ?>
-                            <input type="text" name="username" id="username" class="form-control letter_and_number" onkeypress="check_first_letters(this, event)" maxlength='10' />
+                            <input type="text" name="username" id="username" class="form-control letter_and_number" onblur="check_username(this.value)" onkeypress="check_first_letters(this, event)" maxlength='10' />
+                           
                             <?php } ?>
                         </label>
+                        <label id="username_confirm_text" style="color:red;"></label>
                     </div>
                 </div>
             </div>

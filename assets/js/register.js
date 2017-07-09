@@ -77,7 +77,8 @@
                     processData: false
                 })
                 .done(function( msg ) {
-                    console.log(msg);
+                    block_ui();
+                    //console.log(msg);
                     window.location.href=base_url+$('#action_to').val();
                 });
         }
@@ -189,4 +190,37 @@ function get_subdistrict(value,defaule_value){
 
 function get_list_text(id_from, id_to){
     $('#'+id_to).val($('#'+id_from+' :selected').text());
+}
+
+function check_username(value){
+    if(value!=''){
+        block_ui();
+        var url = base_url+'admin/users/check_username/'+value;  //the url to call
+        $.post(url, {data: ''}, function (data) {
+            if(data!=''){
+                $('#username_confirm_text').html('ไม่สามารถใช้ username นี้ได้');
+                $('#username').focus();
+                $.unblockUI();
+            }else{
+                $('#username_confirm_text').html('');
+                $.unblockUI();
+            }
+        });
+    }
+}
+
+function block_ui(){
+    $.blockUI({
+        message: '<h3 style="color:#FFF;">กรุณารอสักครู่<h3>',
+        css: {
+            border: 'none',
+            padding: '15px',
+            backgroundColor: '#000',
+            '-webkit-border-radius': '10px',
+            '-moz-border-radius': '10px',
+            opacity: .5,
+            color: '#fff'
+        },
+        baseZ: 9000,
+    });
 }

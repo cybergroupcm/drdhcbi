@@ -9,7 +9,7 @@ $link = array(
 ?>
     <form id="frm_user" enctype="multipart/form-data">
         <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" />
-        <input type="hidden" name="action_to" id="action_to" value="" />
+        <input type="hidden" name="action_to" id="action_to" value="main/register" />
 <div class="row frame">
     <div class="row title">
         <div class="col-md-12">

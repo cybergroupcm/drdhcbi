@@ -9,13 +9,15 @@ class Users extends Admin_Controller {
 
         /* Load :: Common */
         $this->lang->load('admin/users');
-
+        
         /* Title Page :: Common */
         $this->page_title->push(lang('menu_users'));
         $this->data['pagetitle'] = $this->page_title->show();
 
         /* Breadcrumbs :: Common */
         $this->breadcrumbs->unshift(1, lang('menu_users'), 'admin/users');
+        
+        $this->load->model('data/User_model');
     }
 
 
@@ -546,5 +548,12 @@ public function create($id='')
         
         $this->template->admin_render('admin/users/create',$this->data);
 
+    }
+    public function check_username($username)
+    {
+        $query = $this->db->get_where('au_users', array('username' => $username));
+        $row = $query->row_array();
+        echo $row['id'];
+        exit;
     }
 }
