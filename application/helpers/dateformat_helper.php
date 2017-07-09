@@ -20,7 +20,7 @@ if (!function_exists('date_thai')) {
         return $format;
     }
 }
-if (!function_exists('date_thai')) {
+if (!function_exists('date_time_thai')) {
     function date_time_thai($strDateTime,$long=false)
     {
         $strYear = date("Y",strtotime($strDateTime))+543;
@@ -36,5 +36,28 @@ if (!function_exists('date_thai')) {
             $strMonthThai=$strMonthCut[$strMonth];
         }
         return "$strDay $strMonthThai $strYear, $strHour:$strMinute";
+    }
+}
+
+if (!function_exists('date_eng')) {
+    function date_eng($strDateTime)
+    {
+        if(empty($strDateTime)){
+            return '0000-00-00';
+        }else{
+            $dateTemp = explode('/',$strDateTime);
+            return  ($dateTemp[2]-543).'-'.$dateTemp[1].'-'.$dateTemp[0];
+        }
+    }
+}
+if (!function_exists('date_thai_num')) {
+    function date_thai_num($strDateTime)
+    {
+        if(empty($strDateTime)){
+            return '00/00/0000';
+        }else{
+            $dateTemp = explode('-',$strDateTime);
+            return  $dateTemp[2].'/'.$dateTemp[1].'/'.($dateTemp[0]+543);
+        }
     }
 }

@@ -201,15 +201,15 @@
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <?php echo img(array('src'=>'template/dist/img/user2-160x160.jpg', 'alt'=> 'User Image','class'=>'user-image')); ?>
-                  <span class="hidden-xs">Alexander Pierce</span>
+                  <span class="hidden-xs"><?php echo $user_data['user']['first_name'] ?></span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
                     <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
                     <p>
-                      Alexander Pierce - Web Developer
-                      <small>Member since Nov. 2012</small>
+                      <?php echo $user_data['user']['first_name']." ".$user_data['user']['last_name'] ?>
+                      <small><?php //echo $user_data['user']['position'] ?></small>
                     </p>
                   </li>
                   <!-- Menu Body -->
@@ -219,7 +219,7 @@
                       <a href="<?php echo site_url('main/register'); ?>" class="btn btn-default btn-flat">Profile</a>
                     </div>
                     <div class="pull-right">
-                      <a href="<?php echo site_url('main/login'); ?>" class="btn btn-default btn-flat">Sign out</a>
+                      <a href="<?php echo site_url('auth/logout'); ?>" class="btn btn-default btn-flat">Sign out</a>
                     </div>
                   </li>
                 </ul>

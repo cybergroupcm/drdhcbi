@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 ?>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css">
 <link rel="stylesheet" type="text/css" href="<? echo base_url();?>/assets/css/checkbox.css">
             <div class="content-wrapper">
                 <section class="content-header">
@@ -19,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="box-body">
                                     <?php echo $message;?>
 
-                                    <?php echo form_open(current_url(), array('class' => 'form-horizontal', 'id' => 'form-edit_group')); ?>
+                                    <?php echo form_open(current_url(), array('class' => 'form-horizontal', 'id' => 'form-edit_group','onSubmit'=>'save()')); ?>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">ชื่อกลุ่ม : </label>
                                             <div class="col-sm-10">
@@ -47,18 +48,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                     </div>
                                                     <div class="box-body">
                                                         <div class="col-sm-12">
-                                                            <?php foreach($applications as $key => $value){ ?>
+                                                        <div class="form-group">
+                                                            <div>
+                                                                <?php echo form_input($jsfields); ?>
+                                                                <!--<input type="hidden" name="jsfields" id="jsfields" value="">-->
+                                                                <div id="jstree_div">
+                                                                    <?php echo $orgTree;?>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                            </div>
+                                                       <!-- <div class="col-sm-12">
+                                                            <?php /*foreach($applications as $key => $value){ */?>
                                                                 <div class="col-sm-12 text-left">
-                                                                    <div class="checkbox checkbox-<?php echo $value['checkbox_type'];?>">
-                                                                        <input id="checkbox<?php echo $value['app_id'];?>" type="checkbox">
-                                                                        <label for="checkbox<?php echo $value['app_id'];?>">
-                                                                            <?php echo $value['app_name'];?>
+                                                                    <div class="checkbox checkbox-<?php /*echo $value['checkbox_type'];*/?>">
+                                                                        <input id="checkbox<?php /*echo $value['app_id'];*/?>" type="checkbox">
+                                                                        <label for="checkbox<?php /*echo $value['app_id'];*/?>">
+                                                                            <?php /*echo $value['app_name'];*/?>
                                                                         </label>
                                                                     </div>
                                                                 </div>
-                                                            <?php } ?>
-                                                        </div>
+                                                            <?php /*} */?>
+                                                        </div>-->
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -79,3 +92,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </section>
             </div>
 
+<?php
+/*$link = array(
+    'src' => 'assets/js/user/group.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);*/
+?>

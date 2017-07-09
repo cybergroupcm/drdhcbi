@@ -4,23 +4,8 @@ class Setting_subject extends CI_Controller {
 
     public function dashboard()
     {
-        $arr_data=array(
-            'data' => array(
-                '0' => array(
-                    'subject_id' => '1',
-                    'subject_name' => 'ทั่วไป'
-                ),
-                '1' => array(
-                    'subject_id' => '2',
-                    'subject_name' => 'ด่วน'
-                ),
-                '2' => array(
-                    'subject_id' => '3',
-                    'subject_name' => 'ด่วนมาก'
-                ),
-            )
-        );
-
+        $url = base_url()."api/setting/subject";
+        $arr_data['data'] = api_call_get($url);
         $this->libraries->template('setting_subject/dashboard',$arr_data);
     }
 
@@ -28,23 +13,9 @@ class Setting_subject extends CI_Controller {
     {
         $arr_data = array();
         if($id != '') {
-            $arr_data = array(
-                'data' => array(
-                    '1' => array(
-                        'subject_id' => '1',
-                        'subject_name' => 'ทั่วไป'
-                    ),
-                    '2' => array(
-                        'subject_id' => '2',
-                        'subject_name' => 'ด่วน'
-                    ),
-                    '3' => array(
-                        'subject_id' => '3',
-                        'subject_name' => 'ด่วนมาก'
-                    ),
-                )
-            );
-            $arr_data['data'] = $arr_data['data'][$id];
+            $url = base_url()."api/setting/subject/".$id;
+            $arr_data['data'] = api_call_get($url);
+            $arr_data['data']['action']='edit';
         }
 
         $this->libraries->template('setting_subject/add',$arr_data);

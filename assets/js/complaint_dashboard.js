@@ -1,3 +1,4 @@
+var jwt = Cookies.get("api_token");
 $( document ).ready(function() {
     $('.datepicker').datepicker({
         format: 'dd/mm/yyyy',
@@ -6,6 +7,7 @@ $( document ).ready(function() {
         thaiyear: true              //Set เป็นปี พ.ศ.
     });
     //datepicker("setDate", "0");  //กำหนดเป็นวันปัจุบัน
+    $(".datepicker").prop('readonly', 'readonly');
 
 
     //start ปฏิทิน
@@ -36,8 +38,8 @@ $( document ).ready(function() {
     //end ปฏิทิน
 
     $('#bt_add').click(function(){
-      var  link = $('#base_url').attr("class")+"complaint/key_in";
-      window.location = link;
+        var  link = $('#base_url').attr("class")+"complaint/key_in";
+        window.location = link;
     });
 
     $('#received').on('show.bs.modal', function(e) {
@@ -48,6 +50,11 @@ $( document ).ready(function() {
     $('#send').on('show.bs.modal', function(e) {
         req_id = e.relatedTarget.id;
         getDataSend(req_id);
+    });
+
+    $('#save_result').on('show.bs.modal', function(e) {
+        id = e.relatedTarget.id;
+        $('#keyin_id_result').val(id);
     });
 
     $("#btSaveReceived").click(function() {
@@ -71,7 +78,8 @@ function getDataReceived(id){
     var url = $('#base_url').attr("class")+"complaint/getDataReceived/"+id;
     $.ajax({
         method: "GET",
-        url: url
+        url: url,
+        async:false
     }).done(function (result) {
         var  dataReceived = JSON.parse(result);
         $('#keyin_id').val(dataReceived.keyin_id);
@@ -88,16 +96,22 @@ function getDataReceived(id){
             $('#text_doc_receive_date').html('-');
         }
 
-        console.log(dataReceived.receive_date);
-        if((dataReceived.receive_date.trim() != '') && (dataReceived.receive_date.trim() != '0000-00-00')) {
+        if((dataReceived.receive_date != '') && (dataReceived.receive_date != '0000-00-00') && (dataReceived.receive_date != null)) {
             var arr_receive_date = dataReceived.receive_date.split('-');
             var receive_date_eng = arr_receive_date[2]+'/'+arr_receive_date[1]+'/'+arr_receive_date[0];
             $('#receive_date').datepicker("setDate", receive_date_eng);  //กำหนดวัน
-            $("#receive_status").attr('checked','checked');
         }else{
             $('#receive_date').datepicker("setDate", "");
-            $("#receive_status").removeAttr('checked','');
-            //$("#receive_status").remove('checked', false);
+        }
+
+        if(dataReceived.current_status_id == '2' || dataReceived.current_status_id == '3'){
+            if(!$('#receive_status').prop('checked')) {
+                $("#receive_status").prop("checked", true);
+            }
+        }else{
+            if($('#receive_status').prop('checked')) {
+                $("#receive_status").prop("checked", false);
+            }
         }
     });
 }
@@ -107,10 +121,11 @@ function getDataSend(id){
     var url = $('#base_url').attr("class")+"complaint/getDataSend/"+id;
     $.ajax({
         method: "GET",
-        url: url
+        url: url,
+        async:false
     }).done(function (result) {
         var  dataSend = JSON.parse(result);
-        if((dataSend.reply_date != '') && (dataSend.reply_date != '0000-00-00')) {
+        if((dataSend.reply_date != '') && (dataSend.reply_date != '0000-00-00') && (dataSend.reply_date != null)) {
             var arr_reply_date = dataSend.reply_date.split('-');
             var reply_date_eng = arr_reply_date[2]+'/'+arr_reply_date[1]+'/'+arr_reply_date[0];
             $('#reply_date').datepicker("setDate", reply_date_eng);  //กำหนดวัน
@@ -118,7 +133,7 @@ function getDataSend(id){
             $('#reply_date').datepicker("setDate", "");
         }
 
-        if((dataSend.send_org_date != '') && (dataSend.send_org_date != '0000-00-00')) {
+        if((dataSend.send_org_date != '') && (dataSend.send_org_date != '0000-00-00') && (dataSend.send_org_date != null)) {
             var arr_send_org_date = dataSend.send_org_date.split('-');
             var send_org_date_eng = arr_send_org_date[2]+'/'+arr_send_org_date[1]+'/'+arr_send_org_date[0];
             $('#send_org_date').datepicker("setDate", send_org_date_eng);  //กำหนดวัน
@@ -127,18 +142,32 @@ function getDataSend(id){
         }
 
         var send_org_id = dataSend.send_org_id;
-        if(send_org_id != '') {
-            $('#send_org_id option[value=' + send_org_id + ']').attr('selected', 'selected');
+
+        if(send_org_id != '' && send_org_id != '0') {
             if (send_org_id == '2') {
-                $('input[name=send_org_parent][value="2"]').attr('checked', true);
+                $('input[name=send_org_parent][value="2"]').prop('checked', true);
             } else {
-                $('input[name=send_org_parent][value="1"]').attr('checked', true);
+                $('input[name=send_org_parent][value="1"]').prop('checked', true);
+                $('#send_org_id option[value=' + send_org_id + ']').prop('selected', 'selected');
+            }
+        }else{
+            $('#send_org_id option[value=""]').prop('selected', 'selected');
+        }
+
+        if(dataSend.current_status_id == '3'){
+            if(!$('#send_status').prop('checked')) {
+                $("#send_status").prop("checked", true);
+            }
+        }else{
+            if($('#send_status').prop('checked')) {
+                $("#send_status").prop("checked", false);
             }
         }
     });
 }
 
-function bt_delete(req_id) {
+function bt_delete(id) {
+    var base_url = $('#base_url').attr('class');
     swal({
             title: "คุณต้องการจะลบข้อมูลหรือไม่?",
             text: "",
@@ -150,8 +179,33 @@ function bt_delete(req_id) {
             closeOnConfirm: false
         },
         function () {
-            var  link = $('#base_url').attr("class")+"complaint/dashboard";
-            window.location = link;
+            $.ajax({
+                type: 'DELETE', //GET, POST, PUT
+                url: base_url+'api/complaint/key_in/'+id, //the url to call
+                async:false,
+                //contentType: 'application/json',
+                beforeSend: function (xhr) {   //Include the bearer token in header
+                    xhr.setRequestHeader("Authorization", 'Bearer ' + jwt);
+                }
+            }).done(function (response) {
+                swal({
+                        title: "ลบข้อมูลสำเร็จ",
+                        text: "",
+                        type: "success",
+                        showCancelButton: false,
+                        confirmButtonColor: "#00C0EF",
+                        confirmButtonText: "ตกลง",
+                        closeOnConfirm: false
+                    },
+                    function(isConfirm){
+                        if (isConfirm) {
+                            window.location.href=base_url+'complaint/dashboard';
+                        }
+                    });
+
+            }).fail(function (err) {
+                swal("ลบข้อมูลไม่สำเร็จ", "", "error");
+            });
         });
 }
 
@@ -165,6 +219,47 @@ function thaidateformat(d,long) {
         thmonth =  thmonthLong;
     }
     return gD.getDate() + ' ' + thmonth[gD.getMonth()] + ' ' + (gD.getFullYear() + 543);
+}
+
+var file_count = 0;
+function add_new_file(){
+    file_count++;
+    var input = '<input type="file" name="attach_file[]" class="attach_file" accept=".jpg, .png, .pdf" onchange="checkFile(\''+file_count.toString()+'\')" id="attach_file_'+file_count.toString()+'" style="display:none;">';
+    $('#file_add_space').append(input);
+    $('#attach_file_'+file_count.toString()).trigger('click');
+}
+
+function delete_new_file(id){
+    $('#attach_file_'+id).remove();
+    $('#show_file_'+id).remove();
+}
+function checkFile(id) {
+    var x = document.getElementById("attach_file_"+id);
+    var txt = "";
+    if ('files' in x) {
+        var j = 1;
+        for (var i = 0; i < x.files.length; i++) {
+            var file = x.files[i];
+            if (parseInt(file.size) > 1048576) {
+                txt += "ไม่สามารถแนบไฟล์ " + file.name + " ได้เนื่องจากไฟล์มีขนาดใหญ่เกินไป<br>";
+                var file_show = '<span id="show_file_'+id+'">'+txt+'</span><hr>';
+                $('#attach_file_'+id).remove();
+            } else {
+                //txt += "<br><strong>" + (j) + ". file</strong><br>";
+                if ('name' in file) {
+                    txt += "name: " + file.name + "<br>";
+                }
+                if ('size' in file) {
+                    txt += "size: " + file.size + " bytes <br>";
+                }
+                j++;
+                var file_show = '<span id="show_file_'+id+'">'+txt+'<input type="button" class="btn btn-danger" value="ลบ" onclick="delete_new_file(\''+id+'\')"></span><hr>';
+            }
+        }
+    }
+
+    $('#checkFile').append(file_show);
+    //document.getElementById("checkFile").innerHTML = txt;
 }
 
 
