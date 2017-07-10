@@ -99,19 +99,39 @@ class Main extends MY_Controller {
 	}
 
   public function register()
-	{
-		/*$url = base_url()."api/jwt/token_info";
-		$arr_data['data'] = api_call_get($url);
-		echo "<pre>";
-		print_r($arr_data['data']);
-		die();*/
-		$url = base_url()."api/user/user/35";
-		$arr_data['data'] = api_call_get($url);
-		$url = base_url()."api/dropdown/title_name_lists";
-		$arr_data['title_name'] = api_call_get($url);
-		$this->libraries->template('register/register',$arr_data);
+    {
+        $url = base_url()."api/jwt/token_info";
+        $arr_data['token'] = api_call_get($url);
+//        echo "<pre>";
+//        print_r($arr_data['token']);
+//        echo "</pre>";exit;
+        $id=$arr_data['token']['userid'];
+        $arr_data['id'] = $id;
+        $url = base_url()."api/user/user/".$id;
+        $arr_data['data'] = api_call_get($url);
+        $url = base_url()."api/dropdown/title_name_lists";
+        $arr_data['title_name'] = api_call_get($url);
+        
+        $url = base_url("api/dropdown/ccaa_lists/Changwat");
+        $arr_data['province_list'] = api_call_get($url);
+        
+        if(@$arr_data['data']['user']['address_id']!=''){
+            $ccaa_code = substr(@$arr_data['data']['address_id'], 0, 3);
+        }else{
+            $ccaa_code = '200';
+        }
+        $url = base_url("api/dropdown/ccaa_lists/Aumpur/".$ccaa_code);
+        $arr_data['district_list'] = api_call_get($url);
+        
+        if(@$arr_data['data']['user']['address_id']!=''){
+            $ccaa_code = substr(@$arr_data['data']['address_id'], 0, 4);
+            $url = base_url("api/dropdown/ccaa_lists/Tamboon/".$ccaa_code);
+            $arr_data['subdistrict_list'] = api_call_get($url);
+        }
+        
+        $this->libraries->template('register/register',$arr_data);
 
-	}
+    }
 }
 
 /* End of file welcome.php */
