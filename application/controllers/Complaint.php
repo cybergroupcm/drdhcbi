@@ -84,6 +84,7 @@ class Complaint extends CI_Controller
         $arr_data['data_filter'] = api_call_get($url);
         $url = base_url('/api/complaint/total_row');
         $total_row = api_call_get($url);
+        $arr_data['total_row'] = $total_row;
         $url = base_url('/api/complaint/dashboard/page/'.$page);
         $arr_data['data'] = api_call_get($url);
         $arr_data['start_row'] = (($page-1)*15)+1;
@@ -144,36 +145,12 @@ class Complaint extends CI_Controller
         exit;
     }
 
-    public function view_detail($req_id)
+    public function view_detail($id)
     {
-        $arr_data = array(
-            'arr_data' => array(
-                '0' => array(
-                    'req_status' => 'อยู่ระหว่างตรวจสอบ',
-                    'req_title' => 'เรื่องร้องทุกข์1',
-                    'req_name' => 'นายก',
-                    'req_date' => '2017-06-01',
-                    'req_money' => '2000',
-                ),
-                '1' => array(
-                    'req_status' => 'อยู่ระหว่างตรวจสอบ',
-                    'req_title' => 'เรื่องร้องทุกข์2',
-                    'req_name' => 'นายข',
-                    'req_date' => '2017-06-02',
-                    'req_money' => '2000',
-                ),
-                '2' => array(
-                    'req_status' => 'รอเจ้าหน้าที่รับเรื่องร้องทุกข์',
-                    'req_title' => 'เรื่องร้องทุกข์3',
-                    'req_name' => 'นายค',
-                    'req_date' => '2017-06-03',
-                    'req_money' => '2000',
-                ),
-            ),
-            'data_detail' => array(
-                'req_id' => $req_id
-            )
-        );
+        $url = base_url("api/complaint/key_in/".$id);
+        $arr_data['key_in_data'] = api_call_get($url);
+        $url = base_url("api/dropdown/ccaa_lists/Changwat");
+        $arr_data['province_list'] = api_call_get($url);
         $this->libraries->template('complaint/view_detail', $arr_data);
     }
 
