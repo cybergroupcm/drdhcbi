@@ -250,7 +250,7 @@ class Complaint extends REST_Controller
         }
     }
 
-    public function dt_result_post(){
+    public function result_post(){
         $data = $this->post();
         $id = $this->Result_model->insert($data);
         if(!$id){
@@ -260,7 +260,7 @@ class Complaint extends REST_Controller
         }
     }
 
-    public function dt_result_put(){
+    public function result_put(){
         $data = $this->put();
         $id = $this->Result_model->update($data);
         if(!$id){
@@ -270,7 +270,7 @@ class Complaint extends REST_Controller
         }
     }
 
-    public function dt_result_delete(){
+    public function result_delete(){
         $data = $this->delete('result_id');
         $id = $this->Result_model->delete($data);
         if(!$id){
