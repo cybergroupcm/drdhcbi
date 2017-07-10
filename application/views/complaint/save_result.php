@@ -6,7 +6,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h4 class="modal-title">บันทึกผลการดำเนินการเรื่องร้องทุกข์</h4>
                 </div>
-                <form class="form-horizontal" role="form" method="POST" action="<?php echo base_url('complaint/dashboard')?>" name="form_save_result" id="form_save_result">
+                <form class="form-horizontal" role="form" method="POST" action="<?php echo base_url('complaint/dashboard')?>" name="form_save_result" id="form_save_result" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -73,11 +73,9 @@
                                 <span class="col-sm-10"><p id="checkFile"></p></span>
                             </div>
                         </div>
-                        <form id="attach_file" enctype="multipart/form-data">
                             <div id="file_add_space">
 
                             </div>
-                        </form>
                     </div>
                 </div>
                 </form>
@@ -88,7 +86,7 @@
         </div>
     </div>
 </div>
-<script> var base_url = '<?php echo base_url() ?>'; </script>
+<div id="base_url" class="<?php echo base_url(); ?>"></div>
 <?php
 $link = array(
     'src' => 'assets/js/js.cookie.js',

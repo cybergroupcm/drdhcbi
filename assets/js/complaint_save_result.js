@@ -1,3 +1,4 @@
+var base_url = $('#base_url').attr('class');
 $(document).ready(function () {
     $("#btSaveResult").click(function () {
         var method = 'POST';
@@ -53,8 +54,7 @@ function add_result(keyin_id,result_detail,result_date){
 
 //แนบไฟล์
 function result_attach_file(keyin_id){
-    var data = new FormData($("#attach_file")[0]);
-            
+    var data = new FormData($("#form_save_result")[0]);
     $.ajax({
         method: "POST",
         url: base_url +"api/complaint/resule_file_attach/",
