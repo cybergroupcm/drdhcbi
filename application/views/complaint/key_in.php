@@ -12,6 +12,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
     }
 ?>
 <input type="hidden" id="action" value="<?php echo (@$id!='')?'edit':'add'; ?>">
+<input type="hidden" id="keyin_id" name="keyin_id" value="<?php echo (@$id!='')?$id:''; ?>">
     <div class="row frame">
         <div class="row title">
             <div class="col-md-12">
@@ -454,7 +455,6 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
                                     $province_arr[''] = 'กรุณาเลือก';
                                     ksort($province_arr);
                                     echo form_dropdown([
-                                        'name' => 'province_id',
                                         'id' => 'province_id',
                                         'class' => 'form-control',
                                         'onchange'=>"get_district(this.value,'')"
@@ -479,7 +479,6 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
                                         $district_arr[''] = 'กรุณาเลือก';
                                         ksort($district_arr);
                                         echo form_dropdown([
-                                            'name' => 'district_id',
                                             'id' => 'district_id',
                                             'class' => 'form-control',
                                             'onchange'=>"get_subdistrict(this.value,'')"
@@ -658,14 +657,31 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
                     <div class="col-md-12">
                         <div class="form-group">
                             <label class="col-sm-2 right"></label>
-                            <span class="col-sm-10"><p id="checkFile"></p></span>
+                            <span class="col-sm-10">
+                                <i id="checkFile">
+                                    <?php
+                                    $fileCount = 0;
+                                    if(array_key_exists('attach_file',$key_in_data)){
+                                        if(!is_null($key_in_data['attach_file'])){
+                                            foreach ($key_in_data['attach_file'] as $file){
+                                                $fileCount++;
+                                                echo '<span id="show_file_'.$fileCount.'">name: '.$file['file_name'].'<br><input type="button" class="btn btn-sm btn-primary" value="แสดง" onclick="window.open(\''.base_url($file['file_system_name']).'\', \'_blank\');" >&nbsp;&nbsp;&nbsp;&nbsp;<input class="btn btn-sm btn-danger" value="ลบ" onclick="ajax_delete(\''.$file['file_id'].'\',\''.$fileCount.'\');" type="button"><hr></span>';
+                                            }
+                                        }
+                                    }
+                                    ?>
+                                </i>
+                                <input type="hidden" id="file_count" value="<?php echo $fileCount;?>">
+                            </span>
                         </div>
                     </div>
                     <div id="file_add_space">
-                        
                     </div>
                 </div>
             </div>
+            <?php
+            echo form_close();
+            ?>
         </div>
         <div class="row footer">
             <div class="col-md-12">
@@ -684,7 +700,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
     </div>
 <div id="base_url" class="<?php echo base_url(); ?>"></div>
 <?php
-echo form_close();
+
 $link = array(
     ' src' => 'http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=true&amp;key=AIzaSyACSdMKi4OrvylAegEJXXR3--RnLUYUBtw',
     ' type' => 'text/javascript'
