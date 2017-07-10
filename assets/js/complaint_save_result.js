@@ -10,6 +10,7 @@ $(document).ready(function () {
         current_status_id = '4';
         update_status(keyin_id,current_status_id);
         add_result(keyin_id,result_detail,result_date);
+        result_attach_file(keyin_id);
     });
 });
 
@@ -52,5 +53,21 @@ function add_result(keyin_id,result_detail,result_date){
 
 //แนบไฟล์
 function result_attach_file(keyin_id){
-
+    var data = new FormData($("#attach_file")[0]);
+            
+    $.ajax({
+        method: "POST",
+        url: base_url +"api/complaint/resule_file_attach/",
+        data: data,
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false
+    }).done(function (response) {
+        alert(response);
+        //Response ok. process reuslt
+    }).fail(function (err) {
+        alert(err);
+        //Error during request
+    });
 }

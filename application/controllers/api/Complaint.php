@@ -248,4 +248,8 @@ class Complaint extends REST_Controller
             $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
     }
+    
+    public function resule_file_attach_post(){
+        echo"<pre>";print_r($_FILES);echo"</pre>";exit;
+    }
 }

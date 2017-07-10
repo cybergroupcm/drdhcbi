@@ -84,6 +84,7 @@ class Complaint extends CI_Controller
         $arr_data['data_filter'] = api_call_get($url);
         $url = base_url('/api/complaint/total_row');
         $total_row = api_call_get($url);
+        $arr_data['total_row'] = $total_row;
         $url = base_url('/api/complaint/dashboard/page/'.$page);
         $arr_data['data'] = api_call_get($url);
         $arr_data['start_row'] = (($page-1)*15)+1;

@@ -73,9 +73,11 @@
                                 <span class="col-sm-10"><p id="checkFile"></p></span>
                             </div>
                         </div>
-                        <div id="file_add_space">
+                        <form id="attach_file" enctype="multipart/form-data">
+                            <div id="file_add_space">
 
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 </form>
@@ -86,6 +88,7 @@
         </div>
     </div>
 </div>
+<script> var base_url = '<?php echo base_url() ?>'; </script>
 <?php
 $link = array(
     'src' => 'assets/js/js.cookie.js',

@@ -97,7 +97,7 @@ $this->load->view('complaint/save_result');
                         ?>
                         </tbody>
                     </table>
-                    <?php echo $pagination; ?>
+                    <?php echo $pagination; ?><?php echo "ทั้งหมด : ".$total_row." รายการ"; ?>
                 </div>
             </div>
         </div>
