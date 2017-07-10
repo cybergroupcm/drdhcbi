@@ -31,7 +31,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="complain_date" id="complain_date"
+                                <input readonly type="text" name="complain_date" id="complain_date"
                                        class="form-control pull-right datepicker" value="<?php echo @$key_in_data['complain_date']!=''?date('d/m/Y',  strtotime(@$key_in_data['complain_date'])):''; ?>">
                             </div>
                         </label>
@@ -65,7 +65,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="doc_receive_date" id="doc_receive_date"
+                                <input readonly type="text" name="doc_receive_date" id="doc_receive_date"
                                        class="form-control pull-right datepicker" value="<?php echo @$key_in_data['doc_receive_date']!='0000-00-00' && @$key_in_data['doc_receive_date']!= ''?date('d/m/Y',  strtotime(@$key_in_data['doc_receive_date'])):''; ?>">
                             </div>
                         </label>
@@ -99,7 +99,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" name="doc_send_date" id="doc_send_date"
+                                <input readonly type="text" name="doc_send_date" id="doc_send_date"
                                        class="form-control pull-right datepicker" value="<?php echo @$key_in_data['doc_send_date']!='0000-00-00' && @$key_in_data['doc_send_date']!= ''?date('d/m/Y',  strtotime(@$key_in_data['doc_send_date'])):''; ?>">
                             </div>
                         </label>
@@ -419,7 +419,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input type="text" name="scene_date" id="scene_date"
+                                        <input readonly type="text" name="scene_date" id="scene_date"
                                                class="form-control pull-right datepicker" 
                                                value="<?php echo @$key_in_data['scene_date']!='0000-00-00' && @$key_in_data['scene_date']!=''?date('d/m/Y',  strtotime(@$key_in_data['scene_date'])):''; ?>">
                                     </div>

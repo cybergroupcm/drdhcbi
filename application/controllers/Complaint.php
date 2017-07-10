@@ -34,7 +34,7 @@ class Complaint extends CI_Controller
 
         $url = base_url("api/dropdown/title_name_lists");
         $arr_data['title_name'] = api_call_get($url);
-        
+        $arr_data['key_in_data']=[];
         if($id!=''){
             $url = base_url("api/complaint/key_in/".$id);
             $arr_data['key_in_data'] = api_call_get($url);
