@@ -22,6 +22,21 @@ class Key_in_model extends MY_Model
             'foreign_table'=>'ms_current_status',
             'foreign_key'=>'current_status_id',
             'local_key'=>'current_status_id');
+        $this->has_many['subject'] = array(
+            'foreign_model'=>'master/Subject_model',
+            'foreign_table'=>'ms_subject',
+            'foreign_key'=>'subject_id',
+            'local_key'=>'subject_id');
+        $this->has_many['channel'] = array(
+            'foreign_model'=>'master/Channel_model',
+            'foreign_table'=>'ms_channel',
+            'foreign_key'=>'channel_id',
+            'local_key'=>'channel_id');
+        $this->has_many['attach_file'] = array(
+            'foreign_model'=>'data/Attach_file_model',
+            'foreign_table'=>'dt_attach_file',
+            'foreign_key'=>'keyin_id',
+            'local_key'=>'keyin_id');
         $this->has_many_pivot['complaint_type'] = array(
             'foreign_model' => 'master/Complain_type_model',
             'pivot_table' => 'dt_complain_type',
@@ -37,7 +52,6 @@ class Key_in_model extends MY_Model
             'pivot_foreign_key' => 'wish_id',
             'foreign_key' => 'wish_id');
         $this->before_create = array('changeDateFormat','genComplainNo');
-        //$this->before_create[] =
         $this->before_update[] = 'changeDateFormat';
         $ci = get_instance();
         $ci->load->helper('dateformat');
@@ -93,9 +107,6 @@ class Key_in_model extends MY_Model
             $data['scene_date'] = date_eng($data['scene_date'] );
         }
 
-        if (array_key_exists('scene_date',$data)){
-            $data['scene_date'] = date_eng($data['scene_date'] );
-        }
 
         if (array_key_exists('receive_date',$data)){
             $data['receive_date'] = date_eng($data['receive_date'] );
@@ -105,13 +116,9 @@ class Key_in_model extends MY_Model
             $data['reply_date'] = date_eng($data['reply_date'] );
         }
 
-//        $data['doc_receive_date'] = date_eng(@$data['doc_receive_date'] );
-//        $data['doc_send_date'] = date_eng(@$data['doc_send_date'] );
-//        $data['scene_date'] = date_eng(@$data['scene_date'] );
-
-//        $data['receive_date'] = date_eng($data['receive_date'] );
-//        $data['reply_date'] = date_eng($data['reply_date'] );
-//        $data['send_org_date'] = date_eng($data['send_org_date'] );
+        if (array_key_exists('send_org_date',$data)){
+            $data['send_org_date'] = date_eng($data['send_org_date'] );
+        }
         return $data;
     }
 

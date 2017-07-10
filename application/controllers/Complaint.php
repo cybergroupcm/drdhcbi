@@ -5,27 +5,17 @@ class Complaint extends CI_Controller
 
     public function __construct()
     {
+        date_default_timezone_set('Asia/Bangkok');
         parent::__construct();
 
         /* Load :: Common */
-        //$this->load->helper('cookie');
-        //$this->load->helper('api');
         $this->load->helper('form');
         $this->load->helper('form_additional');
-        //$this->load->model('complaint_model');
         $this->load->helper('dateformat');
-
     }
 
     public function key_in($id='')
     {
-        /*$cookie = array(
-            'name' => 'token',
-            'value' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDk4NTcyNTc2LCJleHAiOjE0OTg2NTkwNzZ9.7GCfaZSKdXMO9GTmTHQb-ow2glgMktSVH1C-mwwTB6Y',
-            'expire' => '86500',
-        );
-        $this->input->set_cookie($cookie);*/
-
 
         $url = base_url("api/dropdown/complain_type_lists");
         $arr_data['complain_type'] = api_call_get($url);
@@ -44,7 +34,7 @@ class Complaint extends CI_Controller
 
         $url = base_url("api/dropdown/title_name_lists");
         $arr_data['title_name'] = api_call_get($url);
-        
+        $arr_data['key_in_data']=[];
         if($id!=''){
             $url = base_url("api/complaint/key_in/".$id);
             $arr_data['key_in_data'] = api_call_get($url);
@@ -74,12 +64,6 @@ class Complaint extends CI_Controller
     public function dashboard($page=1)
     {
 
-        /*$cookie = array(
-            'name' => 'token',
-            'value' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDk4NzQ5MzY1LCJleHAiOjE0OTg4MzU4NjV9.MOrBK-wwE3aHnhpcpZt9iW7fkdIwsNERP_cEadfIlKw',
-            'expire' => '86500',
-        );
-        $this->input->set_cookie($cookie);*/
         $url = base_url("api/dropdown/complain_type_lists");
         $arr_data['data_filter'] = api_call_get($url);
         $url = base_url('/api/complaint/total_row');
@@ -145,36 +129,12 @@ class Complaint extends CI_Controller
         exit;
     }
 
-    public function view_detail($req_id)
+    public function view_detail($id)
     {
-        $arr_data = array(
-            'arr_data' => array(
-                '0' => array(
-                    'req_status' => 'อยู่ระหว่างตรวจสอบ',
-                    'req_title' => 'เรื่องร้องทุกข์1',
-                    'req_name' => 'นายก',
-                    'req_date' => '2017-06-01',
-                    'req_money' => '2000',
-                ),
-                '1' => array(
-                    'req_status' => 'อยู่ระหว่างตรวจสอบ',
-                    'req_title' => 'เรื่องร้องทุกข์2',
-                    'req_name' => 'นายข',
-                    'req_date' => '2017-06-02',
-                    'req_money' => '2000',
-                ),
-                '2' => array(
-                    'req_status' => 'รอเจ้าหน้าที่รับเรื่องร้องทุกข์',
-                    'req_title' => 'เรื่องร้องทุกข์3',
-                    'req_name' => 'นายค',
-                    'req_date' => '2017-06-03',
-                    'req_money' => '2000',
-                ),
-            ),
-            'data_detail' => array(
-                'req_id' => $req_id
-            )
-        );
+        $url = base_url("api/complaint/key_in/".$id);
+        $arr_data['key_in_data'] = api_call_get($url);
+        $url = base_url("api/dropdown/ccaa_lists/Changwat");
+        $arr_data['province_list'] = api_call_get($url);
         $this->libraries->template('complaint/view_detail', $arr_data);
     }
 
