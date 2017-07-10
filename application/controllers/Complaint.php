@@ -5,27 +5,17 @@ class Complaint extends CI_Controller
 
     public function __construct()
     {
+        date_default_timezone_set('Asia/Bangkok');
         parent::__construct();
 
         /* Load :: Common */
-        //$this->load->helper('cookie');
-        //$this->load->helper('api');
         $this->load->helper('form');
         $this->load->helper('form_additional');
-        //$this->load->model('complaint_model');
         $this->load->helper('dateformat');
-
     }
 
     public function key_in($id='')
     {
-        /*$cookie = array(
-            'name' => 'token',
-            'value' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDk4NTcyNTc2LCJleHAiOjE0OTg2NTkwNzZ9.7GCfaZSKdXMO9GTmTHQb-ow2glgMktSVH1C-mwwTB6Y',
-            'expire' => '86500',
-        );
-        $this->input->set_cookie($cookie);*/
-
 
         $url = base_url("api/dropdown/complain_type_lists");
         $arr_data['complain_type'] = api_call_get($url);
@@ -74,12 +64,6 @@ class Complaint extends CI_Controller
     public function dashboard($page=1)
     {
 
-        /*$cookie = array(
-            'name' => 'token',
-            'value' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDk4NzQ5MzY1LCJleHAiOjE0OTg4MzU4NjV9.MOrBK-wwE3aHnhpcpZt9iW7fkdIwsNERP_cEadfIlKw',
-            'expire' => '86500',
-        );
-        $this->input->set_cookie($cookie);*/
         $url = base_url("api/dropdown/complain_type_lists");
         $arr_data['data_filter'] = api_call_get($url);
         $url = base_url('/api/complaint/total_row');
