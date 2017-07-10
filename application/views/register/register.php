@@ -5,9 +5,11 @@ $link = array(
                 'rel' => 'stylesheet'
        );
        echo link_tag($link);
+       //echo"<pre>";print_r($data);echo"</pre>";
 ?>
-    <form id="frm_user" >
-        <input type="hidden" name="id" id="id" value="" />
+    <form id="frm_user" enctype="multipart/form-data">
+        <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" />
+        <input type="hidden" name="action_to" id="action_to" value="main/register" />
 <div class="row frame">
     <div class="row title">
         <div class="col-md-12">
@@ -124,14 +126,13 @@ $link = array(
                     $prename[''] = 'กรุณาเลือกคำนำหน้าชื่อ';
                     ksort($prename);
                     echo form_dropdown([
-                        'name' => 'prename_th',
-                        'id' => 'prename_th',
-                        'class' => 'form-control'
-                    ], $prename, $data['user']['prename_th']);
+                        'name' => 'prename_th_id',
+                        'id' => 'prename_th_id',
+                        'class' => 'form-control',
+                        'onchange'=>"get_list_text('prename_th_id','prename_th')"
+                    ], $prename, $data['user']['prename_th_id']);
                     ?>
-                    <!--<select id="prename_th" name="prename_th" class="form-control">
-                        <option value='1'>--กรุณาระบุ--</option>
-                    </select>-->
+                    <input type="hidden" name="prename_th" id="prename_th" value="<?php echo $data['user']['prename_th']; ?>">
                 </label>
             </div>
         </div>
@@ -205,8 +206,8 @@ $link = array(
                     เพศ :
                 </label>
                 <label class="col-sm-3">
-                    <input type="radio" name="gender" class='gentle' id="gentle1" value="M" /> ชาย
-                    <input type="radio" name="gender" class='gentle' id="gentle2" value="F" /> หญิง
+                    <input type="radio" name="gender" class='gender' id="gender1" value="M" <?php echo ($data['user']['gender']=='M')?'checked':''; ?> /> ชาย
+                    <input type="radio" name="gender" class='gender' id="gender2" value="F" <?php echo ($data['user']['gender']=='F')?'checked':''; ?> /> หญิง
                 </label>
             </div>
         </div>
@@ -254,9 +255,17 @@ $link = array(
                     จังหวัด : 
                 </label>
                 <label class="col-sm-3">
-                    <select class="form-control" name="province" id="province">
-                        <option value="1">--กรุณาเลือก--</option>
-                    </select>
+                    <?php
+                    $province_arr = $province_list;
+                    $province_arr[''] = 'กรุณาเลือก';
+                    ksort($province_arr);
+                    echo form_dropdown([
+                        'name' => 'province_id',
+                        'id' => 'province_id',
+                        'class' => 'form-control',
+                        'onchange'=>"get_district(this.value,'')"
+                    ], $province_arr, @$data['user']['address_id']!=''?  substr(@$data['user']['address_id'],0,3)."00000":'20000000');
+                    ?>
                 </label>
             </div>
         </div>
@@ -268,9 +277,19 @@ $link = array(
                     อำเภอ : 
                 </label>
                 <label class="col-sm-3">
-                    <select class="form-control" id="district" name="district">
-                        <option value="1">--กรุณาเลือก--</option>
-                    </select>
+                    <span id="district_span">
+                        <?php
+                        $district_arr = $district_list;
+                        $district_arr[''] = 'กรุณาเลือก';
+                        ksort($district_arr);
+                        echo form_dropdown([
+                            'name' => 'district_id',
+                            'id' => 'district_id',
+                            'class' => 'form-control',
+                            'onchange'=>"get_subdistrict(this.value,'')"
+                        ], $district_arr, substr(@$data['user']['address_id'],0,4)."0000");
+                        ?>
+                    </span>
                 </label>
             </div>
         </div>
@@ -282,9 +301,18 @@ $link = array(
                     ตำบล : 
                 </label>
                 <label class="col-sm-3">
-                    <select class="form-control" id="sub_district" name="sub_district">
-                        <option value="1">--กรุณาเลือก--</option>
-                    </select>
+                    <span id="subdistrict_span">
+                        <?php
+                        $subdistrict_arr = @$subdistrict_list;
+                        $subdistrict_arr[''] = 'กรุณาเลือก';
+                        ksort($subdistrict_arr);
+                        echo form_dropdown([
+                            'name' => 'address_id',
+                            'id' => 'address_id',
+                            'class' => 'form-control'
+                        ], $subdistrict_arr, @$data['user']['address_id']);
+                        ?>
+                    </span>  
                 </label>
             </div>
         </div>
@@ -301,13 +329,43 @@ $link = array(
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="col-sm-3 right">
+                    อัพโหลดรูปภาพ :
+                </label>
+                <label class="col-sm-4">
+                    <input type="file" accept=".jpg, .png" id="register_photo" name="register_photo" class="form-control" onchange="readURL(this);"/>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="col-sm-3 right">
+                </label>
+                <label class="col-sm-4">
+                    <?php
+                        if(@$data['user']['register_photo']!=''){
+                            $register_photo = @$data['user']['register_photo'];
+                        }else{
+                            $register_photo = 'no_photo.jpg';
+                        }
+                    ?>
+                    <img id="show_photo" width="150px" height="160px" src="<?php echo base_url('upload/register_photos/'.$register_photo);?>" alt="your image" />
+                </label>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="row">
     <div class="col-md-12">
         <div class="col-md-6">
             <div class="form-group">
                 <label class="col-sm-5 right">
-                    <input type="button" class="btn btn-bitbucket" value="สมัครสมาชิก" onclick="validateForm()">
+                    <input type="button" class="btn btn-bitbucket" value="บันทึก" onclick="validateForm()">
                 </label>
                 <label class="col-sm-5">
                     <input type="button" class="btn btn-default" value="ยกเลิก">
