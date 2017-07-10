@@ -9,6 +9,7 @@ class Complaint extends REST_Controller
     {
         parent::__construct();
         $this->load->model('data/Key_in_model');
+        $this->load->model('data/Result_model');
         $this->load->helper('file');
     }
 
@@ -248,4 +249,35 @@ class Complaint extends REST_Controller
             $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
     }
+
+    public function dt_result_post(){
+        $data = $this->post();
+        $id = $this->Result_model->insert($data);
+        if(!$id){
+            $this->response($id, REST_Controller::HTTP_NOT_FOUND);
+        }else{
+            $this->response($id, REST_Controller::HTTP_OK);
+        }
+    }
+
+    public function dt_result_put(){
+        $data = $this->put();
+        $id = $this->Result_model->update($data);
+        if(!$id){
+            $this->response($id, REST_Controller::HTTP_NOT_FOUND);
+        }else{
+            $this->response($id, REST_Controller::HTTP_OK);
+        }
+    }
+
+    public function dt_result_delete(){
+        $data = $this->delete('result_id');
+        $id = $this->Result_model->delete($data);
+        if(!$id){
+            $this->response($id, REST_Controller::HTTP_NOT_FOUND);
+        }else{
+            $this->response($id, REST_Controller::HTTP_OK);
+        }
+    }
+
 }
