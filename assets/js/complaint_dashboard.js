@@ -57,14 +57,6 @@ $( document ).ready(function() {
         $('#keyin_id_result').val(id);
     });
 
-    $("#btSaveReceived").click(function() {
-        $("#form_save_received").submit();
-    });
-
-    $("#btSaveSend").click(function() {
-        $("#form_save_send").submit();
-    });
-
     $("#btFilter").click(function() {
         $("#form_filter").submit();
     });
