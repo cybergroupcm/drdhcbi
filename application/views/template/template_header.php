@@ -271,6 +271,12 @@
           'type' => 'text/css'
       );
       echo link_tag($link);
+      
+      $link = array(
+                  'src' => 'assets/jquery/jquery.blockUI.js',
+                  'type' => 'text/javascript'
+        );
+        echo script_tag($link);
       ?>
     </head>
     <body class="<?php echo $body_class;?>">
