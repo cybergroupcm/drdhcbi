@@ -365,7 +365,7 @@ $link = array(
         <div class="col-md-6">
             <div class="form-group">
                 <label class="col-sm-5 right">
-                    <input type="button" class="btn btn-bitbucket" value="บันทึก" onclick="validateForm($('#id').val())">
+                    <input type="button" class="btn btn-bitbucket" value="บันทึก" onclick="validateForm()">
                 </label>
                 <label class="col-sm-5">
                     <input type="button" class="btn btn-default" value="ยกเลิก">

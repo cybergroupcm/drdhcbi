@@ -1,5 +1,8 @@
-    function validateForm(action) {
-        console.log(action);
+    function validateForm() {
+        var action = '';
+        if($('#id').val()!=''){
+            action = 'edit';
+        }
         var text_warning = "";
         if ($('#username').val() == "") {
             text_warning += " - ชื่อผู้ใช้งาน\n";
@@ -29,7 +32,7 @@
         if ($('#idcard').val() == "") {
             text_warning += " - รหัสประจำตัวประชาชน\n";
         }
-        if ($('#prename_th').val() == "") {
+        if ($('#prename_th_id').val() == "") {
             text_warning += " - คำนำหน้าชื่อ\n";
         }
         if ($('#name_th').val() == "") {
