@@ -50,6 +50,11 @@ function saveForm() {
                         timer: 2000,
                         showConfirmButton: false
                     });
+                    setTimeout(function(){
+                        $(location).attr('href',base_url+'complaint/dashboard');
+                    }, 2000);
+                }else {
+                    swal("ผิดพลาด",text_error, "error");
                 }
             }).fail(function (err) {
             });
@@ -61,6 +66,9 @@ function saveForm() {
                 timer: 3000,
                 showConfirmButton: false
             });
+            setTimeout(function(){
+                $(location).attr('href',base_url+'complaint/dashboard');
+            }, 2000);
         }else{
             swal("ผิดพลาด",text_error, "error");
         }
