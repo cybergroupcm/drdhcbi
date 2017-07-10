@@ -10,6 +10,7 @@ class Complaint extends REST_Controller
         parent::__construct();
         $this->load->model('data/Key_in_model');
         $this->load->model('data/Result_model');
+        $this->load->model('data/Result_attach_file_model');
         $this->load->helper('file');
     }
 
@@ -281,6 +282,62 @@ class Complaint extends REST_Controller
     }
 
     public function resule_file_attach_post(){
-        echo"<pre>";print_r($_FILES);echo"</pre>";exit;
+        //echo"<pre>";print_r($_POST);print_r($_FILES);echo"</pre>";
+        foreach(@$_FILES['attach_file']['name'] as $key_file => $value_file){
+            if(@$value_file!=''){
+                $output_dir = "./upload/result_attach_file/";
+                //echo $output_dir;
+                if(!@mkdir($output_dir,0,true)){
+                   chmod($output_dir, 0777);
+                }else{
+                   chmod($output_dir, 0777);
+                }
+                    $ret = array();
+                    $error =$_FILES["attach_file"]["error"][$key_file];
+                    $fileName=array();
+                    $list_dir = array(); 
+                        $cdir = scandir($output_dir); 
+                        foreach ($cdir as $key => $value) { 
+                           if (!in_array($value,array(".",".."))) { 
+                              if (is_dir(@$dir . DIRECTORY_SEPARATOR . $value)){ 
+                                $list_dir[$value] = dirToArray(@$dir . DIRECTORY_SEPARATOR . $value); 
+                              }else{
+                                if(substr($value,0,8) == date('Ymd')){
+                                $list_dir[] = $value;
+                                }
+                              } 
+                           } 
+                        }
+                        $explode_arr=array();
+                        foreach($list_dir as $key => $value){
+                            $task = explode('.',$value);
+                            $task2 = explode('_',$task[0]);
+                            $explode_arr[] = $task2[1];
+                        }
+                        $max_run_num = sprintf("%04d",count($explode_arr)+1);
+                        $explode_old_file = explode('.',$_FILES["attach_file"]["name"][$key_file]);
+                        $new_file_name = date('Ymd')."_".$max_run_num.".".$explode_old_file[(count($explode_old_file)-1)];
+                    if(!is_array($_FILES["attach_file"]["name"][$key_file])) //single file
+                    {
+                            $fileName['name'] = $new_file_name;
+                            $fileName['size'] = $_FILES["attach_file"]["size"][$key_file];
+                            $fileName['type'] = $_FILES["attach_file"]["type"][$key_file];
+                            $fileName['old_name'] = $_FILES["attach_file"]["name"][$key_file];
+                            move_uploaded_file($_FILES["attach_file"]["tmp_name"][$key_file],$output_dir.$fileName['name']);
+                    }
+                    $data = array(
+                        'keyin_id' => $this->post('keyin_id_result'),
+                        'file_name' => $_FILES["attach_file"]["name"][$key_file],
+                        'file_system_name' => $fileName['name'],
+                    );
+                $id = $this->Result_attach_file_model->insert($data);
+                if(!$id){
+                    $this->response($id, REST_Controller::HTTP_NOT_FOUND);
+                }else{
+                    $this->response($id, REST_Controller::HTTP_OK);
+                }
+            }
+        }
+        exit;
     }
 }
