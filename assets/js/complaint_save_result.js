@@ -1,3 +1,4 @@
+var base_url = $('#base_url').attr('class');
 $(document).ready(function () {
     $("#btSaveResult").click(function () {
         var method = 'POST';
@@ -8,39 +9,70 @@ $(document).ready(function () {
         var arr_result_date = $('#result_date').val().split('/');
         var result_date = (arr_result_date[2]-543)+'-'+arr_result_date[1]+'-'+arr_result_date[0];
         current_status_id = '4';
-        update_status(keyin_id,current_status_id);
-        add_result(keyin_id,result_detail,result_date);
+        update_status(keyin_id,current_status_id,result_detail,result_date);
+        result_attach_file(keyin_id);
     });
 });
+var text_ok = 'บันทึกข้อมูลสำเร็จ';
+var text_error = 'บันทึกข้อมูลไม่สำเร็จ';
 
 //บันทึกสถานะ
-function update_status(keyin_id,current_status_id){
+function update_status(keyin_id,current_status_id,result_detail,result_date){
     $.ajax({
         type: 'PUT', //GET, POST, PUT
-        url: 'http://localhost/drdhcbi/api/complaint/key_in/'+keyin_id,  //the url to call
+        url: base_url+'api/complaint/key_in/',  //the url to call
         data: { keyin_id: keyin_id ,current_status_id:current_status_id },     //Data sent to server
-        //contentType: 'application/json',
         beforeSend: function (xhr) {   //Include the bearer token in header
             xhr.setRequestHeader("Authorization", 'Bearer ' + jwt);
-        }
-    }).done(function (response) {
-        alert(response);
-        //Response ok. process reuslt
+        },
+        async: false,
+        cache: false
+    }).done(function (response,xhr) {
+        add_result(keyin_id,result_detail,result_date);
     }).fail(function (err) {
-        alert(err);
-        //Error during request
+        swal("ผิดพลาด",text_error, "error");
     });
 }
 
 function add_result(keyin_id,result_detail,result_date){
     $.ajax({
-        type: 'PUT', //GET, POST, PUT
-        url: 'http://localhost/drdhcbi/api/complaint/result/',  //the url to call
+        type: 'POST', //GET, POST, PUT
+        url: base_url+'api/complaint/result/',  //the url to call
         data: { keyin_id: keyin_id , result_detail: result_detail , result_date: result_date},     //Data sent to server
-        //contentType: 'application/json',
         beforeSend: function (xhr) {   //Include the bearer token in header
             xhr.setRequestHeader("Authorization", 'Bearer ' + jwt);
+        },
+        async: false,
+        cache: false
+    }).done(function (response,xhr) {
+        if(xhr.state = 201){
+            swal({
+                title: "สำเร็จ",
+                text: text_ok,
+                type: "success",
+                timer: 2000,
+                showConfirmButton: false
+            });
+            setTimeout(function(){
+                $(location).attr('href',base_url+'complaint/dashboard');
+            }, 2000);
         }
+    }).fail(function (err) {
+        swal("ผิดพลาด",text_error, "error");
+    });
+}
+
+//แนบไฟล์
+function result_attach_file(keyin_id){
+    var data = new FormData($("#form_save_result")[0]);
+    $.ajax({
+        method: "POST",
+        url: base_url +"api/complaint/resule_file_attach/",
+        data: data,
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false
     }).done(function (response) {
         alert(response);
         //Response ok. process reuslt
@@ -48,9 +80,4 @@ function add_result(keyin_id,result_detail,result_date){
         alert(err);
         //Error during request
     });
-}
-
-//แนบไฟล์
-function result_attach_file(keyin_id){
-
 }
