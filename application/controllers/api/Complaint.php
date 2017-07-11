@@ -10,8 +10,9 @@ class Complaint extends REST_Controller
         parent::__construct();
         $this->load->model('data/Key_in_model');
         $this->load->model('data/Result_model');
+        $this->load->model('data/User_model');
         $this->load->model('data/Attach_file_model');
-        $this->load->helper('file');
+        $this->load->helper('file','url','api');
     }
 
     public function dashboard_get()
@@ -295,6 +296,30 @@ class Complaint extends REST_Controller
             $this->response($id, REST_Controller::HTTP_NOT_FOUND);
         }else{
             $this->response($id, REST_Controller::HTTP_OK);
+        }
+    }
+
+    public function user_mode_permission_get()
+    {
+        $user_id = $this->get('user_id');
+        $sql = " SELECT
+                    au_applications.mode_id,
+                    au_applications.app_id,
+                    au_applications.app_name
+                FROM au_users_groups
+                INNER JOIN au_groups_permissions ON au_groups_permissions.gid = au_users_groups.group_id
+                INNER JOIN au_applications ON au_applications.app_id = au_groups_permissions.appid
+                WHERE au_users_groups.user_id = '".$user_id."'
+                ORDER BY au_applications.order_by ASC ";
+        $user_data = $this->User_model->sql_query($sql)->result_array();
+        if( !empty($user_data) ) {
+            $result_data = array();
+            foreach( $user_data as $key => $value ){
+                $result_data[$value['mode_id']][$value['app_id']] = $value['app_id'];
+            }
+            $this->response($result_data, REST_Controller::HTTP_OK);
+        }else{
+            $this->response($user_id, REST_Controller::HTTP_NOT_FOUND);
         }
     }
 

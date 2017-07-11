@@ -12,6 +12,7 @@ class Complaint extends CI_Controller
         $this->load->helper('form');
         $this->load->helper('form_additional');
         $this->load->helper('dateformat');
+        $this->load->helper(array('html', 'url', 'api'));
         $this->load->library('mpdf');
     }
 
@@ -64,6 +65,30 @@ class Complaint extends CI_Controller
 
     public function dashboard($page=1)
     {
+
+        $url = base_url("api/authen/token_info");
+        $user_data_id = api_call_get($url);
+
+        $url = base_url("api/complaint/user_mode_permission/user_id/".$user_data_id['userid']);
+        $user_modes_groups = api_call_get($url);
+
+        $arr_data['action_mode'] = array(
+            'edit' => 0,    //แก้ไข
+            'delete' => 0,  //ลบ
+            'receive' => 0, //รับเรื่อง
+            'send' => 0,    //ส่งเรื่อง
+            'finish' => 0   //บันทึกผลการดำเนินการ
+        );
+
+        if( !empty($user_modes_groups[2]) ){
+            foreach( $user_modes_groups[2] as $key => $value ){
+                if( $value == 15 ){ $arr_data['action_mode']['edit'] = 1; }
+                if( $value == 16 ){ $arr_data['action_mode']['delete'] = 1; }
+                if( $value == 17 ){ $arr_data['action_mode']['receive'] = 1; }
+                if( $value == 18 ){ $arr_data['action_mode']['send'] = 1; }
+                if( $value == 20 ){ $arr_data['action_mode']['finish'] = 1; }
+            }
+        }
 
         $url = base_url("api/dropdown/complain_type_lists");
         $arr_data['data_filter'] = api_call_get($url);
