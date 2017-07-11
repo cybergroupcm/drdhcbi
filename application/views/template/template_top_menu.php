@@ -198,14 +198,34 @@
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <?php echo img(array('src'=>'template/dist/img/user2-160x160.jpg', 'alt'=> 'User Image','class'=>'user-image')); ?>
+                  <?php
+                  if($user_data['user']['register_photo']) {
+                    if (@getimagesize(base_url('upload/register_photos/' . $user_data['user']['register_photo']))  !== false ) {
+                      echo img(array('src' => 'upload/register_photos/' . $user_data['user']['register_photo'], 'alt' => 'User Image', 'class' => 'user-image'));
+                    } else {
+                      echo img(array('src' => 'assets/images/person_mono.jpg', 'alt' => 'User Image', 'class' => 'user-image'));
+                    }
+                  }else{
+                    echo img(array('src' => 'assets/images/person_mono.jpg', 'alt' => 'User Image', 'class' => 'user-image'));
+                  }
+                  ?>
                   <span class="hidden-xs"><?php echo $user_data['user']['first_name'] ?></span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
-                    <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
-                    <p>
+                    <?php
+                    if($user_data['user']['register_photo']) {
+                      if (@getimagesize(base_url('upload/register_photos/' . $user_data['user']['register_photo']))  !== false ) {
+                        echo img(array('src' => 'upload/register_photos/' . $user_data['user']['register_photo'], 'alt' => 'User Image', 'class' => 'img-circle'));
+                      } else {
+                        echo img(array('src' => 'assets/images/person_mono.jpg', 'alt' => 'User Image', 'class' => 'img-circle'));
+                      }
+                    }else{
+                      echo img(array('src' => 'assets/images/person_mono.jpg', 'alt' => 'User Image', 'class' => 'img-circle'));
+                    }
+                    ?>
+                      <p>
                       <?php echo $user_data['user']['first_name']." ".$user_data['user']['last_name'] ?>
                       <small><?php //echo $user_data['user']['position'] ?></small>
                     </p>

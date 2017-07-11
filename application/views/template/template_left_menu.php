@@ -6,7 +6,17 @@
           <!-- Sidebar user panel -->
           <div class="user-panel">
             <div class="pull-left image">
-              <?php echo img(array('src'=>'template/dist/img/user2-160x160.jpg', 'alt'=> 'User Image','class'=>'img-circle')); ?>
+              <?php
+              if($user_data['user']['register_photo']) {
+                if (@getimagesize(base_url('upload/register_photos/' . $user_data['user']['register_photo']))  !== false ) {
+                  echo img(array('src' => 'upload/register_photos/' . $user_data['user']['register_photo'], 'alt' => 'User Image', 'class' => 'img-circle'));
+                } else {
+                  echo img(array('src' => 'assets/images/person_mono.jpg', 'alt' => 'User Image', 'class' => 'img-circle'));
+                }
+              }else{
+                echo img(array('src' => 'assets/images/person_mono.jpg', 'alt' => 'User Image', 'class' => 'img-circle'));
+              }
+              ?>
             </div>
             <div class="pull-left info">
               <p><?php echo $user_data['user']['first_name']." ".$user_data['user']['last_name']?></p>
@@ -15,14 +25,14 @@
             </div>
           </div>
           <!-- search form -->
-          <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-              <input type="text" name="q" class="form-control" placeholder="Search..."/>
-              <span class="input-group-btn">
-                <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
-              </span>
-            </div>
-          </form>
+<!--          <form action="#" method="get" class="sidebar-form">-->
+<!--            <div class="input-group">-->
+<!--              <input type="text" name="q" class="form-control" placeholder="Search..."/>-->
+<!--              <span class="input-group-btn">-->
+<!--                <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>-->
+<!--              </span>-->
+<!--            </div>-->
+<!--          </form>-->
           <!-- /.search form -->
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
