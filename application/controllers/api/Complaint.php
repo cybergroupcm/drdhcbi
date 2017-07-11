@@ -268,6 +268,28 @@ class Complaint extends REST_Controller
             $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
     }
+    
+    public function result_get()
+    {
+        $id = $this->get('id');
+        //echo $id;exit;
+        $query = $this->db->get_where('dt_result',array('keyin_id'=>$id));
+        $result['result'] = $query->row_array();
+        $this->db->where('keyin_id',$id);
+        $query = $this->db->get('dt_result_attach_file');
+        $result['result_attach_file'] = $query->result();
+        if ($result) {
+            // Set the response and exit
+            $this->response($result, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }
+        else {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'No result were found'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
 
     public function result_post(){
         $data = $this->post();
@@ -281,7 +303,8 @@ class Complaint extends REST_Controller
 
     public function result_put(){
         $data = $this->put();
-        $id = $this->Result_model->update($data);
+        //echo"<pre>";print_r($data);echo"</pre>";exit;
+        $id = $this->Result_model->update($data, array('keyin_id'=>$data['keyin_id']));
         if(!$id){
             $this->response($id, REST_Controller::HTTP_NOT_FOUND);
         }else{
@@ -299,8 +322,11 @@ class Complaint extends REST_Controller
         }
     }
 
-    public function resule_file_attach_post(){
+    public function result_file_attach_post(){
         //echo"<pre>";print_r($_POST);print_r($_FILES);echo"</pre>";
+    if(!is_array(@$_FILES['attach_file']['name'])){
+        exit;
+    }else{
         foreach(@$_FILES['attach_file']['name'] as $key_file => $value_file){
             if(@$value_file!=''){
                 $output_dir = "./upload/result_attach_file/";
@@ -349,13 +375,28 @@ class Complaint extends REST_Controller
                         'file_system_name' => $fileName['name'],
                     );
                 $id = $this->Result_attach_file_model->insert($data);
-                if(!$id){
-                    $this->response($id, REST_Controller::HTTP_NOT_FOUND);
-                }else{
-                    $this->response($id, REST_Controller::HTTP_OK);
-                }
             }
         }
+        if(!$id){
+            $this->response($id, REST_Controller::HTTP_NOT_FOUND);
+        }else{
+            $this->response($id, REST_Controller::HTTP_OK);
+        }
         exit;
+    }
+    }
+    
+    public function result_file_delete_post(){
+        $file_id = $this->post('file_id');
+        $file_name = $this->post('file_name');
+        $output_dir = "./upload/result_attach_file/";
+        unlink($output_dir.$file_name);
+        //echo"<pre>";print_r($file_id);print_r($file_name);echo"</pre>";exit;
+        $id = $this->Result_attach_file_model->delete($file_id);
+        if(!$id){
+            $this->response($id, REST_Controller::HTTP_NOT_FOUND);
+        }else{
+            $this->response($id, REST_Controller::HTTP_OK);
+        }
     }
 }

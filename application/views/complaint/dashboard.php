@@ -86,7 +86,7 @@ $this->load->view('complaint/save_result');
                                             echo img(array('src' => 'assets/images/circle-save.png', 'title' => 'รับเรื่อง', 'width' => '36px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#received', 'id' => $val['keyin_id']));
                                         }elseif($val['current_status_id'] == '2') {
                                             echo img(array('src' => 'assets/images/send.png', 'title' => 'ส่งเรื่องต่อ', 'width' => '36px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#send', 'id' => $val['keyin_id']));
-                                        }elseif($val['current_status_id'] == '3') {
+                                        }elseif($val['current_status_id'] == '3' || $val['current_status_id'] == '4') {
                                             echo img(array('src' => 'assets/images/save_result.png', 'title' => 'บันทึกผลการดำเนินการ', 'width' => '36px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#save_result', 'id' => $val['keyin_id']));
                                         }else{
 

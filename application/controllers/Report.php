@@ -12,7 +12,6 @@ class Report extends CI_Controller {
         $this->load->helper('form');
         //$this->load->model('complaint_model');
         $this->load->helper('dateformat');
-        $this->load->library('mpdf');
     }
 
     public function report_all_complaint()
@@ -73,6 +72,7 @@ class Report extends CI_Controller {
         $this->libraries->template('report_statistic_compare/report_statistic_compare', $arr_data);
     }
     public function example_mpdf(){ 
+        $this->load->library('mpdf');
         //load the view and saved it into $html variable
         $url = base_url('api/complaint/complaint_type');
         $arr_data['complaint_type'] = api_call_get($url);
