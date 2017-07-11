@@ -12,6 +12,7 @@ class Complaint extends CI_Controller
         $this->load->helper('form');
         $this->load->helper('form_additional');
         $this->load->helper('dateformat');
+        $this->load->library('mpdf');
     }
 
     public function key_in($id='')
@@ -153,5 +154,23 @@ class Complaint extends CI_Controller
         $arr_data['type'] = $type;
         $arr_data['district_list'] = api_call_get($url);
         $this->load->view('complaint/get_district_list', $arr_data);
+    }
+
+    public function pdf_detail($id){
+        //load the view and saved it into $html variable
+        $url = base_url("api/complaint/key_in/".$id);
+        $arr_data['key_in_data'] = api_call_get($url);
+        $url = base_url("api/dropdown/ccaa_lists/Changwat");
+        $arr_data['province_list'] = api_call_get($url);
+        $html=$this->load->view('complaint/pdf_detail',$arr_data, true);
+        // As PDF creation takes a bit of memory, we're saving the created file in /downloads/reports/
+
+        $this->mpdf->SetDisplayMode('fullpage');
+        $this->mpdf->list_indent_first_level = 0;
+        //$stylesheet = file_get_contents(APPPATH.'third_party/mpdf/css/mpdfstyletables.css');
+        //$this->mpdf->WriteHTML($stylesheet, 1);
+        $this->mpdf->WriteHTML($html, 2);
+        $this->mpdf->Output('example_mpdf.pdf', 'I');
+        exit;
     }
 }
