@@ -1,30 +1,80 @@
 var base_url = $('#base_url').attr('class');
 function saveForm() {
     var method = 'POST';
+    var text_ok = 'บันทึกข้อมูลสำเร็จ';
+    var text_error = 'บันทึกข้อมูลไม่สำเร็จ';
     if ($("#action").val() == 'edit') {
         method = 'PUT';
+        text_ok = 'แก้ไขข้อมูลสำเร็จ';
+        text_error = 'แก้ไขข้อมูลไม่สำเร็จ';
     }
     var jwt = Cookies.get("api_token");
-    var formData = new FormData($("#keyInForm")[0]);
-    console.log(formData);
+    var formData = $("#keyInForm").serialize();
+    var fileData = new FormData();
+    var files = 0;
+    $( "input[name='attach_file[]']").each(function() {
+        fileData.append("attach_file[]", $(this)[0].files[0]);
+        files++;
+    });
     $.ajax({
-        type: method, //GET, POST, PUT
-        url: 'http://rest.net/drdhcbi/api/complaint/key_in/',  //the url to call
-        data: formData,     //Data sent to server
-        //contentType: 'application/json',
-        beforeSend: function (xhr) {   //Include the bearer token in header
+        type: method,
+        url: base_url+'api/complaint/key_in/',
+        data:formData,
+        beforeSend: function (xhr) {
             xhr.setRequestHeader("Authorization", 'Bearer ' + jwt);
         },
         async: false,
-        cache: false,
-        contentType: false,
-        processData: false
-    }).done(function (response) {
-        alert(response);
-        //Response ok. process reuslt
+        cache: false
+    }).done(function (response,xhr) {
+        console.log(response);
+        console.log(xhr);
+        if(xhr.state = 201 && files > 0){
+            fileData.append('keyin_id',response);
+            $.ajax({
+                type: 'POST', //GET, POST, PUT
+                url: base_url+'api/complaint/key_in_file/',  //the url to call
+                data: fileData,     //Data sent to server
+                beforeSend: function (xhr) {   //Include the bearer token in header
+                    xhr.setRequestHeader("Authorization", 'Bearer ' + jwt);
+                },
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false
+            }).done(function (response,xhr) {
+                if(xhr.state = 201){
+                    swal({
+                        title: "สำเร็จ",
+                        text: text_ok,
+                        type: "success",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    setTimeout(function(){
+                        $(location).attr('href',base_url+'complaint/dashboard');
+                    }, 2000);
+                }else {
+                    swal("ผิดพลาด",text_error, "error");
+                }
+            }).fail(function (err) {
+            });
+        }else if(xhr.state = 201){
+            swal({
+                title: "สำเร็จ",
+                text: text_ok,
+                type: "success",
+                timer: 3000,
+                showConfirmButton: false
+            });
+            setTimeout(function(){
+                $(location).attr('href',base_url+'complaint/dashboard');
+            }, 2000);
+        }else{
+            swal("ผิดพลาด",text_error, "error");
+        }
+
     }).fail(function (err) {
-        alert(err);
-        //Error during request
+        swal("ผิดพลาด",text_error, "error");
     });
 }
 
@@ -131,7 +181,7 @@ function checkFile(id) {
                     txt += "size: " + file.size + " bytes <br>";
                 }
                 j++;
-                var file_show = '<span id="show_file_'+id+'">'+txt+'<input type="button" class="btn btn-danger" value="ลบ" onclick="delete_new_file(\''+id+'\')"></span><hr>';
+                var file_show = '<span id="show_file_'+id+'">'+txt+'<input type="button" class="btn btn-danger" value="ลบ" onclick="delete_new_file(\''+id+'\')"><hr></span>';
             }
         }
     }
@@ -148,7 +198,7 @@ function changeUserComplain() {
         $('#user_complain_detail').hide();
     }
 }
-var file_count = 0;
+var file_count = $("#file_count").val();
 function add_new_file(){
     file_count++;
     var input = '<input type="file" name="attach_file[]" class="attach_file" accept=".jpg, .png, .pdf" onchange="checkFile(\''+file_count.toString()+'\')" id="attach_file_'+file_count.toString()+'" style="display:none;">';
@@ -159,6 +209,45 @@ function add_new_file(){
 function delete_new_file(id){
     $('#attach_file_'+id).remove();
     $('#show_file_'+id).remove();
+}
+function ajax_delete(id,file_id) {
+    var jwt = Cookies.get("api_token");
+    swal({
+            title: "ลบไฟล์เอกสารหลักฐาน",
+            text: "ต้องการลบไฟล์เอกสารหลักฐานใช่หรือไม่",
+            type: "warning",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true,
+        },
+        function(){
+            setTimeout(function(){
+                $.ajax({
+                    type: "DELETE",
+                    url: base_url+'api/complaint/key_in_file/'+id,
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", 'Bearer ' + jwt);
+                    },
+                    async: false,
+                    cache: false
+                }).done(function (response,xhr) {
+                    if(xhr.state = 200){
+                        delete_new_file(file_id);
+                        swal({
+                            title: "สำเร็จ",
+                            text: "ลบไฟล์เอกสารหลักฐานแล้ว",
+                            type:"success",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    }else {
+                        swal("ผิดพลาด", "ลบไฟล์เอกสารหลักฐานไม่สำเร็จ", "error");
+                    }
+                }).fail(function (err) {
+                    swal("ผิดพลาด", "ลบไฟล์เอกสารหลักฐานไม่สำเร็จ", "error");
+                });
+            }, 2000);
+        });
 }
 
 function get_district(value,defaule_value){

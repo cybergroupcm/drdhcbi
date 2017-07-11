@@ -9,6 +9,8 @@ class Complaint extends REST_Controller
     {
         parent::__construct();
         $this->load->model('data/Key_in_model');
+        $this->load->model('data/Result_model');
+        $this->load->model('data/Attach_file_model');
         $this->load->helper('file');
     }
 
@@ -52,7 +54,7 @@ class Complaint extends REST_Controller
     {
         $id = $this->get('id');
         if ($id === NULL) {
-            $complaint = $this->Key_in_model->with_complaint_type('fields:complain_type_name')->with_wish('fields:wish_name')->get_all();
+            $complaint = $this->Key_in_model->with_complaint_type('fields:complain_type_name')->with_wish('fields:wish_name')->with_title_name('fields:prename')->with_subject('fields:subject_name')->with_channel('fields:channel_name')->with_attach_file('fields:file_id,file_name,file_system_name')->get_all();
             if ($complaint) {
                 $this->response($complaint, REST_Controller::HTTP_OK);
             }
@@ -67,7 +69,7 @@ class Complaint extends REST_Controller
         if ($id <= 0) {
             $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST);
         }
-        $complaint = $this->Key_in_model->with_complaint_type('fields:complain_type_name')->with_wish('fields:wish_name')->get($id);
+        $complaint = $this->Key_in_model->with_complaint_type('fields:complain_type_name')->with_wish('fields:wish_name')->with_title_name('fields:prename')->with_subject('fields:subject_name')->with_channel('fields:channel_name')->with_attach_file('fields:file_id,file_name,file_system_name')->get($id);
         if (!empty($complaint)) {
             $this->set_response($complaint, REST_Controller::HTTP_OK);
         }
@@ -84,12 +86,12 @@ class Complaint extends REST_Controller
     {
         $user = $this->jwt_decode($this->jwt_token());
         $data = $this->post();
-        if(array_key_exists('userid',$user)){
+        if (array_key_exists('userid', $user)) {
             $data['create_user_id'] = $user ['userid'];
             $data['update_user_id'] = $user ['userid'];
         }
-        $complaintType=null;
-        $wish=null;
+        $complaintType = null;
+        $wish = null;
         if (array_key_exists('complaint_type', $data)) {
             $complaintType = $data['complaint_type'];
             unset($data['complaint_type']);
@@ -98,10 +100,6 @@ class Complaint extends REST_Controller
             $wish = $data['wish'];
             unset($data['wish']);
         }
-        /*if (array_key_exists('attach_file', $data)) {
-            //$attachFile = $data['attach_file'];
-            unset($data['attach_file']);
-        }*/
         $keyInID = $this->Key_in_model->insert($data);
         if (!is_null($keyInID) && count($complaintType) > 0) {
             foreach ($complaintType as $item) {
@@ -113,24 +111,17 @@ class Complaint extends REST_Controller
                 $this->Key_in_model->insertPivotWish($keyInID, $item);
             }
         }
-        //print_r($_FILES['attach_file']);
-        //$uploads = $this->do_uploads('attach_file');
-        /*if(!empty($keyInID)&&count($attachFile)>0){
-            foreach ($wish as $item){
-            }
-        }*/
         $this->set_response($keyInID, REST_Controller::HTTP_CREATED);
     }
 
     public function key_in_put()
     {
         $data = $this->put();
-        //parse_str(file_get_contents("php://input"),$data);
-        print_r($data);
         if (array_key_exists('keyin_id', $data)) {
             $keyInID = $data['keyin_id'];
             unset($data['keyin_id']);
-        }else{
+        }
+        else {
             $this->response([
                 'status' => FALSE,
                 'message' => 'No keyin_id were found'
@@ -148,11 +139,6 @@ class Complaint extends REST_Controller
             unset($data['wish']);
         }
 
-        if (array_key_exists('attach_file', $data)) {
-            //$attachFile = $data['attach_file'];
-            unset($data['attach_file']);
-        }
-
         if (!empty($keyInID)) {
             $updateRow = $this->Key_in_model->update($data, $keyInID);
         }
@@ -168,13 +154,13 @@ class Complaint extends REST_Controller
                 $this->Key_in_model->insertPivotWish($keyInID, $item);
             }
         }
-        $this->set_response($updateRow, REST_Controller::HTTP_CREATED);
+        $this->set_response($keyInID, REST_Controller::HTTP_CREATED);
 
     }
 
     public function key_in_delete()
     {
-        $id = (int) $this->get('id');
+        $id = (int)$this->get('id');
         if ($id == NULL) {
             $this->response([
                 'status' => FALSE,
@@ -188,38 +174,71 @@ class Complaint extends REST_Controller
 
     }
 
-    public function key_in_file_post(){
-
+    public function key_in_file_post()
+    {
+        $post = $this->post();
+        $files = $this->do_uploads($post['keyin_id'], 'attach_file');
+        $result = [];
+        if (array_key_exists('error', $files)) {
+            $this->response($files['error'], REST_Controller::HTTP_NOT_ACCEPTABLE);
+        }
+        else {
+            $docPath = str_replace('application/','',APPPATH);
+            foreach ($files['upload_data'] as $file) {
+                $data = [
+                    'keyin_id' => $post['keyin_id'],
+                    'file_name' => $file['file_name'],
+                    'file_system_name' => str_replace($docPath, '', $file['full_path']),
+                ];
+                $result[] = $this->Attach_file_model->insert($data);
+            }
+            $this->response($result, REST_Controller::HTTP_OK);
+        }
     }
 
-    public function test_com_get()
+    public function key_in_file_delete()
     {
-        $complaint = $this->Key_in_model->genComplainNo('2017-05-01');
-
-        $this->response($complaint, REST_Controller::HTTP_OK);
+        $id = (int) $this->get('id');
+        if ($id == NULL) {
+            $this->response([
+                'status' => FALSE,
+                'message' => 'file upload could not be delete'
+            ], REST_Controller::HTTP_NOT_ACCEPTABLE);
+        }
+        else {
+            $docPath = str_replace('application/','',APPPATH);
+            $file = $this->Attach_file_model->get($id);
+            $files = $this->Attach_file_model->delete($id);
+            if($files){
+                $path = $docPath.$file->file_system_name;
+                delete_files($path);
+                $this->response($files, REST_Controller::HTTP_OK);
+            }else{
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'file upload could not be delete'
+                ], REST_Controller::HTTP_NOT_ACCEPTABLE);
+            }
+        }
     }
 
-    private function do_uploads($field)
+    private function do_uploads($keyin_id, $field)
     {
-        $config['upload_path'] = './upload/';
+        $config['upload_path'] = './upload/complaints/' . $keyin_id;
         $config['allowed_types'] = 'gif|jpg|png';
-//        $config['max_size']             = 100;
-//        $config['max_width']            = 1024;
-//        $config['max_height']           = 768;
+        $config['file_name'] = 'fileupload';
+
+        if (!is_dir($config['upload_path'])) mkdir($config['upload_path'], 0777, TRUE);
 
         $this->load->library('upload', $config);
         $this->load->library('my_upload', $config);
 
-
-        if (!$this->upload->do_multi_upload($field)) {
+        $upload = $this->upload->do_multi_upload($field);
+        if (!$upload) {
             return $error = array('error' => $this->upload->display_errors());
-
-            //$this->load->view('upload_form', $error);
         }
         else {
-            return $data = array('upload_data' => $this->upload->data());
-
-            //$this->load->view('upload_success', $data);
+            return $data = array('upload_data' => $upload);
         }
     }
 
@@ -248,4 +267,35 @@ class Complaint extends REST_Controller
             $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
     }
+
+    public function result_post(){
+        $data = $this->post();
+        $id = $this->Result_model->insert($data);
+        if(!$id){
+            $this->response($id, REST_Controller::HTTP_NOT_FOUND);
+        }else{
+            $this->response($id, REST_Controller::HTTP_OK);
+        }
+    }
+
+    public function result_put(){
+        $data = $this->put();
+        $id = $this->Result_model->update($data);
+        if(!$id){
+            $this->response($id, REST_Controller::HTTP_NOT_FOUND);
+        }else{
+            $this->response($id, REST_Controller::HTTP_OK);
+        }
+    }
+
+    public function result_delete(){
+        $data = $this->delete('result_id');
+        $id = $this->Result_model->delete($data);
+        if(!$id){
+            $this->response($id, REST_Controller::HTTP_NOT_FOUND);
+        }else{
+            $this->response($id, REST_Controller::HTTP_OK);
+        }
+    }
+
 }

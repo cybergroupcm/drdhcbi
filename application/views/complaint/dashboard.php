@@ -62,18 +62,19 @@ $this->load->view('complaint/save_result');
                                     <td><?php echo $user_complain; ?></td>
                                     <td><?php echo @$val['current_status'][0]['current_status_name'];?></td>
                                     <td class="text-center">
-                                        <span onclick="window.location.href='<?php echo base_url('complaint/key_in/' . $val['keyin_id']) ?>';">
-                                            <?php echo img(array('src' => 'assets/images/edit.png', 'title' => 'แก้ไข', 'width' => '36px', 'style' => 'cursor:pointer')); ?>
-                                        </span>
                                         <?php
                                         if($val['current_status_id'] == '1') {
                                         ?>
+                                        <span onclick="window.location.href='<?php echo base_url('complaint/key_in/' . $val['keyin_id']) ?>';">
+                                            <?php echo img(array('src' => 'assets/images/edit.png', 'title' => 'แก้ไข', 'width' => '36px', 'style' => 'cursor:pointer')); ?>
+                                        </span>
                                         <span class="bt_delete" id="<?php echo $val['keyin_id']; ?>"
                                               onclick="bt_delete(<?php echo $val['keyin_id']; ?>)">
                                         <?php echo img(array('src' => 'assets/images/bin.png', 'title' => 'ลบ', 'width' => '36px', 'style' => 'cursor:pointer')); ?>
                                         </span>
                                         <?php
                                         }else{
+                                            echo img(array('src' => 'assets/images/edit_mono.png', 'title' => 'ลบ', 'width' => '36px', 'style' => 'cursor:pointer'));
                                             echo img(array('src' => 'assets/images/bin_mono.png', 'title' => 'ลบ', 'width' => '36px', 'style' => 'cursor:pointer'));
                                         }
                                         ?>
@@ -81,9 +82,13 @@ $this->load->view('complaint/save_result');
                                             <?php echo img(array('src' => 'assets/images/edit-article.png', 'title' => 'ดูรายละเอียด', 'width' => '36px', 'style' => 'cursor:pointer')); ?>
                                         </span>
                                       <?php
-                                        echo img(array('src' => 'assets/images/circle-save.png', 'title' => 'รับเรื่อง', 'width' => '36px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#received', 'id' => $val['keyin_id']));
-                                        echo img(array('src' => 'assets/images/send.png', 'title' => 'ส่งเรื่องต่อ', 'width' => '36px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#send', 'id' => $val['keyin_id']));
-                                        echo img(array('src' => 'assets/images/save_result.png', 'title' => 'บันทึกผลการดำเนินการ', 'width' => '36px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#save_result', 'id' => $val['keyin_id']));
+                                        if($val['current_status_id'] == '1') {
+                                            echo img(array('src' => 'assets/images/circle-save.png', 'title' => 'รับเรื่อง', 'width' => '36px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#received', 'id' => $val['keyin_id']));
+                                        }elseif($val['current_status_id'] == '2') {
+                                            echo img(array('src' => 'assets/images/send.png', 'title' => 'ส่งเรื่องต่อ', 'width' => '36px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#send', 'id' => $val['keyin_id']));
+                                        }else{
+                                            echo img(array('src' => 'assets/images/save_result.png', 'title' => 'บันทึกผลการดำเนินการ', 'width' => '36px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#save_result', 'id' => $val['keyin_id']));
+                                        }
                                         ?>
                                     </td>
                                 </tr>
