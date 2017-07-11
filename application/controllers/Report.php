@@ -12,6 +12,7 @@ class Report extends CI_Controller {
         $this->load->helper('form');
         //$this->load->model('complaint_model');
         $this->load->helper('dateformat');
+        $this->load->library('my_mpdf');
     }
 
     public function report_all_complaint()
@@ -72,7 +73,6 @@ class Report extends CI_Controller {
         $this->libraries->template('report_statistic_compare/report_statistic_compare', $arr_data);
     }
     public function example_mpdf(){ 
-        $this->load->library('mpdf');
         //load the view and saved it into $html variable
         $url = base_url('api/complaint/complaint_type');
         $arr_data['complaint_type'] = api_call_get($url);
@@ -80,13 +80,15 @@ class Report extends CI_Controller {
         $arr_data['channel'] = api_call_get($url);
         $html=$this->load->view('report_all_complaint/report_all_complaint',$arr_data, true);
  	 // As PDF creation takes a bit of memory, we're saving the created file in /downloads/reports/
-
-        $this->mpdf->SetDisplayMode('fullpage');
-        $this->mpdf->list_indent_first_level = 0;
+//        echo "<pre>";
+//        print_r($this->my_mpdf);
+//        die();
+        $this->my_mpdf->SetDisplayMode('fullpage');
+        $this->my_mpdf->list_indent_first_level = 0;
         //$stylesheet = file_get_contents(APPPATH.'third_party/mpdf/css/mpdfstyletables.css');
         //$this->mpdf->WriteHTML($stylesheet, 1);
-        $this->mpdf->WriteHTML($html, 2);
-        $this->mpdf->Output('example_mpdf.pdf', 'I');
+        $this->my_mpdf->WriteHTML($html, 2);
+        $this->my_mpdf->Output('example_mpdf.pdf', 'I');
         exit;
     }
     

@@ -89,7 +89,7 @@ $this->load->view('complaint/save_result');
                                         }elseif($val['current_status_id'] == '3' || $val['current_status_id'] == '4') {
                                             echo img(array('src' => 'assets/images/save_result.png', 'title' => 'บันทึกผลการดำเนินการ', 'width' => '36px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#save_result', 'id' => $val['keyin_id']));
                                         }else{
-
+                                            echo img(array('src' => 'assets/images/save_result.png', 'title' => 'บันทึกผลการดำเนินการ', 'width' => '36px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#save_result', 'id' => $val['keyin_id']));
                                         }
                                         ?>
                                     </td>
