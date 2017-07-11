@@ -6,6 +6,13 @@
                         <h3 class="box-title"></h3>
                     </div>
                     <div class="box-body">
+                        <div class="col-xs-12 text-right">
+                           <a href="<?php echo base_url('complaint/pdf_detail/' . @$key_in_data['keyin_id'])?>" target="_blank">
+                                <?php echo img(array('src' => 'assets/images/print.png', 'title' => 'สั่งพิมพ์', 'width' => '48px', 'style' => 'cursor:pointer')); ?>
+                            </a>
+                            <br>
+                            <br>
+                        </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -409,9 +416,11 @@
                                         <span style="font-weight: normal;">
                                         <br>
                                             <?php
-                                                foreach($key_in_data['wish'] AS $key=>$val) {
-                                                    echo $val['wish_name'].'<br>';
+                                            if($key_in_data['wish']) {
+                                                foreach ($key_in_data['wish'] AS $key => $val) {
+                                                    echo @$val['wish_name'] . '<br>';
                                                 }
+                                            }
                                             ?>
                                         </span>
                                     </label>
@@ -426,10 +435,12 @@
                                         <span style="font-weight: normal;">
                                          <br>
                                             <?php
-                                                foreach($key_in_data['attach_file'] AS $key => $val){
-                                                    $runfile = $key+1;
-                                                    echo $runfile.'. '.'<a href="'.base_url($val['file_system_name']).'" target="_blank">'.$val['file_name'].'</a><br>';
+                                            if($key_in_data['attach_file']) {
+                                                foreach ($key_in_data['attach_file'] AS $key => $val) {
+                                                    $runfile = $key + 1;
+                                                    echo $runfile . '. ' . '<a href="' . base_url(@$val['file_system_name']) . '" target="_blank">' . $val['file_name'] . '</a><br>';
                                                 }
+                                            }
                                             ?>
                                         </span>
                                     </label>
@@ -465,11 +476,11 @@
                                 ?>
                                 <tr>
                                     <td class="text-center"><?php echo $runno;?></td>
-                                    <td><?php echo $val['req_status'];?></td>
-                                    <td><?php echo date_thai($val['req_date'],true);?></td>
-                                    <td><?php echo $val['req_title'];?></td>
-                                    <td class="text-right"><?php echo number_format($val['req_money'],2);?></td>
-                                    <td><?php echo $val['req_name'];?></td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td class="text-right">&nbsp;</td>
+                                    <td>&nbsp;</td>
                                 </tr>
                                 <?php
                             }
