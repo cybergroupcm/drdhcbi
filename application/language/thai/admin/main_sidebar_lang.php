@@ -17,7 +17,7 @@ $lang['menu_search'] = 'ค้นหา';
 /* * */$lang['menu_access_website']             = 'หน้าหลัก';
 
 /* * */$lang['menu_main_navigation']            = 'Main Navigation';
-/* ****** */$lang['menu_dashboard']             = 'Dashboard';
+/* ****** */$lang['menu_dashboard']             = 'ภาพรวมการจัดการผู้ใช้';
 
 
 /* * */$lang['menu_administration']             = 'Administration';

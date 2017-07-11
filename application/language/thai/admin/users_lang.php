@@ -10,14 +10,14 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 $lang['users_personal_id']         = 'รหัสประจำตัวประชาชน';
-$lang['users_action']              = 'Action';
+$lang['users_action']              = 'เครื่องมือ';
 $lang['users_active']              = 'ใช้งาน';
 $lang['users_company']             = 'หน่วยงาน/แผนก ที่สังกัด';
 $lang['users_create_user']         = 'สร้างบัญชีผู้ใช้';
 $lang['users_created_on']          = 'Created on';
 $lang['users_deactivate_question'] = 'Are you sure you want to deactivate the user %s';
 $lang['users_edit_user']           = 'แก้ไขบัญชีผู้ใช้';
-$lang['users_email']               = 'Email';
+$lang['users_email']               = 'อีเมลล์';
 $lang['users_prename']             = 'คำนำหน้าชื่อ (ภาษาไทย)';
 $lang['users_prename_eng']         = 'คำนำหน้าชื่อ (ภาษาอังกฤษ)';
 $lang['users_firstname']           = 'ชื่อ (ภาษาไทย)';
