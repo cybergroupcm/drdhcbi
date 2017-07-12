@@ -17,6 +17,10 @@ class Main_model extends CI_Model {
                 ORDER BY report_statistic_by_status.current_status_id ASC ";
       $query = $this->db->query($sql);
       $sum_all = 0;
+      $result[1] = 0;
+      $result[2] = 0;
+      $result[3] = 0;
+      $result[4] = 0;
       foreach ($query->result() as $row)
       {
         $result[$row->current_status_id] = $row->sum_complain;
