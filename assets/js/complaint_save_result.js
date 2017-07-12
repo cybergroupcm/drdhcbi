@@ -50,7 +50,7 @@ function add_result(keyin_id,result_detail,result_date,method){
         async: false,
         cache: false
     }).done(function (response,xhr) {
-        if(xhr.state = 201){
+        /*if(xhr.state = 201){
             swal({
                 title: "สำเร็จ",
                 text: text_ok,
@@ -61,7 +61,7 @@ function add_result(keyin_id,result_detail,result_date,method){
             setTimeout(function(){
                 $(location).attr('href',base_url+'complaint/dashboard');
             }, 2000);
-        }
+        }*/
         $('#result_id').val(response);
     }).fail(function (err) {
         swal("ผิดพลาด",text_error, "error");
