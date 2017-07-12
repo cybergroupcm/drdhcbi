@@ -22,8 +22,8 @@ $this->load->view('complaint/save_result');
                         <?php
                         echo img(array('src' => 'assets/images/filter.png', 'title' => 'กรองข้อมูล', 'width' => '48px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#filter'));
                         echo img(array('src' => 'assets/images/search.png', 'title' => 'ค้นหาข้อมูล', 'width' => '48px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#search'));
-                        echo img(array('src' => 'assets/images/save.png', 'title' => 'บันทึกเรื่องร้องทุกข์', 'width' => '48px', 'style' => 'cursor:pointer', 'id' => 'bt_add'));
-                        echo img(array('src' => 'assets/images/print.png', 'title' => 'สั่งพิมพ์', 'width' => '48px', 'style' => 'cursor:pointer'));
+                        echo img(array('src' => 'assets/images/add.png', 'title' => 'บันทึกเรื่องร้องทุกข์', 'width' => '48px', 'style' => 'cursor:pointer', 'id' => 'bt_add'));
+                        //echo img(array('src' => 'assets/images/print.png', 'title' => 'สั่งพิมพ์', 'width' => '48px', 'style' => 'cursor:pointer'));
                         ?>
                     </div>
                     <?php

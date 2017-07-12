@@ -37,7 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="info-box">
                                 <span class="info-box-icon bg-aqua"><i class="fa fa-user"></i></span>
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Users</span>
+                                    <span class="info-box-text">ผู้ใช้งาน</span>
                                     <span class="info-box-number"><?php echo $count_users; ?></span>
                                 </div>
                             </div>
@@ -46,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="info-box">
                                 <span class="info-box-icon bg-aqua"><i class="fa fa-shield"></i></span>
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Security groups</span>
+                                    <span class="info-box-text">กลุ่มผู้ใช้งาน</span>
                                     <span class="info-box-number"><?php echo $count_groups; ?></span>
                                 </div>
                             </div>
