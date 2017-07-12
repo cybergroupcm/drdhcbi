@@ -13,7 +13,7 @@ class Complaint extends CI_Controller
         $this->load->helper('form_additional');
         $this->load->helper('dateformat');
         $this->load->helper(array('html', 'url', 'api'));
-        $this->load->library('mpdf');
+        $this->load->library('my_mpdf');
     }
 
     public function key_in($id='')
@@ -190,12 +190,12 @@ class Complaint extends CI_Controller
         $html=$this->load->view('complaint/pdf_detail',$arr_data, true);
         // As PDF creation takes a bit of memory, we're saving the created file in /downloads/reports/
 
-        $this->mpdf->SetDisplayMode('fullpage');
-        $this->mpdf->list_indent_first_level = 0;
+        $this->my_mpdf->SetDisplayMode('fullpage');
+        $this->my_mpdf->list_indent_first_level = 0;
         //$stylesheet = file_get_contents(APPPATH.'third_party/mpdf/css/mpdfstyletables.css');
         //$this->mpdf->WriteHTML($stylesheet, 1);
-        $this->mpdf->WriteHTML($html, 2);
-        $this->mpdf->Output('example_mpdf.pdf', 'I');
+        $this->my_mpdf->WriteHTML($html, 2);
+        $this->my_mpdf->Output('example_mpdf.pdf', 'I');
         exit;
     }
 }
