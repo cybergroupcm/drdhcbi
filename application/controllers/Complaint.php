@@ -180,7 +180,7 @@ class Complaint extends CI_Controller
         echo json_encode($result);
         exit;
     }
-
+    
     public function get_district_list($type,$id,$default='')
     {
         $url = base_url("api/dropdown/ccaa_lists/".$type."/".$id);
@@ -188,7 +188,7 @@ class Complaint extends CI_Controller
         $arr_data['district_list'] = api_call_get($url);
         $this->load->view('complaint/get_district_list', $arr_data);
     }
-
+    
     public function getDataResult($id)
     {
         $url = base_url("api/complaint/result/".$id);
