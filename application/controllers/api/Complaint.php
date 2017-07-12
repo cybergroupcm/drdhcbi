@@ -10,6 +10,7 @@ class Complaint extends REST_Controller
         parent::__construct();
         $this->load->model('data/Key_in_model');
         $this->load->model('data/Result_model');
+        $this->load->model('data/User_model');
         $this->load->model('data/Result_attach_file_model');
         $this->load->model('data/Attach_file_model');
         $this->load->helper('file');

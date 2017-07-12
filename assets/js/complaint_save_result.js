@@ -33,7 +33,7 @@ function update_status(keyin_id,current_status_id,result_detail,result_date){
         async: false,
         cache: false
     }).done(function (response,xhr) {
-        add_result(keyin_id,result_detail,result_date);
+        //add_result(keyin_id,result_detail,result_date);
     }).fail(function (err) {
         swal("ผิดพลาด",text_error, "error");
     });
