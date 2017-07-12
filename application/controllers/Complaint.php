@@ -107,6 +107,7 @@ class Complaint extends CI_Controller
         $arr_data['data'] = api_call_get($url);
         if( isset($arr_data['data']['status']) ){
             $arr_data['data'] = array();
+            $arr_data['total_row'] = 0;
         }
         $arr_data['start_row'] = (($page-1)*15)+1;
 
