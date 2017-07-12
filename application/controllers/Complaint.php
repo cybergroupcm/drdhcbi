@@ -13,7 +13,7 @@ class Complaint extends CI_Controller
         $this->load->helper('form_additional');
         $this->load->helper('dateformat');
         $this->load->helper(array('html', 'url', 'api'));
-        $this->load->library('mpdf');
+        //$this->load->library('mpdf');
     }
 
     public function key_in($id='')
