@@ -14,6 +14,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <script src="<?php echo base_url('template/plugins/bootstrap-sweetalert/js/sweetalert.min.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/register.js'); ?>"></script>
         <?php
+        $link = array(
+            'src' => 'assets/jquery/jquery.blockUI.js',
+            'type' => 'text/javascript'
+        );
+        echo script_tag($link);
     }
 ?>
         <script src="<?php echo base_url($plugins_dir . '/icheck/js/icheck.min.js'); ?>"></script>
