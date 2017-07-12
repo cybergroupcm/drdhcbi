@@ -11,9 +11,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="register-box-body">
         <p class="login-box-msg">สมัครสมาชิก</p>
         <form action="../../index.html" method="post">
+            <input type="hidden" name="action_to" id="action_to" value="auth" />
             <span class="text-danger">*</span>
             <div class="form-group has-feedback">
-                <input type="text" class="form-control" name="idcard" id="idcard" placeholder="รหัสประจำตัวประชาชน"/>
+                <input type="text" class="form-control numbers" name="idcard" id="idcard" maxlength='13' placeholder="รหัสประจำตัวประชาชน"/>
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             <span class="text-danger">*</span>
@@ -60,16 +61,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <span class="text-danger">*</span>
             <div class="form-group has-feedback">
-                <input type="text" class="form-control" name="email" id="email" placeholder="อีเมลล์"/>
+                <input type="text" class="form-control" onblur='return validateEmail(this)' name="email" id="email" placeholder="อีเมลล์"/>
+                <input type="hidden" name="email2" id="email2" value="none"/>
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="text" class="form-control" id="phone_number" name="phone" placeholder="เบอร์โทรศัพท์"/>
+                <input type="text" class="form-control numbers" id="phone_number" name="phone" placeholder="เบอร์โทรศัพท์"/>
                 <span class="glyphicon glyphicon-phone-alt form-control-feedback"></span>
             </div>
             <span class="text-danger">*</span>
             <div class="form-group has-feedback">
-                <input type="text" name="username" id="username" class="form-control" placeholder="ชื่อผู้ใช้"/>
+                <input type="text" name="username" id="username" class="form-control letter_and_number" onblur="check_username(this.value)" onkeypress="check_first_letters(this, event)" maxlength='10' placeholder="ชื่อผู้ใช้"/>
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             <span class="text-danger">*</span>

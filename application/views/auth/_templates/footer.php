@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
         </div>
 
-        <script src="<?php echo base_url($frameworks_dir . '/jquery/jquery.min.js'); ?>"></script>
+
         <script src="<?php echo base_url($frameworks_dir . '/bootstrap/js/bootstrap.min.js'); ?>"></script>
         <script src="<?php echo base_url($plugins_dir . '/icheck/js/icheck.min.js'); ?>"></script>
 <?php
@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         ?>
         <link href="<?php echo base_url('template/plugins/bootstrap-sweetalert/css/sweetalert.css'); ?>" rel="stylesheet" type="text/css">
         <script src="<?php echo base_url('template/plugins/bootstrap-sweetalert/js/sweetalert.min.js'); ?>"></script>
-        <script src="<?php echo base_url('assets/js/register.js'); ?>"></script>
+
         <?php
     }
 ?>

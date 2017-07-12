@@ -132,6 +132,14 @@ class Main extends MY_Controller {
         $this->libraries->template('register/register',$arr_data);
 
     }
+
+	public function check_username($username)
+	{
+		$query = $this->db->get_where('au_users', array('username' => $username));
+		$row = $query->row_array();
+		echo $row['id'];
+		exit;
+	}
 }
 
 /* End of file welcome.php */
