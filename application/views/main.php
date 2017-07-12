@@ -31,7 +31,7 @@
               <!-- small box -->
               <div class="small-box bg-red">
                 <div class="inner">
-                  <h3><?php echo $sum_status[0];?> <sup style="font-size: 20px">(รายการ)</sup></h3>
+                  <h3><?php echo @$sum_status['1'];?> <sup style="font-size: 20px">(รายการ)</sup></h3>
                   <p><h4>อยู่ระหว่างรับเรื่อง<h4></p>
                 </div>
                 <div class="icon">
@@ -44,7 +44,7 @@
               <!-- small box -->
               <div class="small-box bg-yellow">
                 <div class="inner">
-                  <h3><?php echo $sum_status[1];?> <sup style="font-size: 20px">(รายการ)</sup></h3>
+                  <h3><?php echo @$sum_status['2'];?> <sup style="font-size: 20px">(รายการ)</sup></h3>
                   <p><h4>รับเรื่อง<h4></p>
                 </div>
                 <div class="icon">
@@ -57,7 +57,7 @@
               <!-- small box -->
               <div class="small-box bg-blue">
                 <div class="inner">
-                  <h3><?php echo $sum_status[2];?> <sup style="font-size: 20px">(รายการ)</sup></h3>
+                  <h3><?php echo @$sum_status['3'];?> <sup style="font-size: 20px">(รายการ)</sup></h3>
                   <p><h4>ส่งต่อเรื่อง<h4></p>
                 </div>
                 <div class="icon">
@@ -70,7 +70,7 @@
               <!-- small box -->
               <div class="small-box bg-green">
                 <div class="inner">
-                  <h3><?php echo $sum_status[3];?> <sup style="font-size: 20px">(รายการ)</sup></h3>
+                  <h3><?php echo @$sum_status['4'];?> <sup style="font-size: 20px">(รายการ)</sup></h3>
                   <p><h4>บันทึกผลเรียบร้อย<h4></p>
                 </div>
                 <div class="icon">
