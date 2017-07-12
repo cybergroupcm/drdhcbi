@@ -105,6 +105,9 @@ class Complaint extends CI_Controller
         $arr_data['total_row'] = $total_row;
         $url = base_url('/api/complaint/dashboard/overall/'.$overall.'/user_id/'.$user_data_id['userid'].'/page/'.$page);
         $arr_data['data'] = api_call_get($url);
+        if( isset($arr_data['data']['status']) ){
+            $arr_data['data'] = array();
+        }
         $arr_data['start_row'] = (($page-1)*15)+1;
 
         $url = base_url("api/dropdown/send_org_parent_lists");
