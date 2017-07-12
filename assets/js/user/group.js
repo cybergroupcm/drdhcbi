@@ -9,16 +9,30 @@ $(function () {
 
     $('#jstree_div').bind("loaded.jstree", function (event, data) {
             $(this).jstree("open_all");
+            var user_org = $('#jsfields').val();
+            if(user_org){
+                user_org = user_org.split(',');
+                user_org.forEach(function (value) {
+                    //$('#'+value+'_anchor').addClass(' jstree-clicked ');
+                    if(value != '1' && value != '2' && value != '4'){
+                        $('#'+value+'_anchor').click();
+                        console.log(value);
+                    }
+                    //console.log(value);
+                });
+            }
            // console.log(data);
-            setTimeout(function(){
-                var user_org = $('#jsfields').val();
-                if(user_org){
-                    user_org = user_org.split(',');
-                    user_org.forEach(function (value) {
-                        $('#'+value+'_anchor').addClass(' jstree-clicked ');
-                    });
-                }
-            }, 3000);
+           // setTimeout(function(){
+           //     var user_org = $('#jsfields').val();
+           //     if(user_org){
+           //         user_org = user_org.split(',');
+           //         user_org.forEach(function (value) {
+           //             //$('#'+value+'_anchor').addClass(' jstree-clicked ');
+           //             $('#'+value+'_anchor').click();
+           //             console.log(value);
+           //         });
+           //     }
+           // }, 3000);
         })
         .jstree({
             "checkbox" : {
@@ -35,7 +49,6 @@ function save(){
     checked_js.forEach(function (value) {
         checked_ids.push(value);
     });
-
     document.getElementById('jsfields').value = checked_ids.join(",");
 }
 
