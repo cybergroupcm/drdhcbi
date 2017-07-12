@@ -180,6 +180,14 @@ class Complaint extends CI_Controller
         $arr_data['district_list'] = api_call_get($url);
         $this->load->view('complaint/get_district_list', $arr_data);
     }
+    
+    public function getDataResult($id)
+    {
+        $url = base_url("api/complaint/result/".$id);
+        $arr_data['data_result'] = api_call_get($url);
+        $result = $arr_data['data_result'];
+        echo json_encode($result);
+    }
 
     public function pdf_detail($id){
         //load the view and saved it into $html variable
