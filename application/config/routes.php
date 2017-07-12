@@ -69,6 +69,7 @@ $route['api/example/users/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'api/example/users/
 $route['api/complaint/dashboard'] = 'api/complaint/dashboard';
 $route['api/complaint/key_in/(:num)'] = 'api/complaint/key_in/id/$1';
 $route['api/complaint/key_in_file/(:num)'] = 'api/complaint/key_in_file/id/$1';
+$route['api/complaint/result/(:num)'] = 'api/complaint/result/id/$1';
 
 
 //User  REST API Routes

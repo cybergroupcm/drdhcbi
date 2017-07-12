@@ -11,6 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="register-box-body">
         <p class="login-box-msg">สมัครสมาชิก</p>
         <form action="../../index.html" method="post">
+            <input type="hidden" name="action_to" id="action_to" value="auth" />
             <span class="text-danger">*</span>
             <div class="form-group has-feedback">
                 <input type="text" class="form-control" name="idcard" id="idcard" placeholder="รหัสประจำตัวประชาชน"/>
