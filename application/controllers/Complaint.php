@@ -180,7 +180,7 @@ class Complaint extends CI_Controller
         echo json_encode($result);
         exit;
     }
-    
+
     public function get_district_list($type,$id,$default='')
     {
         $url = base_url("api/dropdown/ccaa_lists/".$type."/".$id);
