@@ -146,11 +146,12 @@ class Complaint extends REST_Controller
         }
 
         unset($data['complain_no']);
-
+        $complaintType = array();
         if (array_key_exists('complaint_type', $data)) {
             $complaintType = $data['complaint_type'];
             unset($data['complaint_type']);
         }
+        $wish = array();
         if (array_key_exists('wish', $data)) {
             $wish = $data['wish'];
             unset($data['wish']);
