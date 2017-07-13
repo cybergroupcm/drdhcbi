@@ -3,9 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 ?>
             <div class="login-logo">
-                <a href="#"><b>ศูนย์ดำรงธรรม</b><br> จังหวัดชลบุรี</a>
+                <a href="#"><b>ศูนย์ดำรงธรรม</b></a>
             </div>
-
             <div class="login-box-body">
                 <p class="login-box-msg"><?php echo lang('auth_sign_session'); ?></p>
                 <?php echo $message;?>
@@ -13,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <?php echo form_open('auth/login');?>
                     <div class="form-group has-feedback">
                         <?php echo form_input($identity);?>
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
                         <?php echo form_input($password);?>
@@ -23,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-xs-8">
                             <div class="checkbox icheck">
                                 <label>
-                                    <?php echo form_checkbox('remember', '1', FALSE, 'id="remember"'); ?><?php echo lang('auth_remember_me'); ?>
+                                    <?php echo form_checkbox('remember', '1', FALSE, 'id="remember"'); ?><?php echo 'จดจำรหัสผ่าน'; ?>
                                 </label>
                             </div>
                         </div>
@@ -41,9 +40,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
 <?php endif; ?>
 <?php if ($forgot_password == TRUE): ?>
-                <?php echo anchor('#', lang('auth_forgot_password')); ?><br />
+                <?php echo anchor('#', 'ลืมรหัสผ่าน'); ?><br />
 <?php endif; ?>
 <?php if ($new_membership == TRUE): ?>
-                <?php echo anchor('auth/register', lang('auth_new_member')); ?><br />
+                <?php echo anchor('auth/register', 'ลงทะเบียน สมัครสมาชิก'); ?><br />
 <?php endif; ?>
             </div>
