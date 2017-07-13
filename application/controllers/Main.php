@@ -64,7 +64,11 @@ class Main extends MY_Controller {
 		}
 		$arr_data['area_data'] = $arr_area_data;
 		//เรื่องร้องทุกข์ 5 ประเภทที่มีผู้ร้องเรียนมากสุด
-		$arr_data['sum_type'] = $this->main->get_sum_type();
+        if( $overall == 0 ) {
+            $arr_data['sum_type'] = $this->main->get_sum_type($user_data_id['userid']);
+        }else{
+            $arr_data['sum_type'] = $this->main->get_sum_type();
+        }
 		$this->libraries->template('main',$arr_data);
 		//$this->load->view('main');
 	}
