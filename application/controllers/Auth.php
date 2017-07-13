@@ -97,14 +97,14 @@ class Auth extends MY_Controller {
                     'type'        => 'text',
                     'value'       => $this->form_validation->set_value('identity'),
                     'class'       => 'form-control',
-                    'placeholder' => lang('auth_your_email')
+                    'placeholder' => 'ชื่อผู้ใช้'
                 );
                 $this->data['password'] = array(
                     'name'        => 'password',
                     'id'          => 'password',
                     'type'        => 'password',
                     'class'       => 'form-control',
-                    'placeholder' => lang('auth_your_password')
+                    'placeholder' => 'รหัสผ่าน'
                 );
 
                 /* Load Template */
@@ -197,4 +197,3 @@ class Auth extends MY_Controller {
     }*/
 
 }
-
