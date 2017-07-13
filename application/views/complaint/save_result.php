@@ -3,10 +3,10 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <button type="button" id="close_modal" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h4 class="modal-title">บันทึกผลการดำเนินการเรื่องร้องทุกข์</h4>
                 </div>
-                <form class="form-horizontal" role="form" method="POST" action="<?php echo base_url('complaint/dashboard')?>" name="form_save_result" id="form_save_result">
+                <form class="form-horizontal" role="form" method="POST" action="<?php echo base_url('complaint/dashboard')?>" name="form_save_result" id="form_save_result" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -19,6 +19,7 @@
                                         <textarea name="result_detail" id="result_detail" class="form-control" rows="3"></textarea>
                                         <input type="hidden" name="complain_no_result" id="complain_no_result" value="">
                                         <input type="hidden" name="keyin_id_result" id="keyin_id_result" value="">
+                                        <input type="hidden" name="result_id" id="result_id" value="">
                                     </div>
                                 </div>
                             </div>
@@ -73,9 +74,9 @@
                                 <span class="col-sm-10"><p id="checkFile"></p></span>
                             </div>
                         </div>
-                        <div id="file_add_space">
+                            <div id="file_add_space">
 
-                        </div>
+                            </div>
                     </div>
                 </div>
                 </form>
@@ -86,6 +87,7 @@
         </div>
     </div>
 </div>
+<div id="base_url" class="<?php echo base_url(); ?>"></div>
 <?php
 $link = array(
     'src' => 'assets/js/js.cookie.js',

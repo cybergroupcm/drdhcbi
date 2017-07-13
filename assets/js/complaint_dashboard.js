@@ -55,6 +55,30 @@ $( document ).ready(function() {
     $('#save_result').on('show.bs.modal', function(e) {
         id = e.relatedTarget.id;
         $('#keyin_id_result').val(id);
+        var url = $('#base_url').attr("class")+"complaint/getDataResult/"+id;
+        $.ajax({
+            method: "GET",
+            url: url,
+            async:false
+        }).done(function (result) {
+            var  dataReceived = JSON.parse(result);
+            //console.log(dataReceived.result_attach_file);
+            $('#result_detail').val(dataReceived.result.result_detail);
+            if(dataReceived.result_date != '0000-00-00'){
+                var result_date = dataReceived.result.result_date.split('-');
+                $('#result_date').val(result_date[2]+'/'+result_date[1]+'/'+(parseInt(result_date[0])+543));
+            }
+            $('#result_id').val(dataReceived.result.result_id);
+            var result_attach_file = dataReceived.result_attach_file;
+            $('#checkFile').html('');
+            for(var key in result_attach_file){
+                console.log(result_attach_file[key]);
+                txt_append = "<div id='file_"+result_attach_file[key].file_id+"'>name : <a href='"+$('#base_url').attr("class")+"upload/result_attach_file/"+result_attach_file[key].file_system_name+"' target='_blank'>"+result_attach_file[key].file_name+"</a><br>";
+                txt_append += "<input type='button' class='btn btn-danger' onclick=\"delete_result_file('"+result_attach_file[key].file_id+"', '"+result_attach_file[key].file_system_name+"')\" value='ลบ'></div>";
+                $('#checkFile').append(txt_append);
+            }
+            
+        });
     });
 
     $("#btFilter").click(function() {

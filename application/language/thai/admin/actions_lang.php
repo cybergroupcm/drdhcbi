@@ -10,15 +10,15 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang['actions_cancel']         = 'Cancel';
+$lang['actions_cancel']         = 'ยกเลิก';
 $lang['actions_create']         = 'Create';
 $lang['actions_default_values'] = 'Default values';
-$lang['actions_edit']           = 'Edit';
+$lang['actions_edit']           = 'แก้ไข';
 $lang['actions_ok']             = 'Ok';
 $lang['actions_no']             = 'No';
-$lang['actions_reset']          = 'Reset';
+$lang['actions_reset']          = 'ล้างค่า';
 $lang['actions_see']            = 'See';
-$lang['actions_submit']         = 'Submit';
+$lang['actions_submit']         = 'บันทึก';
 $lang['actions_yes']            = 'Yes';
 $lang['actions_delete']         = 'Delete';
 
