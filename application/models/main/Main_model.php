@@ -71,23 +71,34 @@ class Main_model extends CI_Model {
       return $result;
     }
 
-    public function get_sum_type()
+    public function get_sum_type($user_id='')
     {
+        $where = "";
+        if( $user_id != '' ){
+            $where = " WHERE report_all_complaint.create_user_id = '".$user_id."' ";
+        }
       $sql = " SELECT report_all_complaint.complain_type_id,
               	ms_complain_type.complain_type_name,
               	SUM(report_all_complaint.sum_complain) AS sum_complain
               FROM report_all_complaint INNER JOIN ms_complain_type ON report_all_complaint.complain_type_id = ms_complain_type.complain_type_id
+              ".$where."
               GROUP BY report_all_complaint.complain_type_id
               ORDER BY report_all_complaint.complain_type_id ASC ";
       $query = $this->db->query($sql);
       $sum_all = 0;
       $color = array('#8181F7','#81BEF7','#0431B4','#0489B1','#04B4AE','#088A68');
+      $result = array();
       foreach ($query->result() as $row)
       {
         $result[$row->complain_type_id]['complain_type_name'] = $row->complain_type_name;
         $result[$row->complain_type_id]['sum_complain'] = $row->sum_complain;
         $result[$row->complain_type_id]['color'] = $color[$sum_all];
         $sum_all++;
+      }
+      if( empty($result) ){
+          $result[1]['complain_type_name'] = 'ไม่มีข้อมูล';
+          $result[1]['sum_complain'] = 1;
+          $result[1]['color'] = '#CCCCCC';
       }
       return $result;
     }
