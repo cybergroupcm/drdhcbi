@@ -8,11 +8,16 @@ class Main_model extends CI_Model {
         parent::__construct();
     }
 
-    public function get_sum_status()
+    public function get_sum_status($user_id='')
     {
+      $where = "";
+      if( $user_id != '' ){
+            $where = " WHERE report_statistic_by_status.create_user_id = '".$user_id."' ";
+      }
       $sql = "  SELECT SUM(report_statistic_by_status.sum_complain) AS sum_complain,
                       report_statistic_by_status.current_status_id
                 FROM report_statistic_by_status
+                ".$where."
                 GROUP BY report_statistic_by_status.current_status_id
                 ORDER BY report_statistic_by_status.current_status_id ASC ";
       $query = $this->db->query($sql);

@@ -21,7 +21,7 @@ class Main extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->helper('url');
+		$this->load->helper(array('html', 'url', 'api'));
 		$this->load->model('admin/dashboard_model');
 	}
 	/*public function index()
@@ -34,11 +34,29 @@ class Main extends MY_Controller {
 		$this->load->model('Template_libraries', 'libraries');
 		$this->load->model('main/Main_model','main');
 
+        $url = base_url("api/authen/token_info");
+        $user_data_id = api_call_get($url);
+
+        $url = base_url("api/complaint/user_mode_permission/user_id/".$user_data_id['userid']);
+        $user_modes_groups = api_call_get($url);
+
+        $overall = 0; // สถานะการมองเห็นทั้งหมด 0 มองเห้นเฉพาะที่ตนเองสร้าง , 1 มองเห็นทั้งหมด
+
+        if( !empty($user_modes_groups[3]) ){
+            foreach( $user_modes_groups[3] as $key => $value ){
+                if( $value == 19 ){ $overall = 1; }
+            }
+        }
+
 //		echo "<pre>";
 //		print_r($arr_data);
 //		die();
 		//จำนวนสถานะการดำเนิดการ
-		$arr_data['sum_status'] = $this->main->get_sum_status();
+        if( $overall == 0 ) {
+            $arr_data['sum_status'] = $this->main->get_sum_status($user_data_id['userid']);
+        }else{
+            $arr_data['sum_status'] = $this->main->get_sum_status();
+        }
 		//ข้อมูลเรื่องร้องทุกข์ทั้งหมดจำแนกรายพื้นที่
 		$obj_area = $this->main->get_area();
 		foreach($obj_area as $row_area){
