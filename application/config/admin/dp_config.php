@@ -1,14 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$config['title']      = 'AdminLTE';
+$config['title']      = 'ศูนย์ดำรงธรรม จังหวัดชลบุรี';
 $config['title_mini'] = 'LT';
 $config['title_lg']   = 'LTE';
 
 
 
 /* Display panel login */
-$config['auth_social_network'] = TRUE;
+$config['auth_social_network'] = FALSE;
 $config['forgot_password']     = TRUE;
 $config['new_membership']      = TRUE;
 
@@ -32,5 +32,3 @@ $config['breadcrumb_el_open']  = '<li>';
 $config['breadcrumb_el_close'] = '</li>';
 $config['breadcrumb_el_first'] = '<i class="fa fa-dashboard"></i>';
 $config['breadcrumb_el_last']  = '<li class="active">';
-
-

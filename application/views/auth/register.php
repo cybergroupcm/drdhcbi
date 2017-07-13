@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <form id="frm_user" >
 <div class="register-box">
     <div class="register-logo">
-        <a href="#"><b>ศูนย์ดำรงธรรม</b><br> จังหวัดชลบุรี</a>
+        <a href="#"><b>ศูนย์ดำรงธรรม</b></a>
     </div>
 
     <div class="register-box-body">
@@ -14,7 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <input type="hidden" name="action_to" id="action_to" value="auth" />
             <span class="text-danger">*</span>
             <div class="form-group has-feedback">
-                <input type="text" class="form-control" name="idcard" id="idcard" placeholder="รหัสประจำตัวประชาชน"/>
+                <input type="text" class="form-control numbers" name="idcard" id="idcard" maxlength='13' placeholder="รหัสประจำตัวประชาชน"/>
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             <span class="text-danger">*</span>
@@ -61,16 +61,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
             <span class="text-danger">*</span>
             <div class="form-group has-feedback">
-                <input type="text" class="form-control" name="email" id="email" placeholder="อีเมลล์"/>
+                <input type="text" class="form-control" onblur='return validateEmail(this)' name="email" id="email" placeholder="อีเมลล์"/>
+                <input type="hidden" name="email2" id="email2" value="none"/>
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="text" class="form-control" id="phone_number" name="phone" placeholder="เบอร์โทรศัพท์"/>
+                <input type="text" class="form-control numbers" id="phone_number" name="phone" placeholder="เบอร์โทรศัพท์"/>
                 <span class="glyphicon glyphicon-phone-alt form-control-feedback"></span>
             </div>
             <span class="text-danger">*</span>
             <div class="form-group has-feedback">
-                <input type="text" name="username" id="username" class="form-control" placeholder="ชื่อผู้ใช้"/>
+                <input type="text" name="username" id="username" class="form-control letter_and_number" onblur="check_username(this.value)" onkeypress="check_first_letters(this, event)" maxlength='10' placeholder="ชื่อผู้ใช้"/>
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             <span class="text-danger">*</span>
@@ -92,7 +93,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>-->
                 </div><!-- /.col -->
                 <div class="col-xs-4">
-                    <button type="button" class="btn btn-primary btn-block btn-flat" onclick="validateForm('add')">Register</button>
+                    <button type="button" class="btn btn-primary btn-block btn-flat" onclick="validateForm('add')">ลงทะเบียน</button>
                 </div><!-- /.col -->
             </div>
         </form>
@@ -104,7 +105,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <?php /*echo anchor('#', '<i class="fa fa-google-plus"></i>' . lang('auth_sign_google'), array('class' => 'btn btn-block btn-social btn-google btn-flat')); */?>
             </div>-->
         <?php endif; ?>
-        <?php echo anchor('auth/login', 'I already have a membership'); ?>
+        <?php echo anchor('auth/login', 'กลับสู่หน้าเข้าสู่ระบบ'); ?>
     </div><!-- /.form-box -->
 </div><!-- /.register-box -->
 </form>
