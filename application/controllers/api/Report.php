@@ -12,9 +12,16 @@ class Report extends REST_Controller
         $this->load->helper('file','url','api');
     }
 
+    private $strMonthCut = array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
+    private $strMonthLong = array("","มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม");
+
     public function report_statistic_by_type_get()
     {
-        $id = $this->get('id');
+        $year = $this->get('year');
+        if($year == ''){
+            $year = date('Y');
+        }
+
         $sql = "SELECT
                     report_statistic_by_type.complain_type_id,
                     report_statistic_by_type.complain_month,
@@ -22,6 +29,7 @@ class Report extends REST_Controller
                     SUM(report_statistic_by_type.sum_complain) AS sum_complain
                 FROM
                     report_statistic_by_type
+                WHERE report_statistic_by_type.complain_year = '".$year."'
                 GROUP BY
                     report_statistic_by_type.complain_type_id,
                     report_statistic_by_type.complain_month,
@@ -31,13 +39,28 @@ class Report extends REST_Controller
         $sum_all = 0;
         foreach ($query->result() as $row)
         {
-            $sum_all += $row->sum_complain;
-            $result_data[$row->complain_type_id][$row->complain_month.$row->complain_year] = $row->sum_complain;
-            $result_data[$row->complain_type_id]['sum_all'] = $sum_all;
+            $result_data[$row->complain_type_id][$row->complain_month . $row->complain_year] = $row->sum_complain;
         }
         if (!empty($result_data)) {
             $this->response($result_data, REST_Controller::HTTP_OK);
         } else {
+
+            $this->response($year, REST_Controller::HTTP_NOT_FOUND);
+        }
+    }
+
+    public function month_report_get()
+    {
+        $year = $this->get('year');
+        if($year == ''){
+            $year = date('Y');
+        }
+        $result_data = array();
+        foreach ($this->strMonthCut AS $key=>$val){
+            if($val != '') {
+                $result_data[$key.$year] = $val.' '.($year+543);
+            }
+
             $this->response($id, REST_Controller::HTTP_NOT_FOUND);
         }
     }
@@ -60,6 +83,7 @@ class Report extends REST_Controller
         foreach ($query->result() as $row)
         {
             $result_data[$row->complain_month.$row->complain_year] = $row->complain_year.'-'.$row->complain_month;
+
         }
         if (!empty($result_data)) {
             $this->response($result_data, REST_Controller::HTTP_OK);

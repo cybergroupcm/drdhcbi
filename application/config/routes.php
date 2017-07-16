@@ -84,6 +84,8 @@ $route['api/setting/accused_type/(:num)'] = 'api/setting/accused_type/id/$1'; //
 $route['api/setting/channel/(:num)'] = 'api/setting/channel/id/$1'; // Example 4
 $route['api/setting/subject/(:num)'] = 'api/setting/subject/id/$1'; // Example 4
 $route['api/setting/wish/(:num)'] = 'api/setting/wish/id/$1'; // Example 4
+$route['api/report/report_statistic_by_type/(:num)'] = 'api/report/report_statistic_by_type/year/$1'; // Example 4
+$route['api/report/month_report/(:num)'] = 'api/report/month_report/year/$1'; // Example 4
 
 
 
