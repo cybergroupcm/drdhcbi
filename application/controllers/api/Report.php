@@ -11,7 +11,7 @@ class Report extends REST_Controller
         $this->load->model('data/Report_type_model');
         $this->load->helper('file','url','api');
     }
-<<<<<<< HEAD
+
     private $strMonthCut = array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
     private $strMonthLong = array("","มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม");
 
@@ -21,12 +21,7 @@ class Report extends REST_Controller
         if($year == ''){
             $year = date('Y');
         }
-=======
 
-    public function report_statistic_by_type_get()
-    {
-        $id = $this->get('id');
->>>>>>> 6ffa2ac1b46be6d02ce9d461541657dcecebc7ef
         $sql = "SELECT
                     report_statistic_by_type.complain_type_id,
                     report_statistic_by_type.complain_month,
@@ -34,10 +29,7 @@ class Report extends REST_Controller
                     SUM(report_statistic_by_type.sum_complain) AS sum_complain
                 FROM
                     report_statistic_by_type
-<<<<<<< HEAD
                 WHERE report_statistic_by_type.complain_year = '".$year."'
-=======
->>>>>>> 6ffa2ac1b46be6d02ce9d461541657dcecebc7ef
                 GROUP BY
                     report_statistic_by_type.complain_type_id,
                     report_statistic_by_type.complain_month,
@@ -47,18 +39,12 @@ class Report extends REST_Controller
         $sum_all = 0;
         foreach ($query->result() as $row)
         {
-<<<<<<< HEAD
             $result_data[$row->complain_type_id][$row->complain_month . $row->complain_year] = $row->sum_complain;
-=======
-            $sum_all += $row->sum_complain;
-            $result_data[$row->complain_type_id][$row->complain_month.$row->complain_year] = $row->sum_complain;
-            $result_data[$row->complain_type_id]['sum_all'] = $sum_all;
->>>>>>> 6ffa2ac1b46be6d02ce9d461541657dcecebc7ef
         }
         if (!empty($result_data)) {
             $this->response($result_data, REST_Controller::HTTP_OK);
         } else {
-<<<<<<< HEAD
+
             $this->response($year, REST_Controller::HTTP_NOT_FOUND);
         }
     }
@@ -74,7 +60,7 @@ class Report extends REST_Controller
             if($val != '') {
                 $result_data[$key.$year] = $val.' '.($year+543);
             }
-=======
+
             $this->response($id, REST_Controller::HTTP_NOT_FOUND);
         }
     }
@@ -97,16 +83,12 @@ class Report extends REST_Controller
         foreach ($query->result() as $row)
         {
             $result_data[$row->complain_month.$row->complain_year] = $row->complain_year.'-'.$row->complain_month;
->>>>>>> 6ffa2ac1b46be6d02ce9d461541657dcecebc7ef
+
         }
         if (!empty($result_data)) {
             $this->response($result_data, REST_Controller::HTTP_OK);
         } else {
-<<<<<<< HEAD
-            $this->response($year, REST_Controller::HTTP_NOT_FOUND);
-=======
             $this->response($id, REST_Controller::HTTP_NOT_FOUND);
->>>>>>> 6ffa2ac1b46be6d02ce9d461541657dcecebc7ef
         }
     }
 
