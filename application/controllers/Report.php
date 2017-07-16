@@ -8,22 +8,47 @@ class Report extends CI_Controller {
 
         /* Load :: Common */
         //$this->load->helper('cookie');
-        //$this->load->helper('api');
         $this->load->helper('form');
+        $this->load->helper(array('html', 'url', 'api'));
         //$this->load->model('complaint_model');
         $this->load->helper('dateformat');
-        $this->load->library('my_mpdf');
+        //$this->load->library('my_mpdf');
     }
 
     public function report_all_complaint()
     {
-        $url = base_url('api/complaint/complaint_type');
+        $url = base_url('api/dropdown/complain_type_lists');
         $arr_data['complaint_type'] = api_call_get($url);
-        $url = base_url('api/complaint/channel');
+        $url = base_url('api/dropdown/channel_lists');
         $arr_data['channel'] = api_call_get($url);
+        $url = base_url()."api/report/report_all_complaint";
+        $arr_data['data'] = api_call_get($url);
+        //echo"<pre>";print_r($arr_data['data']);echo"</pre>";
         $this->libraries->template('report_all_complaint/report_all_complaint', $arr_data);
     }
-    
+
+    public function report_all_complaint_pdf()
+    {
+        $url = base_url('api/dropdown/complain_type_lists');
+        $arr_data['complaint_type'] = api_call_get($url);
+        $url = base_url('api/dropdown/channel_lists');
+        $arr_data['channel'] = api_call_get($url);
+        $url = base_url()."api/report/report_all_complaint";
+        $arr_data['data'] = api_call_get($url);
+        $html=$this->load->view('report_all_complaint/report_all_complaint_pdf',$arr_data, true);
+        // As PDF creation takes a bit of memory, we're saving the created file in /downloads/reports/
+//        echo "<pre>";
+//        print_r($this->my_mpdf);
+//        die();
+        $this->my_mpdf->SetDisplayMode('fullpage');
+        $this->my_mpdf->list_indent_first_level = 0;
+        //$stylesheet = file_get_contents(APPPATH.'third_party/mpdf/css/mpdfstyletables.css');
+        //$this->mpdf->WriteHTML($stylesheet, 1);
+        $this->my_mpdf->WriteHTML($html, 2);
+        $this->my_mpdf->Output('example_mpdf.pdf', 'I');
+        exit;
+    }
+
     public function report_by_channel()
     {
         $url = base_url('api/complaint/channel');
@@ -51,10 +76,17 @@ class Report extends CI_Controller {
         $this->libraries->template('report_by_complainant/report_by_complainant', $arr_data);
     }
     
-    public function report_statistic_by_type()
+    public function report_statistic_by_type($year='')
     {
-        $url = base_url('api/complaint/complaint_type');
-        $arr_data['complaint_type'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/complain_type_lists");
+        $arr_data['complain_type'] = api_call_get($url);
+
+        $url = base_url()."api/report/month_report/".$year;
+        $arr_data['month_report'] = api_call_get($url);
+
+        $url = base_url()."api/report/report_statistic_by_type/".$year;
+        $arr_data['report_type'] = api_call_get($url);
         $this->libraries->template('report_statistic_by_type/report_statistic_by_type', $arr_data);
     }
     
