@@ -86,7 +86,7 @@ class Main_model extends CI_Model {
               ORDER BY report_all_complaint.complain_type_id ASC ";
       $query = $this->db->query($sql);
       $sum_all = 0;
-      $color = array('#8181F7','#81BEF7','#0431B4','#0489B1','#04B4AE','#088A68');
+      $color = array('#00C0EF','#DD4B39','#F39C12','#0073B7','#00A65A');
       $result = array();
       foreach ($query->result() as $row)
       {
