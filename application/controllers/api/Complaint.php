@@ -18,17 +18,40 @@ class Complaint extends REST_Controller
 
     public function dashboard_get()
     {
+        $filter = $this->get('filter');
+        if(!is_null($filter)){
+            $whereKey= 'complain_type_id';
+            $whereData= $filter;
+        }else{
+            $whereKey= '1=1';
+            $whereData= null;
+        }
         $page = $this->get('page');
         $overall = $this->get('overall');
         $user_id = $this->get('user_id');
         if( $overall == 1 ) { // มองเห็น เรื่องร้องเรียนทั้งหมด
             $total_complaint = $this->Key_in_model->count_rows(); // retrieve the total number of posts
             if( $total_complaint == 0 ){ $total_complaint = 1; }
-            $complaint = $this->Key_in_model->order_by('keyin_id', 'DESC')->with_title_name('fields:prename')->with_complaint_type('fields:complain_type_name')->with_wish('fields:wish_name')->with_current_status('fields:current_status_name')->paginate(15, $total_complaint, $page); // paginate with 10 rows per page -
+            $complaint = $this->Key_in_model
+                ->where($whereKey,$whereData)
+                ->order_by('keyin_id', 'DESC')
+                ->with_title_name('fields:prename')
+                ->with_complaint_type('fields:complain_type_name')
+                ->with_wish('fields:wish_name')
+                ->with_current_status('fields:current_status_name')
+                ->paginate(15, $total_complaint, $page); // paginate with 10 rows per page -
         }else{
             $total_complaint = $this->Key_in_model->where('create_user_id', $user_id)->count_rows(); // retrieve the total number of posts
             if( $total_complaint == 0 ){ $total_complaint = 1; }
-            $complaint = $this->Key_in_model->where('create_user_id', $user_id)->order_by('keyin_id', 'DESC')->with_title_name('fields:prename')->with_complaint_type('fields:complain_type_name')->with_wish('fields:wish_name')->with_current_status('fields:current_status_name')->paginate(15, $total_complaint, $page); // paginate with 10 rows per page -
+            $complaint = $this->Key_in_model
+                ->where($whereKey,$whereData)
+                ->where('create_user_id', $user_id)
+                ->order_by('keyin_id', 'DESC')
+                ->with_title_name('fields:prename')
+                ->with_complaint_type('fields:complain_type_name')
+                ->with_wish('fields:wish_name')
+                ->with_current_status('fields:current_status_name')
+                ->paginate(15, $total_complaint, $page); // paginate with 10 rows per page -
         }
 
         if ($complaint) {
@@ -46,12 +69,26 @@ class Complaint extends REST_Controller
 
     public function total_row_get()
     {
+        $filter = $this->get('filter');
+        if(!is_null($filter)){
+            $whereKey= 'complain_type_id';
+            $whereData= $filter;
+        }else{
+            $whereKey= '1=1';
+            $whereData= null;
+        }
         $overall = $this->get('overall');
         $user_id = $this->get('user_id');
         if( $overall == 1 ) { // มองเห็น เรื่องร้องเรียนทั้งหมด
-            $total_complaint = $this->Key_in_model->count_rows(); // retrieve the total number of posts
+
+            $total_complaint = $this->Key_in_model
+                ->where($whereKey,$whereData)
+                ->count_rows(); // retrieve the total number of posts
         }else{
-            $total_complaint = $this->Key_in_model->where('create_user_id', $user_id)->count_rows();
+            $total_complaint = $this->Key_in_model
+                ->where($whereKey,$whereData)
+                ->where('create_user_id', $user_id)
+                ->count_rows();
         }
         if( $total_complaint == 0 ){ $total_complaint = 1; }
         if ($total_complaint) {

@@ -66,6 +66,19 @@ class Complaint extends CI_Controller
     public function dashboard($page=1)
     {
 
+        $filter = $this->input->get('filter');
+        $queryFilter = null;
+        if(!is_null($filter)){
+            $queryFilter = "?".http_build_query(['filter'=>$filter]);
+            $config['suffix'] = '?' . http_build_query(['filter'=>$filter]);
+            $config['first_url'] = base_url() . 'complaint/dashboard'.'?'. http_build_query(['filter'=>$filter]);
+        }
+
+//        $search = $this->input->get('search');
+//        $queryFilter = null;
+//        if(!is_null($filter)){
+//            $querySearch = http_build_query(['search'=>$filter]);
+//        }
         $url = base_url("api/authen/token_info");
         $user_data_id = api_call_get($url);
 
@@ -100,10 +113,10 @@ class Complaint extends CI_Controller
 
         $url = base_url("api/dropdown/complain_type_lists");
         $arr_data['data_filter'] = api_call_get($url);
-        $url = base_url('/api/complaint/total_row/overall/'.$overall.'/user_id/'.$user_data_id['userid']);
+        $url = base_url('/api/complaint/total_row/overall/'.$overall.'/user_id/'.$user_data_id['userid'].$queryFilter);
         $total_row = api_call_get($url);
         $arr_data['total_row'] = $total_row;
-        $url = base_url('/api/complaint/dashboard/overall/'.$overall.'/user_id/'.$user_data_id['userid'].'/page/'.$page);
+        $url = base_url('/api/complaint/dashboard/overall/'.$overall.'/user_id/'.$user_data_id['userid'].'/page/'.$page.$queryFilter);
         $arr_data['data'] = api_call_get($url);
         if( isset($arr_data['data']['status']) ){
             $arr_data['data'] = array();
