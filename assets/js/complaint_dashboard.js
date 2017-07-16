@@ -80,6 +80,24 @@ $( document ).ready(function() {
                 }
             }
         });
+
+        var url = $('#base_url').attr("class")+"complaint/getDataReceived/"+id;
+        $.ajax({
+            method: "GET",
+            url: url,
+            async:false
+        }).done(function (result) {
+            var  dataReceived = JSON.parse(result);
+            if(dataReceived.current_status_id == '4'){
+                if(!$('#save_result_status').prop('checked')) {
+                    $("#save_result_status").prop("checked", true);
+                }
+            }else{
+                if($('#save_result_status').prop('checked')) {
+                    $("#save_result_status").prop("checked", false);
+                }
+            }
+        });
     });
 
     $("#btFilter").click(function() {
