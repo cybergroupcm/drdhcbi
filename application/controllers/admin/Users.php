@@ -549,11 +549,5 @@ public function create($id='')
         $this->template->admin_render('admin/users/create',$this->data);
 
     }
-    public function check_username($username)
-    {
-        $query = $this->db->get_where('au_users', array('username' => $username));
-        $row = $query->row_array();
-        echo $row['id'];
-        exit;
-    }
+
 }

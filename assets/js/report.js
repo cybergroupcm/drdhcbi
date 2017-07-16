@@ -1,3 +1,4 @@
+var base_url = $('#base_url').attr('class');
 $( document ).ready(function() {
     $('.datepicker').datepicker({
         format: 'dd/mm/yyyy',
@@ -45,6 +46,31 @@ function thaidateformat(d,long) {
         thmonth =  thmonthLong;
     }
     return gD.getDate() + ' ' + thmonth[gD.getMonth()] + ' ' + (gD.getFullYear() + 543);
+}
+
+function get_district(value,defaule_value){
+    if(value!=''){
+        var province_code = value.substring(0, 3);
+        var url = base_url+'complaint/get_district_list/Aumpur/'+province_code+'/'+defaule_value;  //the url to call
+        $.post(url, {data: ''}, function (data) {
+            $('#district_span').html(data);
+            var subdistrict = '';
+            subdistrict += '<select name="subdistrict_id" class="form-control" id="subdistrict_id">';
+            subdistrict += '<option value="">กรุณาเลือก</option>';
+            subdistrict += '</select>';
+            $('#subdistrict_span').html(subdistrict);
+        });
+    }
+}
+
+function get_subdistrict(value,defaule_value){
+    if(value!=''){
+        var district_code = value.substring(0, 4);
+        var url = base_url+'complaint/get_district_list/Tamboon/'+district_code+'/'+defaule_value;  //the url to call
+        $.post(url, {data: ''}, function (data) {
+            $('#subdistrict_span').html(data);
+        });
+    }
 }
 
 

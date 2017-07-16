@@ -13,14 +13,14 @@ $link = array(
 ?>
 <div class="content-wrapper">
     <section class="content-header">
-        <?php echo $pagetitle; ?>
-        <?php echo $breadcrumb; ?>
+        <?php echo @$pagetitle; ?>
+        <?php echo @$breadcrumb; ?>
     </section>
 
     <section class="content">
         <div class="box">
     <form id="frm_user" enctype="multipart/form-data">
-        <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" />
+        <input type="hidden" name="id" id="id" value="<?php echo @$id; ?>" />
         <input type="hidden" name="action_to" id="action_to" value="admin/users" />
         <div class="row frame">
             <!--div class="row title">
@@ -37,8 +37,8 @@ $link = array(
                         </label>
                         <label class="col-sm-3">
                             <?php
-                            if($id!=''){
-                                echo $data['user']['username'];
+                            if(@$id!=''){
+                                echo @$data['user']['username'];
                             }else{
                             ?>
                             <input type="text" name="username" id="username" class="form-control letter_and_number" onblur="check_username(this.value)" onkeypress="check_first_letters(this, event)" maxlength='10' />
@@ -101,7 +101,7 @@ $link = array(
                             อีเมล์ : 
                         </label>
                         <label class="col-sm-3">
-                            <input type="text" name="email" id="email"  onblur='return validateEmail(this)' class="form-control" value="<?php echo $data['user']['email']?>" />
+                            <input type="text" name="email" id="email"  onblur='return validateEmail(this)' class="form-control" value="<?php echo @$data['user']['email']?>" />
                         </label>
                     </div>
                 </div>
@@ -113,7 +113,7 @@ $link = array(
                             ยืนยันอีเมล์ : 
                         </label>
                         <label class="col-sm-3">
-                            <input type="text" id="email2" onblur="confirm_input('email','email2','email_confirm_text')" class="form-control" value="<?php echo $data['user']['email']?>" />
+                            <input type="text" id="email2" onblur="confirm_input('email','email2','email_confirm_text')" class="form-control" value="<?php echo @$data['user']['email']?>" />
                         </label>
                         <label id="email_confirm_text" style="color:red;"></label>
                     </div>
@@ -126,7 +126,7 @@ $link = array(
                             รหัสประจำตัวประชาชน : 
                         </label>
                         <label class="col-sm-3">
-                            <input type="text" name="idcard" id="idcard" class="form-control numbers" maxlength='13' value="<?php echo $data['user']['idcard']?>" />
+                            <input type="text" name="idcard" id="idcard" class="form-control numbers" maxlength='13' value="<?php echo @$data['user']['idcard']?>" />
                         </label>
                     </div>
                 </div>
@@ -139,17 +139,17 @@ $link = array(
                         </label>
                         <label class="col-sm-3">
                             <?php
-                            $prename = $title_name;
-                            $prename[''] = 'กรุณาเลือกคำนำหน้าชื่อ';
+                            @$prename = @$title_name;
+                            @$prename[''] = 'กรุณาเลือกคำนำหน้าชื่อ';
                             ksort($prename);
                             echo form_dropdown([
                                 'name' => 'prename_th_id',
                                 'id' => 'prename_th_id',
                                 'class' => 'form-control',
                                 'onchange'=>"get_list_text('prename_th_id','prename_th')"
-                            ], $prename, $data['user']['prename_th_id']);
+                            ], @$prename, @$data['user']['prename_th_id']);
                             ?>
-                            <input type="hidden" name="prename_th" id="prename_th" value="<?php echo $data['user']['prename_th']; ?>">
+                            <input type="hidden" name="prename_th" id="prename_th" value="<?php echo @$data['user']['prename_th']; ?>">
                         </label>
                     </div>
                 </div>
@@ -161,7 +161,7 @@ $link = array(
                             ชื่อ : 
                         </label>
                         <label class="col-sm-3">
-                            <input type="text" id="name_th" name="first_name" class="form-control" value="<?php echo $data['user']['first_name']?>" />
+                            <input type="text" id="name_th" name="first_name" class="form-control" value="<?php echo @$data['user']['first_name']?>" />
                         </label>
                     </div>
                 </div>
@@ -173,7 +173,7 @@ $link = array(
                             นามสกุล : 
                         </label>
                         <label class="col-sm-3">
-                            <input type="text" id="surname_th" name="last_name" class="form-control" value="<?php echo $data['user']['last_name']?>" />
+                            <input type="text" id="surname_th" name="last_name" class="form-control" value="<?php echo @$data['user']['last_name']?>" />
                         </label>
                     </div>
                 </div>
@@ -199,7 +199,7 @@ $link = array(
                             ชื่อ :<br>(ภาษาอังกฤษ)
                         </label>
                         <label class="col-sm-3">
-                            <input type="text" id="name_en" name="first_name_en" class="form-control" value="<?php echo $data['user']['first_name_en']?>" />
+                            <input type="text" id="name_en" name="first_name_en" class="form-control" value="<?php echo @$data['user']['first_name_en']?>" />
                         </label>
                     </div>
                 </div>
@@ -211,7 +211,7 @@ $link = array(
                             นามสกุล : <br>(ภาษาอังกฤษ)
                         </label>
                         <label class="col-sm-3">
-                            <input type="text" id="surname_en" name="last_name_en" class="form-control" value="<?php echo $data['user']['last_name_en']?>" />
+                            <input type="text" id="surname_en" name="last_name_en" class="form-control" value="<?php echo @$data['user']['last_name_en']?>" />
                         </label>
                     </div>
                 </div>
@@ -223,8 +223,8 @@ $link = array(
                             เพศ :
                         </label>
                         <label class="col-sm-3">
-                            <input type="radio" name="gender" class='gender' id="gender1" value="M" <?php echo ($data['user']['gender']=='M')?'checked':''; ?> /> ชาย
-                            <input type="radio" name="gender" class='gender' id="gender2" value="F" <?php echo ($data['user']['gender']=='F')?'checked':''; ?> /> หญิง
+                            <input type="radio" name="gender" class='gender' id="gender1" value="M" <?php echo (@$data['user']['gender']=='M')?'checked':''; ?> /> ชาย
+                            <input type="radio" name="gender" class='gender' id="gender2" value="F" <?php echo (@$data['user']['gender']=='F')?'checked':''; ?> /> หญิง
                         </label>
                     </div>
                 </div>
@@ -236,7 +236,7 @@ $link = array(
                             หน่วยงาน/แผนก ที่สังกัด :
                         </label>
                         <label class="col-sm-3">
-                            <input type="text"  name="company" id="section" class="form-control" value="<?php echo $data['user']['company']?>" />
+                            <input type="text"  name="company" id="section" class="form-control" value="<?php echo @$data['user']['company']?>" />
                         </label>
                     </div>
                 </div>
@@ -273,15 +273,15 @@ $link = array(
                         </label>
                         <label class="col-sm-3">
                             <?php
-                            $province_arr = $province_list;
-                            $province_arr[''] = 'กรุณาเลือก';
+                            @$province_arr = @$province_list;
+                            @$province_arr[''] = 'กรุณาเลือก';
                             ksort($province_arr);
                             echo form_dropdown([
                                 'name' => 'province_id',
                                 'id' => 'province_id',
                                 'class' => 'form-control',
                                 'onchange'=>"get_district(this.value,'')"
-                            ], $province_arr, @$data['user']['address_id']!=''?  substr(@$data['user']['address_id'],0,3)."00000":'20000000');
+                            ], @$province_arr, @$data['user']['address_id']!=''?  substr(@$data['user']['address_id'],0,3)."00000":'20000000');
                             ?>
                         </label>
                     </div>
@@ -296,15 +296,15 @@ $link = array(
                         <label class="col-sm-3">
                             <span id="district_span">
                                 <?php
-                                $district_arr = $district_list;
-                                $district_arr[''] = 'กรุณาเลือก';
+                                @$district_arr = @$district_list;
+                                @$district_arr[''] = 'กรุณาเลือก';
                                 ksort($district_arr);
                                 echo form_dropdown([
                                     'name' => 'district_id',
                                     'id' => 'district_id',
                                     'class' => 'form-control',
                                     'onchange'=>"get_subdistrict(this.value,'')"
-                                ], $district_arr, substr(@$data['user']['address_id'],0,4)."0000");
+                                ], @$district_arr, substr(@$data['user']['address_id'],0,4)."0000");
                                 ?>
                             </span>
                         </label>
@@ -320,14 +320,14 @@ $link = array(
                         <label class="col-sm-3">
                             <span id="subdistrict_span">
                                 <?php
-                                $subdistrict_arr = @$subdistrict_list;
-                                $subdistrict_arr[''] = 'กรุณาเลือก';
+                                @$subdistrict_arr = @$subdistrict_list;
+                                @$subdistrict_arr[''] = 'กรุณาเลือก';
                                 ksort($subdistrict_arr);
                                 echo form_dropdown([
                                     'name' => 'address_id',
                                     'id' => 'address_id',
                                     'class' => 'form-control'
-                                ], $subdistrict_arr, @$data['user']['address_id']);
+                                ], @$subdistrict_arr, @$data['user']['address_id']);
                                 ?>
                             </span>  
                         </label>
@@ -366,12 +366,12 @@ $link = array(
                         <label class="col-sm-4">
                             <?php
                                 if(@$data['user']['register_photo']!=''){
-                                    $register_photo = @$data['user']['register_photo'];
+                                    @$register_photo = @$data['user']['register_photo'];
                                 }else{
-                                    $register_photo = 'no_photo.jpg';
+                                    @$register_photo = 'no_photo.jpg';
                                 }
                             ?>
-                            <img id="show_photo" width="150px" height="160px" src="<?php echo base_url('upload/register_photos/'.$register_photo);?>" alt="your image" />
+                            <img id="show_photo" width="150px" height="160px" src="<?php echo base_url('upload/register_photos/'.@$register_photo);?>" alt="your image" />
                         </label>
                     </div>
                 </div>
