@@ -83,7 +83,6 @@ $this->load->view('report_statistic_by_type/search');
                             echo '<td class="text-left">'.$type_name.'</td>';
                                 $sum_type = 0;
                                 $sum_type_all = 0;
-                            $arr_sum_all = array();
                                 foreach($month_report AS $key=>$month){
                                     $sum_type = (@$report_type[$key_type][$key])?@$report_type[$key_type][$key]:'0';
                                     $sum_type_all += $sum_type;

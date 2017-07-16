@@ -1,6 +1,6 @@
 <header class="main-header">
         <!-- Logo -->
-        <a href="<?php echo site_url('main'); ?>" class="logo"><b>ศูนย์ดำรงธรรม</b></a>
+        <a href="<?php echo site_url('main'); ?>" class="logo"><?php echo img(array('src' => 'assets/images/logo.png','width'=>'200px'));?></a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->

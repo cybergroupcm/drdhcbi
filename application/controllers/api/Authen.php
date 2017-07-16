@@ -11,6 +11,7 @@ class Authen extends REST_Controller
     public function __construct()
     {
         parent::__construct();
+
         $this->load->model('Ion_auth_model');
     }
 
@@ -19,6 +20,8 @@ class Authen extends REST_Controller
     {
         $this->load->library('form_validation');
 
+        $this->load->library('form_validation');
+		header('Access-Control-Allow-Origin: *');
         $this->form_validation->set_data([
             'username' => $this->post('username'),
             'password' => $this->post('password'),
@@ -39,6 +42,7 @@ class Authen extends REST_Controller
                 $token['exp'] = $date->getTimestamp() + $this->config->item('jwt_token_expire');
                 $output_data['token'] = $this->jwt_encode($token);
                 $this->response($output_data, REST_Controller::HTTP_OK);
+
             }
             else {
                 $output_data[$this->config->item('rest_status_field_name')] = "invalid_credentials";

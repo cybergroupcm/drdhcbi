@@ -90,13 +90,25 @@ class Complaint extends CI_Controller
             }
         }
 
+        $overall = 0; // สถานะการมองเห็นทั้งหมด 0 มองเห้นเฉพาะที่ตนเองสร้าง , 1 มองเห็นทั้งหมด
+
+        if( !empty($user_modes_groups[3]) ){
+            foreach( $user_modes_groups[3] as $key => $value ){
+                if( $value == 19 ){ $overall = 1; }
+            }
+        }
+
         $url = base_url("api/dropdown/complain_type_lists");
         $arr_data['data_filter'] = api_call_get($url);
-        $url = base_url('/api/complaint/total_row');
+        $url = base_url('/api/complaint/total_row/overall/'.$overall.'/user_id/'.$user_data_id['userid']);
         $total_row = api_call_get($url);
         $arr_data['total_row'] = $total_row;
-        $url = base_url('/api/complaint/dashboard/page/'.$page);
+        $url = base_url('/api/complaint/dashboard/overall/'.$overall.'/user_id/'.$user_data_id['userid'].'/page/'.$page);
         $arr_data['data'] = api_call_get($url);
+        if( isset($arr_data['data']['status']) ){
+            $arr_data['data'] = array();
+            $arr_data['total_row'] = 0;
+        }
         $arr_data['start_row'] = (($page-1)*15)+1;
 
         $url = base_url("api/dropdown/send_org_parent_lists");
@@ -179,6 +191,14 @@ class Complaint extends CI_Controller
         $arr_data['type'] = $type;
         $arr_data['district_list'] = api_call_get($url);
         $this->load->view('complaint/get_district_list', $arr_data);
+    }
+    
+    public function getDataResult($id)
+    {
+        $url = base_url("api/complaint/result/".$id);
+        $arr_data['data_result'] = api_call_get($url);
+        $result = $arr_data['data_result'];
+        echo json_encode($result);
     }
 
     public function pdf_detail($id){

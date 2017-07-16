@@ -11,6 +11,7 @@ class Complaint extends REST_Controller
         $this->load->model('data/Key_in_model');
         $this->load->model('data/Result_model');
         $this->load->model('data/User_model');
+        $this->load->model('data/Result_attach_file_model');
         $this->load->model('data/Attach_file_model');
         $this->load->helper('file','url','api');
     }
@@ -18,8 +19,17 @@ class Complaint extends REST_Controller
     public function dashboard_get()
     {
         $page = $this->get('page');
-        $total_complaint = $this->Key_in_model->count_rows(); // retrieve the total number of posts
-        $complaint = $this->Key_in_model->order_by('keyin_id', 'DESC')->with_title_name('fields:prename')->with_complaint_type('fields:complain_type_name')->with_wish('fields:wish_name')->with_current_status('fields:current_status_name')->paginate(15, $total_complaint, $page); // paginate with 10 rows per page -
+        $overall = $this->get('overall');
+        $user_id = $this->get('user_id');
+        if( $overall == 1 ) { // มองเห็น เรื่องร้องเรียนทั้งหมด
+            $total_complaint = $this->Key_in_model->count_rows(); // retrieve the total number of posts
+            if( $total_complaint == 0 ){ $total_complaint = 1; }
+            $complaint = $this->Key_in_model->order_by('keyin_id', 'DESC')->with_title_name('fields:prename')->with_complaint_type('fields:complain_type_name')->with_wish('fields:wish_name')->with_current_status('fields:current_status_name')->paginate(15, $total_complaint, $page); // paginate with 10 rows per page -
+        }else{
+            $total_complaint = $this->Key_in_model->where('create_user_id', $user_id)->count_rows(); // retrieve the total number of posts
+            if( $total_complaint == 0 ){ $total_complaint = 1; }
+            $complaint = $this->Key_in_model->where('create_user_id', $user_id)->order_by('keyin_id', 'DESC')->with_title_name('fields:prename')->with_complaint_type('fields:complain_type_name')->with_wish('fields:wish_name')->with_current_status('fields:current_status_name')->paginate(15, $total_complaint, $page); // paginate with 10 rows per page -
+        }
 
         if ($complaint) {
             // Set the response and exit
@@ -36,8 +46,14 @@ class Complaint extends REST_Controller
 
     public function total_row_get()
     {
-        $total_complaint = $this->Key_in_model->count_rows(); // retrieve the total number of posts
-
+        $overall = $this->get('overall');
+        $user_id = $this->get('user_id');
+        if( $overall == 1 ) { // มองเห็น เรื่องร้องเรียนทั้งหมด
+            $total_complaint = $this->Key_in_model->count_rows(); // retrieve the total number of posts
+        }else{
+            $total_complaint = $this->Key_in_model->where('create_user_id', $user_id)->count_rows();
+        }
+        if( $total_complaint == 0 ){ $total_complaint = 1; }
         if ($total_complaint) {
             // Set the response and exit
             $this->response($total_complaint, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
@@ -130,11 +146,12 @@ class Complaint extends REST_Controller
         }
 
         unset($data['complain_no']);
-
+        $complaintType = array();
         if (array_key_exists('complaint_type', $data)) {
             $complaintType = $data['complaint_type'];
             unset($data['complaint_type']);
         }
+        $wish = array();
         if (array_key_exists('wish', $data)) {
             $wish = $data['wish'];
             unset($data['wish']);
@@ -268,6 +285,28 @@ class Complaint extends REST_Controller
             $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
     }
+    
+    public function result_get()
+    {
+        $id = $this->get('id');
+        //echo $id;exit;
+        $query = $this->db->get_where('dt_result',array('keyin_id'=>$id));
+        $result['result'] = $query->row_array();
+        $this->db->where('keyin_id',$id);
+        $query = $this->db->get('dt_result_attach_file');
+        $result['result_attach_file'] = $query->result();
+        if ($result) {
+            // Set the response and exit
+            $this->response($result, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }
+        else {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'No result were found'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
 
     public function result_post(){
         $data = $this->post();
@@ -281,7 +320,8 @@ class Complaint extends REST_Controller
 
     public function result_put(){
         $data = $this->put();
-        $id = $this->Result_model->update($data);
+        //echo"<pre>";print_r($data);echo"</pre>";exit;
+        $id = $this->Result_model->update($data, array('keyin_id'=>$data['keyin_id']));
         if(!$id){
             $this->response($id, REST_Controller::HTTP_NOT_FOUND);
         }else{
@@ -299,6 +339,83 @@ class Complaint extends REST_Controller
         }
     }
 
+    public function result_file_attach_post(){
+        //echo"<pre>";print_r($_POST);print_r($_FILES);echo"</pre>";
+    if(!is_array(@$_FILES['attach_file']['name'])){
+        exit;
+    }else{
+        foreach(@$_FILES['attach_file']['name'] as $key_file => $value_file){
+            if(@$value_file!=''){
+                $output_dir = "./upload/result_attach_file/";
+                //echo $output_dir;
+                if(!@mkdir($output_dir,0,true)){
+                   chmod($output_dir, 0777);
+                }else{
+                   chmod($output_dir, 0777);
+                }
+                    $ret = array();
+                    $error =$_FILES["attach_file"]["error"][$key_file];
+                    $fileName=array();
+                    $list_dir = array(); 
+                        $cdir = scandir($output_dir); 
+                        foreach ($cdir as $key => $value) { 
+                           if (!in_array($value,array(".",".."))) { 
+                              if (is_dir(@$dir . DIRECTORY_SEPARATOR . $value)){ 
+                                $list_dir[$value] = dirToArray(@$dir . DIRECTORY_SEPARATOR . $value); 
+                              }else{
+                                if(substr($value,0,8) == date('Ymd')){
+                                $list_dir[] = $value;
+                                }
+                              } 
+                           } 
+                        }
+                        $explode_arr=array();
+                        foreach($list_dir as $key => $value){
+                            $task = explode('.',$value);
+                            $task2 = explode('_',$task[0]);
+                            $explode_arr[] = $task2[1];
+                        }
+                        $max_run_num = sprintf("%04d",count($explode_arr)+1);
+                        $explode_old_file = explode('.',$_FILES["attach_file"]["name"][$key_file]);
+                        $new_file_name = date('Ymd')."_".$max_run_num.".".$explode_old_file[(count($explode_old_file)-1)];
+                    if(!is_array($_FILES["attach_file"]["name"][$key_file])) //single file
+                    {
+                            $fileName['name'] = $new_file_name;
+                            $fileName['size'] = $_FILES["attach_file"]["size"][$key_file];
+                            $fileName['type'] = $_FILES["attach_file"]["type"][$key_file];
+                            $fileName['old_name'] = $_FILES["attach_file"]["name"][$key_file];
+                            move_uploaded_file($_FILES["attach_file"]["tmp_name"][$key_file],$output_dir.$fileName['name']);
+                    }
+                    $data = array(
+                        'keyin_id' => $this->post('keyin_id_result'),
+                        'file_name' => $_FILES["attach_file"]["name"][$key_file],
+                        'file_system_name' => $fileName['name'],
+                    );
+                $id = $this->Result_attach_file_model->insert($data);
+            }
+        }
+        if(!$id){
+            $this->response($id, REST_Controller::HTTP_NOT_FOUND);
+        }else{
+            $this->response($id, REST_Controller::HTTP_OK);
+        }
+        exit;
+    }
+    }
+    
+    public function result_file_delete_post(){
+        $file_id = $this->post('file_id');
+        $file_name = $this->post('file_name');
+        $output_dir = "./upload/result_attach_file/";
+        unlink($output_dir.$file_name);
+        //echo"<pre>";print_r($file_id);print_r($file_name);echo"</pre>";exit;
+        $id = $this->Result_attach_file_model->delete($file_id);
+        if(!$id){
+            $this->response($id, REST_Controller::HTTP_NOT_FOUND);
+        }else{
+            $this->response($id, REST_Controller::HTTP_OK);
+        }
+    }
     public function user_mode_permission_get()
     {
         $user_id = $this->get('user_id');
@@ -322,5 +439,4 @@ class Complaint extends REST_Controller
             $this->response($user_id, REST_Controller::HTTP_NOT_FOUND);
         }
     }
-
 }

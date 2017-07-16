@@ -21,7 +21,25 @@ class Report extends CI_Controller {
         $arr_data['complaint_type'] = api_call_get($url);
         $url = base_url('api/dropdown/channel_lists');
         $arr_data['channel'] = api_call_get($url);
-        $url = base_url()."api/report/report_all_complaint";
+
+        $url = base_url("api/dropdown/ccaa_lists/Changwat");
+        $arr_data['province_list'] = api_call_get($url);
+
+        if(@$province_id!=''){
+            $ccaa_code = substr(@$province_id, 0, 3);
+            $url = base_url("api/dropdown/ccaa_lists/Aumpur/".$ccaa_code);
+            $arr_data['district_list'] = api_call_get($url);
+        }
+
+
+        if(@$district_id!=''){
+            $ccaa_code = substr(@$district_id, 0, 4);
+            $url = base_url("api/dropdown/ccaa_lists/Tamboon/".$ccaa_code);
+            $arr_data['subdistrict_list'] = api_call_get($url);
+        }
+
+        $url = base_url("api/report/report_all_complaint");
+
         $arr_data['data'] = api_call_get($url);
         //echo"<pre>";print_r($arr_data['data']);echo"</pre>";
         $this->libraries->template('report_all_complaint/report_all_complaint', $arr_data);
@@ -40,14 +58,17 @@ class Report extends CI_Controller {
 //        echo "<pre>";
 //        print_r($this->my_mpdf);
 //        die();
-        $this->my_mpdf->SetDisplayMode('fullpage');
-        $this->my_mpdf->list_indent_first_level = 0;
+
+        $mpdf=new mPDF('th','A4-L',0,'THSaraban',15,15,16,16,9,9, 'L');
+        $mpdf->SetDisplayMode('fullpage');
+        $mpdf->list_indent_first_level = 0;
         //$stylesheet = file_get_contents(APPPATH.'third_party/mpdf/css/mpdfstyletables.css');
         //$this->mpdf->WriteHTML($stylesheet, 1);
-        $this->my_mpdf->WriteHTML($html, 2);
-        $this->my_mpdf->Output('example_mpdf.pdf', 'I');
+        $mpdf->WriteHTML($html, 2);
+        $mpdf->Output('example_mpdf.pdf', 'I');
         exit;
     }
+    
 
     public function report_by_channel()
     {

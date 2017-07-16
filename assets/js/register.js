@@ -23,10 +23,8 @@
         if ($('#email').val() == "" ) {
             text_warning += " - อีเมล์\n";
         }else{
-            if($('#email').val() != $('#email2').val() ){
-                if(action == "") {
+            if($('#email').val() != $('#email2').val() && $('#email2').val() !='none'){
                     text_warning += " - การยืนยัน email ไม่ตรงกัน\n";
-                }
             }
         }
         if ($('#idcard').val() == "") {
@@ -82,7 +80,18 @@
                 .done(function( msg ) {
                     block_ui();
                     //console.log(msg);
-                    window.location.href=base_url+$('#action_to').val();
+                    swal({
+                            title: "บันทึกข้อมูลเรียบร้อยแล้ว",
+                            type: "warning",
+                            showCancelButton: false,
+                            confirmButtonText: "ยืนยัน",
+                            closeOnConfirm: true},
+                        function (isConfirm) {
+                            if (isConfirm) {
+                                window.location.href=base_url+$('#action_to').val();
+                            }
+                        });
+
                 });
         }
     }
@@ -198,14 +207,15 @@ function get_list_text(id_from, id_to){
 function check_username(value){
     if(value!=''){
         block_ui();
-        var url = base_url+'admin/users/check_username/'+value;  //the url to call
+        var url = base_url+'main/check_username/'+value;  //the url to call
         $.post(url, {data: ''}, function (data) {
             if(data!=''){
-                $('#username_confirm_text').html('ไม่สามารถใช้ username นี้ได้');
+                //$('#username_confirm_text').html('ไม่สามารถใช้ username นี้ได้');
+                swal('ไม่สามารถใช้ username นี้ได้');
                 $('#username').focus();
                 $.unblockUI();
             }else{
-                $('#username_confirm_text').html('');
+                //$('#username_confirm_text').html('');
                 $.unblockUI();
             }
         });
