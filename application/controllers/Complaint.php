@@ -16,9 +16,9 @@ class Complaint extends CI_Controller
         $this->load->library('my_mpdf');
     }
 
-    public function key_in($id='')
+    public function key_in($step='key_in_step1', $id='')
     {
-
+        $arr_data['step'] = str_replace('key_in_step','',$step);
         $url = base_url("api/dropdown/complain_type_lists");
         $arr_data['complain_type'] = api_call_get($url);
 
@@ -59,13 +59,26 @@ class Complaint extends CI_Controller
             $url = base_url("api/dropdown/ccaa_lists/Tamboon/".$ccaa_code);
             $arr_data['subdistrict_list'] = api_call_get($url);
         }
-        
-        $this->libraries->template('complaint/key_in', $arr_data);
+
+        $this->libraries->template('complaint/'.$step, $arr_data);
     }
 
     public function dashboard($page=1)
     {
 
+        $filter = $this->input->get('filter');
+        $queryFilter = null;
+        if(!is_null($filter)){
+            $queryFilter = "?".http_build_query(['filter'=>$filter]);
+            $config['suffix'] = '?' . http_build_query(['filter'=>$filter]);
+            $config['first_url'] = base_url() . 'complaint/dashboard'.'?'. http_build_query(['filter'=>$filter]);
+        }
+
+//        $search = $this->input->get('search');
+//        $queryFilter = null;
+//        if(!is_null($filter)){
+//            $querySearch = http_build_query(['search'=>$filter]);
+//        }
         $url = base_url("api/authen/token_info");
         $user_data_id = api_call_get($url);
 
