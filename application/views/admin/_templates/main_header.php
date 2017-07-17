@@ -3,9 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 ?>
             <header class="main-header">
-                <a href="<?php echo site_url('admin/dashboard'); ?>" class="logo">
-                    <span class="logo-mini"><b>A</b><?php echo $title_mini; ?></span>
-                    <span class="logo-lg"><b>Admin</b><?php echo $title_lg; ?></span>
+                <a href="<?php echo site_url('main'); ?>" class="logo">
+<!--                    <span class="logo-mini"><img src="--><?php //echo base_url($avatar_dir . '/m_001.png'); ?><!--" width="50px" height="50px" class="user-image" alt="User Image"></span>-->
+                    <span class="logo-lg"><b>ศูนย์ดำรงธรรม</b></span>
                 </a>
 
                 <nav class="navbar navbar-static-top" role="navigation">
@@ -101,30 +101,52 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <!-- User Account -->
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="<?php echo base_url($avatar_dir . '/m_001.png'); ?>" class="user-image" alt="User Image">
-                                    <span class="hidden-xs"><?php echo $user_login['username']; ?></span>
+<!--                                    <img src="--><?php //echo base_url($avatar_dir . '/m_001.png'); ?><!--" class="user-image" alt="User Image">-->
+                                    <?php
+                                    if($user_login['register_photo']) {
+                                        if (@getimagesize(base_url('upload/register_photos/' . $user_login['register_photo']))  !== false ) {
+                                            echo img(array('src' => 'upload/register_photos/' . $user_login['register_photo'], 'alt' => 'User Image', 'class' => 'user-image'));
+                                        } else {
+                                            echo img(array('src' => 'assets/images/person_mono.jpg', 'alt' => 'User Image', 'class' => 'user-image'));
+                                        }
+                                    }else{
+                                        echo img(array('src' => 'assets/images/person_mono.jpg', 'alt' => 'User Image', 'class' => 'user-image'));
+                                    }
+                                    ?>
+                                    <span class="hidden-xs"><?php echo  $user_login['firstname']; ?></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li class="user-header">
-                                        <img src="<?php echo base_url($avatar_dir . '/m_001.png'); ?>" class="img-circle" alt="User Image">
+<!--                                        <img src="--><?php //echo base_url($avatar_dir . '/m_001.png'); ?><!--" class="img-circle" alt="User Image">-->
+                                        <?php
+                                        if($user_login['register_photo']) {
+                                            if (@getimagesize(base_url('upload/register_photos/' . $user_login['register_photo']))  !== false ) {
+                                                echo img(array('src' => 'upload/register_photos/' . $user_login['register_photo'], 'alt' => 'User Image', 'class' => 'img-circle'));
+                                            } else {
+                                                echo img(array('src' => 'assets/images/person_mono.jpg', 'alt' => 'User Image', 'class' => 'img-circle'));
+                                            }
+                                        }else{
+                                            echo img(array('src' => 'assets/images/person_mono.jpg', 'alt' => 'User Image', 'class' => 'img-circle'));
+                                        }
+                                        ?>
                                         <p><?php echo $user_login['firstname'].$user_login['lastname']; ?><small><?php echo lang('header_member_since'); ?> <?php echo date('d-m-Y', $user_login['created_on']); ?></small></p>
                                     </li>
-                                    <li class="user-body">
+                                    <!--<li class="user-body">
                                         <div class="row">
                                             <div class="col-xs-4 text-center">
-                                                <a href="#"><?php echo lang('header_followers'); ?></a>
+                                                <a href="#"><?php /*echo lang('header_followers'); */?></a>
                                             </div>
                                             <div class="col-xs-4 text-center">
-                                                <a href="#"><?php echo lang('header_sales'); ?></a>
+                                                <a href="#"><?php /*echo lang('header_sales'); */?></a>
                                             </div>
                                             <div class="col-xs-4 text-center">
-                                                <a href="#"><?php echo lang('header_friends'); ?></a>
+                                                <a href="#"><?php /*echo lang('header_friends'); */?></a>
                                             </div>
                                         </div>
-                                    </li>
+                                    </li>-->
                                     <li class="user-footer">
                                         <div class="pull-left">
-                                            <a href="<?php echo site_url('admin/users/profile/1'); ?>" class="btn btn-default btn-flat"><?php echo lang('header_profile'); ?></a>
+<!--                                            <a href="--><?php //echo site_url('admin/users/profile/1'); ?><!--" class="btn btn-default btn-flat">--><?php //echo lang('header_profile'); ?><!--</a>-->
                                         </div>
                                         <div class="pull-right">
                                             <a href="<?php echo site_url('auth/logout/admin'); ?>" class="btn btn-default btn-flat"><?php echo lang('header_sign_out'); ?></a>

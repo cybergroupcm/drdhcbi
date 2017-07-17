@@ -34,7 +34,7 @@ $admin_prefs['transition_page'] = FALSE;
         <link rel="stylesheet" href="<?php echo base_url($frameworks_dir . '/font-awesome/css/font-awesome.min.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url($frameworks_dir . '/ionicons/css/ionicons.min.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url($frameworks_dir . '/adminlte/css/adminlte.min.css'); ?>">
-        <link rel="stylesheet" href="<?php echo base_url($frameworks_dir . '/adminlte/css/skins/skin-blue.min.css'); ?>">
+        <link rel="stylesheet" href="<?php echo base_url('/template/dist/css/skins/_all-skins.min.css'); ?>">
 <?php if ($mobile === FALSE && $admin_prefs['transition_page'] == TRUE): ?>
         <link rel="stylesheet" href="<?php echo base_url($plugins_dir . '/animsition/animsition.min.css'); ?>">
 <?php endif; ?>

@@ -6,7 +6,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h4 class="modal-title">ค้นหาข้อมูล</h4>
                 </div>
-                <form class="form-horizontal" role="form" method="POST" action="" name="form_search" id="form_search">
+                <form class="form-horizontal" role="form" method="GET" action="" name="form_search" id="form_search">
                 <div class="modal-body" style="margin-left: -30px;">
                     <div class="row">
                         <div class="col-md-12">
@@ -20,7 +20,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" id="complaint_date_start" class="form-control pull-right datepickerstart" />
+                                            <input type="text" name="complaint_date_start" id="complaint_date_start" class="form-control pull-right datepickerstart" />
                                         </div>
                                     </label>
                                 </div>
@@ -35,7 +35,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" id="complaint_date_end" class="form-control pull-right datepickerend" />
+                                            <input type="text" name="complaint_date_end" id="complaint_date_end" class="form-control pull-right datepickerend" />
                                         </div>
                                     </label>
                                 </div>
@@ -50,12 +50,16 @@
                                         ประเภทเรื่องร้องทุกข์ :
                                     </label>
                                     <label class="col-sm-7">
-                                        <select class="form-control">
-                                            <option value=''>--ไม่ระบุ--</option>
-                                            <?php foreach($complaint_type as $key => $value){ ?>
-                                            <option value='<?php echo $key; ?>'><?php echo $value; ?></option>
-                                            <?php } ?>
-                                        </select>
+                                        <?php
+                                        $dd1 = $complaint_type;
+                                        $dd1[''] = '--ไม่ระบ--ุ';
+                                        ksort($dd1);
+                                        echo form_dropdown([
+                                            'name' => 'complain_type_id',
+                                            'id' => 'complain_type_id',
+                                            'class' => 'form-control'
+                                        ], $dd1, '');
+                                        ?>
                                     </label>
                                 </div>
                             </div>
@@ -69,12 +73,16 @@
                                         ช่องทางร้องทุกข์ :
                                     </label>
                                     <label class="col-sm-7">
-                                        <select class="form-control">
-                                            <option value=''>--ไม่ระบุ--</option>
-                                            <?php foreach($channel as $key => $value){ ?>
-                                            <option value='<?php echo $key; ?>'><?php echo $value; ?></option>
-                                            <?php } ?>
-                                        </select>
+                                        <?php
+                                        $dd2 = $channel;
+                                        $dd2[''] = '--ไม่ระบุ--';
+                                        ksort($dd2);
+                                        echo form_dropdown([
+                                            'name' => 'channel_id',
+                                            'id' => 'channel_id',
+                                            'class' => 'form-control'
+                                        ], $dd2, '');
+                                        ?>
                                     </label>
                                 </div>
                             </div>
@@ -104,9 +112,17 @@
                                         จังหวัด :
                                     </label>
                                     <label class="col-sm-7">
-                                        <select class="form-control">
-                                            <option value=''>--ไม่ระบุ--</option>
-                                        </select>
+                                        <?php
+                                        $province_arr = $province_list;
+                                        $province_arr[''] = 'กรุณาเลือก';
+                                        ksort($province_arr);
+                                        echo form_dropdown([
+                                            'id' => 'province_id',
+                                            'name'=>'province_id',
+                                            'class' => 'form-control',
+                                            'onchange'=>"get_district(this.value,'')"
+                                        ], $province_arr, @$province_id);
+                                        ?>
                                     </label>
                                 </div>
                             </div>
@@ -120,9 +136,19 @@
                                         อำเภอ :
                                     </label>
                                     <label class="col-sm-7">
-                                        <select class="form-control">
-                                            <option value=''>--ไม่ระบุ--</option>
-                                        </select>
+                                        <span id="district_span">
+                                            <?php
+                                            $district_arr = @$district_list;
+                                            $district_arr[''] = 'กรุณาเลือก';
+                                            ksort($district_arr);
+                                            echo form_dropdown([
+                                                'id' => 'district_id',
+                                                'name'=>'district_id',
+                                                'class' => 'form-control',
+                                                'onchange'=>"get_subdistrict(this.value,'')"
+                                            ], $district_arr, @$district_id);
+                                            ?>
+                                        </span>
                                     </label>
                                 </div>
                             </div>
@@ -136,9 +162,18 @@
                                         ตำบล :
                                     </label>
                                     <label class="col-sm-7">
-                                        <select class="form-control">
-                                            <option value=''>--ไม่ระบุ--</option>
-                                        </select>
+                                        <span id="subdistrict_span">
+                                            <?php
+                                            $subdistrict_arr = @$subdistrict_list;
+                                            $subdistrict_arr[''] = 'กรุณาเลือก';
+                                            ksort($subdistrict_arr);
+                                            echo form_dropdown([
+                                                'id' => 'subdistrict_id',
+                                                'name' => 'subdistrict_id',
+                                                'class' => 'form-control'
+                                            ], $subdistrict_arr, @$subdistrict_id);
+                                            ?>
+                                        </span>
                                     </label>
                                 </div>
                             </div>

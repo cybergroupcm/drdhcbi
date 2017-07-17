@@ -9,7 +9,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <!-- Sidebar user panel -->
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="<?php echo base_url($avatar_dir . '/m_001.png'); ?>" class="img-circle" alt="User Image">
+<!--                            <img src="--><?php //echo base_url($avatar_dir . '/m_001.png'); ?><!--" class="img-circle" alt="User Image">-->
+                            <?php
+                            if($user_login['register_photo']) {
+                                if (@getimagesize(base_url('upload/register_photos/' . $user_login['register_photo']))  !== false ) {
+                                    echo img(array('src' => 'upload/register_photos/' . $user_login['register_photo'], 'alt' => 'User Image', 'class' => 'user-image'));
+                                } else {
+                                    echo img(array('src' => 'assets/images/person_mono.jpg', 'alt' => 'User Image', 'class' => 'user-image'));
+                                }
+                            }else{
+                                echo img(array('src' => 'assets/images/person_mono.jpg', 'alt' => 'User Image', 'class' => 'user-image'));
+                            }
+                            ?>
                         </div>
                         <div class="pull-left info">
                             <p><?php echo $user_login['firstname'].$user_login['lastname']; ?></p>
@@ -34,11 +45,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <ul class="sidebar-menu">
                         <li>
                             <a href="<?php echo site_url('/main'); ?>">
-                                <i class="fa fa-home text-primary"></i> <span><?php echo lang('menu_access_website'); ?></span>
+                                <i class="fa fa-home"></i> <span><?php echo lang('menu_access_website'); ?></span>
                             </a>
                         </li>
 
-                        <li class="header text-uppercase"><?php echo lang('menu_main_navigation'); ?></li>
+<!--                        <li class="header text-uppercase">--><?php //echo lang('menu_main_navigation'); ?><!--</li>-->
                         <li class="<?=active_link_controller('dashboard')?>">
                             <a href="<?php echo site_url('admin/dashboard'); ?>">
                                 <i class="fa fa-dashboard"></i> <span><?php echo lang('menu_dashboard'); ?></span>
@@ -46,7 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </li>
 
 
-                        <li class="header text-uppercase"><?php echo lang('menu_administration'); ?></li>
+<!--                        <li class="header text-uppercase">--><?php //echo lang('menu_administration'); ?><!--</li>-->
                         <li class="<?=active_link_controller('users')?>">
                             <a href="<?php echo site_url('admin/users'); ?>">
                                 <i class="fa fa-user"></i> <span><?php echo lang('menu_users'); ?></span>
@@ -57,16 +68,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <i class="fa fa-shield"></i> <span><?php echo lang('menu_security_groups'); ?></span>
                             </a>
                         </li>
-                        <li class="treeview <?=active_link_controller('prefs')?>">
+                        <!--<li class="treeview <?/*=active_link_controller('prefs')*/?>">
                             <a href="#">
                                 <i class="fa fa-cogs"></i>
-                                <span><?php echo lang('menu_preferences'); ?></span>
+                                <span><?php /*echo lang('menu_preferences'); */?></span>
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li class="<?=active_link_function('interfaces')?>"><a href="<?php echo site_url('admin/prefs/interfaces/admin'); ?>"><?php echo lang('menu_interfaces'); ?></a></li>
+                                <li class="<?/*=active_link_function('interfaces')*/?>"><a href="<?php /*echo site_url('admin/prefs/interfaces/admin'); */?>"><?php /*echo lang('menu_interfaces'); */?></a></li>
                             </ul>
-                        </li>
+                        </li>-->
                         <!--<li class="<?/*=active_link_controller('files')*/?>">
                             <a href="<?php /*echo site_url('admin/files'); */?>">
                                 <i class="fa fa-file"></i> <span><?php /*echo lang('menu_files'); */?></span>
