@@ -96,6 +96,7 @@
                     </div>
                 </form>
                 <div class="modal-footer" style="text-align: center;">
+                    <button type="button" name="btOpenReceived" class="btn btn-warning btOpenReceived" data-toggle="modal" data-target="#received" id="">ยกเลิกการรับเรื่อง</button>
                     <button type="button" name="btSaveSend" id="btSaveSend" class="btn btn-primary">บันทึกส่งต่อเรื่องร้องทุกข์</button>
                 </div>
             </div>

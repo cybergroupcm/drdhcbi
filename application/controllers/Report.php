@@ -12,7 +12,7 @@ class Report extends CI_Controller {
         $this->load->helper(array('html', 'url', 'api'));
         //$this->load->model('complaint_model');
         $this->load->helper('dateformat');
-        $this->load->library('my_mpdf');
+        //$this->load->library('my_mpdf');
     }
 
     public function report_all_complaint()
@@ -39,6 +39,7 @@ class Report extends CI_Controller {
         }
 
         $url = base_url("api/report/report_all_complaint");
+
         $arr_data['data'] = api_call_get($url);
         //echo"<pre>";print_r($arr_data['data']);echo"</pre>";
         $this->libraries->template('report_all_complaint/report_all_complaint', $arr_data);
@@ -57,6 +58,7 @@ class Report extends CI_Controller {
 //        echo "<pre>";
 //        print_r($this->my_mpdf);
 //        die();
+
         $mpdf=new mPDF('th','A4-L',0,'THSaraban',15,15,16,16,9,9, 'L');
         $mpdf->SetDisplayMode('fullpage');
         $mpdf->list_indent_first_level = 0;
@@ -67,6 +69,7 @@ class Report extends CI_Controller {
         exit;
     }
     
+
     public function report_by_channel()
     {
         $url = base_url('api/complaint/channel');

@@ -40,7 +40,7 @@ $this->load->view('report_statistic_by_type/search');
                         echo img(array('src'=>'assets/images/print.png', 'title'=> 'สั่งพิมพ์','width'=>'48px','style'=>'cursor:pointer'));
                         ?>
                     </div>
-                    <div class="col-xs-6" id="donut-chart" style="height: 300px;"></div>
+                    <div class="col-xs-6" id="bar-chart" style="height: 300px;"></div>
                     <div class="col-xs-6 text-right">
                         <?php echo img(array('src'=>'assets/images/pic_right.jpg','width'=>'450px','style'=>'margin-right: -15px;opacity: 0.6;'));?>
 
@@ -60,17 +60,17 @@ $this->load->view('report_statistic_by_type/search');
                             </thead>
                         </table>
                         -->
-                    </div>
+                   </div>
                     <table id="example1" class="table table-bordered table-striped table-hover dataTable">
                         <thead>
                                 <tr>
-                                    <th class="text-center" rowspan="2">ประเภทเรื่องร้องทุกข์</th>
-                                    <th class="text-center" colspan="<?php echo count(@$year_report_type);?>">สถิติรายเดือน</th>
-                                    <th class="text-center" rowspan="2">รวม</th>
+                                    <th class="text-center" style="vertical-align: middle;" rowspan="2">ประเภทเรื่องร้องทุกข์</th>
+                                    <th class="text-center" colspan="<?php echo count(@$month_report);?>">สถิติรายเดือน</th>
+                                    <th class="text-center" style="vertical-align: middle;" rowspan="2">รวม</th>
                                 </tr>
                                 <tr>
                                     <?php
-                                    foreach($year_report_type AS $key=>$month){
+                                    foreach($month_report AS $key=>$month){
                                         echo '<th class="text-center">'.$month.'</th>';
                                     }
                                     ?>
@@ -81,14 +81,32 @@ $this->load->view('report_statistic_by_type/search');
                         foreach($complain_type AS $key_type=>$type_name) {
                             echo '<tr>';
                             echo '<td class="text-left">'.$type_name.'</td>';
-                                foreach($year_report_type AS $key=>$month){
-                                    echo '<td class="text-right">'.@number_format($report_type[$key_type][$key]).'</td>';
+                                $sum_type = 0;
+                                $sum_type_all = 0;
+                                foreach($month_report AS $key=>$month){
+                                    $sum_type = (@$report_type[$key_type][$key])?@$report_type[$key_type][$key]:'0';
+                                    $sum_type_all += $sum_type;
+                                    echo '<td class="text-right">'.number_format($sum_type).'</td>';
                                 }
-                                echo '<td class="text-right">'.@number_format($report_type[$key_type]['sum_all']).'</td>';
+                                echo '<td class="text-right">'.number_format($sum_type_all).'</td>';
                             echo '</tr>';
                         }
                         ?>
                         </tbody>
+                        <tfoot>
+                        <?php
+                            echo '<tr>';
+                                echo '<td class="text-left">รวม</td>';
+                                $sum_total = 0;
+                                $sum_total_all = 0;
+                                foreach($month_report AS $key=>$month){
+                                    echo '<td class="text-right">'.number_format($sum_total).'</td>';
+                                }
+                                echo '<td class="text-right">'.number_format($sum_total_all).'</td>';
+                            echo '</tr>';
+
+                        ?>
+                        </tfoot>
                     </table>
                     <?php //echo $pagination; ?>
                 </div>
@@ -98,34 +116,41 @@ $this->load->view('report_statistic_by_type/search');
 </section>
 <div id="base_url" class="<?php echo base_url();?>"></div>
 <?php
-    echo '<pre>'; print_r($month_report); echo '</pre>';
-    //echo '<pre>'; print_r($complain_type); echo '</pre>';
     $data_labels = '';
     $data_labels .= '[';
+    $data_ykeys = '';
+    $data_ykeys .= '[';
     foreach($complain_type AS $key=>$val){
         $comma = ($key == 1)?'':',';
         $data_labels .= $comma."'".$val."'";
+        $data_ykeys .= $comma."'".$key."'";
     }
     $data_labels .= ']';
-//echo $data_labels.'<hr>';
+    $data_ykeys .= ']';
+
+    $data_type = '';
+    $data_type .= '[';
+    foreach($month_report AS $key2=>$month){
+        $data_type .= "{y:'".$month."'";
+        $sum_type = 0;
+        foreach($report_type AS $key=>$val) {
+            $sum_type = (@$val[$key2])?$val[$key2]:'0';
+            $data_type .= ",".$key.": ".$sum_type;
+        }
+        $data_type .= "},";
+    }
+    $data_type .= ']';
 ?>
 <script>
         //BAR CHART
         var bar = new Morris.Bar({
-            element: 'donut-chart',
+            element: 'bar-chart',
             resize: true,
-            data: [
-                {y: 'ม.ค. 2560', a: 100, b: 90, c: 90},
-                {y: 'ก.พ. 2560', a: 75, b: 65, c: 65},
-                {y: 'มี.ค. 2560', a: 50, b: 40, c: 40},
-                {y: 'เม.ย. 2560', a: 75, b: 65, c: 65},
-                {y: 'ก.ค. 2560', a: 50, b: 40, c: 40},
-                {y: 'ม.ค. 2513', a: 75, b: 65,c: 65}
-            ],
-            barColors: ['#3c8dbc', '#0073b7', '#00c0ef'],
+            data: <?php echo $data_type;?>,
+            barColors: ['#3c8dbc', '#0073b7', '#0073b7'],
             xkey: 'y',
-            ykeys: ['a', 'b', 'c'],
-            labels: ['แจ้งเบาะแสการทำผิด', 'ปัญหาความเดือดร้อน' ,'เรื่องทั่วไป'],
+            ykeys: <?php echo $data_ykeys;?>,
+            labels: <?php echo $data_labels;?>,
             hideHover: 'auto'
         });
 
