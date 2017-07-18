@@ -78,9 +78,22 @@
 
                             </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label class="col-sm-5 text-right"></label>
+                                    <label class="col-sm-7 text-left">
+                                        <input type="checkbox" id="save_result_status" name="save_result_status" value="1"> บันทึกผลการดำเนินการ
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 </form>
                 <div class="modal-footer" style="text-align: center;">
+                    <button type="button" name="btOpenSend" class="btn btn-warning btOpenSend" data-toggle="modal" data-target="#send" id="">ยกเลิกส่งต่อเรื่องร้องทุกข์</button>
                     <button type="button" name="btSaveResult" id="btSaveResult" class="btn btn-primary">บันทึกผลการดำเนินการ</button>
                 </div>
             </div>

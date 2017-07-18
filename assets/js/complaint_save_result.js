@@ -10,12 +10,27 @@ $(document).ready(function () {
         var keyin_id = $('#keyin_id_result').val();
         var result_detail = $('#result_detail').val();
         //var result_date = $('#result_date').val();
-        var arr_result_date = $('#result_date').val().split('/');
-        var result_date = (arr_result_date[2]-543)+'-'+arr_result_date[1]+'-'+arr_result_date[0];
-        current_status_id = '4';
+        var result_date = '';
+        if($('#result_date').val() != '') {
+            var arr_result_date = $('#result_date').val().split('/');
+            var result_date = (arr_result_date[2] - 543) + '-' + arr_result_date[1] + '-' + arr_result_date[0];
+        }
+        if($('#save_result_status').prop('checked') == true){
+            current_status_id = '4';
+        }else{
+            current_status_id = '3';
+        }
         add_result(keyin_id,result_detail,result_date,method);
         update_status(keyin_id,current_status_id,result_detail,result_date);
         result_attach_file(keyin_id);
+        setTimeout(function(){
+            $(location).attr('href',base_url+'complaint/dashboard');
+        }, 2000);
+    });
+
+    $(".btOpenSend").click(function () {
+        $(this).attr('id', $("#keyin_id_result").val());
+        $("#save_result .close").click();
     });
 });
 var text_ok = 'บันทึกข้อมูลสำเร็จ';

@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <a href="#"><b>ศูนย์ดำรงธรรม</b></a>
             </div>
             <div class="login-box-body">
-                <p class="login-box-msg"><?php echo lang('auth_sign_session'); ?></p>
+                <p class="login-box-msg">&nbsp;</p>
                 <?php echo $message;?>
 
                 <?php echo form_open('auth/login');?>
@@ -27,7 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                         </div>
                         <div class="col-xs-4">
-                            <?php echo form_submit('submit', lang('auth_login'), array('class' => 'btn btn-primary btn-block btn-flat'));?>
+                            <?php echo form_submit('submit', 'เข้าสู่ระบบ', array('class' => 'btn btn-primary btn-block btn-flat'));?>
                         </div>
                     </div>
                 <?php echo form_close();?>

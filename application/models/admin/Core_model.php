@@ -58,6 +58,7 @@ class Core_model extends CI_Model {
         $this->db->select('*');
         $this->db->where('parent_id',$parent);
         $this->db->from('au_applications');
+        $this->db->order_by('order_by');
         $query = $this->db->get();
         if( count($query->result()) != 0){
             foreach($query->result() as $row){

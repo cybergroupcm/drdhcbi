@@ -67,7 +67,7 @@ class Template_libraries extends CI_Model {
 				$this->load->view($bodyFile, $arr_data);//file view show body
 
 		}else{
-				$arr_title = array('title'=>'Home','body_class'=>'skin-blue');
+				$arr_title = array('title'=>'ศูนย์ดำรงธรรม จังหวัดชลบุรี','body_class'=>'hold-transition skin-blue fixed sidebar-mini');
 				$this->load->view('template/template_header', $arr_title);
 				$this->load->view('template/template_top_menu', $arr_header);
 				$this->load->view('template/template_left_menu', $arr_header);
