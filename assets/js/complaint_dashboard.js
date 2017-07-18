@@ -4,7 +4,8 @@ $( document ).ready(function() {
         format: 'dd/mm/yyyy',
         todayBtn: true,
         language: 'th',             //เปลี่ยน label ต่างของ ปฏิทิน ให้เป็น ภาษาไทย   (ต้องใช้ไฟล์ bootstrap-datepicker.th.min.js นี้ด้วย)
-        thaiyear: true              //Set เป็นปี พ.ศ.
+        thaiyear: true,              //Set เป็นปี พ.ศ.
+
     });
     //datepicker("setDate", "0");  //กำหนดเป็นวันปัจุบัน
     $(".datepicker").prop('readonly', 'readonly');
@@ -296,5 +297,35 @@ function checkFile(id) {
     $('#checkFile').append(file_show);
     //document.getElementById("checkFile").innerHTML = txt;
 }
-
+$(document).ready(function() {
+    var table = $('#example1').DataTable({
+        "order": [[ 1, "desc" ]],
+        "columnDefs": [
+            { "targets": [0,6], "orderable": false },
+            { "targets": [0,6],"searchable": false }
+        ],
+        "language": {
+            "search": "ค้นหา:",
+            "info": "เรื่องที่ _START_ ถึง _END_ จากทั้งหมด _TOTAL_ เรื่อง",
+            "infoEmpty":"Showing 0 to 0 of 0 entries",
+            "zeroRecords":"ไม่พบเรื่องที่ค้นหา",
+            "paginate": {
+                "first":      "หน้าแรก",
+                "last":       "หน้าสุดท้าย",
+                "next":       "ต่อไป",
+                "previous":   "ย้อนกลับ"
+            },
+        },
+        "bLengthChange": false,
+        "pageLength": 15
+    });
+    $('#example1 tbody>tr').on('click', 'td.open', function () {
+        var id = table.row( this ).id();
+        var href = base_url+'complaint/view_detail/'+id;
+        window.location.href = href;
+        //window.open(href, "_blank");
+        //console.log(table.row( this ).id());
+        //alert( 'You clicked on '+data[0]+'\'s row' );
+    } );
+} );
 
