@@ -113,7 +113,7 @@
 
       #jQuery UI 1.11.2
       $link = array(
-                'src' => 'template/plugins/jqueryUI/jquery-ui.min.js',
+                'src' => 'template/plugins/jQueryUI/jquery-ui.min.js',
                 'type' => 'text/javascript'
       );
       echo script_tag($link);

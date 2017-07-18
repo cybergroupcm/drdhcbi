@@ -23,9 +23,9 @@ if(!xml[url]){
             //alert(markers[i].getAttribute("shape_color"));
             all_polygonMap[url] = new google.maps.Polygon({
               paths: all_polygons[url],
-              strokeColor: markers[i].getAttribute("boder_color"),
+              strokeColor: '#DF780A',
               strokeOpacity: 0.8,
-              strokeWeight: 1,
+              strokeWeight: 0.7,
               fillColor: markers[i].getAttribute("shape_color"),
               fillOpacity: markers[i].getAttribute("shape_opacity")
             });
