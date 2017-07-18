@@ -4,8 +4,7 @@ $( document ).ready(function() {
         format: 'dd/mm/yyyy',
         todayBtn: true,
         language: 'th',             //เปลี่ยน label ต่างของ ปฏิทิน ให้เป็น ภาษาไทย   (ต้องใช้ไฟล์ bootstrap-datepicker.th.min.js นี้ด้วย)
-        thaiyear: true,              //Set เป็นปี พ.ศ.
-
+        thaiyear: true              //Set เป็นปี พ.ศ.
     });
     //datepicker("setDate", "0");  //กำหนดเป็นวันปัจุบัน
     $(".datepicker").prop('readonly', 'readonly');
@@ -43,18 +42,18 @@ $( document ).ready(function() {
         window.location = link;
     });
 
-    $('#received').on('show.bs.modal', function(e) {
-        req_id = e.relatedTarget.id;
+    $(document).on("click", ".open-received", function () {
+        var req_id = $(this).data('id');
         getDataReceived(req_id);
     });
 
-    $('#send').on('show.bs.modal', function(e) {
-        req_id = e.relatedTarget.id;
+    $(document).on("click", ".open-send", function () {
+        var req_id = $(this).data('id');
         getDataSend(req_id);
     });
 
-    $('#save_result').on('show.bs.modal', function(e) {
-        id = e.relatedTarget.id;
+    $(document).on("click", ".open-result", function () {
+        var id = $(this).data('id');
         $('#keyin_id_result').val(id);
         var url = $('#base_url').attr("class")+"complaint/getDataResult/"+id;
         $.ajax({
@@ -62,9 +61,9 @@ $( document ).ready(function() {
             url: url,
             async:false
         }).done(function (result) {
-            var  dataReceived = JSON.parse(result);
+            var dataReceived = JSON.parse(result);
             console.log(dataReceived.result);
-            if(dataReceived.result != null) {
+            if (dataReceived.result != null) {
                 $('#result_detail').val(dataReceived.result.result_detail);
                 if (dataReceived.result_date != '0000-00-00') {
                     var result_date = dataReceived.result.result_date.split('-');
@@ -78,24 +77,6 @@ $( document ).ready(function() {
                     txt_append = "<div id='file_" + result_attach_file[key].file_id + "'>name : <a href='" + $('#base_url').attr("class") + "upload/result_attach_file/" + result_attach_file[key].file_system_name + "' target='_blank'>" + result_attach_file[key].file_name + "</a><br>";
                     txt_append += "<input type='button' class='btn btn-danger' onclick=\"delete_result_file('" + result_attach_file[key].file_id + "', '" + result_attach_file[key].file_system_name + "')\" value='ลบ'></div>";
                     $('#checkFile').append(txt_append);
-                }
-            }
-        });
-
-        var url = $('#base_url').attr("class")+"complaint/getDataReceived/"+id;
-        $.ajax({
-            method: "GET",
-            url: url,
-            async:false
-        }).done(function (result) {
-            var  dataReceived = JSON.parse(result);
-            if(dataReceived.current_status_id == '4'){
-                if(!$('#save_result_status').prop('checked')) {
-                    $("#save_result_status").prop("checked", true);
-                }
-            }else{
-                if($('#save_result_status').prop('checked')) {
-                    $("#save_result_status").prop("checked", false);
                 }
             }
         });
@@ -323,9 +304,6 @@ $(document).ready(function() {
         var id = table.row( this ).id();
         var href = base_url+'complaint/view_detail/'+id;
         window.location.href = href;
-        //window.open(href, "_blank");
-        //console.log(table.row( this ).id());
-        //alert( 'You clicked on '+data[0]+'\'s row' );
     } );
 } );
 
