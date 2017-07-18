@@ -36,7 +36,7 @@ $this->load->view('complaint/save_result');
         transform: translate(-50%, 0);
         background-color: rgba(255,255,255,0.9);
     }
-    .a, .dropdown-menu{
+    .a, .edit.dropdown-menu{
         width: 30px;
         margin-top: -5px;
         font-size: 1em;
@@ -45,21 +45,6 @@ $this->load->view('complaint/save_result');
     td.open{
         cursor: pointer;
     }
-
-    /*.dropdown {
-        text-align: center;
-    }
-
-    .a, .dropdown-menu {
-        width: 50px;
-        margin: -10px auto
-    }
-
-    .dropdown-menu {
-        width: 50px;
-        left: 50%;
-        margin-left: -100px;
-    }*/
 </style>
 <section class="content">
     <div class="row">
@@ -169,11 +154,11 @@ $this->load->view('complaint/save_result');
                                         <span>
                                       <?php
                                         if($val['current_status_id'] == '1') {
-                                            echo '<i class="fa fa-inbox" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;'.$displayReceive.'" data-toggle="modal" data-target="#received" id="'.$val['keyin_id'].'"></i>';
+                                            echo '<i class="fa fa-inbox open-received" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;'.$displayReceive.'" data-toggle="modal" data-target="#received" data-id="'.$val['keyin_id'].'"></i>';
                                         }elseif($val['current_status_id'] == '2') {
-                                            echo '<i class="fa  fa-send" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;'.$displaySend.'" data-toggle="modal" data-target="#send" id="'.$val['keyin_id'].'"></i>';
+                                            echo '<i class="fa  fa-send open-send" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;'.$displaySend.'" data-toggle="modal" data-target="#send" data-id="'.$val['keyin_id'].'"></i>';
                                         }else{
-                                            echo '<i class="fa fa-gavel" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;'.$displayFinish.'" data-toggle="modal" data-target="#save_result" id="'.$val['keyin_id'].'"></i>';
+                                            echo '<i class="fa fa-gavel open-result" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;'.$displayFinish.'" data-toggle="modal" data-target="#save_result" data-id="'.$val['keyin_id'].'"></i>';
                                         }
                                         ?>
                                             </span>
