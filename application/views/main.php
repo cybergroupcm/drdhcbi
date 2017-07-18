@@ -51,7 +51,7 @@
                 <div class="icon">
                   <i class="ion ion-email-unread"></i>
                 </div>
-                <a href="#" class="small-box-footer">เพิ่มเติม <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="complaint/dashboard?current_status=1" class="small-box-footer">เพิ่มเติม <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->
             <div class="col-lg-3 col-xs-6">
@@ -64,7 +64,7 @@
                 <div class="icon">
                   <i class="ion ion-android-drafts"></i>
                 </div>
-                <a href="#" class="small-box-footer">เพิ่มเติม <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="complaint/dashboard?current_status=2" class="small-box-footer">เพิ่มเติม <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->
             <div class="col-lg-3 col-xs-6">
@@ -77,7 +77,7 @@
                 <div class="icon">
                   <i class="ion ion-share"></i>
                 </div>
-                <a href="#" class="small-box-footer">เพิ่มเติม <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="complaint/dashboard?current_status=3" class="small-box-footer">เพิ่มเติม <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->
             <div class="col-lg-3 col-xs-6">
@@ -90,7 +90,7 @@
                 <div class="icon">
                   <i class="ion ion-checkmark-circled"></i>
                 </div>
-                <a href="#" class="small-box-footer">เพิ่มเติม <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="complaint/dashboard?current_status=4" class="small-box-footer">เพิ่มเติม <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->
           </div><!-- /.row -->
