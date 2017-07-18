@@ -375,8 +375,7 @@ $link = array(
     </div>
 </div>
     </form>
-<script>
-    var base_url = '<?php echo base_url() ?>';</script>
+<script> var base_url = '<?php echo base_url() ?>'; </script>
 <?php
 
 $link = array(

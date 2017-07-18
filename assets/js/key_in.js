@@ -1,12 +1,12 @@
 var base_url = $('#base_url').attr('class');
-function saveForm() {
+function saveForm(action_to) {
     var method = 'POST';
     var text_ok = 'บันทึกข้อมูลสำเร็จ';
     var text_error = 'บันทึกข้อมูลไม่สำเร็จ';
     if ($("#action").val() == 'edit') {
         method = 'PUT';
-        text_ok = 'แก้ไขข้อมูลสำเร็จ';
-        text_error = 'แก้ไขข้อมูลไม่สำเร็จ';
+        text_ok = 'บันทึกข้อมูลสำเร็จ';
+        text_error = 'บันทึกข้อมูลไม่สำเร็จ';
     }
     var jwt = Cookies.get("api_token");
     var formData = $("#keyInForm").serialize();
@@ -28,6 +28,11 @@ function saveForm() {
     }).done(function (response,xhr) {
         console.log(response);
         console.log(xhr);
+        if($('#keyin_id').val()!=''){
+            var keyin_id = $('#keyin_id').val();
+        }else{
+            var keyin_id = response;
+        }
         if(xhr.state = 201 && files > 0){
             fileData.append('keyin_id',response);
             $.ajax({
@@ -51,7 +56,7 @@ function saveForm() {
                         showConfirmButton: false
                     });
                     setTimeout(function(){
-                        $(location).attr('href',base_url+'complaint/dashboard');
+                        $(location).attr('href',base_url+'complaint/key_in/'+action_to+'/'+keyin_id);
                     }, 2000);
                 }else {
                     swal("ผิดพลาด",text_error, "error");
@@ -67,7 +72,7 @@ function saveForm() {
                 showConfirmButton: false
             });
             setTimeout(function(){
-                $(location).attr('href',base_url+'complaint/dashboard');
+                $(location).attr('href',base_url+'complaint/key_in/'+action_to+'/'+keyin_id);
             }, 2000);
         }else{
             swal("ผิดพลาด",text_error, "error");
@@ -78,86 +83,84 @@ function saveForm() {
     });
 }
 
-function validateForm() {
+function validateForm(action_to,type) {
     var text_warning = "";
-    if ($('#complain_date').val() == "") {
-        text_warning += " - วันที่ร้องทุกข์\n";
-    }
-    if ($('#recipient').val() == "") {
-        text_warning += " - ผู้รับแจ้ง\n";
-    }
-    if ($('#complain_type_id').val() == "") {
-        text_warning += " - ประเภทเรื่อง\n";
-    }
-    if ($('#complain_name').val() == "") {
-        text_warning += " - หัวข้อเรื่อง\n";
-    }
-    if ($('#channel_id').val() == "") {
-        text_warning += " - ช่องทางรับเรื่อง\n";
-    }
-    if ($('#subject_id').val() == "") {
-        text_warning += " - ลักษณะเรื่อง\n";
-    }
-    if ($('#user_complain_1').is(':checked') === false && $('#user_complain_2').is(':checked') === false) {
-        text_warning += " - ผู้ร้องทุกข์\n";
-    } else if ($('#user_complain_2').is(':checked') === true) {
-        if ($('#pn_id').val() == "" || $('#first_name').val() == "" || $('#last_name').val() == "") {
-            text_warning += " - ชื่อผู้ร้องทุกข์\n";
+    if($('#step').val()=='1') {
+        if ($('#complain_date').val() == "") {
+            text_warning += " - วันที่ร้องทุกข์\n";
+        }
+        if ($('#recipient').val() == "") {
+            text_warning += " - ผู้รับแจ้ง\n";
+        }
+        if ($('#user_complain_1').is(':checked') === false && $('#user_complain_2').is(':checked') === false) {
+            text_warning += " - ผู้ร้องทุกข์\n";
+        } else if ($('#user_complain_2').is(':checked') === true) {
+            if ($('#id_card').val() == "") {
+                text_warning += " - รหัสประจำตัวประชาชนของผู้ร้องทุกข์\n";
+            }
+            if ($('#pn_id').val() == "" || $('#first_name').val() == "" || $('#last_name').val() == "") {
+                text_warning += " - ชื่อผู้ร้องทุกข์\n";
+            }
+            if ($('#phone_number').val() == "") {
+                text_warning += " - โทรศัพท์เคลื่อนที่ของผู้ร้องทุกข์\n";
+            }
+        }
+    }else if($('#step').val()=='2'){
+        if ($('#complain_type_id').val() == "") {
+            text_warning += " - ประเภทเรื่อง\n";
+        }
+        if ($('#complain_name').val() == "") {
+            text_warning += " - หัวข้อเรื่อง\n";
+        }
+        if ($('#channel_id').val() == "") {
+            text_warning += " - ช่องทางรับเรื่อง\n";
+        }
+        if ($('#subject_id').val() == "") {
+            text_warning += " - ลักษณะเรื่อง\n";
+        }
+
+        var accused_type = 0;
+        $(".accused_type").each(function (index) {
+            if ($(this).is(':checked') === true) {
+                accused_type++;
+            }
+        });
+        if (accused_type == 0) {
+            text_warning += " - หน่วยงานหรือผู้ถูกร้องเรียนร้องทุกข์\n";
+        }
+
+        var desire = 0;
+        $(".desire").each(function (index) {
+            if ($(this).is(':checked') === true) {
+                desire++;
+            }
+        });
+        if (desire == 0) {
+            text_warning += " - ความประสงค์ในการดำเนินการ\n";
+        }
+    }else if($('#step').val()=='3'){
+        if ($('#place_scene').val() == "") {
+            text_warning += " - สถานที่เกิดเหตุ\n";
+        }
+        if ($('#province_id').val() == "") {
+            text_warning += " - จังหวัด\n";
+        }
+        if ($('#district_id').val() == "") {
+            text_warning += " - อำเภอ\n";
+        }
+        if ($('#address_id').val() == "") {
+            text_warning += " - ตำบล\n";
+        }
+        if ($('#complaint_detail').val() == "") {
+            text_warning += " - เหตุการณ์/พฤติการณ์\n";
         }
     }
 
-    var complaint_type = 0;
-    $(".complaint_type").each(function (index) {
-        if ($(this).is(':checked') === true) {
-            complaint_type++;
-        }
-    });
-    if (complaint_type == 0) {
-        text_warning += " - ประเภทเรื่องร้องทุกข์หลัก\n";
-    }
-
-    var accused_type = 0;
-    $(".accused_type").each(function (index) {
-        if ($(this).is(':checked') === true) {
-            accused_type++;
-        }
-    });
-    if (accused_type == 0) {
-        text_warning += " - หน่วยงานหรือผู้ถูกร้องเรียนร้องทุกข์\n";
-    }
-
-    if ($('#place_scene').val() == "") {
-        text_warning += " - สถานที่เกิดเหตุ\n";
-    }
-    if ($('#province_id').val() == "") {
-        text_warning += " - จังหวัด\n";
-    }
-    if ($('#district_id').val() == "") {
-        text_warning += " - อำเภอ\n";
-    }
-    if ($('#address_id').val() == "") {
-        text_warning += " - ตำบล\n";
-    }
-    if ($('#complaint_detail').val() == "") {
-        text_warning += " - เหตุการณ์/พฤติการณ์\n";
-    }
-
-    var desire = 0;
-    $(".desire").each(function (index) {
-        if ($(this).is(':checked') === true) {
-            desire++;
-        }
-    });
-    if (desire == 0) {
-        text_warning += " - ความประสงค์ในการดำเนินการ\n";
-    }
-
-
-    if (text_warning != "") {
+    if (text_warning != "" && type != 'back') {
         swal("กรุณาระบุข้อมูลต่อไปนี้", text_warning, "warning");
         return false;
     } else {
-        saveForm();
+        saveForm(action_to);
     }
 }
 
@@ -281,5 +284,22 @@ $(document).ready(function () {
         format: 'dd/mm/yyyy',
         thaiyear: true
     });
+
     changeUserComplain();
+
+    $(".numbers").keydown(function (e) {
+        // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                // Allow: Ctrl+A, Command+A
+            (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+            // let it happen, don't do anything
+            return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    });
 });

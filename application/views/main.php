@@ -1,6 +1,20 @@
 
       <!-- Right side column. Contains the navbar and content of the page -->
         <!-- Content Header (Page header) -->
+        <style>
+            -webkit-media (min-width: 768px) {
+                .row.equal {
+                    display: flex;
+                    flex-wrap: wrap;
+                }
+            }
+            .box{
+                -webkit-box-shadow: 5px 5px 10px #888888;
+            }
+            .small-box{
+                -webkit-box-shadow: 5px 5px 10px #888888;
+            }
+        </style>
         <section class="content-header">
           <h1>
             สรุปภาพรวมข้อมูลเรื่องร้องทุกข์
@@ -20,9 +34,9 @@
                   <p><h4>ข้อมูลเรื่องร้องทุกข์ทั้งหมด<h4></p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-person-add"></i>
+                  <i class="ion ion-ios-paper-outline"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer">เพิ่มเติม <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->
           </div>
@@ -31,57 +45,57 @@
               <!-- small box -->
               <div class="small-box bg-red">
                 <div class="inner">
-                  <h3><?php echo $sum_status[0];?> <sup style="font-size: 20px">(รายการ)</sup></h3>
+                  <h3><?php echo @$sum_status['1'];?> <sup style="font-size: 20px">(รายการ)</sup></h3>
                   <p><h4>อยู่ระหว่างรับเรื่อง<h4></p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-email-unread"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer">เพิ่มเติม <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->
             <div class="col-lg-3 col-xs-6">
               <!-- small box -->
               <div class="small-box bg-yellow">
                 <div class="inner">
-                  <h3><?php echo $sum_status[1];?> <sup style="font-size: 20px">(รายการ)</sup></h3>
+                  <h3><?php echo @$sum_status['2'];?> <sup style="font-size: 20px">(รายการ)</sup></h3>
                   <p><h4>รับเรื่อง<h4></p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-email"></i>
+                  <i class="ion ion-android-drafts"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer">เพิ่มเติม <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->
             <div class="col-lg-3 col-xs-6">
               <!-- small box -->
               <div class="small-box bg-blue">
                 <div class="inner">
-                  <h3><?php echo $sum_status[2];?> <sup style="font-size: 20px">(รายการ)</sup></h3>
+                  <h3><?php echo @$sum_status['3'];?> <sup style="font-size: 20px">(รายการ)</sup></h3>
                   <p><h4>ส่งต่อเรื่อง<h4></p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-share"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer">เพิ่มเติม <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->
             <div class="col-lg-3 col-xs-6">
               <!-- small box -->
               <div class="small-box bg-green">
                 <div class="inner">
-                  <h3><?php echo $sum_status[3];?> <sup style="font-size: 20px">(รายการ)</sup></h3>
+                  <h3><?php echo @$sum_status['4'];?> <sup style="font-size: 20px">(รายการ)</sup></h3>
                   <p><h4>บันทึกผลเรียบร้อย<h4></p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-checkmark-circled"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="#" class="small-box-footer">เพิ่มเติม <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->
           </div><!-- /.row -->
           <!-- Map -->
-          <div class="row">
+          <div class="row equal">
             <div class="col-lg-6 col-xs-6">
               <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACSdMKi4OrvylAegEJXXR3--RnLUYUBtw"></script>
               <?php
@@ -133,7 +147,7 @@
                     ข้อมูลเรื่องร้องทุกข์ทั้งหมดจำแนกรายพื้นที่
                     </div>
                 </div>
-                <div id="map" style="height:420px;width:100%;" ></div>
+                <div id="map" style="height:420px; width:100%;" ></div>
               </div>
             </div>
 
@@ -148,78 +162,78 @@
                 </div>
                 <?php
                 $link = array(
-                    'src' => 'template/plugins/flot/jquery.flot.min.js',
+                    'src' => 'assets/js/Chart.bundle.js',
                     'type' => 'text/javascript'
                 );
                     echo script_tag($link);
                 $link = array(
-                    'src' => 'template/plugins/flot/jquery.flot.resize.min.js',
+                    'src' => 'assets/js/Chart.analytics.js',
                     'type' => 'text/javascript'
                 );
-                    echo script_tag($link);
+                echo script_tag($link);
                 $link = array(
-                    'src' => 'template/plugins/flot/jquery.flot.pie.min.js',
+                    'src' => 'assets/js/Chart.utils.js',
                     'type' => 'text/javascript'
                 );
-                    echo script_tag($link);
-                $link = array(
-                    'src' => 'template/plugins/flot/jquery.flot.categories.min.js',
-                    'type' => 'text/javascript'
-                );
-                    echo script_tag($link);
+                echo script_tag($link);
                 ?>
-                <div class="box-body chart-responsive">
-                  <div class="chart" id="donut-chart" style="height: 400px; position: relative;"></div>
-                </div><!-- /.box-body -->
+                  <center>
+                      <div id="canvas-holder" style="width:420px">
+                          <canvas id="chart-area" />
+                      </div>
+                  </center>
               </div><!-- /.box -->
               <script>
-              /*
-                       * DONUT CHART
-                       * -----------
-                       */
-
-                      var donutData = [
-                      <?php
-                        foreach ($sum_type as $data_type) {
-                      ?>
-                        { label: "<?php echo $data_type['complain_type_name'];?>",
-                          data: <?php echo $data_type['sum_complain'];?>,
-                          color: "<?php echo $data_type['color'];?>"
-                        },
-                      <?php } ?>
-                      ];
-                      $.plot("#donut-chart", donutData, {
-                        series: {
-                          pie: {
-                            show: true,
-                            radius: 1,
-                            innerRadius: 0.5,
-                            label: {
-                              show: true,
-                              radius: 2 / 3,
-                              formatter: labelFormatter,
-                              threshold: 0.1
-                            }
-
+                  var randomScalingFactor = function() {
+                      return Math.round(Math.random() * 100);
+                  };
+                  var config = {
+                      type: 'doughnut',
+                      data: {
+                          datasets: [{
+                              data: [
+                                  <?php
+                                      foreach($sum_type as $key => $value ){
+                                        echo $value['sum_complain'].',';
+                                      }
+                                  ?>
+                              ],
+                              backgroundColor: [
+                                  <?php
+                                  foreach($sum_type as $key => $value ){
+                                      echo "'".$value['color']."',";
+                                  }
+                                  ?>
+                              ],
+                              label: 'Dataset 1'
+                          }],
+                          labels: [
+                              <?php
+                              foreach($sum_type as $key => $value ){
+                                  echo "'".$value['complain_type_name']."',";
+                              }
+                              ?>
+                          ]
+                      },
+                      options: {
+                          responsive: true,
+                          legend: {
+                              position: 'bottom',
+                          },
+                          title: {
+                              display: true,
+                              text: ''
+                          },
+                          animation: {
+                              animateScale: true,
+                              animateRotate: true
                           }
-                        },
-                        legend: {
-                          show: false
-                        }
-                      });
-                      /*
-                       * END DONUT CHART
-                       */
-                      /*
-                     * Custom Label formatter
-                     * ----------------------
-                     */
-                    function labelFormatter(label, series) {
-                      return "<div style='font-size:13px; text-align:center; padding:2px; color: #fff; font-weight: 600;'>"
-                              + label
-                              + "<br/>"
-                              + Math.round(series.percent) + "%</div>";
-                    }
+                      }
+                  };
+                  window.onload = function() {
+                      var ctx = document.getElementById("chart-area").getContext("2d");
+                      window.myDoughnut = new Chart(ctx,config);
+                  };
               </script>
           </div>
           </div>
