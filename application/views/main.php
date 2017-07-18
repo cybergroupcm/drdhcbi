@@ -36,7 +36,7 @@
                 <div class="icon">
                   <i class="ion ion-ios-paper-outline"></i>
                 </div>
-                <a href="#" class="small-box-footer">เพิ่มเติม <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="complaint/dashboard" class="small-box-footer">เพิ่มเติม <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->
           </div>
