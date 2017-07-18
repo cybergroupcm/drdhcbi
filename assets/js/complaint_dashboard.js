@@ -42,18 +42,18 @@ $( document ).ready(function() {
         window.location = link;
     });
 
-    $('#received').on('show.bs.modal', function(e) {
-        req_id = e.relatedTarget.id;
+    $(document).on("click", ".open-received", function () {
+        var req_id = $(this).data('id');
         getDataReceived(req_id);
     });
 
-    $('#send').on('show.bs.modal', function(e) {
-        req_id = e.relatedTarget.id;
+    $(document).on("click", ".open-send", function () {
+        var req_id = $(this).data('id');
         getDataSend(req_id);
     });
 
-    $('#save_result').on('show.bs.modal', function(e) {
-        id = e.relatedTarget.id;
+    $(document).on("click", ".open-result", function () {
+        var id = $(this).data('id');
         $('#keyin_id_result').val(id);
         var url = $('#base_url').attr("class")+"complaint/getDataResult/"+id;
         $.ajax({
@@ -61,9 +61,9 @@ $( document ).ready(function() {
             url: url,
             async:false
         }).done(function (result) {
-            var  dataReceived = JSON.parse(result);
+            var dataReceived = JSON.parse(result);
             console.log(dataReceived.result);
-            if(dataReceived.result != null) {
+            if (dataReceived.result != null) {
                 $('#result_detail').val(dataReceived.result.result_detail);
                 if (dataReceived.result_date != '0000-00-00') {
                     var result_date = dataReceived.result.result_date.split('-');
@@ -278,5 +278,32 @@ function checkFile(id) {
     $('#checkFile').append(file_show);
     //document.getElementById("checkFile").innerHTML = txt;
 }
-
+$(document).ready(function() {
+    var table = $('#example1').DataTable({
+        "order": [[ 1, "desc" ]],
+        "columnDefs": [
+            { "targets": [0,6], "orderable": false },
+            { "targets": [0,6],"searchable": false }
+        ],
+        "language": {
+            "search": "ค้นหา:",
+            "info": "เรื่องที่ _START_ ถึง _END_ จากทั้งหมด _TOTAL_ เรื่อง",
+            "infoEmpty":"Showing 0 to 0 of 0 entries",
+            "zeroRecords":"ไม่พบเรื่องที่ค้นหา",
+            "paginate": {
+                "first":      "หน้าแรก",
+                "last":       "หน้าสุดท้าย",
+                "next":       "ต่อไป",
+                "previous":   "ย้อนกลับ"
+            },
+        },
+        "bLengthChange": false,
+        "pageLength": 15
+    });
+    $('#example1 tbody>tr').on('click', 'td.open', function () {
+        var id = table.row( this ).id();
+        var href = base_url+'complaint/view_detail/'+id;
+        window.location.href = href;
+    } );
+} );
 
