@@ -116,7 +116,8 @@ class Complaint extends CI_Controller
         $url = base_url('/api/complaint/total_row/overall/'.$overall.'/user_id/'.$user_data_id['userid']);
         $total_row = api_call_get($url);
         $arr_data['total_row'] = $total_row;
-        $url = base_url('/api/complaint/dashboard/overall/'.$overall.'/user_id/'.$user_data_id['userid'].'/page/'.$page);
+//        $url = base_url('/api/complaint/dashboard/overall/'.$overall.'/user_id/'.$user_data_id['userid'].'/page/'.$page);
+        $url = base_url('/api/complaint/dashboard_last_month/overall/'.$overall.'/user_id/'.$user_data_id['userid']);
         $arr_data['data'] = api_call_get($url);
         if( isset($arr_data['data']['status']) ){
             $arr_data['data'] = array();
@@ -132,7 +133,7 @@ class Complaint extends CI_Controller
 
         //start แบ่งหน้า
         //$this->load->library('pagination');
-        $config['base_url'] = base_url() . 'complaint/dashboard';
+        /*$config['base_url'] = base_url() . 'complaint/dashboard';
         $config['uri_segment'] = 3;
         $config['total_rows'] = $total_row; // Count total rows in the query
         $config['full_tag_open'] = '<div class="container text - center"><ul class="pagination">';
@@ -154,7 +155,7 @@ class Complaint extends CI_Controller
         $config['first_link'] = FALSE;
         $config['last_link'] = FALSE;
         $this->pagination->initialize($config);
-        $arr_data['pagination'] = $this->pagination->create_links();
+        $arr_data['pagination'] = $this->pagination->create_links();*/
         //end แบ่งหน้า
 
         $this->libraries->template('complaint/dashboard', $arr_data);
