@@ -8,7 +8,7 @@
                 </div>
                 <form class="form-horizontal" role="form" method="POST" action="" name="form_search" id="form_search">
                 <div class="modal-body" style="margin-left: -30px;">
-                    <div class="row">
+                <!--    <div class="row">
                         <div class="col-md-12">
                             <div class="col-md-7">
                                 <div class="form-group">
@@ -41,19 +41,20 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="row">
                         <div class="col-md-12">
+                            <div class="col-md-2"></div>
                             <div class="col-md-7">
                                 <div class="form-group">
                                     <label class="col-sm-5 text-right">
-                                        ประเภทเรื่องร้องทุกข์ :
+                                        ปีที่ร้องทุกข์ :
                                     </label>
                                     <label class="col-sm-7">
-                                        <select class="form-control">
+                                        <select class="form-control" name="year" id="year">
                                             <option value=''>--ไม่ระบุ--</option>
-                                            <?php foreach($complaint_type as $key => $value){ ?>
-                                            <option value='<?php echo $key; ?>'><?php echo $value; ?></option>
+                                            <?php foreach($list_year as $key => $value){ ?>
+                                                <option value='<?php echo $key; ?>'><?php echo $value; ?></option>
                                             <?php } ?>
                                         </select>
                                     </label>
@@ -63,15 +64,45 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <label class="col-sm-5 text-right">
+                                        ประเภทเรื่องร้องทุกข์ :
+                                    </label>
+                                    <label class="col-sm-7">
+                                        <?php
+                                        $complain_type_arr = @$complain_type;
+                                        $complain_type_arr[''] = '--ไม่ระบุ--';
+                                        ksort($complain_type_arr);
+                                        echo form_dropdown([
+                                            'id' => 'complain_type_id',
+                                            'class' => 'form-control',
+                                        ], $complain_type_arr, '');
+                                        ?>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-2"></div>
                             <div class="col-md-7">
                                 <div class="form-group">
                                     <label class="col-sm-5 text-right">
                                         ภาค :
                                     </label>
                                     <label class="col-sm-7">
-                                        <select class="form-control">
-                                            <option value=''>--ไม่ระบุ--</option>
-                                        </select>
+                                        <?php
+                                        $area_part_arr = @$area_part_list;
+                                        $area_part_arr[''] = '--ไม่ระบุ--';
+                                        ksort($area_part_arr);
+                                        echo form_dropdown([
+                                            'id' => 'partid',
+                                            'class' => 'form-control',
+                                        ], $area_part_arr, '');
+                                        ?>
                                     </label>
                                 </div>
                             </div>
@@ -79,15 +110,23 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
+                            <div class="col-md-2"></div>
                             <div class="col-md-7">
                                 <div class="form-group">
                                     <label class="col-sm-5 text-right">
                                         จังหวัด :
                                     </label>
                                     <label class="col-sm-7">
-                                        <select class="form-control">
-                                            <option value=''>--ไม่ระบุ--</option>
-                                        </select>
+                                        <?php
+                                        $province_arr = @$province_list;
+                                        $province_arr[''] = '--ไม่ระบุ--';
+                                        ksort($province_arr);
+                                        echo form_dropdown([
+                                            'id' => 'province_id',
+                                            'class' => 'form-control',
+                                            'onchange'=>"get_district(this.value,'')"
+                                        ], $province_arr, '');
+                                        ?>
                                     </label>
                                 </div>
                             </div>
@@ -95,15 +134,25 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
+                            <div class="col-md-2"></div>
                             <div class="col-md-7">
                                 <div class="form-group">
                                     <label class="col-sm-5 text-right">
                                         อำเภอ :
                                     </label>
                                     <label class="col-sm-7">
-                                        <select class="form-control">
-                                            <option value=''>--ไม่ระบุ--</option>
-                                        </select>
+                                        <span id="district_span">
+                                        <?php
+                                        $district_arr = @$district_list;
+                                        $district_arr[''] = '--ไม่ระบุ--';
+                                        ksort($district_arr);
+                                        echo form_dropdown([
+                                            'id' => 'district_id',
+                                            'class' => 'form-control',
+                                            'onchange'=>"get_subdistrict(this.value,'')"
+                                        ], $district_arr, '');
+                                        ?>
+                                    </span>
                                     </label>
                                 </div>
                             </div>
@@ -111,15 +160,25 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
+                            <div class="col-md-2"></div>
                             <div class="col-md-7">
                                 <div class="form-group">
                                     <label class="col-sm-5 text-right">
                                         ตำบล :
                                     </label>
                                     <label class="col-sm-7">
-                                        <select class="form-control">
-                                            <option value=''>--ไม่ระบุ--</option>
-                                        </select>
+                                        <span id="subdistrict_span">
+                                            <?php
+                                            $subdistrict_arr = @$subdistrict_list;
+                                            $subdistrict_arr[''] = '--ไม่ระบุ--';
+                                            ksort($subdistrict_arr);
+                                            echo form_dropdown([
+                                                'name' => 'address_id',
+                                                'id' => 'address_id',
+                                                'class' => 'form-control'
+                                            ], $subdistrict_arr, '');
+                                            ?>
+                                    </span>
                                     </label>
                                 </div>
                             </div>
