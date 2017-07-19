@@ -8,40 +8,6 @@
                 </div>
                 <form class="form-horizontal" role="form" method="POST" action="" name="form_search" id="form_search">
                 <div class="modal-body" style="margin-left: -30px;">
-                <!--    <div class="row">
-                        <div class="col-md-12">
-                            <div class="col-md-7">
-                                <div class="form-group">
-                                    <label class="col-sm-5 text-right">
-                                        วันที่ร้องทุกข์ :
-                                    </label>
-                                    <label class="col-sm-7">
-                                        <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                            </div>
-                                            <input type="text" id="complaint_date_start" class="form-control pull-right datepickerstart" />
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label class="col-sm-1 text-right">
-                                        ถึง
-                                    </label>
-                                    <label class="col-sm-10">
-                                        <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                            </div>
-                                            <input type="text" id="complaint_date_end" class="form-control pull-right datepickerend" />
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
                     <div class="row">
                         <div class="col-md-12">
                             <div class="col-md-2"></div>
@@ -51,12 +17,15 @@
                                         ปีที่ร้องทุกข์ :
                                     </label>
                                     <label class="col-sm-7">
-                                        <select class="form-control" name="year" id="year">
-                                            <option value=''>--ไม่ระบุ--</option>
-                                            <?php foreach($list_year as $key => $value){ ?>
-                                                <option value='<?php echo $key; ?>'><?php echo $value; ?></option>
-                                            <?php } ?>
-                                        </select>
+                                        <?php
+                                            $list_year_arr = @$list_year;
+                                            $list_year_arr[''] = '--ไม่ระบุ--';
+                                            ksort($list_year_arr);
+                                            echo form_dropdown([
+                                                'id' => 'year',
+                                                'class' => 'form-control',
+                                            ], $list_year_arr, $_GET['year']);
+                                        ?>
                                     </label>
                                 </div>
                             </div>
@@ -78,7 +47,7 @@
                                         echo form_dropdown([
                                             'id' => 'complain_type_id',
                                             'class' => 'form-control',
-                                        ], $complain_type_arr, '');
+                                        ], $complain_type_arr, $_GET['complain_type_id']);
                                         ?>
                                     </label>
                                 </div>
@@ -101,7 +70,7 @@
                                         echo form_dropdown([
                                             'id' => 'partid',
                                             'class' => 'form-control',
-                                        ], $area_part_arr, '');
+                                        ], $area_part_arr, $_GET['partid']);
                                         ?>
                                     </label>
                                 </div>
@@ -125,7 +94,7 @@
                                             'id' => 'province_id',
                                             'class' => 'form-control',
                                             'onchange'=>"get_district(this.value,'')"
-                                        ], $province_arr, '');
+                                        ], $province_arr, $_GET['province_id']);
                                         ?>
                                     </label>
                                 </div>
@@ -150,7 +119,7 @@
                                             'id' => 'district_id',
                                             'class' => 'form-control',
                                             'onchange'=>"get_subdistrict(this.value,'')"
-                                        ], $district_arr, '');
+                                        ], $district_arr, $_GET['district_id']);
                                         ?>
                                     </span>
                                     </label>
@@ -176,7 +145,7 @@
                                                 'name' => 'address_id',
                                                 'id' => 'address_id',
                                                 'class' => 'form-control'
-                                            ], $subdistrict_arr, '');
+                                            ], $subdistrict_arr, $_GET['address_id']);
                                             ?>
                                     </span>
                                     </label>
@@ -187,8 +156,8 @@
                 </div>
                 </form>
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" name="btSearch" id="btSearch" class="btn btn-primary">ค้นหาข้อมูล</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">ล้างค่า</button>
+                    <button type="button" name="btSearchType" id="btSearchType" class="btn btn-primary">ค้นหาข้อมูล</button>
+                    <button type="button" name="btClearType" id="btClearType" class="btn btn-default" data-dismiss="modal">ล้างค่า</button>
                 </div>
             </div>
         </div>
