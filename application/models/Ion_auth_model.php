@@ -1117,7 +1117,7 @@ class Ion_auth_model extends CI_Model
     public function user_api($identity)
     {
 
-        $query = $this->db->select($this->identity_column . ', email, id')
+        $query = $this->db->select($this->identity_column . ', email, id ,prename_th,first_name,last_name')
             ->where($this->identity_column, $identity)
             ->limit(1)
             ->order_by('id', 'desc')
@@ -1145,7 +1145,8 @@ class Ion_auth_model extends CI_Model
             ->order_by('appid', 'asc')
             ->get($this->tables['users']);*/
         $query = $this->db->query("SELECT
-t4.appid
+t4.appid,
+t5.app_name
 FROM
 au_users AS t1
 INNER JOIN au_users_groups AS t2 ON t2.user_id = t1.id
@@ -1154,7 +1155,7 @@ INNER JOIN au_groups_permissions AS t4 ON t3.id = t4.gid
 INNER JOIN au_applications AS t5 ON t4.appid = t5.app_id
 WHERE
 t1.username = '{$user_id}'
-ORDER BY t4.appid");
+ORDER BY t5.order_by ASC");
 
         if ($query->num_rows() > 0)
         {
@@ -1162,6 +1163,7 @@ ORDER BY t4.appid");
             foreach ($query->result_array() as $row)
             {
 //               array_push($rows,$row['appid']);
+               //$rows[$row['appid']] = $row['app_name'];
                $rows[] = $row['appid'];
             }
             return $rows;

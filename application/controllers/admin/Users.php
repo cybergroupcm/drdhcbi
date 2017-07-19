@@ -9,14 +9,14 @@ class Users extends Admin_Controller {
 
         /* Load :: Common */
         $this->lang->load('admin/users');
-        
+
         /* Title Page :: Common */
         $this->page_title->push(lang('menu_users'));
         $this->data['pagetitle'] = $this->page_title->show();
 
         /* Breadcrumbs :: Common */
         $this->breadcrumbs->unshift(1, lang('menu_users'), 'admin/users');
-        
+
         $this->load->model('data/User_model');
     }
 
@@ -40,7 +40,8 @@ class Users extends Admin_Controller {
             }
 
             /* Load Template */
-            $this->template->admin_render('admin/users/index', $this->data);
+            $this->libraries->template('admin/users/index',$this->data);
+            //$this->template->admin_render('admin/users/index', $this->data);
         }
 	}
 
@@ -199,7 +200,7 @@ class Users extends Admin_Controller {
 	public function delete()
 	{
         /* Load Template */
-		$this->template->admin_render('admin/users/delete', $this->data);
+		$this->libraries->template('admin/users/delete', $this->data);
 	}
 
 
@@ -397,7 +398,7 @@ class Users extends Admin_Controller {
 
 
         /* Load Template */
-		$this->template->admin_render('admin/users/edit', $this->data);
+		$this->libraries->template('admin/users/edit', $this->data);
 	}
 
 
@@ -454,7 +455,7 @@ class Users extends Admin_Controller {
             $this->data['lastname']   = ! empty($user->last_name) ? ' '.htmlspecialchars($user->last_name, ENT_QUOTES, 'UTF-8') : NULL;
 
             /* Load Template */
-            $this->template->admin_render('admin/users/deactivate', $this->data);
+            $this->libraries->template('admin/users/deactivate', $this->data);
 		}
 		else
 		{
@@ -492,7 +493,7 @@ class Users extends Admin_Controller {
         }
 
         /* Load Template */
-		$this->template->admin_render('admin/users/profile', $this->data);
+		$this->libraries->template('admin/users/profile', $this->data);
 	}
 
 
@@ -528,10 +529,10 @@ public function create($id='')
         $this->data['data'] = api_call_get($url);
         $url = base_url()."api/dropdown/title_name_lists";
         $this->data['title_name'] = api_call_get($url);
-        
+
         $url = base_url("api/dropdown/ccaa_lists/Changwat");
         $this->data['province_list'] = api_call_get($url);
-        
+
         if(@$this->data['data']['user']['address_id']!=''){
             $ccaa_code = substr(@$this->data['data']['address_id'], 0, 3);
         }else{
@@ -539,21 +540,15 @@ public function create($id='')
         }
         $url = base_url("api/dropdown/ccaa_lists/Aumpur/".$ccaa_code);
         $this->data['district_list'] = api_call_get($url);
-        
+
         if(@$this->data['data']['user']['address_id']!=''){
             $ccaa_code = substr(@$this->data['data']['address_id'], 0, 4);
             $url = base_url("api/dropdown/ccaa_lists/Tamboon/".$ccaa_code);
             $this->data['subdistrict_list'] = api_call_get($url);
         }
-        
-        $this->template->admin_render('admin/users/create',$this->data);
+
+        $this->libraries->template('admin/users/create',$this->data);
 
     }
-    public function check_username($username)
-    {
-        $query = $this->db->get_where('au_users', array('username' => $username));
-        $row = $query->row_array();
-        echo $row['id'];
-        exit;
-    }
+
 }
