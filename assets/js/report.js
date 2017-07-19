@@ -36,7 +36,7 @@ $( document ).ready(function() {
     });
     //end ปฏิทิน
 
-    $("#btSearch").click(function() {
+    $("#btSearchType").click(function() {
         var base_url = $('#base_url').attr('class');
         var year = $("#year").val();
         var complain_type_id = $("#complain_type_id").val();
@@ -44,7 +44,28 @@ $( document ).ready(function() {
         var province_id = $("#province_id").val();
         var district_id = $("#district_id").val();
         var address_id = $("#address_id").val();
-        window.location.href=base_url+'report/report_statistic_by_type/'+year+'/'+complain_type_id+'/'+partid+'/'+province_id+'/'+district_id+'/'+address_id;
+        window.location.href=base_url+'report/report_statistic_by_type?year='+year+'&complain_type_id='+complain_type_id+'&partid='+partid+'&province_id='+province_id+'&district_id='+district_id+'&address_id='+address_id;
+    });
+
+    $("#btClearType").click(function() {
+        var base_url = $('#base_url').attr('class');
+        window.location.href=base_url+'report/report_statistic_by_type';
+    });
+
+    $("#btSearchStatus").click(function() {
+        var base_url = $('#base_url').attr('class');
+        var year = $("#year").val();
+        var current_status_id = $("#current_status_id").val();
+        var partid = $("#partid").val();
+        var province_id = $("#province_id").val();
+        var district_id = $("#district_id").val();
+        var address_id = $("#address_id").val();
+        window.location.href=base_url+'report/report_statistic_by_status?year='+year+'&current_status_id='+current_status_id+'&partid='+partid+'&province_id='+province_id+'&district_id='+district_id+'&address_id='+address_id;
+    });
+
+    $("#btClearStatus").click(function() {
+        var base_url = $('#base_url').attr('class');
+        window.location.href=base_url+'report/report_statistic_by_status';
     });
 });
 function thaidateformat(d,long) {
@@ -60,6 +81,7 @@ function thaidateformat(d,long) {
 }
 
 function get_district(value,defaule_value){
+    var base_url = $('#base_url').attr('class');
     if(value!=''){
         var province_code = value.substring(0, 3);
         var url = base_url+'complaint/get_district_list/Aumpur/'+province_code+'/'+defaule_value;  //the url to call
@@ -67,7 +89,7 @@ function get_district(value,defaule_value){
             $('#district_span').html(data);
             var subdistrict = '';
             subdistrict += '<select name="subdistrict_id" class="form-control" id="subdistrict_id">';
-            subdistrict += '<option value="">--ไม่ระบุ--</option>';
+            subdistrict += '<option value="">กรุณาเลือก</option>';
             subdistrict += '</select>';
             $('#subdistrict_span').html(subdistrict);
         });
@@ -75,6 +97,7 @@ function get_district(value,defaule_value){
 }
 
 function get_subdistrict(value,defaule_value){
+    var base_url = $('#base_url').attr('class');
     if(value!=''){
         var district_code = value.substring(0, 4);
         var url = base_url+'complaint/get_district_list/Tamboon/'+district_code+'/'+defaule_value;  //the url to call

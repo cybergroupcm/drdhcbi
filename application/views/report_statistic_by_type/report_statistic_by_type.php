@@ -37,11 +37,11 @@ $this->load->view('report_statistic_by_type/search');
                 <div class="box-body">
                     <div class="col-xs-12 text-right" style="margin-bottom: 5px;">
                         <?php
-                       // echo img(array('src'=>'assets/images/search.png', 'title'=> 'ค้นหาข้อมูล','width'=>'48px','style'=>'cursor:pointer','data-toggle'=>'modal','data-target'=>'#search'));
-                        //echo img(array('src'=>'assets/images/print.png', 'title'=> 'สั่งพิมพ์','width'=>'48px','style'=>'cursor:pointer'));
-                        echo '<i class="fa fa-search" aria-hidden="true" style="cursor: pointer;font-size: 3em;" data-toggle="modal" data-target="#search" title="ค้นหาข้อมูล"></i>';
-                        echo '<a href="'.base_url('report/report_statistic_by_type_pdf').'" style="color: #333333;" target="_blank"><i class="fa fa-print" aria-hidden="true" style="cursor: pointer;font-size: 3em;" title="สั่งพิมพ์"></a></i>';
+                        $param_pdf = "?year=".$_GET['year']."&complain_type_id=".$_GET['complain_type_id']."&partid=".$_GET['partid']."&province_id=".$_GET['province_id']."&district_id=".$_GET['district_id']."&address_id=".$_GET['address_id'];
 
+                        echo '<i class="fa fa-search" aria-hidden="true" style="cursor: pointer;font-size: 3em;" data-toggle="modal" data-target="#search" title="ค้นหาข้อมูล"></i>  ';
+                        echo '<a href="'.base_url('report/report_statistic_by_type_pdf'.$param_pdf).'" style="color: #333333;" target="_blank"><i class="fa fa-print" aria-hidden="true" style="cursor: pointer;font-size: 3em;" title="สั่งพิมพ์"></a></i>  ';
+                        echo '<a href="'.base_url('report/report_statistic_by_type_excel'.$param_pdf).'" style="color: #333333;" target="_blank"><i class="fa fa-file-excel-o" aria-hidden="true" style="cursor: pointer;font-size: 3em;" title="ส่งออก Excel"></a></i>';
                         ?>
                     </div>
                     <div class="col-xs-1"></div>
@@ -51,20 +51,17 @@ $this->load->view('report_statistic_by_type/search');
                         </div>
                     </div>
                     <div class="col-xs-1"></div>
-                    <!--<div class="col-xs-6 text-right">
-                        <?php echo img(array('src'=>'assets/images/pic_right.jpg','width'=>'450px','style'=>'margin-right: -15px;opacity: 0.6;'));?>
-                   </div>-->
                     <table id="example1" class="table table-bordered table-striped table-hover dataTable">
                         <thead>
                                 <tr>
                                     <th class="text-center" style="vertical-align: middle;" rowspan="2">ประเภทเรื่องร้องทุกข์</th>
                                     <th class="text-center" style="vertical-align: middle;" colspan="<?php echo count(@$month_report);?>">สถิติรายเดือน</th>
-                                    <th class="text-center" style="vertical-align: middle;" rowspan="2">รวม</th>
+                                    <th class="text-center" style="vertical-align: middle;width: 6%;" rowspan="2">รวม</th>
                                 </tr>
                                 <tr>
                                     <?php
                                     foreach($month_report AS $key=>$month){
-                                        echo '<th class="text-center" style="vertical-align: middle;">'.$month.'</th>';
+                                        echo '<th class="text-center" style="vertical-align: middle;width: 6%;">'.$month.'</th>';
                                     }
                                     ?>
                                 </tr>
