@@ -224,8 +224,13 @@ class Complaint extends REST_Controller
     public function key_in_put()
     {
         $data = $this->put();
-        $step_now = $data['step_now'];
-        unset($data['step_now']);
+        $step_now=null;
+
+        if (array_key_exists('step_now', $data)) {
+            $step_now = $data['step_now'];
+            unset($data['step_now']);
+        }
+
         if (array_key_exists('keyin_id', $data)) {
             $keyInID = $data['keyin_id'];
             unset($data['keyin_id']);
@@ -259,13 +264,15 @@ class Complaint extends REST_Controller
             }
         }
         if($step_now=='2') {
-            $this->Key_in_model->beforeInsertPivotWish($keyInID);
-            if (!empty($keyInID) && count($wish) > 0) {
-                foreach ($wish as $item) {
-                    $this->Key_in_model->insertPivotWish($keyInID, $item);
+                $this->Key_in_model->beforeInsertPivotWish($keyInID);
+                if (!empty($keyInID) && count($wish) > 0) {
+                    foreach ($wish as $item) {
+                        $this->Key_in_model->insertPivotWish($keyInID, $item);
+                    }
                 }
             }
-        }
+
+
         $this->set_response($keyInID, REST_Controller::HTTP_CREATED);
 
     }
