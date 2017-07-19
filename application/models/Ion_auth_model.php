@@ -1155,7 +1155,7 @@ INNER JOIN au_groups_permissions AS t4 ON t3.id = t4.gid
 INNER JOIN au_applications AS t5 ON t4.appid = t5.app_id
 WHERE
 t1.username = '{$user_id}'
-ORDER BY t4.appid");
+ORDER BY t5.order_by ASC");
 
         if ($query->num_rows() > 0)
         {

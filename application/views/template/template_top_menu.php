@@ -41,7 +41,7 @@
                     ?>
                       <p>
                       <?php echo $user_data['user']['first_name']." ".$user_data['user']['last_name'] ?>
-                      <small><?php //echo $user_data['user']['position'] ?></small>
+                      <small><?php echo $user_data['user']['position'] ?></small>
                     </p>
                   </li>
                   <!-- Menu Body -->
