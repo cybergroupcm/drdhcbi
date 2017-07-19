@@ -92,7 +92,7 @@
                 'type' => 'text/css'
       );
       echo link_tag($link);
-      
+
       #Sweet Alert
       ?>
       <?php
@@ -113,7 +113,7 @@
 
       #jQuery UI 1.11.2
       $link = array(
-                'src' => 'template/plugins/jqueryUI/jquery-ui.min.js',
+                'src' => 'template/plugins/jQueryUI/jquery-ui.min.js',
                 'type' => 'text/javascript'
       );
       echo script_tag($link);
@@ -224,7 +224,7 @@
                 'type' => 'text/javascript'
       );
       echo script_tag($link);
-      
+
       #Sweet Alert App
       $link = array(
           'href' => 'template/plugins/bootstrap-sweetalert/css/sweetalert.css',
@@ -271,7 +271,7 @@
           'type' => 'text/css'
       );
       echo link_tag($link);
-      
+
       $link = array(
                   'src' => 'assets/jquery/jquery.blockUI.js',
                   'type' => 'text/javascript'

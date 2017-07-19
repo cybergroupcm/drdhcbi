@@ -94,7 +94,7 @@ class Main extends MY_Controller {
 						$str .= 'lng="'.$arr_point[0].'" ';
 						$str .= 'shape="'.trim($shape).'" ';
 						$str .= 'shape_color="#00FF00" ';
-						$str .= 'shape_opacity="0.5" ';
+						$str .= 'shape_opacity="0.1" ';
 						$str .= 'picture="picture" ';
 						$str .= 'icon="'.base_url().'assets/images/pin-map.png" ';
 						$str .= 'identify="" />';
@@ -133,10 +133,10 @@ class Main extends MY_Controller {
         $arr_data['data'] = api_call_get($url);
         $url = base_url()."api/dropdown/title_name_lists";
         $arr_data['title_name'] = api_call_get($url);
-        
+
         $url = base_url("api/dropdown/ccaa_lists/Changwat");
         $arr_data['province_list'] = api_call_get($url);
-        
+
         if(@$arr_data['data']['user']['address_id']!=''){
             $ccaa_code = substr(@$arr_data['data']['address_id'], 0, 3);
         }else{
@@ -144,13 +144,13 @@ class Main extends MY_Controller {
         }
         $url = base_url("api/dropdown/ccaa_lists/Aumpur/".$ccaa_code);
         $arr_data['district_list'] = api_call_get($url);
-        
+
         if(@$arr_data['data']['user']['address_id']!=''){
             $ccaa_code = substr(@$arr_data['data']['address_id'], 0, 4);
             $url = base_url("api/dropdown/ccaa_lists/Tamboon/".$ccaa_code);
             $arr_data['subdistrict_list'] = api_call_get($url);
         }
-        
+
         $this->libraries->template('register/register',$arr_data);
 
     }
