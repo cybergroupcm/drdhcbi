@@ -4,7 +4,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css">
 <link rel="stylesheet" type="text/css" href="<? echo base_url();?>/assets/css/checkbox.css">
-            <div class="content-wrapper">
                 <section class="content-header">
                     <?php echo $pagetitle; ?>
                     <?php echo $breadcrumb; ?>
@@ -90,7 +89,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                          </div>
                     </div>
                 </section>
-            </div>
 
 <?php
 /*$link = array(
