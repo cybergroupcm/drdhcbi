@@ -27,7 +27,7 @@ $step_array[5] = 'สรุปข้อมูลเรื่องร้อง�
                     }
                     ?>
                 <div class="stepwizard-step">
-                        <a type="button" class="btn <?php echo $btn; ?> btn-circle" <?php echo $disabled; ?> onclick="validateForm('key_in_step<?php echo $key; ?>','')"><?php echo $key; ?></a>
+                        <a type="button" class="btn <?php echo $btn; ?> btn-circle" <?php echo $disabled; ?> onclick="location.href='<?php echo base_url('complaint/key_in/key_in_step'.$key.'/'.@$id); ?>'"><?php echo $key; ?></a>
                         <p><?php echo $value; ?></p>
                 </div>
                 <?php } ?>

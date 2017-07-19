@@ -54,11 +54,23 @@ $this->load->view('complaint/save_result');
                     <h3 class="box-title"> บันทึกข้อมูลเรื่องร้องทุกข์</h3>
                 </div>
                 <div class="box-body">
-                    <div class="col-xs-12 text-right" style="margin-bottom: 5px;">
+                    <div class="col-md-12 text-right" style="margin-bottom: 5px;padding-right:0;">
+                        <!-- Large button group -->
+<!--                        <div class="btn-group">-->
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#search">
+                                <i class="glyphicon glyphicon-search"></i>&nbsp;&nbsp;ค้นหาขั้นสูง
+                            </button>
+<!--                        </div>-->
+<!--                        <div class="btn-group">-->
+                            <button type="button" class="btn btn-primary" id="bt_add">
+                                <i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;เพิ่มเรื่องร้องทุกข์
+                            </button>
+<!--                        </div>-->
+
                         <?php
-                        echo img(array('src' => 'assets/images/filter.png', 'title' => 'กรองข้อมูล', 'width' => '48px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#filter'));
-                        echo img(array('src' => 'assets/images/search.png', 'title' => 'ค้นหาข้อมูล', 'width' => '48px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#search'));
-                        echo img(array('src' => 'assets/images/add.png', 'title' => 'บันทึกเรื่องร้องทุกข์', 'width' => '48px', 'style' => 'cursor:pointer', 'id' => 'bt_add'));
+                        //echo img(array('src' => 'assets/images/filter.png', 'title' => 'กรองข้อมูล', 'width' => '48px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#filter'));
+                        //echo img(array('src' => 'assets/images/search.png', 'title' => 'ค้นหาข้อมูล', 'width' => '48px', 'style' => 'cursor:pointer', 'data-toggle' => 'modal', 'data-target' => '#search'));
+                        //echo img(array('src' => 'assets/images/add.png', 'title' => 'บันทึกเรื่องร้องทุกข์', 'width' => '48px', 'style' => 'cursor:pointer', 'id' => 'bt_add'));
                         //echo img(array('src' => 'assets/images/print.png', 'title' => 'สั่งพิมพ์', 'width' => '48px', 'style' => 'cursor:pointer'));
                         ?>
                     </div>
@@ -73,7 +85,7 @@ $this->load->view('complaint/save_result');
                             <th width="5%" class="text-center">ลำดับ</th>
                             <th width="10%" class="text-center">เลขที่</th>
                             <th width="12%" class="text-center">วันที่ร้องเรียน</th>
-                            <th width="20%" class="text-center">หัวข้อเรื่องร้องทุกข์</th>
+                            <th width="20%" class="text-center">เรื่องร้องทุกข์</th>
                             <th width="15%" class="text-center">ผู้ร้องทุกข์</th>
                             <th width="10%" class="text-center">สถานะ</th>
                             <th width="18%" class="text-center">จัดการ</th>
@@ -126,10 +138,11 @@ $this->load->view('complaint/save_result');
                                                     $step=$val['step'];
                                                 }
                                                 if($val['current_status_id'] == '1'){
-                                                    echo '<li><a href="'.base_url('complaint/key_in/key_in_step'.$step.'/'.$val['keyin_id']).'">แก้ไข</a></li>';
+                                                    echo '<li><a href="'.base_url('complaint/key_in/key_in_step'.($step+1).'/'.$val['keyin_id']).'">แก้ไข</a></li>';
                                                     echo '<li><a onclick="bt_delete('.$val['keyin_id'].');">ลบ</a></li>';
                                                 }else{
                                                     echo '<li><a>แก้ไข</a></li>';
+
                                                     echo '<li><a>ลบ</a></li>';
                                                 }
                                                 ?>
