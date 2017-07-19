@@ -28,6 +28,7 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
 }
 ?>
     <input type="hidden" id="step" name="step" value="<?php echo $step; ?>">
+    <input type="hidden" id="step_now" name="step_now" value="2">
     <div class="row frame">
         <?php $this->load->view('complaint/step_of_keyin'); ?>
         <div class="row title">
@@ -175,6 +176,7 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
                         </label>
                         <label class="col-sm-7">
                             <?php
+                            $wish_id = array();
                             if(@$key_in_data['wish']!=''){
                                 foreach(@$key_in_data['wish'] as $key => $value){
                                     $wish_id[] = $value['wish_id'];
@@ -184,7 +186,7 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
                                 ?>
                                 <div>
                                     <input type="checkbox" class="desire" id="wish_<?php echo $key ?>" name="wish[]"
-                                           value="<?php echo $key; ?>" <?php echo in_array($key,@$wish_id)?'checked':''; ?> >
+                                           value="<?php echo $key; ?>" <?php echo in_array(@$key,@$wish_id)?'checked':''; ?> >
                                     <label for="wish_<?php echo $key ?>">&nbsp;<?php echo $value; ?></label>
                                 </div>
                                 <?php

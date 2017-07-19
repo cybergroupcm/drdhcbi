@@ -16,6 +16,59 @@ class Complaint extends REST_Controller
         $this->load->helper('file','url','api');
     }
 
+    public function dashboard_last_month_get()
+    {
+        $filter = $this->get('filter');
+        if(!is_null($filter)){
+            $whereKey= 'complain_type_id';
+            $whereData= $filter;
+        }else{
+            $whereKey= '1=1';
+            $whereData= null;
+        }
+        //$page = $this->get('page');
+        $overall = $this->get('overall');
+        $user_id = $this->get('user_id');
+        if( $overall == 1 ) { // มองเห็น เรื่องร้องเรียนทั้งหมด
+//            $total_complaint = $this->Key_in_model->count_rows(); // retrieve the total number of posts
+//            if( $total_complaint == 0 ){ $total_complaint = 1; }
+            $complaint = $this->Key_in_model
+                ->where($whereKey,$whereData)
+                ->order_by('complain_no', 'DESC')
+                ->with_title_name('fields:prename')
+                ->with_complaint_type('fields:complain_type_name')
+                ->with_wish('fields:wish_name')
+                ->with_current_status('fields:current_status_name')
+                ->get_all();
+//                ->paginate(15, $total_complaint, $page); // paginate with 10 rows per page -
+        }else{
+//            $total_complaint = $this->Key_in_model->where('create_user_id', $user_id)->count_rows(); // retrieve the total number of posts
+//            if( $total_complaint == 0 ){ $total_complaint = 1; }
+            $complaint = $this->Key_in_model
+                ->where($whereKey,$whereData)
+                ->where('create_user_id', $user_id)
+                ->order_by('complain_no', 'DESC')
+                ->with_title_name('fields:prename')
+                ->with_complaint_type('fields:complain_type_name')
+                ->with_wish('fields:wish_name')
+                ->with_current_status('fields:current_status_name')
+                ->get_all();
+//                ->paginate(15, $total_complaint, $page); // paginate with 10 rows per page -
+        }
+
+        if ($complaint) {
+            // Set the response and exit
+            $this->response($complaint, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }
+        else {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'No complaint were found'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
     public function dashboard_get()
     {
         $filter = $this->get('filter');
@@ -171,6 +224,8 @@ class Complaint extends REST_Controller
     public function key_in_put()
     {
         $data = $this->put();
+        $step_now = $data['step_now'];
+        unset($data['step_now']);
         if (array_key_exists('keyin_id', $data)) {
             $keyInID = $data['keyin_id'];
             unset($data['keyin_id']);
@@ -203,7 +258,7 @@ class Complaint extends REST_Controller
                 $this->Key_in_model->insertPivotComplaintType($keyInID, $item);
             }
         }
-        if($data['step']=='2') {
+        if($step_now=='2') {
             $this->Key_in_model->beforeInsertPivotWish($keyInID);
             if (!empty($keyInID) && count($wish) > 0) {
                 foreach ($wish as $item) {
