@@ -115,6 +115,7 @@ $this->load->view('report_statistic_by_type/search');
 </section>
 <div id="base_url" class="<?php echo base_url();?>"></div>
 <?php
+//echo '<pre>'; print_r($report_type); echo '</pre>';
 $arr_max_data = array();
 $i=0;
 foreach($month_report AS $key2=>$month){

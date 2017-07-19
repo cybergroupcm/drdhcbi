@@ -35,6 +35,17 @@ $( document ).ready(function() {
         $('.datepickerstart').datepicker('setEndDate', dateMax);
     });
     //end ปฏิทิน
+
+    $("#btSearch").click(function() {
+        var base_url = $('#base_url').attr('class');
+        var year = $("#year").val();
+        var complain_type_id = $("#complain_type_id").val();
+        var partid = $("#partid").val();
+        var province_id = $("#province_id").val();
+        var district_id = $("#district_id").val();
+        var address_id = $("#address_id").val();
+        window.location.href=base_url+'report/report_statistic_by_type/'+year+'/'+complain_type_id+'/'+partid+'/'+province_id+'/'+district_id+'/'+address_id;
+    });
 });
 function thaidateformat(d,long) {
     var gD = new Date(d);
@@ -56,7 +67,7 @@ function get_district(value,defaule_value){
             $('#district_span').html(data);
             var subdistrict = '';
             subdistrict += '<select name="subdistrict_id" class="form-control" id="subdistrict_id">';
-            subdistrict += '<option value="">กรุณาเลือก</option>';
+            subdistrict += '<option value="">--ไม่ระบุ--</option>';
             subdistrict += '</select>';
             $('#subdistrict_span').html(subdistrict);
         });

@@ -207,16 +207,9 @@ class Report extends CI_Controller {
         $mpdf=new mPDF('th','A4-L',0,'THSaraban',15,15,16,16,9,9, 'L');
         $mpdf->SetDisplayMode('fullpage');
         $mpdf->list_indent_first_level = 0;
-        //$stylesheet = file_get_contents(APPPATH.'third_party/mpdf/css/mpdfstyletables.css');
-        //$this->mpdf->WriteHTML($stylesheet, 1);
+
         $mpdf->WriteHTML($html, 2);
         $mpdf->Output('example_mpdf.pdf', 'I');
-
-        //$this->my_mpdf->SetDisplayMode('fullpage');
-        //$this->my_mpdf->list_indent_first_level = 0;
-        //mpdf->WriteHTML($stylesheet,1);
-        //$this->my_mpdf->WriteHTML($html, 2);
-        //$this->my_mpdf->Output('example_mpdf.pdf', 'I');
         exit;
     }
 }
