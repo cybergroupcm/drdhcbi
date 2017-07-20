@@ -28,6 +28,7 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
 }
 ?>
     <input type="hidden" id="step" name="step" value="<?php echo $step; ?>">
+    <input type="hidden" id="step_now" name="step_now" value="4">
     <div class="row frame">
         <?php $this->load->view('complaint/step_of_keyin'); ?>
         <div class="row title">
