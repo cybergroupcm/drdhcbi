@@ -60,9 +60,16 @@ class Main extends MY_Controller {
 		//ข้อมูลเรื่องร้องทุกข์ทั้งหมดจำแนกรายพื้นที่
 		$obj_area = $this->main->get_area();
 		foreach($obj_area as $row_area){
-			$arr_area_data[$row_area->area_id] = $row_area->area_id;
+			$arr_area_data[$row_area->area_id] = array('area_id'=>$row_area->area_id, 'area_name'=>$row_area->area_name);
 		}
 		$arr_data['area_data'] = $arr_area_data;
+		//ข้อมูลสถานะ
+		$obj_status = $this->main->get_current_status();
+		foreach ($obj_status as $row)
+		{
+			$arr_status_data[$row->current_status_id] = array('status_id'=>$row->current_status_id,'status_name'=>$row->current_status_name);
+		}
+		$arr_data['current_status_data'] = $arr_status_data;
 		//เรื่องร้องทุกข์ 5 ประเภทที่มีผู้ร้องเรียนมากสุด
         if( $overall == 0 ) {
             $arr_data['sum_type'] = $this->main->get_sum_type($user_data_id['userid']);
@@ -73,6 +80,45 @@ class Main extends MY_Controller {
 		//$this->load->view('main');
 	}
 
+	public function parseToXML($htmlStr) {
+		$xmlStr = str_replace('<','&lt;', $htmlStr);
+		$xmlStr = str_replace('>','&gt;', $xmlStr);
+		$xmlStr = str_replace('"','&quot;', $xmlStr);
+		$xmlStr = str_replace("'",'&#39;', $xmlStr);
+		$xmlStr = str_replace("&",'&amp;', $xmlStr);
+		return $xmlStr;
+	}
+
+	public function get_xml_map_status($status_id='')
+	{
+		header("Content-type: text/xml; charset=utf-8");
+		$this->load->model('main/Main_model','main');
+		$obj_data_status = $this->main->get_data_status($status_id);
+
+		//$arr_point = @explode(",",$shape_data['g_point']);
+
+		$str =  "<markers>";
+		foreach($obj_data_status as $row){
+					$name = 'เลขที่: '.$row->complain_no;
+					$lat = $row->latitude;
+					$lng = $row->longitude;
+					if($lat != "" && $lng != ""){
+						$str .= '<marker ';
+						$str .= 'name="'.$name.'" ';
+						$str .= 'address="" ';
+						$str .= 'lat="'.$lat.'" ';
+						$str .= 'lng="'.$lng.'" ';
+						$str .= 'shape="" ';
+						$str .= 'shape_color="" ';
+						$str .= 'shape_opacity="0.1" ';
+						$str .= 'picture="picture" ';
+						$str .= 'icon="'.base_url().'assets/images/pin-map.png" ';
+						$str .= 'identify="" />';
+				}
+			}
+		$str .= "</markers>";
+		echo $str;
+	}
 
 	public function get_xml_map($area_id='')
 	{
@@ -96,7 +142,7 @@ class Main extends MY_Controller {
 						$str .= 'shape_color="#00FF00" ';
 						$str .= 'shape_opacity="0.1" ';
 						$str .= 'picture="picture" ';
-						$str .= 'icon="'.base_url().'assets/images/pin-map.png" ';
+						$str .= 'icon="'.base_url().'assets/images/pin-map-blank.png" ';
 						$str .= 'identify="" />';
 				}
 			}
