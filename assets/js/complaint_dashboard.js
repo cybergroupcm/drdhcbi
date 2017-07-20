@@ -2,27 +2,36 @@ var jwt = Cookies.get("api_token");
 $( document ).ready(function() {
     $('.datepicker').datepicker({
         format: 'dd/mm/yyyy',
-        todayBtn: true,
-        language: 'th',             //เปลี่ยน label ต่างของ ปฏิทิน ให้เป็น ภาษาไทย   (ต้องใช้ไฟล์ bootstrap-datepicker.th.min.js นี้ด้วย)
-        thaiyear: true              //Set เป็นปี พ.ศ.
+        todayBtn: "linked",
+        clearBtn: true,
+        language: "th-th",
+        autoclose: true,
+        thaiyear: true,
+        todayHighlight: true
     });
     //datepicker("setDate", "0");  //กำหนดเป็นวันปัจุบัน
-    $(".datepicker").prop('readonly', 'readonly');
+    //$(".datepicker").prop('readonly', 'readonly');
 
 
     //start ปฏิทิน
     $('.datepickerstart').datepicker({
         format: 'dd/mm/yyyy',
-        todayBtn: true,
-        language: 'th',             //เปลี่ยน label ต่างของ ปฏิทิน ให้เป็น ภาษาไทย   (ต้องใช้ไฟล์ bootstrap-datepicker.th.min.js นี้ด้วย)
-        thaiyear: true              //Set เป็นปี พ.ศ.
+        todayBtn: "linked",
+        clearBtn: true,
+        language: "th-th",
+        autoclose: true,
+        thaiyear: true,
+        todayHighlight: true
     });
 
     $('.datepickerend').datepicker({
         format: 'dd/mm/yyyy',
-        todayBtn: true,
-        language: 'th',             //เปลี่ยน label ต่างของ ปฏิทิน ให้เป็น ภาษาไทย   (ต้องใช้ไฟล์ bootstrap-datepicker.th.min.js นี้ด้วย)
-        thaiyear: true              //Set เป็นปี พ.ศ.
+        todayBtn: "linked",
+        clearBtn: true,
+        language: "th-th",
+        autoclose: true,
+        thaiyear: true,
+        todayHighlight: true
     });
 
     $('.datepickerstart').on('changeDate', function(){
@@ -139,7 +148,7 @@ function getDataReceived(id){
             $('#receive_date').datepicker("setDate", "");
         }
 
-        if(dataReceived.current_status_id == '2' || dataReceived.current_status_id == '3'){
+        if(dataReceived.current_status_id == '2' || dataReceived.current_status_id == '3' || dataReceived.current_status_id == '4'){
             if(!$('#receive_status').prop('checked')) {
                 $("#receive_status").prop("checked", true);
             }
@@ -189,7 +198,7 @@ function getDataSend(id){
             $('#send_org_id option[value=""]').prop('selected', 'selected');
         }
 
-        if(dataSend.current_status_id == '3'){
+        if(dataSend.current_status_id == '3' || dataSend.current_status_id == '4'){
             if(!$('#send_status').prop('checked')) {
                 $("#send_status").prop("checked", true);
             }

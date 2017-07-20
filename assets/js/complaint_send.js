@@ -51,7 +51,7 @@ $(document).ready(function () {
     });
 
     $(".btOpenReceived").click(function () {
-        $(this).attr('id', $("#keyin_id_send").val());
+        $(this).attr('data-id', $("#keyin_id_send").val());
         $("#send .close").click();
     });
 });
