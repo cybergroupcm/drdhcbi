@@ -34,6 +34,24 @@ class Main_model extends CI_Model {
       $result['sum_all'] =  $sum_all;
       return $result;
     }
+
+    public function get_current_status()
+    {
+      $sql = "SELECT current_status_id, current_status_name FROM ms_current_status ";
+      $query = $this->db->query($sql);
+      $result = $query->result();
+      return $result;
+    }
+
+    public function get_data_status($status_id){
+        $sql = "SELECT complain_no, complain_name, latitude, longitude
+                FROM `dt_keyin`
+                WHERE current_status_id='".$status_id."' ";
+        $query = $this->db->query($sql);
+        $result = $query->result();
+        return $result;
+    }
+
     public function get_area($area_id='')
     {
       if($area_id != ''){
@@ -52,6 +70,7 @@ class Main_model extends CI_Model {
 
       return $result;
     }
+
 
     public function get_sum_area()
     {
