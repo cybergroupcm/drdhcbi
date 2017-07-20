@@ -14,7 +14,12 @@ class User extends REST_Controller
 
     public function user_get()
     {
-        $id = $this->get('id');
+        if($this->get('id') != ""){
+            $id = $this->get('id');
+        }else{
+            $user_data = $this->jwt_decode($this->jwt_token());
+            $id = $user_data['$output_data'];
+        }
         $user          = $this->ion_auth->user($id)->row();
         $groups        = $this->ion_auth->groups()->result_array();
         $currentGroups = $this->ion_auth->get_users_groups($id)->result();
