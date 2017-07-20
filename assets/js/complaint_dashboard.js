@@ -34,6 +34,16 @@ $( document ).ready(function() {
         todayHighlight: true
     });
 
+    $('.datepicker').each(function(){
+        $(this).datepicker('update', $(this).val());
+    });
+    $('.datepickerstart').each(function(){
+        $(this).datepicker('update', $(this).val());
+    });
+    $('.datepickerend').each(function(){
+        $(this).datepicker('update', $(this).val());
+    });
+
     $('.datepickerstart').on('changeDate', function(){
         var arrDateMin= $(this).val().split('/');
         var dateMin = parseInt(arrDateMin[0])+'/'+parseInt(arrDateMin[1])+'/'+parseInt((arrDateMin[2]-543));
@@ -76,7 +86,10 @@ $( document ).ready(function() {
                 $('#result_detail').val(dataReceived.result.result_detail);
                 if (dataReceived.result_date != '0000-00-00') {
                     var result_date = dataReceived.result.result_date.split('-');
-                    $('#result_date').val(result_date[2] + '/' + result_date[1] + '/' + (parseInt(result_date[0]) + 543));
+                    var result_date_eng = result_date[2]+'/'+result_date[1]+'/'+result_date[0];
+                    $('#result_date').datepicker("setDate", result_date_eng);  //กำหนดวัน
+                }else{
+                    $('#result_date').datepicker("setDate", "0");
                 }
                 $('#result_id').val(dataReceived.result.result_id);
                 var result_attach_file = dataReceived.result_attach_file;
@@ -137,7 +150,7 @@ function getDataReceived(id){
             $('#doc_receive_date').val(dataReceived.doc_receive_date);
             $('#text_doc_receive_date').html(thaidateformat(dataReceived.doc_receive_date));
         }else{
-            $('#text_doc_receive_date').html('-');
+            $('#text_doc_receive_date').datepicker("setDate", "0");
         }
 
         if((dataReceived.receive_date != '') && (dataReceived.receive_date != '0000-00-00') && (dataReceived.receive_date != null)) {
@@ -145,7 +158,7 @@ function getDataReceived(id){
             var receive_date_eng = arr_receive_date[2]+'/'+arr_receive_date[1]+'/'+arr_receive_date[0];
             $('#receive_date').datepicker("setDate", receive_date_eng);  //กำหนดวัน
         }else{
-            $('#receive_date').datepicker("setDate", "");
+            $('#receive_date').datepicker("setDate", "0");
         }
 
         if(dataReceived.current_status_id == '2' || dataReceived.current_status_id == '3' || dataReceived.current_status_id == '4'){
@@ -174,7 +187,7 @@ function getDataSend(id){
             var reply_date_eng = arr_reply_date[2]+'/'+arr_reply_date[1]+'/'+arr_reply_date[0];
             $('#reply_date').datepicker("setDate", reply_date_eng);  //กำหนดวัน
         }else{
-            $('#reply_date').datepicker("setDate", "");
+            $('#reply_date').datepicker("setDate", "0");
         }
 
         if((dataSend.send_org_date != '') && (dataSend.send_org_date != '0000-00-00') && (dataSend.send_org_date != null)) {
@@ -182,7 +195,7 @@ function getDataSend(id){
             var send_org_date_eng = arr_send_org_date[2]+'/'+arr_send_org_date[1]+'/'+arr_send_org_date[0];
             $('#send_org_date').datepicker("setDate", send_org_date_eng);  //กำหนดวัน
         }else{
-            $('#send_org_date').datepicker("setDate", "");
+            $('#send_org_date').datepicker("setDate", "0");
         }
 
         var send_org_id = dataSend.send_org_id;
