@@ -6,7 +6,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     <h4 class="modal-title">ค้นหาข้อมูล</h4>
                 </div>
-                <form class="form-horizontal" role="form" method="GET" action="<?php base_url("complaint/dashboard");?>" name="form_search" id="form_search">
+                <form class="form-horizontal" method="GET" action="<?php base_url("complaint/dashboard");?>" name="form_search" id="form_search">
                 <div class="modal-body" style="margin-left: -30px;">
                     <div class="row">
                         <div class="col-md-12">
@@ -30,7 +30,7 @@
                                         ชื่อผู้ร้องทุกข์ :
                                     </label>
                                     <label class="col-sm-7">
-                                        <input type="text" name="" class="form-control" />
+                                        <input type="text" name="petitioner" class="form-control">
                                     </label>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@
                                         เรื่องร้องทุกข์ :
                                     </label>
                                     <label class="col-sm-7">
-                                        <input type="text" class="form-control" />
+                                        <input type="text" name="complaint_detail" class="form-control" />
                                     </label>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" id="complaint_date" class="form-control pull-right datepicker" />
+                                            <input type="text" id="complaint_date_start" name="complaint_date_start" class="form-control pull-right datepicker" />
                                         </div>
                                     </label>
                                 </div>
@@ -77,7 +77,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" id="complaint_date" class="form-control pull-right datepicker" />
+                                            <input type="text" id="complaint_date_end" name="complaint_date_end" class="form-control pull-right datepicker" />
                                         </div>
                                     </label>
                                 </div>
