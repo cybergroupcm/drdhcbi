@@ -20,6 +20,7 @@ if(@$_GET['debug']=='on'){
         }
     ?>
     <input type="hidden" id="step" name="step" value="<?php echo $step; ?>">
+    <input type="hidden" id="step_now" name="step_now" value="5">
     <div class="row frame">
         <?php $this->load->view('complaint/step_of_keyin'); ?>
         <div class="row title">

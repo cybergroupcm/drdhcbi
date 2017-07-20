@@ -16,6 +16,8 @@ class Dropdown extends REST_Controller
         $this->load->model('master/Title_name_model');
         $this->load->model('master/Ccaa_model');
         $this->load->model('master/Send_org_model');
+        $this->load->model('master/Area_part_model');
+        $this->load->model('master/Current_status_model');
     }
 
     public function accused_type_lists_get()
@@ -165,6 +167,37 @@ class Dropdown extends REST_Controller
 
         $types = $arr_send_org;
 
+        // Check if the users data store contains users (in case the database result returns NULL)
+        if ($types) {
+            // Set the response and exit
+            $this->response($types, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        } else {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'No complain type were found'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
+    public function area_part_lists_get()
+    {
+        $types = $this->Area_part_model->as_dropdown('area_part')->get_all();
+        if ($types) {
+            // Set the response and exit
+            $this->response($types, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        } else {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'No title name were found'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
+    public function current_status_lists_get()
+    {
+        $types = $this->Current_status_model->as_dropdown('current_status_name')->get_all();
         // Check if the users data store contains users (in case the database result returns NULL)
         if ($types) {
             // Set the response and exit
