@@ -10,6 +10,8 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
         echo"<pre>";print_r(@$key_in_data);echo"</pre>";
         echo"<pre>";print_r(@$district_list);echo"</pre>";
     }
+
+$dateNow = date('d/m/Y',strtotime('+543 years'));
 ?>
 <input type="hidden" id="action" value="<?php echo (@$id!='')?'edit':'add'; ?>">
 <input type="hidden" id="keyin_id" name="keyin_id" value="<?php echo (@$id!='')?$id:''; ?>">
@@ -21,6 +23,7 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
 }
 ?>
     <input type="hidden" id="step" name="step" value="<?php echo $step; ?>">
+    <input type="hidden" id="step_now" name="step_now" value="1">
     <div class="row frame">
         <?php $this->load->view('complaint/step_of_keyin'); ?>
         <div class="row title">
@@ -40,8 +43,8 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input readonly type="text" name="complain_date" id="complain_date"
-                                       class="form-control pull-right datepicker" value="<?php echo @$key_in_data['complain_date']!=''?date('d/m/Y',  strtotime(@$key_in_data['complain_date'])):''; ?>">
+                                <input type="text" name="complain_date" id="complain_date"
+                                       class="form-control pull-right datepicker" value="<?php echo @$key_in_data['complain_date']!=''?date('d/m/Y',  strtotime(@$key_in_data['complain_date'])):$dateNow; ?>">
                             </div>
                         </label>
                     </div>
@@ -74,8 +77,8 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input readonly type="text" name="doc_receive_date" id="doc_receive_date"
-                                       class="form-control pull-right datepicker" value="<?php echo @$key_in_data['doc_receive_date']!='0000-00-00' && @$key_in_data['doc_receive_date']!= ''?date('d/m/Y',  strtotime(@$key_in_data['doc_receive_date'])):''; ?>">
+                                <input type="text" name="doc_receive_date" id="doc_receive_date"
+                                       class="form-control pull-right datepicker" value="<?php echo @$key_in_data['doc_receive_date']!='0000-00-00' && @$key_in_data['doc_receive_date']!= ''?date('d/m/Y',  strtotime(@$key_in_data['doc_receive_date'])):$dateNow; ?>">
                             </div>
                         </label>
                     </div>
@@ -108,8 +111,8 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input readonly type="text" name="doc_send_date" id="doc_send_date"
-                                       class="form-control pull-right datepicker" value="<?php echo @$key_in_data['doc_send_date']!='0000-00-00' && @$key_in_data['doc_send_date']!= ''?date('d/m/Y',  strtotime(@$key_in_data['doc_send_date'])):''; ?>">
+                                <input type="text" name="doc_send_date" id="doc_send_date"
+                                       class="form-control pull-right datepicker" value="<?php echo @$key_in_data['doc_send_date']!='0000-00-00' && @$key_in_data['doc_send_date']!= ''?date('d/m/Y',  strtotime(@$key_in_data['doc_send_date'])):$dateNow; ?>">
                             </div>
                         </label>
                     </div>

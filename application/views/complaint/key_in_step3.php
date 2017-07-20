@@ -28,6 +28,7 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
 }
 ?>
     <input type="hidden" id="step" name="step" value="<?php echo $step; ?>">
+    <input type="hidden" id="step_now" name="step_now" value="3">
     <div class="row frame">
         <?php $this->load->view('complaint/step_of_keyin'); ?>
         <div class="row title">
@@ -47,9 +48,9 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input readonly type="text" name="scene_date" id="scene_date"
+                                <input type="text" name="scene_date" id="scene_date"
                                        class="form-control pull-right datepicker"
-                                       value="<?php echo @$key_in_data['scene_date']!='0000-00-00' && @$key_in_data['scene_date']!=''?date('d/m/Y',  strtotime(@$key_in_data['scene_date'])):''; ?>">
+                                       value="<?php echo @$key_in_data['scene_date']!='0000-00-00' && @$key_in_data['scene_date']!=''?date('d/m/Y',  strtotime(@$key_in_data['scene_date'])):date('d/m/Y'); ?>">
                             </div>
                         </label>
                     </div>

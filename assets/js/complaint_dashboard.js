@@ -2,27 +2,46 @@ var jwt = Cookies.get("api_token");
 $( document ).ready(function() {
     $('.datepicker').datepicker({
         format: 'dd/mm/yyyy',
-        todayBtn: true,
-        language: 'th',             //เปลี่ยน label ต่างของ ปฏิทิน ให้เป็น ภาษาไทย   (ต้องใช้ไฟล์ bootstrap-datepicker.th.min.js นี้ด้วย)
-        thaiyear: true              //Set เป็นปี พ.ศ.
+        todayBtn: "linked",
+        clearBtn: true,
+        language: "th-th",
+        autoclose: true,
+        thaiyear: true,
+        todayHighlight: true
     });
     //datepicker("setDate", "0");  //กำหนดเป็นวันปัจุบัน
-    $(".datepicker").prop('readonly', 'readonly');
+    //$(".datepicker").prop('readonly', 'readonly');
 
 
     //start ปฏิทิน
     $('.datepickerstart').datepicker({
         format: 'dd/mm/yyyy',
-        todayBtn: true,
-        language: 'th',             //เปลี่ยน label ต่างของ ปฏิทิน ให้เป็น ภาษาไทย   (ต้องใช้ไฟล์ bootstrap-datepicker.th.min.js นี้ด้วย)
-        thaiyear: true              //Set เป็นปี พ.ศ.
+        todayBtn: "linked",
+        clearBtn: true,
+        language: "th-th",
+        autoclose: true,
+        thaiyear: true,
+        todayHighlight: true
     });
 
     $('.datepickerend').datepicker({
         format: 'dd/mm/yyyy',
-        todayBtn: true,
-        language: 'th',             //เปลี่ยน label ต่างของ ปฏิทิน ให้เป็น ภาษาไทย   (ต้องใช้ไฟล์ bootstrap-datepicker.th.min.js นี้ด้วย)
-        thaiyear: true              //Set เป็นปี พ.ศ.
+        todayBtn: "linked",
+        clearBtn: true,
+        language: "th-th",
+        autoclose: true,
+        thaiyear: true,
+        todayHighlight: true
+    });
+
+    $('.datepicker').each(function(){
+        $(this).datepicker('update', $(this).val());
+    });
+    $('.datepickerstart').each(function(){
+        $(this).datepicker('update', $(this).val());
+    });
+    $('.datepickerend').each(function(){
+        $(this).datepicker('update', $(this).val());
     });
 
     $('.datepickerstart').on('changeDate', function(){
@@ -67,7 +86,10 @@ $( document ).ready(function() {
                 $('#result_detail').val(dataReceived.result.result_detail);
                 if (dataReceived.result_date != '0000-00-00') {
                     var result_date = dataReceived.result.result_date.split('-');
-                    $('#result_date').val(result_date[2] + '/' + result_date[1] + '/' + (parseInt(result_date[0]) + 543));
+                    var result_date_eng = result_date[2]+'/'+result_date[1]+'/'+result_date[0];
+                    $('#result_date').datepicker("setDate", result_date_eng);  //กำหนดวัน
+                }else{
+                    $('#result_date').datepicker("setDate", "0");
                 }
                 $('#result_id').val(dataReceived.result.result_id);
                 var result_attach_file = dataReceived.result_attach_file;
@@ -77,6 +99,24 @@ $( document ).ready(function() {
                     txt_append = "<div id='file_" + result_attach_file[key].file_id + "'>name : <a href='" + $('#base_url').attr("class") + "upload/result_attach_file/" + result_attach_file[key].file_system_name + "' target='_blank'>" + result_attach_file[key].file_name + "</a><br>";
                     txt_append += "<input type='button' class='btn btn-danger' onclick=\"delete_result_file('" + result_attach_file[key].file_id + "', '" + result_attach_file[key].file_system_name + "')\" value='ลบ'></div>";
                     $('#checkFile').append(txt_append);
+                }
+            }
+        });
+
+        var url = $('#base_url').attr("class")+"complaint/getDataReceived/"+id;
+        $.ajax({
+            method: "GET",
+            url: url,
+            async:false
+        }).done(function (result) {
+            var  dataReceived = JSON.parse(result);
+            if(dataReceived.current_status_id == '4'){
+                if(!$('#save_result_status').prop('checked')) {
+                    $("#save_result_status").prop("checked", true);
+                }
+            }else{
+                if($('#save_result_status').prop('checked')) {
+                    $("#save_result_status").prop("checked", false);
                 }
             }
         });
@@ -110,7 +150,7 @@ function getDataReceived(id){
             $('#doc_receive_date').val(dataReceived.doc_receive_date);
             $('#text_doc_receive_date').html(thaidateformat(dataReceived.doc_receive_date));
         }else{
-            $('#text_doc_receive_date').html('-');
+            $('#text_doc_receive_date').datepicker("setDate", "0");
         }
 
         if((dataReceived.receive_date != '') && (dataReceived.receive_date != '0000-00-00') && (dataReceived.receive_date != null)) {
@@ -118,10 +158,10 @@ function getDataReceived(id){
             var receive_date_eng = arr_receive_date[2]+'/'+arr_receive_date[1]+'/'+arr_receive_date[0];
             $('#receive_date').datepicker("setDate", receive_date_eng);  //กำหนดวัน
         }else{
-            $('#receive_date').datepicker("setDate", "");
+            $('#receive_date').datepicker("setDate", "0");
         }
 
-        if(dataReceived.current_status_id == '2' || dataReceived.current_status_id == '3'){
+        if(dataReceived.current_status_id == '2' || dataReceived.current_status_id == '3' || dataReceived.current_status_id == '4'){
             if(!$('#receive_status').prop('checked')) {
                 $("#receive_status").prop("checked", true);
             }
@@ -147,7 +187,7 @@ function getDataSend(id){
             var reply_date_eng = arr_reply_date[2]+'/'+arr_reply_date[1]+'/'+arr_reply_date[0];
             $('#reply_date').datepicker("setDate", reply_date_eng);  //กำหนดวัน
         }else{
-            $('#reply_date').datepicker("setDate", "");
+            $('#reply_date').datepicker("setDate", "0");
         }
 
         if((dataSend.send_org_date != '') && (dataSend.send_org_date != '0000-00-00') && (dataSend.send_org_date != null)) {
@@ -155,7 +195,7 @@ function getDataSend(id){
             var send_org_date_eng = arr_send_org_date[2]+'/'+arr_send_org_date[1]+'/'+arr_send_org_date[0];
             $('#send_org_date').datepicker("setDate", send_org_date_eng);  //กำหนดวัน
         }else{
-            $('#send_org_date').datepicker("setDate", "");
+            $('#send_org_date').datepicker("setDate", "0");
         }
 
         var send_org_id = dataSend.send_org_id;
@@ -171,7 +211,7 @@ function getDataSend(id){
             $('#send_org_id option[value=""]').prop('selected', 'selected');
         }
 
-        if(dataSend.current_status_id == '3'){
+        if(dataSend.current_status_id == '3' || dataSend.current_status_id == '4'){
             if(!$('#send_status').prop('checked')) {
                 $("#send_status").prop("checked", true);
             }
