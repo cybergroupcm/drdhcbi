@@ -29,7 +29,7 @@ $(document).ready(function () {
     });
 
     $(".btOpenSend").click(function () {
-        $(this).attr('id', $("#keyin_id_result").val());
+        $(this).attr('data-id', $("#keyin_id_result").val());
         $("#save_result .close").click();
     });
 });
