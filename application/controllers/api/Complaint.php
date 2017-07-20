@@ -18,34 +18,54 @@ class Complaint extends REST_Controller
 
     public function dashboard_last_month_get()
     {
-        $filter = $this->get('filter');
-        if(!is_null($filter)){
-            $whereKey= 'complain_type_id';
-            $whereData= $filter;
-        }else{
-            $whereKey= '1=1';
-            $whereData= null;
-        }
-        //$page = $this->get('page');
+        $filter = [];
+        $currentStatus = $this->get('current_status');
+        $complainNo = $this->get('complain_no');
+        $complaintDetail = $this->get('complaint_detail');
+        $petitioner = $this->get('petitioner');
+        $dateStart = $this->get('complaint_date_start');
+        $dateEnd = $this->get('complaint_date_end');
         $overall = $this->get('overall');
         $user_id = $this->get('user_id');
-        if( $overall == 1 ) { // มองเห็น เรื่องร้องเรียนทั้งหมด
-//            $total_complaint = $this->Key_in_model->count_rows(); // retrieve the total number of posts
-//            if( $total_complaint == 0 ){ $total_complaint = 1; }
+        if (!is_null($currentStatus) && $currentStatus >= 1 && $currentStatus <= 4) {
+            $filter['current_status_id'] = $currentStatus;
+        }
+        if (!is_null($complainNo)) {
+            $filter['complain_no LIKE'] = '%' . urldecode($complainNo) . '%';
+        }
+        if (!is_null($complaintDetail)) {
+            $filter['complaint_detail LIKE'] = '%' . urldecode($complaintDetail) . '%';
+        }
+        if (!is_null($petitioner)) {
+            $filter['CONCAT(first_name,last_name) LIKE'] = '%' . urldecode($petitioner) . '%';
+        }
+        if (!is_null($dateStart) && !is_null($dateEnd)) {
+            $filter['complain_date >='] = urldecode($dateStart);
+            $filter['complain_date <='] = urldecode($dateEnd);
+        }
+        elseif (!is_null($dateStart) && is_null($dateEnd)) {
+            $filter['complain_date >='] = urldecode($dateStart);
+        }
+        elseif (is_null($dateStart) && !is_null($dateEnd)) {
+            $filter['complain_date <='] = urldecode($dateEnd);
+        }
+        if(count($filter)==0){
+            $filter['MONTH(complain_date)'] = date('m');
+            $filter['YEAR(complain_date)'] = date('Y');
+        }
+        if ($overall == 1) { // มองเห็น เรื่องร้องเรียนทั้งหมด
             $complaint = $this->Key_in_model
-                ->where($whereKey,$whereData)
+                ->where($filter)
                 ->order_by('complain_no', 'DESC')
                 ->with_title_name('fields:prename')
                 ->with_complaint_type('fields:complain_type_name')
                 ->with_wish('fields:wish_name')
                 ->with_current_status('fields:current_status_name')
                 ->get_all();
-//                ->paginate(15, $total_complaint, $page); // paginate with 10 rows per page -
-        }else{
-//            $total_complaint = $this->Key_in_model->where('create_user_id', $user_id)->count_rows(); // retrieve the total number of posts
-//            if( $total_complaint == 0 ){ $total_complaint = 1; }
+        }
+        else {
             $complaint = $this->Key_in_model
-                ->where($whereKey,$whereData)
+                ->where($filter)
                 ->where('create_user_id', $user_id)
                 ->order_by('complain_no', 'DESC')
                 ->with_title_name('fields:prename')
@@ -53,7 +73,6 @@ class Complaint extends REST_Controller
                 ->with_wish('fields:wish_name')
                 ->with_current_status('fields:current_status_name')
                 ->get_all();
-//                ->paginate(15, $total_complaint, $page); // paginate with 10 rows per page -
         }
 
         if ($complaint) {
@@ -64,7 +83,8 @@ class Complaint extends REST_Controller
             // Set the response and exit
             $this->response([
                 'status' => FALSE,
-                'message' => 'No complaint were found'
+                'message' => 'No complaint were found',
+                $filter
             ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
         }
     }
@@ -191,6 +211,7 @@ class Complaint extends REST_Controller
 
     public function key_in_post()
     {
+        header('Access-Control-Allow-Origin: *');
         $user = $this->jwt_decode($this->jwt_token());
         $data = $this->post();
         if (array_key_exists('userid', $user)) {
@@ -218,6 +239,7 @@ class Complaint extends REST_Controller
                 $this->Key_in_model->insertPivotWish($keyInID, $item);
             }
         }
+
         $this->set_response($keyInID, REST_Controller::HTTP_CREATED);
     }
 
