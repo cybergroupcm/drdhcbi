@@ -244,7 +244,7 @@ class Report extends CI_Controller {
 
         $html=$this->load->view('report_statistic_by_type/report_statistic_by_type_pdf',$arr_data, true);
 
-        $mpdf=new mPDF('th','A4-L',0,'THSaraban',15,15,16,16,9,9, 'L');
+        $mpdf=new mPDF('th','A4-L',0,'thsarabun',15,15,16,16,9,9, 'L');
         $mpdf->SetDisplayMode('fullpage');
         $mpdf->list_indent_first_level = 0;
         $mpdf->WriteHTML($html, 2);
