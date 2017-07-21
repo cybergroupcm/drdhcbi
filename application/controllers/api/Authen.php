@@ -13,6 +13,8 @@ class Authen extends REST_Controller
         parent::__construct();
 	
         $this->load->model('Ion_auth_model');
+        $this->load->model('data/User_model');
+        $this->load->library(array('ion_auth'));
     }
 
     //User JWT authentication to get the toekn
@@ -88,6 +90,42 @@ class Authen extends REST_Controller
     private function permission_info($username)
     {
         $this->permission = $this->Ion_auth_model->permission_api($username);
+    }
+
+    public function repassword_info_post()
+    {
+        $sql = "SELECT
+                    id
+                FROM
+                    au_users
+                WHERE
+                    username = '".$this->post('username')."'
+                    AND email = '".$this->post('email')."'
+                    AND idcard = '".$this->post('idcard')."'";
+        $query = $this->db->query($sql);
+        $data = $query->row_array();
+        if($data){
+            $output_data = $data['id'];
+            $this->response($output_data, REST_Controller::HTTP_OK);
+        }else{
+            $output_data = "";
+            $this->response($output_data, REST_Controller::HTTP_UNAUTHORIZED);
+        }
+    }
+
+    public function repassword_post()
+    {
+        $data = array(
+            'password' => $this->Ion_auth_model->hash_password($this->post('repassword'))
+        );
+        $ids = $this->db->update('au_users', $data, array('id' => $this->post('id')));
+        if($ids){
+            $this->response($ids, REST_Controller::HTTP_OK);
+        }else{
+            $output_data = "";
+            $this->response($output_data, REST_Controller::HTTP_UNAUTHORIZED);
+        }
+        exit;
     }
 
 }

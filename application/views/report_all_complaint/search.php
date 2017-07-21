@@ -20,7 +20,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" name="complaint_date_start" id="complaint_date_start" class="form-control pull-right datepickerstart" />
+                                            <input type="text" name="complaint_date_start" id="complaint_date_start" class="form-control pull-right datepickerstart" value="<?php echo @$_GET['complaint_date_start']?>" />
                                         </div>
                                     </label>
                                 </div>
@@ -35,7 +35,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" name="complaint_date_end" id="complaint_date_end" class="form-control pull-right datepickerend" />
+                                            <input type="text" name="complaint_date_end" id="complaint_date_end" class="form-control pull-right datepickerend" value="<?php echo @$_GET['complaint_date_end']?>"/>
                                         </div>
                                     </label>
                                 </div>
@@ -52,13 +52,13 @@
                                     <label class="col-sm-7">
                                         <?php
                                         $dd1 = $complaint_type;
-                                        $dd1[''] = '--ไม่ระบ--ุ';
+                                        $dd1[''] = 'กรุณาเลือก';
                                         ksort($dd1);
                                         echo form_dropdown([
                                             'name' => 'complain_type_id',
                                             'id' => 'complain_type_id',
                                             'class' => 'form-control'
-                                        ], $dd1, '');
+                                        ], $dd1, @$_GET['complain_type_id']);
                                         ?>
                                     </label>
                                 </div>
@@ -75,13 +75,13 @@
                                     <label class="col-sm-7">
                                         <?php
                                         $dd2 = $channel;
-                                        $dd2[''] = '--ไม่ระบุ--';
+                                        $dd2[''] = 'กรุณาเลือก';
                                         ksort($dd2);
                                         echo form_dropdown([
                                             'name' => 'channel_id',
                                             'id' => 'channel_id',
                                             'class' => 'form-control'
-                                        ], $dd2, '');
+                                        ], $dd2, @$_GET['channel_id']);
                                         ?>
                                     </label>
                                 </div>
@@ -96,9 +96,16 @@
                                         ภาค :
                                     </label>
                                     <label class="col-sm-7">
-                                        <select class="form-control">
-                                            <option value=''>--ไม่ระบุ--</option>
-                                        </select>
+                                        <?php
+                                        $area_part_arr = $area_part_list;
+                                        $area_part_arr[''] = 'กรุณาเลือก';
+                                        ksort($area_part_arr);
+                                        echo form_dropdown([
+                                            'id' => 'partid',
+                                            'name'=>'partid',
+                                            'class' => 'form-control'
+                                        ], $area_part_arr, @$_GET['partid']);
+                                        ?>
                                     </label>
                                 </div>
                             </div>
@@ -121,7 +128,7 @@
                                             'name'=>'province_id',
                                             'class' => 'form-control',
                                             'onchange'=>"get_district(this.value,'')"
-                                        ], $province_arr, @$province_id);
+                                        ], $province_arr, @$_GET['province_id']);
                                         ?>
                                     </label>
                                 </div>
@@ -146,7 +153,7 @@
                                                 'name'=>'district_id',
                                                 'class' => 'form-control',
                                                 'onchange'=>"get_subdistrict(this.value,'')"
-                                            ], $district_arr, @$district_id);
+                                            ], $district_arr,  @$_GET['district_id']);
                                             ?>
                                         </span>
                                     </label>
@@ -168,10 +175,10 @@
                                             $subdistrict_arr[''] = 'กรุณาเลือก';
                                             ksort($subdistrict_arr);
                                             echo form_dropdown([
-                                                'id' => 'subdistrict_id',
-                                                'name' => 'subdistrict_id',
+                                                'id' => 'address_id',
+                                                'name' => 'address_id',
                                                 'class' => 'form-control'
-                                            ], $subdistrict_arr, @$subdistrict_id);
+                                            ], $subdistrict_arr, @$_GET['address_id']);
                                             ?>
                                         </span>
                                     </label>
@@ -180,11 +187,12 @@
                         </div>
                     </div>
                 </div>
-                </form>
+
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" name="btSearch" id="btSearch" class="btn btn-primary">ค้นหาข้อมูล</button>
+                    <input type="submit" name="btSearch" id="btSearch" class="btn btn-primary" value="ค้นหาข้อมูล">
                     <button type="button" class="btn btn-default" data-dismiss="modal">ล้างค่า</button>
                 </div>
+                </form>
             </div>
         </div>
     </div>

@@ -21,9 +21,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <link rel="stylesheet" href="<?php echo base_url($frameworks_dir . '/font-awesome/css/font-awesome.min.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url($frameworks_dir . '/adminlte/css/adminlte.min.css'); ?>">
         <link rel="stylesheet" href="<?php echo base_url($plugins_dir . '/icheck/css/blue.css'); ?>">
+        <link rel="stylesheet" href="<?php echo base_url('assets/css/sweetalert.css'); ?>">
 
         <script src="<?php echo base_url('assets/jquery/jQuery-2.1.3.min.js'); ?>"></script>
         <script src="<?php echo base_url('assets/jquery/jquery.blockUI.js'); ?>"></script>
+        <script src="<?php echo base_url('assets/js/sweetalert.min.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/register.js'); ?>"></script>
 <?php if ($mobile === FALSE): ?>
         <!--[if lt IE 9]>

@@ -85,7 +85,7 @@ function saveForm(action_to) {
 
 function validateForm(action_to,type) {
     var text_warning = "";
-    if($('#step').val()=='1') {
+    if($('#step_now').val()=='1') {
         if ($('#complain_date').val() == "") {
             text_warning += " - วันที่ร้องทุกข์\n";
         }
@@ -105,7 +105,7 @@ function validateForm(action_to,type) {
                 text_warning += " - โทรศัพท์เคลื่อนที่ของผู้ร้องทุกข์\n";
             }
         }
-    }else if($('#step').val()=='2'){
+    }else if($('#step_now').val()=='2'){
         if ($('#complain_type_id').val() == "") {
             text_warning += " - ประเภทเรื่อง\n";
         }
@@ -138,7 +138,7 @@ function validateForm(action_to,type) {
         if (desire == 0) {
             text_warning += " - ความประสงค์ในการดำเนินการ\n";
         }
-    }else if($('#step').val()=='3'){
+    }else if($('#step_now').val()=='3'){
         if ($('#place_scene').val() == "") {
             text_warning += " - สถานที่เกิดเหตุ\n";
         }

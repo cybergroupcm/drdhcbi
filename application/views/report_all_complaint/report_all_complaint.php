@@ -41,8 +41,8 @@ function replace_empty($value){
                         <?php //echo img(array('src'=>'assets/images/search.png', 'title'=> 'ค้นหาข้อมูล','width'=>'48px','style'=>'cursor:pointer','data-toggle'=>'modal','data-target'=>'#search')); ?>
                         <!--a href="<?php echo base_url("report/report_all_complaint_pdf");?>" target="_blank"><?php echo img(array('src'=>'assets/images/print.png', 'title'=> 'สั่งพิมพ์','width'=>'48px','style'=>'cursor:pointer')); ?></a-->
                         <i class="fa fa-search" aria-hidden="true" style="cursor: pointer;font-size: 3em;" data-toggle="modal" data-target="#search" title="ค้นหาข้อมูล"></i>
-                        <a href="'.base_url('report/report_all_complaint_pdf').'" style="color: #333333;" target="_blank"><i class="fa fa-print" aria-hidden="true" style="cursor: pointer;font-size: 3em;" title="สั่งพิมพ์"></a></i>
-
+                        <a href="<?php echo base_url('report/report_all_complaint_pdf'.$param_get); ?>" style="color: #333333;" target="_blank"><i class="fa fa-print" aria-hidden="true" style="cursor: pointer;font-size: 3em;" title="สั่งพิมพ์"></a></i>
+                        <a href="<?php echo base_url('report/report_all_complaint_excel'.$param_get); ?>" style="color: #333333;" target="_blank"><i class="fa fa-file-excel-o" aria-hidden="true" style="cursor: pointer;font-size: 3em;" title="ส่งออก Excel"></a></i>
                     </div>
                     <div class="col-xs-1"></div>
                     <div class="col-xs-10">
@@ -69,18 +69,29 @@ function replace_empty($value){
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach($complaint_type as $key => $value){ ?>
+                        <?php
+                        $sum_all = 0;
+                        foreach($complaint_type as $key => $value){ ?>
                             <tr>
                                 <td><?php echo $value; ?></td>
                                 <?php foreach($channel as $key2 => $value2){ ?>
                                     <td align="right"><?php echo replace_empty(@$data[$key][$key2]); ?></td>
                                 <?php
                                     @$data[$key]['sum_all'] += replace_empty(@$data[$key][$key2]);
+                                    @$data['sum_all'][$key2] += replace_empty(@$data[$key][$key2]);
                                 } ?>
                                 <td align="right"><?php echo replace_empty(@$data[$key]['sum_all']); ?></td>
                             </tr>
-                        <?php } ?>
-
+                        <?php
+                            $sum_all += replace_empty(@$data[$key]['sum_all']);
+                        } ?>
+                            <tr>
+                                <td align="center">รวม</td>
+                                <?php foreach($channel as $key2 => $value2){ ?>
+                                    <td align="right"><?php echo replace_empty(@$data['sum_all'][$key2]); ?></td>
+                                <?php } ?>
+                                <td align="right"><?php echo $sum_all; ?></td>
+                            </tr>
                         </tbody>
                     </table>
                     <?php //echo $pagination; ?>
