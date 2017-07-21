@@ -1,3 +1,12 @@
+var styles = [{
+        url: 'http://122.155.197.104/sysdamrongdham/assets/images/pin-map.png',
+        height: 48,
+        width: 30,
+        anchor: [-18, 0],
+        textColor: '#ffffff',
+        textSize: 10,
+        iconAnchor: [15, 48]
+      }];
 function addlayerXML(obj){
  var url = obj.value;
 if(!xml[url]){
@@ -11,7 +20,7 @@ if(!xml[url]){
       for (var i = 0; i < markers.length; i++) {
         var latlng = new google.maps.LatLng(parseFloat(markers[i].getAttribute("lat")),
                     parseFloat(markers[i].getAttribute("lng")));
-        all_markers[url][i] = createMarker(markers[i].getAttribute("name"), markers[i].getAttribute("identify"), markers[i].getAttribute("icon"), latlng,250,150);
+        all_markers[url][i] = createMarker(markers[i].getAttribute("name"), markers[i].getAttribute("identify"), markers[i].getAttribute("icon"), latlng,150,50);
         if(markers[i].getAttribute("shape")){
             var plarr = markers[i].getAttribute("shape").split(" ");
             //alert(plarr);
@@ -35,6 +44,8 @@ if(!xml[url]){
         }
        }
      });
+
+      //markerClusterer = new MarkerClusterer(map, all_markers[url]);
 }else{
   if(obj.checked){
       addpoint(all_markers[url]);

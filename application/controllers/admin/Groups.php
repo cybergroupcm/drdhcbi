@@ -32,7 +32,7 @@ class Groups extends Admin_Controller {
             $this->data['groups'] = $this->ion_auth->groups()->result();
 
             /* Load Template */
-            $this->template->admin_render('admin/groups/index', $this->data);
+            $this->libraries->template('admin/groups/index', $this->data);
         }
     }
 
@@ -80,7 +80,7 @@ class Groups extends Admin_Controller {
 			);
 
             /* Load Template */
-            $this->template->admin_render('admin/groups/create', $this->data);
+            $this->libraries->template('admin/groups/create', $this->data);
 		}
 	}
 
@@ -195,6 +195,6 @@ class Groups extends Admin_Controller {
 		$this->data['org'] = $this->core_model->getOrg();
 		$this->data['orgTree'] = $this->core_model->genOrgTree($this->data['org'],0);
         /* Load Template */
-        $this->template->admin_render('admin/groups/edit', $this->data);
+        $this->libraries->template('admin/groups/edit', $this->data);
 	}
 }

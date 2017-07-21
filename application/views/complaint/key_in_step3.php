@@ -48,9 +48,9 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input readonly type="text" name="scene_date" id="scene_date"
+                                <input type="text" name="scene_date" id="scene_date"
                                        class="form-control pull-right datepicker"
-                                       value="<?php echo @$key_in_data['scene_date']!='0000-00-00' && @$key_in_data['scene_date']!=''?date('d/m/Y',  strtotime(@$key_in_data['scene_date'])):''; ?>">
+                                       value="<?php echo @$key_in_data['scene_date']!='0000-00-00' && @$key_in_data['scene_date']!=''?date('d/m/Y',  strtotime(@$key_in_data['scene_date'])):date('d/m/Y'); ?>">
                             </div>
                         </label>
                     </div>

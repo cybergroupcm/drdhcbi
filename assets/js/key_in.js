@@ -280,9 +280,16 @@ function get_subdistrict(value,defaule_value){
 
 $(document).ready(function () {
     $('.datepicker').datepicker({
-        language: 'th-th',
         format: 'dd/mm/yyyy',
-        thaiyear: true
+        todayBtn: "linked",
+        clearBtn: true,
+        language: "th-th",
+        autoclose: true,
+        thaiyear: true,
+        todayHighlight: true
+    });
+    $('.datepicker').each(function(){
+        $(this).datepicker('update', $(this).val());
     });
 
     changeUserComplain();

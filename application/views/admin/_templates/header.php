@@ -55,7 +55,7 @@ $admin_prefs['transition_page'] = FALSE;
 <?php else: ?>
         <div class="wrapper">
 <?php endif; ?>
-<?php
+<?php 
         $link = array(
                 'src' => 'template/plugins/jQuery/jQuery-2.1.3.min.js',
                 'language' => 'javascript',

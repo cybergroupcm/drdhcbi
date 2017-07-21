@@ -45,7 +45,7 @@ class Dashboard extends Admin_Controller {
 
 
             /* Load Template */
-            $this->template->admin_render('admin/dashboard/index', $this->data);
+            $this->libraries->template('admin/dashboard/index', $this->data);
         }
 	}
 }
