@@ -1,15 +1,15 @@
 $(document).ready(function() {
     var table = $('#usertable').DataTable({
-        "order": [[ 1, "desc" ]],
+        "order": [[ 0, "asc" ]],
         "columnDefs": [
             { "targets": [-1,4], "orderable": false },
             { "targets": [-1,4],"searchable": false }
         ],
         "language": {
             "search": "ค้นหา:",
-            "info": "เรื่องที่ _START_ ถึง _END_ จากทั้งหมด _TOTAL_ เรื่อง",
+            "info": "รายการที่ _START_ ถึง _END_ จากทั้งหมด _TOTAL_ รายการ",
             "infoEmpty":"Showing 0 to 0 of 0 entries",
-            "zeroRecords":"ไม่พบเรื่องที่ค้นหา",
+            "zeroRecords":"ไม่พบรายการที่ค้นหา",
             "paginate": {
                 "first":      "หน้าแรก",
                 "last":       "หน้าสุดท้าย",

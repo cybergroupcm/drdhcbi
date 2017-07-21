@@ -40,12 +40,12 @@ echo script_tag($link);
                                     <table id="usertable" class="table table-bordered table-striped table-hover dataTable">
                                         <thead>
                                             <tr>
-                                                <th><?php echo lang('users_firstname');?></th>
-                                                <th><?php echo lang('users_lastname');?></th>
-                                                <th><?php echo lang('users_email');?></th>
-                                                <th><?php echo lang('users_groups');?></th>
-                                                <th><?php echo lang('users_status');?></th>
-                                                <th><?php echo lang('users_action');?></th>
+                                                <th class="text-center"><?php echo 'ชื่อ';?></th>
+                                                <th class="text-center"><?php echo 'นามสกุล';?></th>
+                                                <th class="text-center"><?php echo 'อีเมลล์';?></th>
+                                                <th class="text-center"><?php echo 'กลุ่มผู้ใช้งาน';?></th>
+                                                <th class="text-center"><?php echo 'สถานะการใช้งาน';?></th>
+                                                <th class="text-center"><?php echo 'เครื่องมือ';?></th>
                                             </tr>
                                         </thead>
                                         <tbody>
