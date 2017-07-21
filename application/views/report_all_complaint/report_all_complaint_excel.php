@@ -4,6 +4,13 @@ $link = array(
     'type' => 'text/javascript'
 );
     echo script_tag($link);
+function replace_empty($value){
+    if($value==''){
+        return '0';
+    }else{
+        return $value;
+    }
+}
 ?>
 <section class="content">
     <div class="row">
@@ -14,29 +21,39 @@ $link = array(
                 </div>
                 <div class="box-body">
                     <div id="exportData">
-                        <table border="1" id="example1" class="table table-bordered table-striped table-hover dataTable">
+                        <table id="example1" style="border:1px solid;" cellspacing="0" cellpadding="0">
                             <thead>
                             <tr>
-                                <th class="text-center" rowspan="2">ประเภทการร้องทุกข์</th>
-                                <th class="text-center" colspan="12">ช่องทางการร้องทุกข์</th>
+                                <th style="border-right:1px solid;border-bottom:1px solid;" rowspan="2">ประเภทการร้องทุกข์</th>
+                                <th style="border-bottom:1px solid;border-right:1px solid;" colspan="<?php echo count($channel);?>">ช่องทางการร้องทุกข์</th>
+                                <th style="border-bottom:1px solid;" rowspan="2">รวม</th>
                             </tr>
                             <tr>
-                                <th class="text-center">มาด้วยตนเอง</th>
-                                <th class="text-center">โทรศัพท์/โทรสาร/ฝากข้อความอัตโนมัติ 1567</th>
-                                <th class="text-center">สำนักนายกรัฐมนตรี 1111</th>
-                                <th class="text-center">จดหมาย</th>
-                                <th class="text-center">สำนักงานรัฐมนตรีกระทรวงมหาดไทย</th>
-                                <th class="text-center">ศูนย์ดำรงธรรมจังหวัด</th>
-                                <th class="text-center">ปลัดกระทรวงมหาดไทย</th>
-                                <th class="text-center">กระทรวง/กรม/อื่นๆ</th>
-                                <th class="text-center">ผ่าน สนง.ผู้ตรวจการแผ่นดิน</th>
-                                <th class="text-center">ศูนย์ดำรงธรรมอำเภอ</th>
-                                <th class="text-center">ศูนย์ดำรงธรรมส่วนกลาง</th>
-                                <th class="text-center">รวม</th>
+                                <?php foreach($channel as $key => $value){ ?>
+                                    <th style="border-right:1px solid;border-bottom:1px solid;"><?php echo $value; ?></th>
+                                <?php } ?>
+
                             </tr>
                             </thead>
                             <tbody>
-
+                            <?php foreach($complaint_type as $key => $value){ ?>
+                                <tr>
+                                    <td style="border-right:1px solid;border-bottom:1px solid;padding:10 0 10 0px;"><?php echo $value; ?></td>
+                                    <?php foreach($channel as $key2 => $value2){ ?>
+                                        <td align="right" style="border-right:1px solid;border-bottom:1px solid;padding:10 2 10 0px;"><?php echo replace_empty(@$data[$key][$key2]); ?></td>
+                                        <?php
+                                        @$data[$key]['sum_all'] += replace_empty(@$data[$key][$key2]);
+                                    } ?>
+                                    <td align="right" style="border-bottom:1px solid;padding:10 2 10 0px;"><?php echo replace_empty(@$data[$key]['sum_all']); ?></td>
+                                </tr>
+                                <?php $sum_all += replace_empty(@$data[$key]['sum_all']); } ?>
+                            <tr>
+                                <td align="center" style="border-right:1px solid;padding:10 0 10 0px;">รวม</td>
+                                <?php foreach($channel as $key2 => $value2){ ?>
+                                    <td align="right" style="border-right:1px solid;padding:10 0 10 0px;"><?php echo replace_empty(@$data['sum_all'][$key2]); ?></td>
+                                <?php } ?>
+                                <td align="right" style="padding:10 0 10 0px;"><?php echo $sum_all; ?></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>

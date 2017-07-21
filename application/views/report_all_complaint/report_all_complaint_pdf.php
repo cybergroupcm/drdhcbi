@@ -33,7 +33,13 @@ function replace_empty($value){
                 } ?>
                 <td align="right" style="border-bottom:1px solid;padding:10 2 10 0px;"><?php echo replace_empty(@$data[$key]['sum_all']); ?></td>
             </tr>
-        <?php } ?>
-
+        <?php $sum_all += replace_empty(@$data[$key]['sum_all']); } ?>
+        <tr>
+            <td align="center" style="border-right:1px solid;padding:10 0 10 0px;">รวม</td>
+            <?php foreach($channel as $key2 => $value2){ ?>
+                <td align="right" style="border-right:1px solid;padding:10 0 10 0px;"><?php echo replace_empty(@$data['sum_all'][$key2]); ?></td>
+            <?php } ?>
+            <td align="right" style="padding:10 0 10 0px;"><?php echo $sum_all; ?></td>
+        </tr>
         </tbody>
     </table>

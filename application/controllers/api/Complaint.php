@@ -220,6 +220,9 @@ class Complaint extends REST_Controller
         }
         $complaintType = null;
         $wish = null;
+        if (array_key_exists('step_now', $data)) {
+            unset($data['step_now']);
+        }
         if (array_key_exists('complaint_type', $data)) {
             $complaintType = $data['complaint_type'];
             unset($data['complaint_type']);
@@ -251,6 +254,12 @@ class Complaint extends REST_Controller
         if (array_key_exists('step_now', $data)) {
             $step_now = $data['step_now'];
             unset($data['step_now']);
+        }
+        if (array_key_exists('province_id', $data)) {
+            unset($data['province_id']);
+        }
+        if (array_key_exists('district_id', $data)) {
+            unset($data['district_id']);
         }
 
         if (array_key_exists('keyin_id', $data)) {

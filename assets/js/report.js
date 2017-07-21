@@ -88,7 +88,7 @@ function get_district(value,defaule_value){
         $.post(url, {data: ''}, function (data) {
             $('#district_span').html(data);
             var subdistrict = '';
-            subdistrict += '<select name="subdistrict_id" class="form-control" id="subdistrict_id">';
+            subdistrict += '<select name="address_id" class="form-control" id="address_id">';
             subdistrict += '<option value="">กรุณาเลือก</option>';
             subdistrict += '</select>';
             $('#subdistrict_span').html(subdistrict);

@@ -195,5 +195,18 @@ class Auth extends MY_Controller {
         $save_user = api_call_post($url,$data);
         //echo $save_user;
     }*/
+    function repassword()
+    {
+            /* Load */
+            $this->load->config('admin/dp_config');
+            $this->load->config('common/dp_config');
+
+            /* Data */
+            $this->data['title'] = $this->config->item('title');
+
+            /* Load Template */
+            $this->template->auth_render('auth/repassword', $this->data);
+
+    }
 
 }

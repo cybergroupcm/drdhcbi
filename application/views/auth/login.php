@@ -40,7 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
 <?php endif; ?>
 <?php if ($forgot_password == TRUE): ?>
-                <?php echo anchor('#', 'ลืมรหัสผ่าน'); ?><br />
+                <?php echo anchor('auth/repassword', 'ลืมรหัสผ่าน'); ?><br />
 <?php endif; ?>
 <?php if ($new_membership == TRUE): ?>
                 <?php echo anchor('auth/register', 'ลงทะเบียน สมัครสมาชิก'); ?><br />
