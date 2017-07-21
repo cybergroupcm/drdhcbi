@@ -291,7 +291,6 @@ $(document).ready(function () {
     $('.datepicker').each(function(){
         $(this).datepicker('update', $(this).val());
     });
-
     changeUserComplain();
 
     $(".numbers").keydown(function (e) {
