@@ -5,7 +5,10 @@ class Setting_channel extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->load->helper('url');
+        if ( ! $this->ion_auth->logged_in() || !$this->api_auth->logged_in())
+        {
+            redirect('alert', 'refresh');
+        }
     }
 
     public function dashboard()
