@@ -12,25 +12,25 @@ function replace_empty($value){
     }
 }
 ?>
-<section class="content">
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title"> รายงานรวมเรื่องร้องทุกข์</h3>
-                </div>
-                <div class="box-body">
-                    <div id="exportData">
-                        <table id="example1" style="border:1px solid;" cellspacing="0" cellpadding="0">
+<div id="exportData">
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-body">
+                        <table style="width: 100%;border-collapse: collapse;font-size: 16pt;">
                             <thead>
                             <tr>
-                                <th style="border-right:1px solid;border-bottom:1px solid;" rowspan="2">ประเภทการร้องทุกข์</th>
-                                <th style="border-bottom:1px solid;border-right:1px solid;" colspan="<?php echo count($channel);?>">ช่องทางการร้องทุกข์</th>
-                                <th style="border-bottom:1px solid;" rowspan="2">รวม</th>
+                                <th class="text-center" style="vertical-align: middle;text-align: center;padding: 5px;" colspan="<?php echo count($channel)+2;?>">รายงานรวมเรื่องร้องทุกข์</th>
+                            </tr>
+                            <tr>
+                                <th style="vertical-align: middle;text-align: center;border: 1px solid black;border-width:thin;" rowspan="2">ประเภทการร้องทุกข์</th>
+                                <th style="vertical-align: middle;text-align: center;border: 1px solid black;border-width:thin;padding: 5px;" colspan="<?php echo count($channel);?>">ช่องทางการร้องทุกข์</th>
+                                <th style="vertical-align: middle;text-align: center;border: 1px solid black;border-width:thin;width: 6%;" rowspan="2">รวม</th>
                             </tr>
                             <tr>
                                 <?php foreach($channel as $key => $value){ ?>
-                                    <th style="border-right:1px solid;border-bottom:1px solid;"><?php echo $value; ?></th>
+                                    <th style="vertical-align: middle;text-align: center;border: 1px solid black;border-width:thin;width:6%;"><?php echo $value; ?></th>
                                 <?php } ?>
 
                             </tr>
@@ -38,31 +38,30 @@ function replace_empty($value){
                             <tbody>
                             <?php foreach($complaint_type as $key => $value){ ?>
                                 <tr>
-                                    <td style="border-right:1px solid;border-bottom:1px solid;padding:10 0 10 0px;"><?php echo $value; ?></td>
+                                    <td style="text-align: left;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;border-width:thin;vertical-align: top;padding: 5px;"><?php echo $value; ?></td>
                                     <?php foreach($channel as $key2 => $value2){ ?>
-                                        <td align="right" style="border-right:1px solid;border-bottom:1px solid;padding:10 2 10 0px;"><?php echo replace_empty(@$data[$key][$key2]); ?></td>
+                                        <td align="right" style="text-align: right;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;border-width:thin;vertical-align: top;padding: 5px;"><?php echo replace_empty(@$data[$key][$key2]); ?></td>
                                         <?php
                                         @$data[$key]['sum_all'] += replace_empty(@$data[$key][$key2]);
                                     } ?>
-                                    <td align="right" style="border-bottom:1px solid;padding:10 2 10 0px;"><?php echo replace_empty(@$data[$key]['sum_all']); ?></td>
+                                    <td align="right" style="text-align: right;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;border-width:thin;vertical-align: top;padding: 5px;"><?php echo replace_empty(@$data[$key]['sum_all']); ?></td>
                                 </tr>
                                 <?php $sum_all += replace_empty(@$data[$key]['sum_all']); } ?>
                             <tr>
-                                <td align="center" style="border-right:1px solid;padding:10 0 10 0px;">รวม</td>
+                                <td align="center" style="text-align: center;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;border-width:thin;vertical-align: top;padding: 5px;">รวม</td>
                                 <?php foreach($channel as $key2 => $value2){ ?>
-                                    <td align="right" style="border-right:1px solid;padding:10 0 10 0px;"><?php echo replace_empty(@$data['sum_all'][$key2]); ?></td>
+                                    <td align="right" style="text-align: right;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;border-width:thin;vertical-align: top;padding: 5px;"><?php echo replace_empty(@$data['sum_all'][$key2]); ?></td>
                                 <?php } ?>
-                                <td align="right" style="padding:10 0 10 0px;"><?php echo $sum_all; ?></td>
+                                <td align="right" style="text-align: right;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;border-width:thin;vertical-align: top;padding: 5px;"><?php echo $sum_all; ?></td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
-                    <?php //echo $pagination; ?>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+</div>
 <div id="base_url" class="<?php echo base_url();?>"></div>
 <script>
     function exportExcel(){
