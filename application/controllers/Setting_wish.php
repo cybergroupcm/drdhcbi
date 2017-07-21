@@ -2,6 +2,15 @@
 
 class Setting_wish extends CI_Controller {
 
+    public function __construct()
+    {
+        parent::__construct();
+        if ( ! $this->ion_auth->logged_in() || !$this->api_auth->logged_in())
+        {
+            redirect('alert', 'refresh');
+        }
+    }
+
     public function dashboard()
     {
         $url = base_url()."api/setting/wish";

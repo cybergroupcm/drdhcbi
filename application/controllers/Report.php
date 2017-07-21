@@ -7,12 +7,12 @@ class Report extends CI_Controller {
         parent::__construct();
 
         /* Load :: Common */
-        //$this->load->helper('cookie');
-        $this->load->helper('form');
-        $this->load->helper(array('html', 'url', 'api'));
-        //$this->load->model('complaint_model');
-        $this->load->helper('dateformat');
+        $this->load->helper(array('form'));
         $this->load->library('my_mpdf');
+        if ( ! $this->ion_auth->logged_in() || !$this->api_auth->logged_in())
+        {
+            redirect('alert', 'refresh');
+        }
     }
 
     public function report_all_complaint()
