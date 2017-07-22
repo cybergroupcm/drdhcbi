@@ -6,6 +6,7 @@
                         <h3 class="box-title"></h3>
                     </div>
                     <div class="box-body">
+                        <?php $this->load->view('complaint/step_of_view_detail'); ?>
                         <div class="col-xs-12 text-right">
                            <a href="<?php echo base_url('complaint/pdf_detail/' . @$key_in_data['keyin_id'])?>" target="_blank">
                                 <?php echo img(array('src' => 'assets/images/print.png', 'title' => 'สั่งพิมพ์', 'width' => '48px', 'style' => 'cursor:pointer')); ?>

@@ -57,13 +57,13 @@ function replace_empty($value){
                     <table id="example1" class="table table-bordered table-striped table-hover dataTable">
                         <thead>
                         <tr>
-                            <th class="text-center" rowspan="2">ประเภทการร้องทุกข์</th>
-                            <th class="text-center" colspan="<?php echo count($channel);?>">ช่องทางการร้องทุกข์</th>
-                            <th class="text-center" rowspan="2">รวม</th>
+                            <th class="text-center" style="vertical-align: middle;" rowspan="2">ประเภทการร้องทุกข์</th>
+                            <th class="text-center" style="vertical-align: middle;" colspan="<?php echo count($channel);?>">ช่องทางการร้องทุกข์</th>
+                            <th class="text-center" style="vertical-align: middle;width: 6%;" rowspan="2">รวม</th>
                         </tr>
                         <tr>
                             <?php foreach($channel as $key => $value){ ?>
-                            <th class="text-center"><?php echo $value; ?></th>
+                            <th class="text-center" style="vertical-align: middle;width: 6%;"><?php echo $value; ?></th>
                             <?php } ?>
 
                         </tr>
