@@ -23,6 +23,10 @@ class Main extends MY_Controller {
 		parent::__construct();
 		$this->load->helper(array('html', 'url', 'api'));
 		$this->load->model('admin/dashboard_model');
+        if ( ! $this->ion_auth->logged_in() || !$this->api_auth->logged_in())
+        {
+            redirect('alert', 'refresh');
+        }
 	}
 	/*public function index()
 	{
@@ -154,7 +158,8 @@ class Main extends MY_Controller {
 	{
 
 
-		$this->libraries->template('login',$arr_data=array());
+        redirect('auth/login', 'refresh');
+		//$this->libraries->template('login',$arr_data=array());
 
 		/*
 		$this->load->model('Travel_data', 'home');

@@ -9,11 +9,12 @@ class Complaint extends CI_Controller
         parent::__construct();
 
         /* Load :: Common */
-        $this->load->helper('form');
-        $this->load->helper('form_additional');
-        $this->load->helper('dateformat');
-        $this->load->helper(array('html', 'url', 'api'));
-        $this->load->library('my_mpdf');
+        $this->load->helper(array('form'));
+        $this->load->library(array('my_mpdf'));
+        if ( ! $this->ion_auth->logged_in() || !$this->api_auth->logged_in())
+        {
+            redirect('alert', 'refresh');
+        }
     }
 
     public function key_in($step = 'key_in_step1', $id = '')

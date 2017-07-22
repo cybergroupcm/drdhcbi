@@ -1,6 +1,26 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+$link = array(
+    'href' => 'assets/css/dataTables.bootstrap.min.css',
+    'rel' => 'stylesheet',
+    'type' => 'text/css'
+);
+echo link_tag($link);
+$link = array(
+    'src' => 'assets/js/jquery.dataTables.min.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    'src' => 'assets/js/dataTables.bootstrap.min.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    'src' => 'assets/js/user/index.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
 ?>
                 <section class="content-header">
                     <?php echo $pagetitle; ?>
@@ -11,19 +31,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="row">
                         <div class="col-md-12">
                              <div class="box">
-                                <div class="box-header with-border pull-right">
-                                    <h3 class="box-title"><?php echo anchor('admin/users/create', '<i class="fa fa-plus"></i> '. lang('users_create_user'), array('class' => 'btn btn-block btn-primary btn-flat')); ?></h3>
+                                <div class="box-header" style="text-align: right;">
+                                    <div class="col-md-12">
+                                        <h3 class="box-title"><?php echo anchor('admin/users/create', '<i class="fa fa-plus"></i> '. lang('users_create_user'), array('class' => 'btn btn-block btn-primary btn-flat')); ?></h3>
+                                    </div>
                                 </div>
                                 <div class="box-body">
-                                    <table class="table table-striped table-hover">
+                                    <table id="usertable" class="table table-bordered table-striped table-hover dataTable">
                                         <thead>
                                             <tr>
-                                                <th><?php echo lang('users_firstname');?></th>
-                                                <th><?php echo lang('users_lastname');?></th>
-                                                <th><?php echo lang('users_email');?></th>
-                                                <th><?php echo lang('users_groups');?></th>
-                                                <th><?php echo lang('users_status');?></th>
-                                                <th><?php echo lang('users_action');?></th>
+                                                <th class="text-center"><?php echo 'ชื่อ';?></th>
+                                                <th class="text-center"><?php echo 'นามสกุล';?></th>
+                                                <th class="text-center"><?php echo 'อีเมลล์';?></th>
+                                                <th class="text-center"><?php echo 'กลุ่มผู้ใช้งาน';?></th>
+                                                <th class="text-center"><?php echo 'สถานะการใช้งาน';?></th>
+                                                <th class="text-center"><?php echo 'เครื่องมือ';?></th>
                                             </tr>
                                         </thead>
                                         <tbody>
