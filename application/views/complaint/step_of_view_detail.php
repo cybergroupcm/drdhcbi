@@ -24,8 +24,8 @@ $step_array[4]['color'] = 'btn-success';
                         $btn = 'btn-default';
                     }
                     ?>
-                <div class="stepwizard-step">
-                        <a type="button" class="btn <?php echo $btn; ?> btn-circle" <?php echo $disabled; ?>><?php echo $key; ?></a>
+                <div class="stepwizard-step" style="width:25%;">
+                        <a type="button" class="btn <?php echo $btn; ?> btn-circle" ><?php echo $key; ?></a>
                         <p><?php echo $value['name']; ?></p>
                 </div>
                 <?php } ?>
