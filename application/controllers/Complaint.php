@@ -206,8 +206,25 @@ class Complaint extends CI_Controller
     {
         $url = base_url("api/complaint/key_in/" . $id);
         $arr_data['key_in_data'] = api_call_get($url);
+        $url = base_url("api/complaint/user_detail/idcard/".$arr_data['key_in_data']['id_card']);
+        $arr_data['user_detail'] = api_call_get($url);
+        $url = base_url("api/complaint/user_detail/id/".$arr_data['key_in_data']['create_user_id']);
+        $arr_data['create_user_detail'] = api_call_get($url);
+        $url = base_url("api/complaint/user_detail/id/".$arr_data['key_in_data']['update_user_id']);
+        $arr_data['update_user_detail'] = api_call_get($url);
         $url = base_url("api/dropdown/ccaa_lists/Changwat");
         $arr_data['province_list'] = api_call_get($url);
+        $url = base_url("api/dropdown/ccaa_lists/Aumpur/");
+        $arr_data['district_list'] = api_call_get($url);
+        $url = base_url("api/dropdown/ccaa_lists/Tamboon/");
+        $arr_data['subdistrict_list'] = api_call_get($url);
+        $url = base_url("api/dropdown/complain_type_lists");
+        $arr_data['complain_type'] = api_call_get($url);
+        $url = base_url("api/dropdown/current_status_lists");
+        $arr_data['current_status'] = api_call_get($url);
+        $url = base_url("api/complaint/result/".$id);
+        $arr_data['result'] = api_call_get($url);
+        //echo"<pre>";print_r($arr_data['result']);echo"</pre>";
         $this->libraries->template('complaint/view_detail', $arr_data);
     }
 
@@ -241,8 +258,24 @@ class Complaint extends CI_Controller
         //load the view and saved it into $html variable
         $url = base_url("api/complaint/key_in/" . $id);
         $arr_data['key_in_data'] = api_call_get($url);
+        $url = base_url("api/complaint/user_detail/idcard/".$arr_data['key_in_data']['id_card']);
+        $arr_data['user_detail'] = api_call_get($url);
+        $url = base_url("api/complaint/user_detail/id/".$arr_data['key_in_data']['create_user_id']);
+        $arr_data['create_user_detail'] = api_call_get($url);
+        $url = base_url("api/complaint/user_detail/id/".$arr_data['key_in_data']['update_user_id']);
+        $arr_data['update_user_detail'] = api_call_get($url);
         $url = base_url("api/dropdown/ccaa_lists/Changwat");
         $arr_data['province_list'] = api_call_get($url);
+        $url = base_url("api/dropdown/ccaa_lists/Aumpur/");
+        $arr_data['district_list'] = api_call_get($url);
+        $url = base_url("api/dropdown/ccaa_lists/Tamboon/");
+        $arr_data['subdistrict_list'] = api_call_get($url);
+        $url = base_url("api/dropdown/complain_type_lists");
+        $arr_data['complain_type'] = api_call_get($url);
+        $url = base_url("api/dropdown/current_status_lists");
+        $arr_data['current_status'] = api_call_get($url);
+        $url = base_url("api/complaint/result/".$id);
+        $arr_data['result'] = api_call_get($url);
         $html = $this->load->view('complaint/pdf_detail', $arr_data, true);
         // As PDF creation takes a bit of memory, we're saving the created file in /downloads/reports/
 

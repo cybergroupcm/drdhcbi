@@ -192,6 +192,4 @@ class User extends REST_Controller
         }
     }
 
-
-
 }

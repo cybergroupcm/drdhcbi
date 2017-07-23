@@ -211,7 +211,6 @@ class Complaint extends REST_Controller
 
     public function key_in_post()
     {
-        header('Access-Control-Allow-Origin: *');
         $user = $this->jwt_decode($this->jwt_token());
         $data = $this->post();
         if (array_key_exists('userid', $user)) {
@@ -570,5 +569,35 @@ class Complaint extends REST_Controller
         }else{
             $this->response($user_id, REST_Controller::HTTP_NOT_FOUND);
         }
+    }
+
+    public function user_detail_get()
+    {
+        $id = @$this->get('id');
+        $idcard = @$this->get('idcard');
+        $where = '';
+        if($id != ''){
+            $where .= " AND id = '".$id."' ";
+        }
+        if($idcard != ''){
+            $where .= " AND idcard = '".$idcard."' ";
+        }
+        $sql = "SELECT
+                    first_name,
+                    last_name,
+                    company,
+                    phone,
+                    idcard,
+                    prename_th,
+                    address,
+                    address_id,
+                    gender,
+                    position
+                FROM
+                    au_users
+                WHERE 1=1 ".$where;
+        $query = $this->User_model->sql_query($sql)->row_array();
+        $result_data = $query;
+        $this->response($result_data, REST_Controller::HTTP_OK);
     }
 }
