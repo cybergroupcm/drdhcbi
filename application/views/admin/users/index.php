@@ -54,15 +54,14 @@ echo script_tag($link);
                                                 <td><?php echo htmlspecialchars($user->first_name, ENT_QUOTES, 'UTF-8'); ?></td>
                                                 <td><?php echo htmlspecialchars($user->last_name, ENT_QUOTES, 'UTF-8'); ?></td>
                                                 <td><?php echo htmlspecialchars($user->email, ENT_QUOTES, 'UTF-8'); ?></td>
-                                                <td>
+                                                <td align="center">
 <?php foreach ($user->groups as $group):?>
                                                     <?php echo anchor('admin/groups/edit/'.$group->id, '<span class="label" style="background:'.$group->bgcolor.';">'.htmlspecialchars($group->name, ENT_QUOTES, 'UTF-8').'</span>'); ?>
 <?php endforeach?>
                                                 </td>
-                                                <td><?php echo ($user->active) ? anchor('admin/users/deactivate/'.$user->id, '<span class="label label-success">'.lang('users_active').'</span>') : anchor('admin/users/activate/'. $user->id, '<span class="label label-default">'.lang('users_inactive').'</span>'); ?></td>
+                                                <td align="center"><?php echo ($user->active) ? '<span style="cursor:pointer;" class="label label-success" data-toggle="modal" data-target="#popUpIndex" onclick="changeFrameSrc(\''.'../admin/users/deactivate/'. $user->id.'\')">'.lang('users_active').'</span>' : anchor('admin/users/activate/'. $user->id, '<span class="label label-danger">'.lang('users_inactive').'</span>'); ?></td>
                                                 <td>
                                                     <?php echo anchor('admin/users/create/'.$user->id, lang('actions_edit')); ?>
-                                                    <?php //echo anchor('admin/users/profile/'.$user->id, lang('actions_see')); ?>
                                                 </td>
                                             </tr>
 <?php endforeach;?>
@@ -73,3 +72,21 @@ echo script_tag($link);
                          </div>
                     </div>
                 </section>
+<div id="popUpIndex" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><?php echo sprintf(lang('users_deactivate_question'), '<span class="label label-primary">').'</span>';?></h4>
+            </div>
+            <div class="modal-body text-center">
+                <iframe id="popUpDeactivate" src="" style="border: 0px; width: 95%; height: 50px;"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="submitFormIniFrame('popUpDeactivate','form-status_user')">บันทึก</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+
+    </div>
+</div>

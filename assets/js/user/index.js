@@ -2,8 +2,8 @@ $(document).ready(function() {
     var table = $('#usertable').DataTable({
         "order": [[ 0, "asc" ]],
         "columnDefs": [
-            { "targets": [-1,4], "orderable": false },
-            { "targets": [-1,4],"searchable": false }
+            { "targets": [-1,5], "orderable": false },
+            { "targets": [-1,5],"searchable": false }
         ],
         "language": {
             "search": "ค้นหา:",
@@ -20,4 +20,15 @@ $(document).ready(function() {
         "bLengthChange": false,
         "pageLength": 15
     });
+
 });
+
+function changeFrameSrc(url){
+    $('#popUpDeactivate').attr('src',url);
+}
+
+function submitFormIniFrame(iframeId,elementId){
+    $('#popUpIndex').modal('toggle');
+    $("#"+iframeId).contents().find("#"+elementId).submit();
+    window.location.reload();
+}
