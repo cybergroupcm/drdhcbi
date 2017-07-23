@@ -24,6 +24,7 @@
                                             รหัสประเภทเรื่องร้องทุกข์ :
                                         </label>
                                         <label class="col-sm-3">
+                                            <input type="hidden" id="parent_id" name="parent_id" value="<?php echo @($_GET['type'] == 'parent')?$_GET['parent_id']:"0";?>"/>
                                             <input type="hidden" id="action"  value="<?php echo @$data['action'];?>"/>
                                             <input type="text" name="complain_type_id" id="complain_type_id" class="form-control" value="<?php echo @$data['complain_type_id'];?>" readonly="readonly" />
                                         </label>

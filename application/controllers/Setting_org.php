@@ -1,8 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+class Setting_org extends CI_Controller {
 
-
-class Setting_accused_type extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
@@ -17,32 +16,34 @@ class Setting_accused_type extends CI_Controller {
         $param = '';
         $param .= (@$_GET['type'] !="")?"/type/".@$_GET['type']:"";
         $param .= (@$_GET['parent_id'] !="")?"/parent_id/".@$_GET['parent_id']:"";
-        $url = base_url()."api/setting/accused_type".$param;
+
+        $url = base_url()."api/setting/org".$param;
         $arr_data['data'] = api_call_get($url);
-        $this->libraries->template('setting_accused_type/dashboard',$arr_data);
+        $this->libraries->template('setting_org/dashboard',$arr_data);
     }
 
     public function add($id='')
     {
-        $arr_data['data']['action']='add';
+        $arr_data = array();
         if($id != '') {
-            $url = base_url()."api/setting/accused_type/".$id;
+            $url = base_url()."api/setting/org/".$id;
             $arr_data['data'] = api_call_get($url);
             $arr_data['data']['action']='edit';
         }
-        $this->libraries->template('setting_accused_type/add',$arr_data);
+
+        $this->libraries->template('setting_org/add',$arr_data);
     }
 
-    public function getAccusedType($id)
+    public function getUseOrg($id)
     {
-        $url = base_url("api/setting/use_accused_type/" . $id);
+        $url = base_url("api/setting/use_org/" . $id);
         $arr_data['data_use'] = api_call_get($url);
         $send_org_id = 0;
         if(@$arr_data['data_use']['message']){
             $send_org_id = 0;
         }else{
             foreach ($arr_data['data_use'] AS $key => $val) {
-                if ($val['accused_type_id']) {
+                if ($val['send_org_id']) {
                     $send_org_id++;
                 }
             }
