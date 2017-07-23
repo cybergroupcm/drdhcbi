@@ -85,7 +85,7 @@ class Setting extends REST_Controller
         //$ids = $this->AccusedType_model->update(array('accused_type' => $this->put('accused_type')),$id);
         $ids = $this->Accused_type_model->update(array(
             'accused_type' => $this->put('accused_type'),
-            'parent_id' => $this->post('parent_id')
+            'parent_id' => $this->put('parent_id')
         ), $this->put('accused_type_id'));
         if ($ids) {
             $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
@@ -256,7 +256,7 @@ class Setting extends REST_Controller
         //$ids = $this->AccusedType_model->update(array('accused_type' => $this->put('accused_type')),$id);
         $ids = $this->Complain_type_model->update(array(
             'complain_type_name' => $this->put('complain_type_name'),
-            'parent_id' => $this->post('parent_id')
+            'parent_id' => $this->put('parent_id')
         ), $this->put('complain_type_id'));
         if ($ids) {
             $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
