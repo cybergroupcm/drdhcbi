@@ -13,20 +13,28 @@ class Setting extends REST_Controller
         $this->load->model('master/Complain_type_model');
         $this->load->model('master/Subject_model');
         $this->load->model('master/Wish_model');
+        $this->load->model('master/Send_org_model');
+        $this->load->model('data/Key_in_model');
     }
 
     public function accused_type_get()
     {
-        $types = $this->Accused_type_model->get_all();
         $id = $this->get('id');
+        $type= $this->get('type');
+        $parent_id= $this->get('parent_id');
 
+        if($type == 'parent'){
+            $data_result = $this->Accused_type_model->where('parent_id', $parent_id)->order_by('accused_type_id', 'DESC')->get_all();
+        }else {
+            $data_result = $this->Accused_type_model->where('parent_id', '0')->order_by('accused_type_id', 'DESC')->get_all();
+        }
         // If the id parameter doesn't exist return all the users
 
         if ($id === NULL) {
             // Check if the users data store contains users (in case the database result returns NULL)
-            if ($types) {
+            if ($data_result) {
                 // Set the response and exit
-                $this->response($types, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+                $this->response($data_result, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
             } else {
                 // Set the response and exit
                 $this->response([
@@ -50,10 +58,10 @@ class Setting extends REST_Controller
         // Usually a model is to be used for this.
 
         //$type = NULL;
-        $type = $this->Accused_type_model->get($id);
+        $data_result = $this->Accused_type_model->get($id);
 
-        if (!empty($type)) {
-            $this->set_response($type, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        if (!empty($data_result)) {
+            $this->set_response($data_result, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         } else {
             $this->set_response([
                 'status' => FALSE,
@@ -64,7 +72,10 @@ class Setting extends REST_Controller
 
     public function accused_type_post()
     {
-        $ids = $this->Accused_type_model->insert(array('accused_type' => $this->post('accused_type')));
+        $ids = $this->Accused_type_model->insert(array(
+            'accused_type' => $this->post('accused_type'),
+            'parent_id' => $this->post('parent_id')
+        ));
         $this->set_response($ids, REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
     }
 
@@ -72,7 +83,10 @@ class Setting extends REST_Controller
     {
         //$id = $this->put('accused_type');
         //$ids = $this->AccusedType_model->update(array('accused_type' => $this->put('accused_type')),$id);
-        $ids = $this->Accused_type_model->update(array('accused_type' => $this->put('accused_type')), $this->put('accused_type_id'));
+        $ids = $this->Accused_type_model->update(array(
+            'accused_type' => $this->put('accused_type'),
+            'parent_id' => $this->put('parent_id')
+        ), $this->put('accused_type_id'));
         if ($ids) {
             $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -102,7 +116,7 @@ class Setting extends REST_Controller
 
         if ($id === NULL) {
             // Check if the users data store contains users (in case the database result returns NULL)
-            $types = $this->Channel_model->get_all();
+            $types = $this->Channel_model->order_by('channel_id', 'DESC')->get_all();
             if ($types) {
                 // Set the response and exit
                 $this->response($types, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
@@ -176,15 +190,22 @@ class Setting extends REST_Controller
     {
 
         $id = $this->get('id');
-
+        $type= $this->get('type');
+        $parent_id= $this->get('parent_id');
         // If the id parameter doesn't exist return all the users
 
         if ($id === NULL) {
             // Check if the users data store contains users (in case the database result returns NULL)
             $types = $this->Complain_type_model->get_all();
-            if ($types) {
+
+            if($type == 'parent'){
+                $data_result = $this->Complain_type_model->where('parent_id', $parent_id)->order_by('complain_type_id', 'DESC')->get_all();
+            }else {
+                $data_result = $this->Complain_type_model->where('parent_id', '0')->order_by('complain_type_id', 'DESC')->get_all();
+            }
+            if ($data_result) {
                 // Set the response and exit
-                $this->response($types, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+                $this->response($data_result, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
             } else {
                 // Set the response and exit
                 $this->response([
@@ -208,10 +229,10 @@ class Setting extends REST_Controller
         // Usually a model is to be used for this.
 
         //$type = NULL;
-        $type = $this->Complain_type_model->get($id);
+        $data_result = $this->Complain_type_model->get($id);
 
-        if (!empty($type)) {
-            $this->set_response($type, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        if (!empty($data_result)) {
+            $this->set_response($data_result, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         } else {
             $this->set_response([
                 'status' => FALSE,
@@ -222,7 +243,10 @@ class Setting extends REST_Controller
 
     public function complain_type_post()
     {
-        $ids = $this->Complain_type_model->insert(array('complain_type_name' => $this->post('complain_type_name')));
+        $ids = $this->Complain_type_model->insert(array(
+            'complain_type_name' => $this->post('complain_type_name'),
+            'parent_id' => $this->post('parent_id')
+        ));
         $this->set_response($ids, REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
     }
 
@@ -230,7 +254,10 @@ class Setting extends REST_Controller
     {
         //$id = $this->put('accused_type');
         //$ids = $this->AccusedType_model->update(array('accused_type' => $this->put('accused_type')),$id);
-        $ids = $this->Complain_type_model->update(array('complain_type_name' => $this->put('complain_type_name')), $this->put('complain_type_id'));
+        $ids = $this->Complain_type_model->update(array(
+            'complain_type_name' => $this->put('complain_type_name'),
+            'parent_id' => $this->put('parent_id')
+        ), $this->put('complain_type_id'));
         if ($ids) {
             $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -260,7 +287,7 @@ class Setting extends REST_Controller
 
         if ($id === NULL) {
             // Check if the users data store contains users (in case the database result returns NULL)
-            $types = $this->Subject_model->get_all();
+            $types = $this->Subject_model->order_by('subject_id', 'DESC')->get_all();
             if ($types) {
                 // Set the response and exit
                 $this->response($types, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
@@ -337,7 +364,7 @@ class Setting extends REST_Controller
 
         if ($id === NULL) {
             // Check if the users data store contains users (in case the database result returns NULL)
-            $types = $this->Wish_model->get_all();
+            $types = $this->Wish_model->order_by('wish_id', 'DESC')->get_all();
             if ($types) {
                 // Set the response and exit
                 $this->response($types, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
@@ -403,6 +430,122 @@ class Setting extends REST_Controller
         $ids = $this->Wish_model->delete($id);
 
         $this->set_response($ids, REST_Controller::HTTP_NO_CONTENT); // NO_CONTENT (204) being the HTTP response code
+    }
+
+    public function org_get()
+    {
+        $id = $this->get('id');
+        $type= $this->get('type');
+        $parent_id= $this->get('parent_id');
+
+        if ($id === NULL) {
+            if($type == 'parent'){
+                $data_result = $this->Send_org_model->where('parent_id', $parent_id)->order_by('send_org_id', 'DESC')->get_all();
+            }else {
+                $data_result = $this->Send_org_model->where('parent_id', '0')->order_by('send_org_id', 'DESC')->get_all();
+            }
+            if ($data_result) {
+                $this->response($data_result, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+            } else {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'No users were found'
+                ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+            }
+        }
+
+        $id = (int)$id;
+        if ($id <= 0) {
+            $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
+        }
+
+        $data_result = $this->Send_org_model->get($id);
+
+        if (!empty($data_result)) {
+            $this->set_response($data_result, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        } else {
+            $this->set_response([
+                'status' => FALSE,
+                'message' => 'User could not be found'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
+    public function org_post()
+    {
+        $ids = $this->Send_org_model->insert(array(
+            'send_org_name' => $this->post('send_org_name'),
+            'parent_id' => $this->post('parent_id')
+        ));
+        $this->set_response($ids, REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
+    }
+
+    public function org_put()
+    {
+        $ids = $this->Send_org_model->update(array(
+            'send_org_name' => $this->put('send_org_name'),
+            'parent_id' => $this->put('parent_id')
+        ), $this->put('send_org_id'));
+        if ($ids) {
+            $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }
+    }
+
+    public function org_delete()
+    {
+        $id = (int)$this->get('id');
+
+        // Validate the id.
+        if ($id <= 0) {
+            // Set the response and exit
+            $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
+        }
+
+        $ids = $this->Send_org_model->delete($id);
+
+        $this->set_response($ids, REST_Controller::HTTP_NO_CONTENT); // NO_CONTENT (204) being the HTTP response code
+    }
+
+    public function use_org_get()
+    {
+        $id = $this->get('id');
+        $data_result = $this->Key_in_model->where('send_org_id', $id)->get_all();
+        if ($data_result) {
+            $this->response($data_result, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        } else {
+            $this->response([
+                'status' => FALSE,
+                'message' => 'No users were found'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
+    public function use_accused_type_get()
+    {
+        $id = $this->get('id');
+        $data_result = $this->Key_in_model->where('accused_type_id', $id)->get_all();
+        if ($data_result) {
+            $this->response($data_result, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        } else {
+            $this->response([
+                'status' => FALSE,
+                'message' => 'No users were found'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
+    public function use_complain_type_get()
+    {
+        $id = $this->get('id');
+        $data_result = $this->Key_in_model->where('complain_type_id', $id)->get_all();
+        if ($data_result) {
+            $this->response($data_result, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        } else {
+            $this->response([
+                'status' => FALSE,
+                'message' => 'No users were found'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
     }
 
 }

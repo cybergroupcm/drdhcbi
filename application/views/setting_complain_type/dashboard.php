@@ -9,6 +9,23 @@ $link = array(
     'type' => 'text/javascript'
 );
 echo script_tag($link);
+
+$link = array(
+    'href' => 'assets/css/dataTables.bootstrap.min.css',
+    'rel' => 'stylesheet',
+    'type' => 'text/css'
+);
+echo link_tag($link);
+$link = array(
+    'src' => 'assets/js/jquery.dataTables.min.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    'src' => 'assets/js/dataTables.bootstrap.min.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
 ?>
 <style>
     .btn-info {
@@ -25,33 +42,49 @@ echo script_tag($link);
                         <h3 class="box-title">ตั้งค่าข้อมูลประเภทเรื่องร้องทุกข์</h3>
                     </div>
                     <div class="box-body">
-                        <div class="col-xs-12 text-right" style="margin-bottom: 5px;">
-                            <button class="btn btn-info" title="เพิ่ม" id="bt_add_data" onclick="window.location.href='<?php echo base_url('setting_complain_type/add')?>';"><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
+                        <div class="col-xs-12 text-right" style="margin-bottom: 5px;padding-right: 0px;">
+                            <?php @$param_add = "?type=".$_GET['type']."&parent_id=".$_GET['parent_id'];?>
+                            <button class="btn btn-info" title="เพิ่ม" id="bt_add_data" onclick="window.location.href='<?php echo base_url('setting_complain_type/add'.$param_add)?>';"><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
+                            <?php  if(@$_GET['type'] == 'parent'){?>
+                                <button class="btn btn-info" title="ย้อนกลับ" id="bt_add_data" onclick="window.location.href='<?php echo base_url('setting_complain_type/dashboard')?>';"><i class="fa fa-reply"></i> ย้อนกลับ</button>
+                            <?php }else{?>
+                                <button class="btn btn-info" title="ย้อนกลับ" id="bt_add_data" onclick="window.location.href='<?php echo base_url('setting_system')?>';"><i class="fa fa-reply"></i> ย้อนกลับ</button>
+                            <?php } ?>
                         </div>
                         <table id="example1" class="table table-bordered table-striped table-hover dataTable">
-                            <tr>
-                                <th width="20%" class="text-center">รหัสประเภทเรื่องร้องทุกข์</th>
-                                <th class="text-center">ประเภทเรื่องร้องทุกข์</th>
-                                <th width="15%" class="text-center">จัดการ</th>
-                            </tr>
+                            <thead>
+                                <tr>
+                                    <th width="5%" class="text-center">ลำดับ</th>
+                                    <th width="20%" class="text-center">รหัสประเภทเรื่องร้องทุกข์</th>
+                                    <th class="text-center">ประเภทเรื่องร้องทุกข์</th>
+                                    <th width="15%" class="text-center">จัดการ</th>
+                                </tr>
                             </thead>
                             <tbody>
                             <?php
-                            foreach($data AS $val) {
-                                ?>
-                                <tr>
-                                    <td class="text-center"><?php echo $val['complain_type_id'];?></td>
-                                    <td><?php echo $val['complain_type_name'];?></td>
-                                    <td class="text-center">
-                                        <span onclick="window.location.href='<?php echo base_url('setting_complain_type/add/'.$val['complain_type_id'])?>';">
-                                            <?php echo img(array('src'=>'assets/images/edit.png', 'title'=> 'แก้ไข','width'=>'36px','style'=>'cursor:pointer'));?>
-                                        </span>
-                                        <span class="bt_delete" id="<?php echo $val['complain_type_id'];?>" onclick="bt_delete(<?php echo $val['complain_type_id'];?>)">
-                                            <?php echo img(array('src'=>'assets/images/bin.png', 'title'=> 'ลบ','width'=>'36px','style'=>'cursor:pointer'));?>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <?php
+                            if(!@$data['message']) {
+                                $start_row = 1;
+                                foreach($data AS $val) {
+                                    if (@$_GET['type'] == '') {
+                                        $link_data = 'onclick="window.location.href=\'' . base_url('setting_complain_type/dashboard?type=parent&parent_id=' . @$val['complain_type_id']) . '\'"';
+                                        $link_data .= 'style="cursor: pointer;"';
+                                    }
+                                    ?>
+                                    <tr>
+                                        <td class="text-center" <?php echo @$link_data; ?>><?php echo $start_row++; ?></td>
+                                        <td class="text-center" <?php echo @$link_data; ?>><?php echo $val['complain_type_id'];?></td>
+                                        <td <?php echo @$link_data; ?>><?php echo $val['complain_type_name'];?></td>
+                                        <td class="text-center">
+                                            <span onclick="window.location.href='<?php echo base_url('setting_complain_type/add/'.$val['complain_type_id'])?>';">
+                                                <i class="fa fa-pencil" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;" title="แก้ไข"></i>
+                                            </span>
+                                            <span class="bt_delete" id="<?php echo $val['complain_type_id'];?>" onclick="bt_delete(<?php echo $val['complain_type_id'];?>)">
+                                                <i class="fa fa-trash" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;" title="ลบ"></i>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
                             }
                             ?>
                             </tbody>
