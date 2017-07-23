@@ -40,6 +40,12 @@
                                         <div>ตั้งค่าข้อมูลความประสงค์</div>
                                     </span>
                                 </div>
+                                <div class="col-xs-4 text-center">
+                                    <span onclick="window.location.href='<?php echo base_url('setting_org/dashboard')?>';">
+                                         <?php echo img(array('src'=>'assets/images/setting.png', 'title'=> 'ตั้งค่าข้อมูลหน่วยงาน','width'=>'128px','style'=>'cursor:pointer'));?>
+                                        <div>ตั้งค่าข้อมูลหน่วยงาน</div>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>

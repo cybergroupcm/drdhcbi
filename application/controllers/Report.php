@@ -147,8 +147,34 @@ class Report extends CI_Controller {
     
     public function report_by_type()
     {
-        $url = base_url('api/complaint/complaint_type');
-        $arr_data['complaint_type'] = api_call_get($url);
+        $param = ($_GET['year'] !="")?"/year/".$_GET['year']:"";
+        $param .= ($_GET['subject_id'] !="")?"/subject_id/".$_GET['subject_id']:"";
+        $param .= ($_GET['partid'] !="")?"/partid/".$_GET['partid']:"";
+        $param .= ($_GET['province_id'] !="")?"/province_id/".$_GET['province_id']:"";
+        $param .= ($_GET['district_id'] !="")?"/district_id/".$_GET['district_id']:"";
+        $param .= ($_GET['address_id'] !="")?"/address_id/".$_GET['address_id']:"";
+
+        $url = base_url("api/dropdown/current_subject_lists");
+        $arr_data['current_subject'] = api_call_get($url);
+
+        $url = base_url()."api/report/month_report/".$_GET['year'];
+        $arr_data['month_report'] = api_call_get($url);
+
+        $url = base_url()."api/report/report_by_type".$param;
+        $arr_data['report_type'] = api_call_get($url);
+
+        $url = base_url()."api/report/report_by_type_max/".$_GET['year'];
+        $arr_data['report_type_max'] = api_call_get($url);
+
+        $url = base_url()."api/report/list_year/";
+        $arr_data['list_year'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/ccaa_lists/Changwat");
+        $arr_data['province_list'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/area_part_lists");
+        $arr_data['area_part_list'] = api_call_get($url);
+
         $this->libraries->template('report_by_type/report_by_type', $arr_data);
     }
     
@@ -421,5 +447,76 @@ class Report extends CI_Controller {
         $arr_data['area_part_list'] = api_call_get($url);
 
         $this->load->view('report_statistic_by_status/report_statistic_by_status_excel',$arr_data);
+    }
+
+    public function report_by_type_pdf(){
+        $param = ($_GET['year'] !="")?"/year/".$_GET['year']:"";
+        $param .= ($_GET['subject_id'] !="")?"/subject_id/".$_GET['subject_id']:"";
+        $param .= ($_GET['partid'] !="")?"/partid/".$_GET['partid']:"";
+        $param .= ($_GET['province_id'] !="")?"/province_id/".$_GET['province_id']:"";
+        $param .= ($_GET['district_id'] !="")?"/district_id/".$_GET['district_id']:"";
+        $param .= ($_GET['address_id'] !="")?"/address_id/".$_GET['address_id']:"";
+
+        $url = base_url("api/dropdown/current_subject_lists");
+        $arr_data['current_subject'] = api_call_get($url);
+
+        $url = base_url()."api/report/month_report/".$_GET['year'];
+        $arr_data['month_report'] = api_call_get($url);
+
+        $url = base_url()."api/report/report_by_type".$param;
+        $arr_data['report_type'] = api_call_get($url);
+
+        $url = base_url()."api/report/report_by_type_max/".$_GET['year'];
+        $arr_data['report_type_max'] = api_call_get($url);
+
+        $url = base_url()."api/report/list_year/";
+        $arr_data['list_year'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/ccaa_lists/Changwat");
+        $arr_data['province_list'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/area_part_lists");
+        $arr_data['area_part_list'] = api_call_get($url);
+
+        $html=$this->load->view('report_by_type/report_by_type_pdf',$arr_data, true);
+
+        $mpdf=new mPDF('th','A4-L',0,'THSaraban',15,15,16,16,9,9, 'L');
+        $mpdf->SetDisplayMode('fullpage');
+        $mpdf->list_indent_first_level = 0;
+        $mpdf->WriteHTML($html, 2);
+        $mpdf->Output('example_mpdf.pdf', 'I');
+        exit;
+    }
+
+    public function report_by_type_excel(){
+        $param = ($_GET['year'] !="")?"/year/".$_GET['year']:"";
+        $param .= ($_GET['subject_id'] !="")?"/subject_id/".$_GET['subject_id']:"";
+        $param .= ($_GET['partid'] !="")?"/partid/".$_GET['partid']:"";
+        $param .= ($_GET['province_id'] !="")?"/province_id/".$_GET['province_id']:"";
+        $param .= ($_GET['district_id'] !="")?"/district_id/".$_GET['district_id']:"";
+        $param .= ($_GET['address_id'] !="")?"/address_id/".$_GET['address_id']:"";
+
+        $url = base_url("api/dropdown/current_subject_lists");
+        $arr_data['current_subject'] = api_call_get($url);
+
+        $url = base_url()."api/report/month_report/".$_GET['year'];
+        $arr_data['month_report'] = api_call_get($url);
+
+        $url = base_url()."api/report/report_by_type".$param;
+        $arr_data['report_type'] = api_call_get($url);
+
+        $url = base_url()."api/report/report_by_type_max/".$_GET['year'];
+        $arr_data['report_type_max'] = api_call_get($url);
+
+        $url = base_url()."api/report/list_year/";
+        $arr_data['list_year'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/ccaa_lists/Changwat");
+        $arr_data['province_list'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/area_part_lists");
+        $arr_data['area_part_list'] = api_call_get($url);
+
+        $this->load->view('report_by_type/report_by_type_excel',$arr_data);
     }
 }
