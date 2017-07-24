@@ -19,6 +19,11 @@ class Setting_accused_type extends CI_Controller {
         $param .= (@$_GET['parent_id'] !="")?"/parent_id/".@$_GET['parent_id']:"";
         $url = base_url()."api/setting/accused_type".$param;
         $arr_data['data'] = api_call_get($url);
+
+        $parent_id = @$_GET['parent_id'];
+        $url = base_url()."api/setting/accused_type/".$parent_id;
+        $arr_data['data_parent'] = api_call_get($url);
+
         $this->libraries->template('setting_accused_type/dashboard',$arr_data);
     }
 

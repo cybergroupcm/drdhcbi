@@ -43,10 +43,13 @@ echo script_tag($link);
                     </div>
                     <div class="box-body">
                         <div class="col-xs-12 text-right" style="margin-bottom: 5px;padding-right: 0px;">
-                            <?php @$param_add = "?type=".$_GET['type']."&parent_id=".$_GET['parent_id'];?>
+                            <?php
+                            @$param_add = "?type=".$_GET['type']."&parent_id=".$_GET['parent_id'];
+                            @$param_back = "?type=".$_GET['type']."&parent_id=".$data_parent['parent_id'];
+                            ?>
                             <button class="btn btn-info" title="เพิ่ม" id="bt_add_data" onclick="window.location.href='<?php echo base_url('setting_accused_type/add'.$param_add)?>';"><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
                             <?php  if(@$_GET['type'] == 'parent'){?>
-                                <button class="btn btn-info" title="ย้อนกลับ" id="bt_add_data" onclick="window.location.href='<?php echo base_url('setting_accused_type/dashboard')?>';"><i class="fa fa-reply"></i> ย้อนกลับ</button>
+                                <button class="btn btn-info" title="ย้อนกลับ" id="bt_add_data" onclick="window.location.href='<?php echo base_url('setting_accused_type/dashboard'.$param_back)?>';"><i class="fa fa-reply"></i> ย้อนกลับ</button>
                             <?php }else{?>
                                 <button class="btn btn-info" title="ย้อนกลับ" id="bt_add_data" onclick="window.location.href='<?php echo base_url('setting_system')?>';"><i class="fa fa-reply"></i> ย้อนกลับ</button>
                             <?php } ?>
@@ -62,20 +65,19 @@ echo script_tag($link);
                             </thead>
                             <tbody>
                             <?php
+                            //echo @$data_parent['parent_id'].'<hr>';
                             if(!@$data['message']) {
                                 $start_row = 1;
                                 foreach($data AS $val) {
-                                    if (@$_GET['type'] == '') {
-                                        $link_data = 'onclick="window.location.href=\'' . base_url('setting_accused_type/dashboard?type=parent&parent_id=' . @$val['accused_type_id']) . '\'"';
-                                        $link_data .= 'style="cursor: pointer;"';
-                                    }
+                                    $link_data = 'onclick="window.location.href=\'' . base_url('setting_accused_type/dashboard?type=parent&parent_id=' . @$val['accused_type_id']) . '\'"';
+                                    $link_data .= 'style="cursor: pointer;"';
                                     ?>
                                     <tr>
                                         <td class="text-center" <?php echo @$link_data; ?>><?php echo $start_row++; ?></td>
                                         <td class="text-center" <?php echo @$link_data; ?>><?php echo $val['accused_type_id'];?></td>
                                         <td <?php echo @$link_data; ?>><?php echo $val['accused_type'];?></td>
                                         <td class="text-center">
-                                            <span onclick="window.location.href='<?php echo base_url('setting_accused_type/add/'.$val['accused_type_id'])?>';">
+                                            <span onclick="window.location.href='<?php echo base_url('setting_accused_type/add/'.$val['accused_type_id'].$param_add)?>';">
                                                 <i class="fa fa-pencil" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;" title="แก้ไข"></i>
                                             </span>
                                             <span class="bt_delete" id="<?php echo $val['accused_type_id'];?>" onclick="bt_delete(<?php echo $val['accused_type_id'];?>)">
