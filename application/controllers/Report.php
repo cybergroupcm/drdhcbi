@@ -55,7 +55,7 @@ class Report extends CI_Controller {
         //echo $param_get;exit;
         $arr_data['param_get'] = $param_get;
 
-        $url = base_url('api/dropdown/complain_type_lists');
+        $url = base_url("api/dropdown/complain_type_lists/parent_id/0");
         $arr_data['complaint_type'] = api_call_get($url);
         $url = base_url('api/dropdown/channel_lists');
         $arr_data['channel'] = api_call_get($url);
@@ -96,7 +96,7 @@ class Report extends CI_Controller {
         $param .= ($_GET['complaint_date_start'] !="")?"/complaint_date_start/".$_GET['complaint_date_start']:"";
         $param .= ($_GET['complaint_date_end'] !="")?"/complaint_date_end/".$_GET['complaint_date_end']:"";
 
-        $url = base_url('api/dropdown/complain_type_lists');
+        $url = base_url("api/dropdown/complain_type_lists/parent_id/0");
         $arr_data['complaint_type'] = api_call_get($url);
         $url = base_url('api/dropdown/channel_lists');
         $arr_data['channel'] = api_call_get($url);
@@ -129,7 +129,7 @@ class Report extends CI_Controller {
         $param .= ($_GET['complaint_date_start'] !="")?"/complaint_date_start/".$_GET['complaint_date_start']:"";
         $param .= ($_GET['complaint_date_end'] !="")?"/complaint_date_end/".$_GET['complaint_date_end']:"";
 
-        $url = base_url('api/dropdown/complain_type_lists');
+        $url = base_url("api/dropdown/complain_type_lists/parent_id/0");
         $arr_data['complaint_type'] = api_call_get($url);
         $url = base_url('api/dropdown/channel_lists');
         $arr_data['channel'] = api_call_get($url);
@@ -200,7 +200,7 @@ class Report extends CI_Controller {
         $param .= ($_GET['district_id'] !="")?"/district_id/".$_GET['district_id']:"";
         $param .= ($_GET['address_id'] !="")?"/address_id/".$_GET['address_id']:"";
 
-        $url = base_url("api/dropdown/complain_type_lists");
+        $url = base_url("api/dropdown/complain_type_lists/parent_id/0");
         $arr_data['complain_type'] = api_call_get($url);
 
         $url = base_url()."api/report/month_report/".$_GET['year'];
@@ -315,7 +315,7 @@ class Report extends CI_Controller {
         $param .= ($_GET['district_id'] !="")?"/district_id/".$_GET['district_id']:"";
         $param .= ($_GET['address_id'] !="")?"/address_id/".$_GET['address_id']:"";
 
-        $url = base_url("api/dropdown/complain_type_lists");
+        $url = base_url("api/dropdown/complain_type_lists/parent_id/0");
         $arr_data['complain_type'] = api_call_get($url);
 
         $url = base_url()."api/report/month_report/".$_GET['year'];
@@ -354,7 +354,7 @@ class Report extends CI_Controller {
         $param .= ($_GET['district_id'] !="")?"/district_id/".$_GET['district_id']:"";
         $param .= ($_GET['address_id'] !="")?"/address_id/".$_GET['address_id']:"";
 
-        $url = base_url("api/dropdown/complain_type_lists");
+        $url = base_url("api/dropdown/complain_type_lists/parent_id/0");
         $arr_data['complain_type'] = api_call_get($url);
 
         $url = base_url()."api/report/month_report/".$_GET['year'];

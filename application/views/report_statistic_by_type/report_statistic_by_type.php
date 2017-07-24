@@ -121,8 +121,20 @@ foreach($month_report AS $key2=>$month){
     }
 }
 
+function random_color_part() {
+    return str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT);
+}
+
+function random_color() {
+    return random_color_part() . random_color_part() . random_color_part();
+}
+
+//echo random_color();
+
 $data_value = '';
-$color = array('#00C0EF','#DD4B39','#F39C12','#0073B7','#00A65A');
+$color = array('#00C0EF','#DD4B39','#F39C12','#0073B7','#00A65A','#F06292','#FFFF00','#800000','#00FF00','#008080','#800080','#F1948A');
+
+$i=0;
 foreach($complain_type AS $key=>$val){
     $data_value .= '{data: [';
     $sum_type = 0;
@@ -131,9 +143,10 @@ foreach($complain_type AS $key=>$val){
         $data_value .=  $sum_type.',';
     }
     $data_value .= '],
-                backgroundColor: "'.$color[$key].'",
+                backgroundColor: "'.$color[$i].'",
                 label:"'.$val.'"
                 },';
+    $i++;
 }
 ?>
 <?php
