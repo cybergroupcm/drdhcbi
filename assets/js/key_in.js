@@ -119,13 +119,7 @@ function validateForm(action_to,type) {
             text_warning += " - ลักษณะเรื่อง\n";
         }
 
-        var accused_type = 0;
-        $(".accused_type").each(function (index) {
-            if ($(this).is(':checked') === true) {
-                accused_type++;
-            }
-        });
-        if (accused_type == 0) {
+        if ($('#accused_type_id').val() == '') {
             text_warning += " - หน่วยงานหรือผู้ถูกร้องเรียนร้องทุกข์\n";
         }
 
@@ -277,6 +271,37 @@ function get_subdistrict(value,defaule_value){
         });
     }
 }
+var count_accused = 0;
+function get_accused_child(ele){
+    var value = ele.value;
+    $('#accused_type_id').val(value);
+    if($('#'+ele.id).attr('has_child') != '') {
+        $('#' + $('#' + ele.id).attr('has_child')).html('');
+    }
+    if(value!=''){
+        count_accused++;
+        var url = base_url+'complaint/get_accused_child/'+value+'/'+count_accused;  //the url to call
+        $.post(url, {data: ''}, function (data) {
+            $('#' + $('#' + ele.id).attr('has_child')).append(data);
+        });
+    }
+}
+
+var count_complain_type = 0;
+function get_complain_type_child(ele){
+    var value = ele.value;
+    $('#complain_type_id').val(value);
+    if($('#'+ele.id).attr('has_child') != '') {
+        $('#' + $('#' + ele.id).attr('has_child')).html('');
+    }
+    if(value!=''){
+        count_complain_type++;
+        var url = base_url+'complaint/get_complain_type_child/'+value+'/'+count_complain_type;  //the url to call
+        $.post(url, {data: ''}, function (data) {
+            $('#' + $('#' + ele.id).attr('has_child')).append(data);
+        });
+    }
+}
 
 $(document).ready(function () {
     $('.datepicker').datepicker({
@@ -289,6 +314,9 @@ $(document).ready(function () {
         todayHighlight: true
     });
     $('.datepicker').each(function(){
+        $(this).datepicker('update', $(this).val());
+    });
+    $('.datepicker').blur(function(){
         $(this).datepicker('update', $(this).val());
     });
     changeUserComplain();
