@@ -131,7 +131,11 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="col-sm-12">
-                                        ประเภทเรื่องร้องทุกข์ : <span style="font-weight: normal;"><?php echo $complain_type[@$key_in_data['complain_type_id']];?></span>
+                                        ประเภทเรื่องร้องทุกข์ : <span style="font-weight: normal;"><?php
+                                            foreach(@$get_complain_type as $key => $value){
+                                                echo @$complain_type[$value]." ";
+                                            }
+                                            ?></span>
                                     </label>
                                 </div>
                             </div>
@@ -323,20 +327,27 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="col-sm-12">
-                                        หน่วยงานภายใน
+                                        หน่วยงาน
+                                        <span style="font-weight: normal;">
+                                            <?php
+                                            foreach(@$get_accused_type as $key => $value){
+                                                echo @$accused_type_all[$value]." ";
+                                            }
+                                            ?>
+                                        </span>
                                     </label>
                                 </div>
-                                <table id="example1" class="table table-bordered table-striped dataTable">
+                                <!--table id="example1" class="table table-bordered table-striped dataTable">
                                     <tr>
                                         <th class="text-center">&nbsp;</th>
                                     </tr>
                                     <tr>
                                         <td></td>
                                     </tr>
-                                </table>
+                                </table-->
                             </div>
                         </div>
-                        <div class="row">
+                        <!--div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="col-sm-12">
@@ -345,7 +356,7 @@
                                     </label>
                                 </div>
                             </div>
-                        </div>
+                        </div-->
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">

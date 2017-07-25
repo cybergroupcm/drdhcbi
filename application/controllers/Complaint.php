@@ -10,7 +10,7 @@ class Complaint extends CI_Controller
 
         /* Load :: Common */
         $this->load->helper(array('form'));
-        $this->load->library(array('my_mpdf'));
+        $this->load->library(array('my_mpdf','accused_type','complain_type'));
         if ( ! $this->ion_auth->logged_in() || !$this->api_auth->logged_in())
         {
             redirect('alert', 'refresh');
@@ -20,11 +20,6 @@ class Complaint extends CI_Controller
     public function key_in($step = 'key_in_step1', $id = '')
     {
         $arr_data['step'] = str_replace('key_in_step', '', $step);
-        $url = base_url("api/dropdown/complain_type_lists");
-        $arr_data['complain_type'] = api_call_get($url);
-
-        $url = base_url("api/dropdown/accused_type_lists");
-        $arr_data['accused_type'] = api_call_get($url);
 
         $url = base_url("api/dropdown/channel_lists");
         $arr_data['channel'] = api_call_get($url);
@@ -42,7 +37,45 @@ class Complaint extends CI_Controller
             $url = base_url("api/complaint/key_in/" . $id);
             $arr_data['key_in_data'] = api_call_get($url);
             $arr_data['id'] = $id;
+
+            $url = base_url("api/dropdown/accused_type_lists/0");
+            $arr_data['accused_type'][] = api_call_get($url);
+            if($arr_data['key_in_data']['accused_type_id']!='') {
+                $arr_data['get_accused_type'] = $this->accused_type->sort_accused($arr_data['key_in_data']['accused_type_id']);
+                foreach ($arr_data['get_accused_type'] as $key => $value) {
+                    $url = base_url("api/dropdown/accused_type_lists/" . $value);
+                    $accused_type = api_call_get($url);
+                    if (!array_key_exists('message', $accused_type)) {
+                        $arr_data['accused_type'][] = $accused_type;
+                    }
+                }
+            }
+
+            $url = base_url("api/dropdown/complain_type_lists//parent_id/0");
+            $arr_data['complain_type'][] = api_call_get($url);
+            if($arr_data['key_in_data']['accused_type_id']!='') {
+                $arr_data['get_complain_type'] = $this->complain_type->sort_complain_type($arr_data['key_in_data']['complain_type_id']);
+                foreach ($arr_data['get_complain_type'] as $key => $value) {
+                    $url = base_url("api/dropdown/complain_type_lists//parent_id/" . $value);
+                    $complain_type = api_call_get($url);
+                    if (!array_key_exists('message', $complain_type)) {
+                        $arr_data['complain_type'][] = $complain_type;
+                    }
+                }
+            }
+        }else{
+            $url = base_url("api/dropdown/accused_type_lists/0");
+            $arr_data['accused_type'][] = api_call_get($url);
+
+            $url = base_url("api/dropdown/complain_type_lists/0");
+            $arr_data['complain_type'][] = api_call_get($url);
         }
+
+        $url = base_url("api/dropdown/accused_type_lists");
+        $arr_data['accused_type_all'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/complain_type_lists");
+        $arr_data['complain_type_all'] = api_call_get($url);
 
         $url = base_url("api/dropdown/ccaa_lists/Changwat");
         $arr_data['province_list'] = api_call_get($url);
@@ -206,6 +239,10 @@ class Complaint extends CI_Controller
     {
         $url = base_url("api/complaint/key_in/" . $id);
         $arr_data['key_in_data'] = api_call_get($url);
+
+        $arr_data['get_accused_type'] = $this->accused_type->sort_accused($arr_data['key_in_data']['accused_type_id']);
+        $arr_data['get_complain_type'] = $this->complain_type->sort_complain_type($arr_data['key_in_data']['complain_type_id']);
+
         $url = base_url("api/complaint/user_detail/idcard/".$arr_data['key_in_data']['id_card']);
         $arr_data['user_detail'] = api_call_get($url);
         $url = base_url("api/complaint/user_detail/id/".$arr_data['key_in_data']['create_user_id']);
@@ -224,6 +261,8 @@ class Complaint extends CI_Controller
         $arr_data['current_status'] = api_call_get($url);
         $url = base_url("api/complaint/result/".$id);
         $arr_data['result'] = api_call_get($url);
+        $url = base_url("api/dropdown/accused_type_lists");
+        $arr_data['accused_type_all'] = api_call_get($url);
         //echo"<pre>";print_r($arr_data['result']);echo"</pre>";
         $this->libraries->template('complaint/view_detail', $arr_data);
     }
@@ -258,6 +297,10 @@ class Complaint extends CI_Controller
         //load the view and saved it into $html variable
         $url = base_url("api/complaint/key_in/" . $id);
         $arr_data['key_in_data'] = api_call_get($url);
+
+        $arr_data['get_accused_type'] = $this->accused_type->sort_accused($arr_data['key_in_data']['accused_type_id']);
+        $arr_data['get_complain_type'] = $this->complain_type->sort_complain_type($arr_data['key_in_data']['complain_type_id']);
+
         $url = base_url("api/complaint/user_detail/idcard/".$arr_data['key_in_data']['id_card']);
         $arr_data['user_detail'] = api_call_get($url);
         $url = base_url("api/complaint/user_detail/id/".$arr_data['key_in_data']['create_user_id']);
@@ -276,6 +319,8 @@ class Complaint extends CI_Controller
         $arr_data['current_status'] = api_call_get($url);
         $url = base_url("api/complaint/result/".$id);
         $arr_data['result'] = api_call_get($url);
+        $url = base_url("api/dropdown/accused_type_lists");
+        $arr_data['accused_type_all'] = api_call_get($url);
         $html = $this->load->view('complaint/pdf_detail', $arr_data, true);
         // As PDF creation takes a bit of memory, we're saving the created file in /downloads/reports/
 
@@ -286,5 +331,20 @@ class Complaint extends CI_Controller
         $this->my_mpdf->WriteHTML($html, 2);
         $this->my_mpdf->Output('example_mpdf.pdf', 'I');
         exit;
+    }
+
+    public function get_accused_child($id,$count_acc)
+    {
+        $url = base_url("api/dropdown/accused_type_lists/".$id);
+        $arr_data['accused_type_lists'] = api_call_get($url);
+        $arr_data['count_acc'] = $count_acc;
+        $this->load->view('complaint/get_accused_child', $arr_data);
+    }
+    public function get_complain_type_child($id,$count_type)
+    {
+        $url = base_url("api/dropdown/complain_type_lists//parent_id/".$id);
+        $arr_data['complain_type_lists'] = api_call_get($url);
+        $arr_data['count_type'] = $count_type;
+        $this->load->view('complaint/get_complain_type_child', $arr_data);
     }
 }

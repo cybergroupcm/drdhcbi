@@ -99,7 +99,11 @@
                         <tr>
                             <td colspan="3" style="text-align: left;">
                                 ประเภทเรื่องร้องทุกข์ :
-                                <span style="font-weight: normal;"><?php echo @$key_in_data['complaint_type'][1]['complain_type_name'];?></span>
+                                <span style="font-weight: normal;"><?php
+                                    foreach(@$get_complain_type as $key => $value){
+                                        echo @$complain_type[$value]." ";
+                                    }
+                                    ?></span>
                             </td>
                         </tr>
                         <tr>
@@ -223,7 +227,14 @@
                         </tr>
                         <tr>
                             <td colspan="3" style="text-align: left;">
-                                หน่วยงานภายใน
+                                หน่วยงาน
+                                <span style="font-weight: normal;">
+                                    <?php
+                                    foreach(@$get_accused_type as $key => $value){
+                                        echo @$accused_type_all[$value]." ";
+                                    }
+                                    ?>
+                                </span>
                             </td>
                         </tr>
                         <tr>
@@ -238,12 +249,12 @@
                                 </table-->
                             </td>
                         </tr>
-                        <tr>
+                        <!--tr>
                             <td colspan="3" style="text-align: left;">
                                 หน่วยงานที่เกี่ยวข้อง :
                                 <span style="font-weight: normal;"></span>
                             </td>
-                        </tr>
+                        </tr-->
                         <tr>
                             <td colspan="3" style="text-align: left;">
                                 <br>
