@@ -81,7 +81,25 @@ class Report extends CI_Controller {
 
         $url = base_url("api/report/report_all_complaint".$param);
         $arr_data['data'] = api_call_get($url);
+
+        $arr_parent = array();
+        foreach($arr_data['complaint_type'] AS $key=>$val){
+            $url = base_url("api/dropdown/complain_type_lists/parent_id/".$key);
+            $arr_parent[$key] = api_call_get($url);
+        }
+
+        $arr_type = array();
+        foreach ($arr_parent AS $key2 => $val2) {
+            foreach($arr_data['channel'] AS $key => $val) {
+                $arr_type[$key2][$key] = $arr_data['data'][$key2][$key];
+                foreach ($val2 AS $key3 => $val3) {
+                    $arr_type[$key2][$key] += $arr_data['data'][$key3][$key];
+                }
+            }
+        }
+        $arr_data['data'] = $arr_type;
         //echo"<pre>";print_r($arr_data['data']);echo"</pre>";
+        //exit;
         $this->libraries->template('report_all_complaint/report_all_complaint', $arr_data);
     }
 
@@ -102,6 +120,24 @@ class Report extends CI_Controller {
         $arr_data['channel'] = api_call_get($url);
         $url = base_url()."api/report/report_all_complaint".$param;
         $arr_data['data'] = api_call_get($url);
+
+        $arr_parent = array();
+        foreach($arr_data['complaint_type'] AS $key=>$val){
+            $url = base_url("api/dropdown/complain_type_lists/parent_id/".$key);
+            $arr_parent[$key] = api_call_get($url);
+        }
+
+        $arr_type = array();
+        foreach ($arr_parent AS $key2 => $val2) {
+            foreach($arr_data['channel'] AS $key => $val) {
+                $arr_type[$key2][$key] = $arr_data['data'][$key2][$key];
+                foreach ($val2 AS $key3 => $val3) {
+                    $arr_type[$key2][$key] += $arr_data['data'][$key3][$key];
+                }
+            }
+        }
+        $arr_data['data'] = $arr_type;
+
         $html=$this->load->view('report_all_complaint/report_all_complaint_pdf',$arr_data, true);
         // As PDF creation takes a bit of memory, we're saving the created file in /downloads/reports/
 //        echo "<pre>";
@@ -135,6 +171,24 @@ class Report extends CI_Controller {
         $arr_data['channel'] = api_call_get($url);
         $url = base_url()."api/report/report_all_complaint".$param;
         $arr_data['data'] = api_call_get($url);
+
+        $arr_parent = array();
+        foreach($arr_data['complaint_type'] AS $key=>$val){
+            $url = base_url("api/dropdown/complain_type_lists/parent_id/".$key);
+            $arr_parent[$key] = api_call_get($url);
+        }
+
+        $arr_type = array();
+        foreach ($arr_parent AS $key2 => $val2) {
+            foreach($arr_data['channel'] AS $key => $val) {
+                $arr_type[$key2][$key] = $arr_data['data'][$key2][$key];
+                foreach ($val2 AS $key3 => $val3) {
+                    $arr_type[$key2][$key] += $arr_data['data'][$key3][$key];
+                }
+            }
+        }
+        $arr_data['data'] = $arr_type;
+
         $this->load->view('report_all_complaint/report_all_complaint_excel',$arr_data);
     }
 
@@ -208,6 +262,23 @@ class Report extends CI_Controller {
 
         $url = base_url()."api/report/report_statistic_by_type".$param;
         $arr_data['report_type'] = api_call_get($url);
+
+        $arr_parent = array();
+        foreach($arr_data['complain_type'] AS $key=>$val){
+            $url = base_url("api/dropdown/complain_type_lists/parent_id/".$key);
+            $arr_parent[$key] = api_call_get($url);
+        }
+
+        $arr_type = array();
+        foreach ($arr_parent AS $key2 => $val2) {
+            foreach($arr_data['month_report'] AS $key => $val) {
+                $arr_type[$key2][$key] = $arr_data['report_type'][$key2][$key];
+                foreach ($val2 AS $key3 => $val3) {
+                    $arr_type[$key2][$key] += $arr_data['report_type'][$key3][$key];
+                }
+            }
+        }
+        $arr_data['report_type'] = $arr_type;
 
         $url = base_url()."api/report/report_statistic_by_type_max/".$_GET['year'];
         $arr_data['report_type_max'] = api_call_get($url);
@@ -324,6 +395,23 @@ class Report extends CI_Controller {
         $url = base_url()."api/report/report_statistic_by_type".$param;
         $arr_data['report_type'] = api_call_get($url);
 
+        $arr_parent = array();
+        foreach($arr_data['complain_type'] AS $key=>$val){
+            $url = base_url("api/dropdown/complain_type_lists/parent_id/".$key);
+            $arr_parent[$key] = api_call_get($url);
+        }
+
+        $arr_type = array();
+        foreach ($arr_parent AS $key2 => $val2) {
+            foreach($arr_data['month_report'] AS $key => $val) {
+                $arr_type[$key2][$key] = $arr_data['report_type'][$key2][$key];
+                foreach ($val2 AS $key3 => $val3) {
+                    $arr_type[$key2][$key] += $arr_data['report_type'][$key3][$key];
+                }
+            }
+        }
+        $arr_data['report_type'] = $arr_type;
+
         $url = base_url()."api/report/report_statistic_by_type_max/".$_GET['year'];
         $arr_data['report_type_max'] = api_call_get($url);
 
@@ -362,6 +450,23 @@ class Report extends CI_Controller {
 
         $url = base_url()."api/report/report_statistic_by_type".$param;
         $arr_data['report_type'] = api_call_get($url);
+
+        $arr_parent = array();
+        foreach($arr_data['complain_type'] AS $key=>$val){
+            $url = base_url("api/dropdown/complain_type_lists/parent_id/".$key);
+            $arr_parent[$key] = api_call_get($url);
+        }
+
+        $arr_type = array();
+        foreach ($arr_parent AS $key2 => $val2) {
+            foreach($arr_data['month_report'] AS $key => $val) {
+                $arr_type[$key2][$key] = $arr_data['report_type'][$key2][$key];
+                foreach ($val2 AS $key3 => $val3) {
+                    $arr_type[$key2][$key] += $arr_data['report_type'][$key3][$key];
+                }
+            }
+        }
+        $arr_data['report_type'] = $arr_type;
 
         $url = base_url()."api/report/report_statistic_by_type_max/".$_GET['year'];
         $arr_data['report_type_max'] = api_call_get($url);

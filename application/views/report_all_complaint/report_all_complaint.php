@@ -118,18 +118,31 @@ foreach($complaint_type AS $key=>$value){
 }
 
 $data_value = '';
-$color = array('#00C0EF','#DD4B39','#F39C12','#0073B7','#00A65A','#FF3333','#CC6633','#6600CC','#0033CC','#006400','#FF7F50');
-foreach($channel AS $key=>$val){
-    $data_value .= '{data: [';
-    $sum_type = 0;
-    foreach($complaint_type AS $key2=>$val2){
-        $sum_type = (@$data[$key2][$key])?@$data[$key2][$key]:'0';
-        $data_value .=  $sum_type.',';
-    }
-    $data_value .= '],
-                backgroundColor: "'.$color[$key].'",
-                label:"'.$val.'"
-                },';
+$color = array('#00C0EF','#DD4B39','#F39C12','#0073B7','#00A65A','#F06292','#FFFF00','#800000','#00FF00','#008080','#800080','#F1948A');
+$data_value .= '{data: [';
+$sum_type = 0;
+//echo '<pre>'; print_r($channel); echo '</pre>';
+foreach($channel AS $key2=>$val2){
+    $sum_type = (@$data['sum_all'][$key2])?@$data['sum_all'][$key2]:'0';
+    $data_value .=  $sum_type.',';
+}
+$data_value .= '],
+            backgroundColor: "#0073B7",
+            label:"ช่องทางการร้องทุกข์"
+            },';
+
+function substr_utf8( $str, $start_p , $len_p){
+    return preg_replace( '#^(?:[\x00-\x7F]|[\xC0-\xFF][\x80-\xBF]+){0,'.$start_p.'}'.'((?:[\x00-\x7F]|[\xC0-\xFF][\x80-\xBF]+){0,'.$len_p.'}).*#s','$1' , $str );
+}
+
+$arr_channel = array();
+$i=0;
+foreach($channel AS $key=>$val) {
+    $newtext = substr_utf8($val,0,13);
+    $arr_channel[$i]['channel_id'] = $key;
+    $arr_channel[$i]['channel_name_shrot'] = $newtext.'...';
+    $arr_channel[$i]['channel_name'] = $val;
+    $i++;
 }
 ?>
 <?php
@@ -153,6 +166,10 @@ echo script_tag($link);
     var randomScalingFactor = function() {
         return Math.round(Math.random() * 100);
     };
+
+    var  arr_channel= '<?php echo json_encode($arr_channel);?>';
+    var  channel = JSON.parse(arr_channel);
+
     var config = {
         type: 'bar',
         data: {
@@ -160,8 +177,8 @@ echo script_tag($link);
             ],
             labels: [
                 <?php
-                foreach($arr_max_data AS $key=>$val){
-                    echo "'".$val."',";
+                foreach($arr_channel AS $key=>$val){
+                    echo "'".$val['channel_name_shrot']."',";
                 }
                 ?>
             ]
@@ -178,9 +195,26 @@ echo script_tag($link);
             animation: {
                 animateScale: true,
                 animateRotate: true
+            },
+            tooltips: {
+                callbacks: {
+                    title: function(tooltipItems, data) {
+                        // Pick first xLabel for now
+                        var title = '';
+                        if (tooltipItems.length > 0) {
+                           title = channel[tooltipItems[0].index].channel_name;
+                        }
+                        return title;
+                    },
+                    label: function(tooltipItem, data) {
+                        var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || '';
+                        return datasetLabel + ':' + tooltipItem.yLabel;
+                    }
+                }
             }
         }
     };
+
     window.onload = function() {
         var ctx = document.getElementById("barChart").getContext("2d");
         window.myDoughnut = new Chart(ctx,config);

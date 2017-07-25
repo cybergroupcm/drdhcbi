@@ -19,7 +19,9 @@ echo script_tag($link);
                         <tr>
                             <th class="text-center" style="vertical-align: middle;text-align: center;border: 1px solid black;border-width:thin;" rowspan="2">ประเภทเรื่องร้องทุกข์</th>
                             <th class="text-center" style="vertical-align: middle;text-align: center;border: 1px solid black;border-width:thin;padding: 5px;" colspan="<?php echo count(@$month_report);?>">สถิติรายเดือน</th>
-                            <th class="text-center" style="vertical-align: middle;text-align: center;border: 1px solid black;border-width:thin;width: 6%;" rowspan="2">รวม</th>
+                            <th class="text-center" style="vertical-align: middle;text-align: center;border: 1px solid black;border-width:thin;width: 6%;" rowspan="2">
+                                &nbsp;&nbsp;&nbsp;&nbsp;รวม&nbsp;&nbsp;&nbsp;&nbsp;
+                            </th>
                         </tr>
                         <tr>
                             <?php
