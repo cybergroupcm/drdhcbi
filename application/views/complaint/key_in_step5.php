@@ -185,7 +185,11 @@ if(@$_GET['debug']=='on'){
                             ประเภทเรื่อง :
                         </label>
                         <span class="col-sm-7">
-                            <?php echo @$complain_type[$key_in_data['complain_type_id']]; ?>
+                            <?php
+                            foreach($get_complain_type as $key => $value){
+                                echo @$complain_type_all[$value]." ";
+                            }
+                            ?>
                         </span>
                     </div>
                 </div>
@@ -241,7 +245,11 @@ if(@$_GET['debug']=='on'){
                             หน่วยงานหรือผู้ถูกร้องเรียนร้องทุกข์ :
                         </label>
                         <span class="col-sm-7">
-                            <?php echo @$accused_type[$key_in_data['accused_type_id']]; ?>
+                            <?php
+                            foreach($get_accused_type as $key => $value){
+                                echo @$accused_type_all[$value]." ";
+                            }
+                            ?>
                         </span>
                     </div>
                 </div>

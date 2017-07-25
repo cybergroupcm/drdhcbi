@@ -13,6 +13,8 @@ class Complaint extends REST_Controller
         $this->load->model('data/User_model');
         $this->load->model('data/Result_attach_file_model');
         $this->load->model('data/Attach_file_model');
+        $this->load->model('master/Accused_type_model');
+        $this->load->model('master/Complain_type_model');
         $this->load->helper('file','url','api');
     }
 
@@ -211,7 +213,6 @@ class Complaint extends REST_Controller
 
     public function key_in_post()
     {
-        header('Access-Control-Allow-Origin: *');
         $user = $this->jwt_decode($this->jwt_token());
         $data = $this->post();
         if (array_key_exists('userid', $user)) {
@@ -569,6 +570,60 @@ class Complaint extends REST_Controller
             $this->response($result_data, REST_Controller::HTTP_OK);
         }else{
             $this->response($user_id, REST_Controller::HTTP_NOT_FOUND);
+        }
+    }
+
+    public function user_detail_get()
+    {
+        $id = @$this->get('id');
+        $idcard = @$this->get('idcard');
+        $where = '';
+        if($id != ''){
+            $where .= " AND id = '".$id."' ";
+        }
+        if($idcard != ''){
+            $where .= " AND idcard = '".$idcard."' ";
+        }
+        $sql = "SELECT
+                    first_name,
+                    last_name,
+                    company,
+                    phone,
+                    idcard,
+                    prename_th,
+                    address,
+                    address_id,
+                    gender,
+                    position
+                FROM
+                    au_users
+                WHERE 1=1 ".$where;
+        $query = $this->User_model->sql_query($sql)->row_array();
+        $result_data = $query;
+        $this->response($result_data, REST_Controller::HTTP_OK);
+    }
+
+    public function accused_type_get($id){
+        $types = $this->Accused_type_model->where('accused_type_id', $id)->get();
+        // Check if the users data store contains users (in case the database result returns NULL)
+        if ($types) {
+            // Set the response and exit
+            $this->response($types, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        } else {
+            // Set the response and exit
+            $this->response('', REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
+    public function complain_type_get($id){
+        $types = $this->Complain_type_model->where('complain_type_id', $id)->get();
+        // Check if the users data store contains users (in case the database result returns NULL)
+        if ($types) {
+            // Set the response and exit
+            $this->response($types, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        } else {
+            // Set the response and exit
+            $this->response('', REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
         }
     }
 }

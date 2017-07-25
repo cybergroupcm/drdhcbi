@@ -88,7 +88,7 @@
                             <td></td>
                             <td style="text-align: right;">
                                 ผู้บันทึก :
-                                <span style="font-weight: normal;"></span>
+                                <span style="font-weight: normal;"><?php echo $create_user_detail['prename_th'].$create_user_detail['first_name']." ".$create_user_detail['last_name']; ?></span>
                             </td>
                         </tr>
                         <tr>
@@ -99,7 +99,11 @@
                         <tr>
                             <td colspan="3" style="text-align: left;">
                                 ประเภทเรื่องร้องทุกข์ :
-                                <span style="font-weight: normal;"><?php echo @$key_in_data['complaint_type'][1]['complain_type_name'];?></span>
+                                <span style="font-weight: normal;"><?php
+                                    foreach(@$get_complain_type as $key => $value){
+                                        echo @$complain_type[$value]." ";
+                                    }
+                                    ?></span>
                             </td>
                         </tr>
                         <tr>
@@ -130,13 +134,13 @@
                             <td colspan="3" style="text-align: left;">
                                 <br>
                                 ผู้ร้องทุกข์ :
-                                <span style="font-weight: normal;"></span>
+                                <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'ไม่ประสงค์ออกนาม':''?></span>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="3" style="text-align: left;">
                                 เลขบัตรประจำตัวประชาชน :
-                                <span style="font-weight: normal;"><?php echo @$key_in_data['id_card'];?></span>
+                                <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'':@$key_in_data['id_card'];?></span>
                             </td>
                         </tr>
                         <tr>
@@ -145,58 +149,58 @@
                                 <span style="font-weight: normal;">
                                     <?php
                                     $full_accused_name = @$key_in_data['title_name'][0]['prename'].@$key_in_data['first_name'].'  '.@$key_in_data['last_name'];
-                                    echo $full_accused_name;
+                                    echo (@$key_in_data['user_complain_type_id']=='1')?'':$full_accused_name;
                                     ?>
                                 </span>
                             </td>
                             <td colspan="2" style="text-align: left;">
-                                อายุ :
+                                <!--อายุ :-->
                                 <span style="font-weight: normal;"></span>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="3" style="text-align: left;">
                                 ที่อยู่ปัจจุบันที่สามารถติดต่อได้ :
-                                <span style="font-weight: normal;"></span>
+                                <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'':@$user_detail['address']; ?></span>
                             </td>
                         </tr>
                         <tr>
                             <td style="text-align: left;">
                                 ตำบล/แขวง :
-                                <span style="font-weight: normal;"></span>
+                                <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'':$subdistrict_list[@$user_detail['address_id']]?></span>
                             </td>
                             <td colspan="2" style="text-align: left;">
                                 อำเภอ/เขต :
-                                <span style="font-weight: normal;"></span>
+                                <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'':$district_list[@substr($user_detail['address_id'],0,4).'0000']?></span>
                             </td>
                         </tr>
                         <tr>
                             <td style="text-align: left;">
                                 จังหวัด :
-                                <span style="font-weight: normal;"></span>
+                                <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'':$province_list[@substr($user_detail['address_id'],0,3).'00000']?></span>
                             </td>
                             <td colspan="2" style="text-align: left;">
-                                รหัสไปรษณีย์ :
+                                <!--รหัสไปรษณีย์ :-->
                                 <span style="font-weight: normal;"></span>
                             </td>
                         </tr>
                         <tr>
                             <td style="text-align: left;">
                                 เบอร์โทรศัพท์ :
-                                <span style="font-weight: normal;"></span>
+                                <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'':@$user_detail['phone']; ?></span>
                             </td>
                             <td colspan="2" style="text-align: left;">
                                 เบอร์โทรศัพท์มือถือ :
-                                <span style="font-weight: normal;"><?php echo @$key_in_data['phone_number'];?></span>
+                                <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'':@$key_in_data['phone_number'];?></span>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="3" style="text-align: left;">
-                                เบอร์โทรสาร :
+                                <!--เบอร์โทรสาร :-->
                                 <span style="font-weight: normal;"></span>
                             </td>
                         </tr>
-                        <tr>
+                        <!--tr>
                             <td colspan="3" style="text-align: left;">
                                 ประเภทเรื่องร้องทุกข์หลัก :
                                 <span style="font-weight: normal;"></span>
@@ -213,7 +217,7 @@
                                 สาเหตุเรื่องร้องทุกข์ :
                                 <span style="font-weight: normal;"></span>
                             </td>
-                        </tr>
+                        </tr-->
                         <tr>
                             <td colspan="3" style="text-align: left;">
                                 <br>
@@ -223,27 +227,34 @@
                         </tr>
                         <tr>
                             <td colspan="3" style="text-align: left;">
-                                หน่วยงานภายใน
+                                หน่วยงาน
+                                <span style="font-weight: normal;">
+                                    <?php
+                                    foreach(@$get_accused_type as $key => $value){
+                                        echo @$accused_type_all[$value]." ";
+                                    }
+                                    ?>
+                                </span>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="3" style="text-align: left;">
-                                <table style="width: 100%;border-collapse: collapse;">
+                                <!--table style="width: 100%;border-collapse: collapse;">
                                     <tr>
                                         <th style="text-align: center;border: 1px solid black;">กรม</th>
                                     </tr>
                                     <tr>
                                         <td style="text-align: left;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;vertical-align: top;">&nbsp;</td>
                                     </tr>
-                                </table>
+                                </table-->
                             </td>
                         </tr>
-                        <tr>
+                        <!--tr>
                             <td colspan="3" style="text-align: left;">
                                 หน่วยงานที่เกี่ยวข้อง :
                                 <span style="font-weight: normal;"></span>
                             </td>
-                        </tr>
+                        </tr-->
                         <tr>
                             <td colspan="3" style="text-align: left;">
                                 <br>
@@ -282,7 +293,7 @@
                         <tr>
                             <td colspan="3" style="text-align: left;">
                                 เหตุการณ์พฤติการณ์ :
-                                <span style="font-weight: normal;"></span>
+                                <span style="font-weight: normal;"><?php echo @$key_in_data['complaint_detail'];?></span>
                             </td>
                         </tr>
                         <tr>
@@ -330,20 +341,44 @@
                                         <th width="20%" style="text-align: center;border: 1px solid black;">สถานภาพการดำเนินการ</th>
                                         <th width="12%" style="text-align: center;border: 1px solid black;">วันที่ดำเนินการ</th>
                                         <th width="25%" style="text-align: center;border: 1px solid black;">รายละเอียด</th>
-                                        <th width="12%" style="text-align: center;border: 1px solid black;">จำนวนเงินชดเชย</th>
+                                        <!--th width="12%" style="text-align: center;border: 1px solid black;">จำนวนเงินชดเชย</th-->
                                         <th width="18%" style="text-align: center;border: 1px solid black;">ผู้รับผิดชอบ</th>
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    <?php
+                                    $runno = 0;
+                                    foreach($current_status AS $key => $value) {
+                                    if($key <= @$key_in_data['current_status_id'] ) {
+                                    $runno++;
+                                    $event_date = '';
+                                    $detail = '';
+                                    $update_user = $update_user_detail['prename_th'].$update_user_detail['first_name']." ".$update_user_detail['last_name'];
+                                    if($key == '1'){
+                                        $event_date = $key_in_data['complain_date']!='0000-00-00'?$key_in_data['complain_date']:'';
+                                    }else if($key == '2'){
+                                        $event_date = $key_in_data['receive_date']!='0000-00-00'?$key_in_data['receive_date']:'';
+                                    }else if($key == '3'){
+                                        $event_date = $key_in_data['send_org_date']!='0000-00-00'?$key_in_data['send_org_date']:'';
+                                    }else if($key == '4'){
+                                        $event_date = $result['result']['result_date']!='0000-00-00'?$result['result']['result_date']:'';
+                                        $detail = $result['result']['result_detail'];
+                                    }
+
+                                    ?>
                                     <tr>
-                                        <td style="text-align: center;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;vertical-align: top;">&nbsp;</td>
-                                        <td style="text-align: left;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;vertical-align: top;">&nbsp;</td>
-                                        <td style="text-align: left;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;vertical-align: top;">&nbsp;</td>
-                                        <td style="text-align: left;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;vertical-align: top;">&nbsp;</td>
-                                        <td style="text-align: right;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;vertical-align: top;">&nbsp;</td>
-                                        <td style="text-align: left;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;vertical-align: top;">&nbsp;</td>
+                                        <td style="text-align: center;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;vertical-align: top;"><?php echo $runno; ?></td>
+                                        <td style="text-align: left;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;vertical-align: top;"><?php echo $value; ?></td>
+                                        <td style="text-align: left;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;vertical-align: top;"><?php echo $event_date!=''?date_thai($event_date,true):''; ?></td>
+                                        <td style="text-align: left;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;vertical-align: top;"><?php echo $detail; ?></td>
+                                        <!--td style="text-align: right;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;vertical-align: top;">&nbsp;</td-->
+                                        <td style="text-align: left;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;vertical-align: top;"><?php echo $update_user; ?></td>
                                     </tr>
                                     </tbody>
+                                    <?php
+                                    }
+                                    }
+                                    ?>
                                 </table>
                             </td>
                         </tr>
