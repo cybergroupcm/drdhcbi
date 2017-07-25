@@ -75,7 +75,7 @@ echo script_tag($link);
                                         <td class="text-center" <?php echo @$link_data; ?>><?php echo $val['complain_type_id'];?></td>
                                         <td <?php echo @$link_data; ?>><?php echo $val['complain_type_name'];?></td>
                                         <td class="text-center">
-                                            <span onclick="window.location.href='<?php echo base_url('setting_complain_type/add/'.$val['complain_type_id'])?>';">
+                                            <span onclick="window.location.href='<?php echo base_url('setting_complain_type/add/'.$val['complain_type_id'].$param_add)?>';">
                                                 <i class="fa fa-pencil" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;" title="แก้ไข"></i>
                                             </span>
                                             <span class="bt_delete" id="<?php echo $val['complain_type_id'];?>" onclick="bt_delete(<?php echo $val['complain_type_id'];?>)">

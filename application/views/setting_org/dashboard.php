@@ -76,7 +76,7 @@ echo script_tag($link);
                                         <td class="text-center" <?php echo @$link_data; ?>><?php echo @$val['send_org_id']; ?></td>
                                         <td <?php echo @$link_data; ?>><?php echo @$val['send_org_name']; ?></td>
                                         <td class="text-center">
-                                        <span onclick="window.location.href='<?php echo base_url('setting_org/add/' . @$val['send_org_id']) ?>';">
+                                        <span onclick="window.location.href='<?php echo base_url('setting_org/add/' . @$val['send_org_id'].$param_add) ?>';">
                                             <i class="fa fa-pencil" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;" title="แก้ไข"></i>
                                         </span>
                                         <span class="bt_delete" id="<?php echo @$val['send_org_id']; ?>" onclick="bt_delete(<?php echo @$val['send_org_id']; ?>)">
