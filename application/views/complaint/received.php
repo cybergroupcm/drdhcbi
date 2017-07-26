@@ -109,6 +109,16 @@ $link = array(
 );
 echo script_tag($link);
 $link = array(
+    'src' => 'template/plugins/datepicker/moment.js',
+    'type' => 'text/javascript'
+);
+echo link_tag($link);
+$link = array(
+    'src' => 'template/plugins/datepicker/bootstrap-datetimepicker.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
     'src' => 'assets/js/complaint_received.js',
     'type' => 'text/javascript'
 );
