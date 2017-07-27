@@ -12,7 +12,18 @@ $( document ).ready(function() {
     //datepicker("setDate", "0");  //กำหนดเป็นวันปัจุบัน
     //$(".datepicker").prop('readonly', 'readonly');
 
-    $('#receive_date').datetimepicker();
+    $('#receive_date').datetimepicker({
+        locale: 'th',
+        format: 'DD/MM/BBBB HH:mm:ss',
+        dayViewHeaderFormat: 'MMMM BBBB',
+        showTodayButton: true,
+        showClear: true,
+        tooltips: {
+            today: 'วันนี้',
+            clear: 'ล้างค่า',
+            selectTime: 'เลือกเวลา'
+        }
+    });
 
     //start ปฏิทิน
     $('.datepickerstart').datepicker({
@@ -154,12 +165,17 @@ function getDataReceived(id){
             $('#text_doc_receive_date').datepicker("setDate", "0");
         }
 
-        if((dataReceived.receive_date != '') && (dataReceived.receive_date != '0000-00-00') && (dataReceived.receive_date != null)) {
-            var arr_receive_date = dataReceived.receive_date.split('-');
-            var receive_date_eng = arr_receive_date[2]+'/'+arr_receive_date[1]+'/'+arr_receive_date[0];
-            $('#receive_date').datepicker("setDate", receive_date_eng);  //กำหนดวัน
+        if((dataReceived.receive_date != '') && (dataReceived.receive_date != '0000-00-00 00:00:00') && (dataReceived.receive_date != null)) {
+            var original_receive_date = dataReceived.receive_date.split(' ');
+            var new_receive_date = original_receive_date[0];
+            var new_receive_time = original_receive_date[1];
+            var arr_receive_date = new_receive_date.split('-');
+            var receive_date_eng = arr_receive_date[2]+'/'+arr_receive_date[1]+'/'+arr_receive_date[0]+' '+new_receive_time;
+            //$('#receive_date').datepicker("setDate", receive_date_eng);  //กำหนดวัน
+            $('#receive_date').data("DateTimePicker").date(receive_date_eng);
         }else{
-            $('#receive_date').datepicker("setDate", "0");
+            //$('#receive_date').datepicker("setDate", "0");
+            $('#receive_date').data("DateTimePicker").date(moment(new Date ).format('DD/MM/BBBB HH:mm:ss'));
         }
 
         if(dataReceived.current_status_id == '2' || dataReceived.current_status_id == '3' || dataReceived.current_status_id == '4'){
