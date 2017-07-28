@@ -88,6 +88,11 @@ $route['api/report/report_statistic_by_type/(:num)'] = 'api/report/report_all_co
 $route['api/report/report_statistic_by_type/(:num)'] = 'api/report/report_statistic_by_type/year/$1'; // Example 4
 $route['api/report/report_statistic_by_type_max/(:num)'] = 'api/report/report_statistic_by_type_max/year/$1'; // Example 4
 $route['api/report/month_report/(:num)'] = 'api/report/month_report/year/$1'; // Example 4
+$route['api/setting/org/(:num)'] = 'api/setting/org/id/$1'; // Example 4
+$route['api/setting/use_org/(:num)'] = 'api/setting/use_org/id/$1'; // Example 4
+$route['api/setting/use_complain_type/(:num)'] = 'api/setting/use_complain_type/id/$1'; // Example 4
+$route['api/setting/use_accused_type/(:num)'] = 'api/setting/use_accused_type/id/$1'; // Example 4
+$route['api/setting/complain_type_lists/(:num)'] = 'api/setting/complain_type_lists/id/$1'; // Example 4
 
 
 

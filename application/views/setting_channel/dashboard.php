@@ -9,6 +9,23 @@ $link = array(
     'type' => 'text/javascript'
 );
 echo script_tag($link);
+
+$link = array(
+    'href' => 'assets/css/dataTables.bootstrap.min.css',
+    'rel' => 'stylesheet',
+    'type' => 'text/css'
+);
+echo link_tag($link);
+$link = array(
+    'src' => 'assets/js/jquery.dataTables.min.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    'src' => 'assets/js/dataTables.bootstrap.min.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
 ?>
 <style>
     .btn-info {
@@ -25,33 +42,40 @@ echo script_tag($link);
                         <h3 class="box-title">ตั้งค่าข้อมูลช่องทางรับเรื่อง</h3>
                     </div>
                     <div class="box-body">
-                        <div class="col-xs-12 text-right" style="margin-bottom: 5px;">
+                        <div class="col-xs-12 text-right" style="margin-bottom: 5px;padding-right: 0px;">
                             <button class="btn btn-info" title="เพิ่ม" id="bt_add_data" onclick="window.location.href='<?php echo base_url('setting_channel/add')?>';"><i class="fa fa-plus"></i> เพิ่มข้อมูล</button>
+                            <button class="btn btn-info" title="ย้อนกลับ" id="bt_add_data" onclick="window.location.href='<?php echo base_url('setting_system')?>';"><i class="fa fa-reply"></i> ย้อนกลับ</button>
                         </div>
                         <table id="example1" class="table table-bordered table-striped table-hover dataTable">
-                            <tr>
-                                <th width="20%" class="text-center">รหัสช่องทางรับเรื่อง</th>
-                                <th class="text-center">ช่องทางรับเรื่อง</th>
-                                <th width="15%" class="text-center">จัดการ</th>
-                            </tr>
+                            <thead>
+                                <tr>
+                                    <th width="5%" class="text-center">ลำดับ</th>
+                                    <th width="20%" class="text-center">รหัสช่องทางรับเรื่อง</th>
+                                    <th class="text-center">ช่องทางรับเรื่อง</th>
+                                    <th width="15%" class="text-center">จัดการ</th>
+                                </tr>
                             </thead>
                             <tbody>
                             <?php
-                            foreach($data AS $val) {
-                                ?>
-                                <tr>
-                                    <td class="text-center"><?php echo $val['channel_id'];?></td>
-                                    <td><?php echo $val['channel_name'];?></td>
-                                    <td class="text-center">
-                                        <span onclick="window.location.href='<?php echo base_url('setting_channel/add/'.$val['channel_id'])?>';">
-                                            <?php echo img(array('src'=>'assets/images/edit.png', 'title'=> 'แก้ไข','width'=>'36px','style'=>'cursor:pointer'));?>
-                                        </span>
-                                        <span class="bt_delete" id="<?php echo $val['channel_id'];?>" onclick="bt_delete(<?php echo $val['channel_id'];?>)">
-                                            <?php echo img(array('src'=>'assets/images/bin.png', 'title'=> 'ลบ','width'=>'36px','style'=>'cursor:pointer'));?>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <?php
+                            if(!@$data['message']) {
+                                $start_row = 1;
+                                foreach($data AS $val) {
+                                    ?>
+                                    <tr>
+                                        <td class="text-center"><?php echo $start_row++; ?></td>
+                                        <td class="text-center"><?php echo $val['channel_id'];?></td>
+                                        <td><?php echo $val['channel_name'];?></td>
+                                        <td class="text-center">
+                                            <span onclick="window.location.href='<?php echo base_url('setting_channel/add/'.$val['channel_id'])?>';">
+                                                <i class="fa fa-pencil" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;" title="แก้ไข"></i>
+                                            </span>
+                                            <span class="bt_delete" id="<?php echo $val['channel_id'];?>" onclick="bt_delete(<?php echo $val['channel_id'];?>)">
+                                                <i class="fa fa-trash" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;" title="ลบ"></i>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
                             }
                             ?>
                             </tbody>

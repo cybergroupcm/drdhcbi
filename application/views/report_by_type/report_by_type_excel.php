@@ -14,14 +14,12 @@ echo script_tag($link);
                     <table style="width: 100%;border-collapse: collapse;font-size: 16pt;">
                         <thead>
                         <tr>
-                            <th class="text-center" style="vertical-align: middle;text-align: center;padding: 5px;" colspan="14">รายงานสถิติเรื่องร้องเรียนร้องทุกข์(ประเภทเรื่อง)</th>
+                            <th class="text-center" style="vertical-align: middle;text-align: center;padding: 5px;" colspan="14">รายงานสถิติเรื่องร้องเรียนร้องทุกข์(ลักษณะเรื่อง)</th>
                         </tr>
                         <tr>
-                            <th class="text-center" style="vertical-align: middle;text-align: center;border: 1px solid black;border-width:thin;" rowspan="2">ประเภทเรื่องร้องทุกข์</th>
+                            <th class="text-center" style="vertical-align: middle;text-align: center;border: 1px solid black;border-width:thin;" rowspan="2">ลักษณะเรื่องร้องทุกข์</th>
                             <th class="text-center" style="vertical-align: middle;text-align: center;border: 1px solid black;border-width:thin;padding: 5px;" colspan="<?php echo count(@$month_report);?>">สถิติรายเดือน</th>
-                            <th class="text-center" style="vertical-align: middle;text-align: center;border: 1px solid black;border-width:thin;width: 6%;" rowspan="2">
-                                &nbsp;&nbsp;&nbsp;&nbsp;รวม&nbsp;&nbsp;&nbsp;&nbsp;
-                            </th>
+                            <th class="text-center" style="vertical-align: middle;text-align: center;border: 1px solid black;border-width:thin;width: 6%;" rowspan="2">รวม</th>
                         </tr>
                         <tr>
                             <?php
@@ -38,7 +36,7 @@ echo script_tag($link);
                             $arr_data_month[$key] = 0;
                         }
                         $arr_sum_all = array();
-                        foreach($complain_type AS $key_type=>$type_name) {
+                        foreach($current_subject AS $key_type=>$type_name) {
                             echo '<tr>';
                             echo '<td style="text-align: left;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;border-width:thin;vertical-align: top;padding: 5px;"> '.$type_name.'</td>';
                             $sum_type = 0;

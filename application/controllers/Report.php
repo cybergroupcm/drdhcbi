@@ -55,7 +55,7 @@ class Report extends CI_Controller {
         //echo $param_get;exit;
         $arr_data['param_get'] = $param_get;
 
-        $url = base_url('api/dropdown/complain_type_lists');
+        $url = base_url("api/dropdown/complain_type_lists/parent_id/0");
         $arr_data['complaint_type'] = api_call_get($url);
         $url = base_url('api/dropdown/channel_lists');
         $arr_data['channel'] = api_call_get($url);
@@ -81,7 +81,25 @@ class Report extends CI_Controller {
 
         $url = base_url("api/report/report_all_complaint".$param);
         $arr_data['data'] = api_call_get($url);
+
+        $arr_parent = array();
+        foreach($arr_data['complaint_type'] AS $key=>$val){
+            $url = base_url("api/dropdown/complain_type_lists/parent_id/".$key);
+            $arr_parent[$key] = api_call_get($url);
+        }
+
+        $arr_type = array();
+        foreach ($arr_parent AS $key2 => $val2) {
+            foreach($arr_data['channel'] AS $key => $val) {
+                $arr_type[$key2][$key] = $arr_data['data'][$key2][$key];
+                foreach ($val2 AS $key3 => $val3) {
+                    $arr_type[$key2][$key] += $arr_data['data'][$key3][$key];
+                }
+            }
+        }
+        $arr_data['data'] = $arr_type;
         //echo"<pre>";print_r($arr_data['data']);echo"</pre>";
+        //exit;
         $this->libraries->template('report_all_complaint/report_all_complaint', $arr_data);
     }
 
@@ -96,12 +114,30 @@ class Report extends CI_Controller {
         $param .= ($_GET['complaint_date_start'] !="")?"/complaint_date_start/".$_GET['complaint_date_start']:"";
         $param .= ($_GET['complaint_date_end'] !="")?"/complaint_date_end/".$_GET['complaint_date_end']:"";
 
-        $url = base_url('api/dropdown/complain_type_lists');
+        $url = base_url("api/dropdown/complain_type_lists/parent_id/0");
         $arr_data['complaint_type'] = api_call_get($url);
         $url = base_url('api/dropdown/channel_lists');
         $arr_data['channel'] = api_call_get($url);
         $url = base_url()."api/report/report_all_complaint".$param;
         $arr_data['data'] = api_call_get($url);
+
+        $arr_parent = array();
+        foreach($arr_data['complaint_type'] AS $key=>$val){
+            $url = base_url("api/dropdown/complain_type_lists/parent_id/".$key);
+            $arr_parent[$key] = api_call_get($url);
+        }
+
+        $arr_type = array();
+        foreach ($arr_parent AS $key2 => $val2) {
+            foreach($arr_data['channel'] AS $key => $val) {
+                $arr_type[$key2][$key] = $arr_data['data'][$key2][$key];
+                foreach ($val2 AS $key3 => $val3) {
+                    $arr_type[$key2][$key] += $arr_data['data'][$key3][$key];
+                }
+            }
+        }
+        $arr_data['data'] = $arr_type;
+
         $html=$this->load->view('report_all_complaint/report_all_complaint_pdf',$arr_data, true);
         // As PDF creation takes a bit of memory, we're saving the created file in /downloads/reports/
 //        echo "<pre>";
@@ -129,12 +165,30 @@ class Report extends CI_Controller {
         $param .= ($_GET['complaint_date_start'] !="")?"/complaint_date_start/".$_GET['complaint_date_start']:"";
         $param .= ($_GET['complaint_date_end'] !="")?"/complaint_date_end/".$_GET['complaint_date_end']:"";
 
-        $url = base_url('api/dropdown/complain_type_lists');
+        $url = base_url("api/dropdown/complain_type_lists/parent_id/0");
         $arr_data['complaint_type'] = api_call_get($url);
         $url = base_url('api/dropdown/channel_lists');
         $arr_data['channel'] = api_call_get($url);
         $url = base_url()."api/report/report_all_complaint".$param;
         $arr_data['data'] = api_call_get($url);
+
+        $arr_parent = array();
+        foreach($arr_data['complaint_type'] AS $key=>$val){
+            $url = base_url("api/dropdown/complain_type_lists/parent_id/".$key);
+            $arr_parent[$key] = api_call_get($url);
+        }
+
+        $arr_type = array();
+        foreach ($arr_parent AS $key2 => $val2) {
+            foreach($arr_data['channel'] AS $key => $val) {
+                $arr_type[$key2][$key] = $arr_data['data'][$key2][$key];
+                foreach ($val2 AS $key3 => $val3) {
+                    $arr_type[$key2][$key] += $arr_data['data'][$key3][$key];
+                }
+            }
+        }
+        $arr_data['data'] = $arr_type;
+
         $this->load->view('report_all_complaint/report_all_complaint_excel',$arr_data);
     }
 
@@ -147,8 +201,34 @@ class Report extends CI_Controller {
     
     public function report_by_type()
     {
-        $url = base_url('api/complaint/complaint_type');
-        $arr_data['complaint_type'] = api_call_get($url);
+        $param = ($_GET['year'] !="")?"/year/".$_GET['year']:"";
+        $param .= ($_GET['subject_id'] !="")?"/subject_id/".$_GET['subject_id']:"";
+        $param .= ($_GET['partid'] !="")?"/partid/".$_GET['partid']:"";
+        $param .= ($_GET['province_id'] !="")?"/province_id/".$_GET['province_id']:"";
+        $param .= ($_GET['district_id'] !="")?"/district_id/".$_GET['district_id']:"";
+        $param .= ($_GET['address_id'] !="")?"/address_id/".$_GET['address_id']:"";
+
+        $url = base_url("api/dropdown/current_subject_lists");
+        $arr_data['current_subject'] = api_call_get($url);
+
+        $url = base_url()."api/report/month_report/".$_GET['year'];
+        $arr_data['month_report'] = api_call_get($url);
+
+        $url = base_url()."api/report/report_by_type".$param;
+        $arr_data['report_type'] = api_call_get($url);
+
+        $url = base_url()."api/report/report_by_type_max/".$_GET['year'];
+        $arr_data['report_type_max'] = api_call_get($url);
+
+        $url = base_url()."api/report/list_year/";
+        $arr_data['list_year'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/ccaa_lists/Changwat");
+        $arr_data['province_list'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/area_part_lists");
+        $arr_data['area_part_list'] = api_call_get($url);
+
         $this->libraries->template('report_by_type/report_by_type', $arr_data);
     }
     
@@ -174,7 +254,7 @@ class Report extends CI_Controller {
         $param .= ($_GET['district_id'] !="")?"/district_id/".$_GET['district_id']:"";
         $param .= ($_GET['address_id'] !="")?"/address_id/".$_GET['address_id']:"";
 
-        $url = base_url("api/dropdown/complain_type_lists");
+        $url = base_url("api/dropdown/complain_type_lists/parent_id/0");
         $arr_data['complain_type'] = api_call_get($url);
 
         $url = base_url()."api/report/month_report/".$_GET['year'];
@@ -182,6 +262,23 @@ class Report extends CI_Controller {
 
         $url = base_url()."api/report/report_statistic_by_type".$param;
         $arr_data['report_type'] = api_call_get($url);
+
+        $arr_parent = array();
+        foreach($arr_data['complain_type'] AS $key=>$val){
+            $url = base_url("api/dropdown/complain_type_lists/parent_id/".$key);
+            $arr_parent[$key] = api_call_get($url);
+        }
+
+        $arr_type = array();
+        foreach ($arr_parent AS $key2 => $val2) {
+            foreach($arr_data['month_report'] AS $key => $val) {
+                $arr_type[$key2][$key] = $arr_data['report_type'][$key2][$key];
+                foreach ($val2 AS $key3 => $val3) {
+                    $arr_type[$key2][$key] += $arr_data['report_type'][$key3][$key];
+                }
+            }
+        }
+        $arr_data['report_type'] = $arr_type;
 
         $url = base_url()."api/report/report_statistic_by_type_max/".$_GET['year'];
         $arr_data['report_type_max'] = api_call_get($url);
@@ -289,7 +386,7 @@ class Report extends CI_Controller {
         $param .= ($_GET['district_id'] !="")?"/district_id/".$_GET['district_id']:"";
         $param .= ($_GET['address_id'] !="")?"/address_id/".$_GET['address_id']:"";
 
-        $url = base_url("api/dropdown/complain_type_lists");
+        $url = base_url("api/dropdown/complain_type_lists/parent_id/0");
         $arr_data['complain_type'] = api_call_get($url);
 
         $url = base_url()."api/report/month_report/".$_GET['year'];
@@ -297,6 +394,23 @@ class Report extends CI_Controller {
 
         $url = base_url()."api/report/report_statistic_by_type".$param;
         $arr_data['report_type'] = api_call_get($url);
+
+        $arr_parent = array();
+        foreach($arr_data['complain_type'] AS $key=>$val){
+            $url = base_url("api/dropdown/complain_type_lists/parent_id/".$key);
+            $arr_parent[$key] = api_call_get($url);
+        }
+
+        $arr_type = array();
+        foreach ($arr_parent AS $key2 => $val2) {
+            foreach($arr_data['month_report'] AS $key => $val) {
+                $arr_type[$key2][$key] = $arr_data['report_type'][$key2][$key];
+                foreach ($val2 AS $key3 => $val3) {
+                    $arr_type[$key2][$key] += $arr_data['report_type'][$key3][$key];
+                }
+            }
+        }
+        $arr_data['report_type'] = $arr_type;
 
         $url = base_url()."api/report/report_statistic_by_type_max/".$_GET['year'];
         $arr_data['report_type_max'] = api_call_get($url);
@@ -328,7 +442,7 @@ class Report extends CI_Controller {
         $param .= ($_GET['district_id'] !="")?"/district_id/".$_GET['district_id']:"";
         $param .= ($_GET['address_id'] !="")?"/address_id/".$_GET['address_id']:"";
 
-        $url = base_url("api/dropdown/complain_type_lists");
+        $url = base_url("api/dropdown/complain_type_lists/parent_id/0");
         $arr_data['complain_type'] = api_call_get($url);
 
         $url = base_url()."api/report/month_report/".$_GET['year'];
@@ -336,6 +450,23 @@ class Report extends CI_Controller {
 
         $url = base_url()."api/report/report_statistic_by_type".$param;
         $arr_data['report_type'] = api_call_get($url);
+
+        $arr_parent = array();
+        foreach($arr_data['complain_type'] AS $key=>$val){
+            $url = base_url("api/dropdown/complain_type_lists/parent_id/".$key);
+            $arr_parent[$key] = api_call_get($url);
+        }
+
+        $arr_type = array();
+        foreach ($arr_parent AS $key2 => $val2) {
+            foreach($arr_data['month_report'] AS $key => $val) {
+                $arr_type[$key2][$key] = $arr_data['report_type'][$key2][$key];
+                foreach ($val2 AS $key3 => $val3) {
+                    $arr_type[$key2][$key] += $arr_data['report_type'][$key3][$key];
+                }
+            }
+        }
+        $arr_data['report_type'] = $arr_type;
 
         $url = base_url()."api/report/report_statistic_by_type_max/".$_GET['year'];
         $arr_data['report_type_max'] = api_call_get($url);
@@ -421,5 +552,76 @@ class Report extends CI_Controller {
         $arr_data['area_part_list'] = api_call_get($url);
 
         $this->load->view('report_statistic_by_status/report_statistic_by_status_excel',$arr_data);
+    }
+
+    public function report_by_type_pdf(){
+        $param = ($_GET['year'] !="")?"/year/".$_GET['year']:"";
+        $param .= ($_GET['subject_id'] !="")?"/subject_id/".$_GET['subject_id']:"";
+        $param .= ($_GET['partid'] !="")?"/partid/".$_GET['partid']:"";
+        $param .= ($_GET['province_id'] !="")?"/province_id/".$_GET['province_id']:"";
+        $param .= ($_GET['district_id'] !="")?"/district_id/".$_GET['district_id']:"";
+        $param .= ($_GET['address_id'] !="")?"/address_id/".$_GET['address_id']:"";
+
+        $url = base_url("api/dropdown/current_subject_lists");
+        $arr_data['current_subject'] = api_call_get($url);
+
+        $url = base_url()."api/report/month_report/".$_GET['year'];
+        $arr_data['month_report'] = api_call_get($url);
+
+        $url = base_url()."api/report/report_by_type".$param;
+        $arr_data['report_type'] = api_call_get($url);
+
+        $url = base_url()."api/report/report_by_type_max/".$_GET['year'];
+        $arr_data['report_type_max'] = api_call_get($url);
+
+        $url = base_url()."api/report/list_year/";
+        $arr_data['list_year'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/ccaa_lists/Changwat");
+        $arr_data['province_list'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/area_part_lists");
+        $arr_data['area_part_list'] = api_call_get($url);
+
+        $html=$this->load->view('report_by_type/report_by_type_pdf',$arr_data, true);
+
+        $mpdf=new mPDF('th','A4-L',0,'THSaraban',15,15,16,16,9,9, 'L');
+        $mpdf->SetDisplayMode('fullpage');
+        $mpdf->list_indent_first_level = 0;
+        $mpdf->WriteHTML($html, 2);
+        $mpdf->Output('example_mpdf.pdf', 'I');
+        exit;
+    }
+
+    public function report_by_type_excel(){
+        $param = ($_GET['year'] !="")?"/year/".$_GET['year']:"";
+        $param .= ($_GET['subject_id'] !="")?"/subject_id/".$_GET['subject_id']:"";
+        $param .= ($_GET['partid'] !="")?"/partid/".$_GET['partid']:"";
+        $param .= ($_GET['province_id'] !="")?"/province_id/".$_GET['province_id']:"";
+        $param .= ($_GET['district_id'] !="")?"/district_id/".$_GET['district_id']:"";
+        $param .= ($_GET['address_id'] !="")?"/address_id/".$_GET['address_id']:"";
+
+        $url = base_url("api/dropdown/current_subject_lists");
+        $arr_data['current_subject'] = api_call_get($url);
+
+        $url = base_url()."api/report/month_report/".$_GET['year'];
+        $arr_data['month_report'] = api_call_get($url);
+
+        $url = base_url()."api/report/report_by_type".$param;
+        $arr_data['report_type'] = api_call_get($url);
+
+        $url = base_url()."api/report/report_by_type_max/".$_GET['year'];
+        $arr_data['report_type_max'] = api_call_get($url);
+
+        $url = base_url()."api/report/list_year/";
+        $arr_data['list_year'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/ccaa_lists/Changwat");
+        $arr_data['province_list'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/area_part_lists");
+        $arr_data['area_part_list'] = api_call_get($url);
+
+        $this->load->view('report_by_type/report_by_type_excel',$arr_data);
     }
 }

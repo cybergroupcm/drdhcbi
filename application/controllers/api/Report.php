@@ -285,4 +285,86 @@ class Report extends REST_Controller
         }
         $this->response($result_data, REST_Controller::HTTP_OK);
     }
+
+    public function report_by_type_get()
+    {
+        $where_type_id = "";
+        $where_part = "";
+        $where_province = "";
+        $where_district = "";
+        $where_subdistrict = "";
+        $year = $this->get('year');
+        $subject_id = $this->get('subject_id');
+        $partid = $this->get('partid');
+        $province_id = $this->get('province_id');
+        $district_id = $this->get('district_id');
+        $address_id = $this->get('address_id');
+        if($year == ''){
+            $year = date('Y');
+        }
+
+        if($subject_id != ''){
+            $where_type_id = " AND report_statistic_by_subject.subject_id = '".$subject_id."'";
+        }
+        if($partid != ''){
+            $where_part = " AND report_statistic_by_subject.partid = '".$partid."'";
+        }
+        if($province_id != ''){
+            $where_province = " AND report_statistic_by_subject.province_id = '".$province_id."'";
+        }
+        if($district_id != ''){
+            $where_district = " AND report_statistic_by_subject.district_id = '".$district_id."'";
+        }
+        if($address_id != ''){
+            $where_subdistrict = " AND report_statistic_by_subject.subdistrict_id = '".$address_id."'";
+        }
+
+        $sql = "SELECT
+                    report_statistic_by_subject.subject_id,
+                    report_statistic_by_subject.complain_month,
+                    report_statistic_by_subject.complain_year,
+                    SUM(report_statistic_by_subject.sum_complain) AS sum_complain
+                FROM
+                    report_statistic_by_subject
+                WHERE report_statistic_by_subject.complain_year = '".$year."'
+                ".$where_type_id.$where_part.$where_province.$where_district.$where_subdistrict."
+                GROUP BY
+                    report_statistic_by_subject.subject_id,
+                    report_statistic_by_subject.complain_month,
+                    report_statistic_by_subject.complain_year";
+        $query = $this->db->query($sql);
+        $result_data = array();
+        foreach ($query->result() as $row)
+        {
+            $result_data[$row->subject_id][$row->complain_month . $row->complain_year] = $row->sum_complain;
+        }
+        $this->response($result_data, REST_Controller::HTTP_OK);
+    }
+
+    public function report_by_type_max_get()
+    {
+        $year = $this->get('year');
+        if($year == ''){
+            $year = date('Y');
+        }
+        $sql = "SELECT
+                    report_statistic_by_subject.complain_month,
+                    report_statistic_by_subject.complain_year,
+                    SUM(report_statistic_by_subject.sum_complain) AS sum_complain
+                FROM
+                    report_statistic_by_subject
+                WHERE report_statistic_by_subject.complain_year = '".$year."'
+                GROUP BY
+                    report_statistic_by_subject.complain_month,
+                    report_statistic_by_subject.complain_year
+                    ORDER BY sum_complain DESC
+								LIMIT 0,6";
+        $query = $this->db->query($sql);
+        $result_data = array();
+        foreach ($query->result() as $row)
+        {
+            $result_data[$row->complain_month . $row->complain_year] = $row->sum_complain;
+        }
+        $this->response($result_data, REST_Controller::HTTP_OK);
+    }
 }

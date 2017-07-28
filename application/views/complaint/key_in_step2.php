@@ -44,16 +44,32 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
                             ประเภทเรื่อง :
                         </label>
                         <label class="col-sm-7">
-                            <?php
-                            $dd1 = $complain_type;
-                            $dd1[''] = 'กรุณาเลือก';
-                            ksort($dd1);
-                            echo form_dropdown([
-                                'name' => 'complain_type_id',
-                                'id' => 'complain_type_id',
-                                'class' => 'form-control'
-                            ], $dd1, @$key_in_data['complain_type_id']);
-                            ?>
+                        <?php
+                            $i = 0;
+                            foreach($complain_type as $key => $value){ ?>
+                            <span id="complain_type_space_<?php echo $i; ?>">
+                        <?php
+                        $i++;
+                        $complain_type_list = $complain_type[$key];
+                        $complain_type_list[''] = 'กรุณาเลือก';
+                        ksort($complain_type_list);
+                        echo form_dropdown([
+                            'id' => 'complain_type_'.$i,
+                            'class' => 'form-control',
+                            'has_child'=>'complain_type_space_'.$i,
+                            'onchange' => 'get_complain_type_child(this)'
+                        ], $complain_type_list, $get_complain_type[$key]);
+                        }
+                        ?>
+                        <span id="complain_type_space_<?php echo $i; ?>">
+
+                        </span>
+                        <?php
+                        foreach($complain_type as $key => $value){
+                            echo"</span>";
+                        }
+                        ?>
+                        <input type="hidden" name="complain_type_id" id="complain_type_id" value="<?php echo @$key_in_data['complain_type_id']; ?>">
                         </label>
                     </div>
                 </div>
@@ -128,25 +144,31 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
                         </label>
                         <label class="col-sm-7">
                             <?php
-                            $i = 1;
-                            foreach ($accused_type as $key => $value) {
-                                if (!empty($key)) {
-                                    if (($i % 3) == 1) {
-                                        $class = 'col-md-3 col-md-offset-1';
-                                    } else if (($i % 3) == 2) {
-                                        $class = 'col-md-3';
-                                    } else {
-                                        $class = 'col-md-5';
-                                    } ?>
-                                    <div>
-                                        <input type="radio" class="accused_type" id="accused_type_id_<?php echo $key; ?>" name="accused_type_id"
-                                               value="<?php echo $key; ?>" <?php echo @$key_in_data['accused_type_id']==$key?'checked':'' ?>>
-                                        <label for="accused_type_id_<?php echo $key; ?>">&nbsp;<?php echo $value; ?></label>
-                                    </div>
-                                    <?php
-                                    $i++;
-                                }
-                            } ?>
+                            $i = 0;
+                            foreach($accused_type as $key => $value){ ?>
+                            <span id="accused_type_space_<?php echo $i; ?>">
+                        <?php
+                            $i++;
+                            $accused_type_list = $accused_type[$key];
+                            $accused_type_list[''] = 'กรุณาเลือก';
+                            ksort($accused_type_list);
+                            echo form_dropdown([
+                                'id' => 'accused_type_'.$i,
+                                'class' => 'form-control',
+                                'has_child'=>'accused_type_space_'.$i,
+                                'onchange' => 'get_accused_child(this)'
+                            ], $accused_type_list, $get_accused_type[$key]);
+                        }
+                        ?>
+                        <span id="accused_type_space_<?php echo $i; ?>">
+
+                        </span>
+                        <?php
+                            foreach($accused_type as $key => $value){
+                                echo"</span>";
+                            }
+                        ?>
+                            <input type="hidden" name="accused_type_id" id="accused_type_id" value="<?php echo @$key_in_data['accused_type_id']; ?>">
                         </label>
                     </div>
                 </div>
