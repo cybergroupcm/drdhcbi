@@ -37,6 +37,7 @@ function replace_empty($value){
                                     <td align="right" style="text-align: left;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;vertical-align: top;padding: 5px;"><?php echo replace_empty(@$data[$key][$key2]); ?></td>
                                 <?php
                                     @$data[$key]['sum_all'] += replace_empty(@$data[$key][$key2]);
+                                    @$data['sum_all'][$key2] += replace_empty(@$data[$key][$key2]);
                                 } ?>
                                 <td align="right" style="text-align: right;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;vertical-align: top;padding: 5px;"><?php echo replace_empty(@$data[$key]['sum_all']); ?></td>
                             </tr>
