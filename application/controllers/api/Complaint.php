@@ -15,6 +15,7 @@ class Complaint extends REST_Controller
         $this->load->model('data/Attach_file_model');
         $this->load->model('master/Accused_type_model');
         $this->load->model('master/Complain_type_model');
+        $this->load->model('master/Send_org_model');
         $this->load->helper('file','url','api');
     }
 
@@ -617,6 +618,18 @@ class Complaint extends REST_Controller
 
     public function complain_type_get($id){
         $types = $this->Complain_type_model->where('complain_type_id', $id)->get();
+        // Check if the users data store contains users (in case the database result returns NULL)
+        if ($types) {
+            // Set the response and exit
+            $this->response($types, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        } else {
+            // Set the response and exit
+            $this->response('', REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
+    public function send_org_get($id){
+        $types = $this->Send_org_model->where('send_org_id', $id)->get();
         // Check if the users data store contains users (in case the database result returns NULL)
         if ($types) {
             // Set the response and exit
