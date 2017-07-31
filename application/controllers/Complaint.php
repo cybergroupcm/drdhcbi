@@ -10,7 +10,7 @@ class Complaint extends CI_Controller
 
         /* Load :: Common */
         $this->load->helper(array('form'));
-        $this->load->library(array('my_mpdf','accused_type','complain_type'));
+        $this->load->library(array('my_mpdf','accused_type','complain_type','send_org'));
         if ( ! $this->ion_auth->logged_in() || !$this->api_auth->logged_in())
         {
             redirect('alert', 'refresh');
@@ -105,13 +105,46 @@ class Complaint extends CI_Controller
         $filtered = array_filter($filter, function ($value) {
             return ($value !== null && $value !== false && $value !== '');
         });
+        $arr_data['txtDetail'] = '';
+        $isFirst = true;
+        $hasStartDate = false;
         if (count($filtered) > 0) {
+            $arr_data['txtDetail'] = 'ค้นหา:';
             foreach ($filtered as $index => $item) {
+                if(!$isFirst  && !$hasStartDate){
+                    $arr_data['txtDetail'] .= ' และ ';
+                }
+                switch ($index){
+                    case 'complain_no':
+                        $arr_data['txtDetail'] .= " เลขที่เรื่องร้องทุกข์ {$item}";
+                        break;
+                    case 'petitioner':
+                        $arr_data['txtDetail'] .= " ชื่อผู้ร้องทุกข์ {$item}";
+                        break;
+                    case 'complaint_detail':
+                        $arr_data['txtDetail'] .= " เรื่องร้องทุกข์ {$item}";
+                        break;
+                    case 'current_status':
+                        $url = base_url("api/dropdown/current_status_lists");
+                        $current_status = api_call_get($url);
+                        $arr_data['txtDetail'] = "สถานะ {$current_status[$item]}";
+                        break;
+                    case 'complaint_date_start':
+                        $dateText = date_thai(date_eng($item));
+                        $arr_data['txtDetail'] .= " ตั้งแต่วันที่ {$dateText}";
+                        $hasStartDate = true;
+                        break;
+                    case 'complaint_date_end':
+                        $dateText = date_thai(date_eng($item));
+                        $arr_data['txtDetail'] .= " ถึงวันที่ {$dateText}";
+                        break;
+                }
                 if ($index == 'complaint_date_start' || $index == 'complaint_date_end') {
                     $item = date_eng($item);
                 }
                 $item = urlencode($item);
                 $queryFilter .= "/{$index}/{$item}";
+                $isFirst = false;
             }
         }
 
@@ -190,11 +223,19 @@ class Complaint extends CI_Controller
 //        $arr_data['start_row'] = (($page-1)*15)+1;
         $arr_data['start_row'] = 1;
 
-        $url = base_url("api/dropdown/send_org_parent_lists");
+        $url = base_url("api/dropdown/send_org_parent_lists/0");
         $arr_data['send_org_parent'] = api_call_get($url);
 
         $url = base_url("api/dropdown/send_org_lists");
         $arr_data['send_org'] = api_call_get($url);
+
+        if($arr_data['txtDetail']==''){
+            $date = new DateTime('now');
+            $date->modify('last day of this month');
+            $firstDate =  date_thai(date("Y-m-1"));
+            $lastDate =  date_thai($date->format('Y-m-d'));
+            $arr_data['txtDetail'] = "ข้อมูล วันที่ {$firstDate} ถึง วันที่ {$lastDate}";
+        }
 
         //start แบ่งหน้า
         //$this->load->library('pagination');
@@ -346,5 +387,29 @@ class Complaint extends CI_Controller
         $arr_data['complain_type_lists'] = api_call_get($url);
         $arr_data['count_type'] = $count_type;
         $this->load->view('complaint/get_complain_type_child', $arr_data);
+    }
+    public function get_send_org_child($id,$count_type)
+    {
+        $url = base_url("api/dropdown/send_org_parent_lists/".$id);
+        $arr_data['lists'] = api_call_get($url);
+        $arr_data['count_type'] = $count_type;
+        $this->load->view('complaint/get_send_org_child', $arr_data);
+    }
+
+    public function get_send_org($id)
+    {
+        $url = base_url("api/dropdown/send_org_parent_lists/0");
+        $arr_data['send_org'][] = api_call_get($url);
+        if($id!='') {
+            $arr_data['get_send_org'] = $this->send_org->sort_send_org($id);
+            foreach ($arr_data['get_send_org'] as $key => $value) {
+                $url = base_url("api/dropdown/send_org_parent_lists/" . $value);
+                $send_org = api_call_get($url);
+                if (!array_key_exists('message', $send_org)) {
+                    $arr_data['send_org'][] = $send_org;
+                }
+            }
+        }
+        $this->load->view('complaint/get_send_org', $arr_data);
     }
 }
