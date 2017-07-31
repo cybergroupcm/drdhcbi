@@ -180,7 +180,7 @@
                 ?>
                 <table cellspacing="2" cellpadding="2" class="mapTitle">
                     <tr>
-                        <td  style="background-color:#0493C6;padding:5px; color:#FFF;border-radius: 5px;" align="center" colspan="2"><b>สถานะเรื่องร้องทุกข์</b></td>
+                        <td  style="background-color:#0493C6;padding:5px; color:#FFF;border-radius: 5px 5px 0px 0px;" align="center" colspan="2"><b>สถานะเรื่องร้องทุกข์</b></td>
                    </tr>
                    <?php
                    foreach ($current_status_data as $status_data) {
