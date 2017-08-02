@@ -151,9 +151,14 @@ class Dropdown extends REST_Controller
     }
 
 
-    public function send_org_parent_lists_get()
+    public function send_org_parent_lists_get($parent_id='')
     {
-        $types = $this->Send_org_model->as_dropdown('send_org_name')->where('parent_id','0')->get_all();
+
+        if($parent_id != ''){
+            $types = $this->Send_org_model->as_dropdown('send_org_name')->where('parent_id',$parent_id)->get_all();
+        }else{
+            $types = $this->Send_org_model->as_dropdown('send_org_name')->get_all();
+        }
         // Check if the users data store contains users (in case the database result returns NULL)
         if ($types) {
             // Set the response and exit

@@ -10,7 +10,7 @@ class Complaint extends CI_Controller
 
         /* Load :: Common */
         $this->load->helper(array('form'));
-        $this->load->library(array('my_mpdf','accused_type','complain_type'));
+        $this->load->library(array('my_mpdf','accused_type','complain_type','send_org'));
         if ( ! $this->ion_auth->logged_in() || !$this->api_auth->logged_in())
         {
             redirect('alert', 'refresh');
@@ -190,7 +190,7 @@ class Complaint extends CI_Controller
 //        $arr_data['start_row'] = (($page-1)*15)+1;
         $arr_data['start_row'] = 1;
 
-        $url = base_url("api/dropdown/send_org_parent_lists");
+        $url = base_url("api/dropdown/send_org_parent_lists/0");
         $arr_data['send_org_parent'] = api_call_get($url);
 
         $url = base_url("api/dropdown/send_org_lists");
@@ -346,5 +346,29 @@ class Complaint extends CI_Controller
         $arr_data['complain_type_lists'] = api_call_get($url);
         $arr_data['count_type'] = $count_type;
         $this->load->view('complaint/get_complain_type_child', $arr_data);
+    }
+    public function get_send_org_child($id,$count_type)
+    {
+        $url = base_url("api/dropdown/send_org_parent_lists/".$id);
+        $arr_data['lists'] = api_call_get($url);
+        $arr_data['count_type'] = $count_type;
+        $this->load->view('complaint/get_send_org_child', $arr_data);
+    }
+
+    public function get_send_org($id)
+    {
+        $url = base_url("api/dropdown/send_org_parent_lists/0");
+        $arr_data['send_org'][] = api_call_get($url);
+        if($id!='') {
+            $arr_data['get_send_org'] = $this->send_org->sort_send_org($id);
+            foreach ($arr_data['get_send_org'] as $key => $value) {
+                $url = base_url("api/dropdown/send_org_parent_lists/" . $value);
+                $send_org = api_call_get($url);
+                if (!array_key_exists('message', $send_org)) {
+                    $arr_data['send_org'][] = $send_org;
+                }
+            }
+        }
+        $this->load->view('complaint/get_send_org', $arr_data);
     }
 }
