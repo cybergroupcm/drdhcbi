@@ -35,10 +35,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right required">
-                            วันที่ร้องทุกข์ :
+                        <label class="col-sm-6 right required">
+                            วันที่ร้องทุกข์/Date of complaint :
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-6">
                             <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
@@ -65,10 +65,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right required">
-                            ผู้รับแจ้ง :
+                        <label class="col-sm-6 right required">
+                            ผู้รับแจ้ง/Complaint recipient :
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-6">
                             <input type="text" name="recipient" id="recipient" class="form-control" value="<?php echo @$key_in_data['recipient']; ?>">
                         </label>
                     </div>
@@ -79,10 +79,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right">
-                            วันที่หนังสือส่งเข้า :
+                        <label class="col-sm-6 right">
+                            วันที่หนังสือส่งเข้า/Date of import book :
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-6">
                             <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
@@ -109,10 +109,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right">
-                            เลขที่หนังสือส่งเข้า :
+                        <label class="col-sm-6 right">
+                            เลขที่หนังสือส่งเข้า/Number of import book :
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-6">
                             <input type="text" name="doc_receive_no" id="doc_receive_no" class="form-control" value="<?php echo @$key_in_data['doc_receive_no']; ?>">
                         </label>
                     </div>
@@ -123,10 +123,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right">
-                            วันที่หนังสือส่งออก :
+                        <label class="col-sm-6 right">
+                            วันที่หนังสือส่งออก/Date of export book :
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-6">
                             <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
@@ -153,10 +153,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right">
-                            เลขที่หนังสือส่งออก :
+                        <label class="col-sm-6 right">
+                            เลขที่หนังสือส่งออก/Number of export book :
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-6">
                             <input type="text" name="doc_send_no" id="doc_send_no" class="form-control" value="<?php echo @$key_in_data['doc_send_no']; ?>">
                         </label>
                     </div>
@@ -167,10 +167,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right">
-                            หน่วยงานที่มาของเรื่อง :
+                        <label class="col-sm-6 right">
+                            หน่วยงานที่มาของเรื่อง/Complaint department :
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-6">
                             <input type="text" name="origin_of_subject" id="origin_of_subject" class="form-control" value="<?php echo @$key_in_data['origin_of_subject']; ?>">
                         </label>
                     </div>
@@ -181,10 +181,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right">
-                            ผู้บันทึก :
+                        <label class="col-sm-6 right">
+                            ผู้บันทึก/Recorder :
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-6">
                             เจ้าหน้าที่รับผิดชอบเรื่องร้องเรียนจังหวัด ชลบุรี
                         </label>
                     </div>
@@ -195,10 +195,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right">
-                            ผู้ร้องทุกข์ :
+                        <label class="col-sm-6 right">
+                            ผู้ร้องทุกข์/Complainant :
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-6">
                             <div>
                                 <input type="radio" id="user_complain_1" onclick="changeUserComplain()"
                                        name="user_complain_type_id" <?php echo @$key_in_data['user_complain_type_id']=='1'?'checked':''; ?> value="1">
@@ -218,10 +218,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right required">
-                            รหัสประจำตัวประชาชน :
+                        <label class="col-sm-6 right required">
+                            รหัสประจำตัวประชาชน/Citizen ID :
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-6">
                             <input type="text" name="id_card" id="id_card" maxlength='13' value="<?php echo @$key_in_data['id_card']; ?>" class="form-control numbers">
                         </label>
                     </div>
@@ -230,10 +230,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right required">
-                            คำนำหน้าชื่อ :
+                        <label class="col-sm-6 right required">
+                            คำนำหน้าชื่อ/Prename :
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-6">
                             <?php
                             $dd4 = $title_name;
                             $dd4[''] = 'กรุณาเลือก';
@@ -251,10 +251,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right required">
-                            ชื่อ :
+                        <label class="col-sm-6 right required">
+                            ชื่อ/First name :
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-6">
                             <input type="text" name="first_name" id="first_name" class='form-control' value="<?php echo @$key_in_data['first_name']; ?>">
                         </label>
                     </div>
@@ -263,10 +263,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right required">
-                            นามสกุล :
+                        <label class="col-sm-6 right required">
+                            นามสกุล/Last name :
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-6">
                             <input type="text" name="last_name" id="last_name" class='form-control' value="<?php echo @$key_in_data['last_name']; ?>">
                         </label>
                     </div>
@@ -275,10 +275,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right required">
-                            โทรศัพท์เคลื่อนที่ : <br>(ที่สามารถติดต่อได้)
+                        <label class="col-sm-6 right required">
+                            โทรศัพท์เคลื่อนที่/Mobile number : <br>(ที่สามารถติดต่อได้)
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-6">
                             <input type="text" name="phone_number" id="phone_number" class='form-control'
                                    value="<?php echo @$key_in_data['phone_number']; ?>">
                         </label>
