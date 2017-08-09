@@ -89,7 +89,7 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'3'){
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row chack_keyin_member">
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -112,7 +112,7 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'3'){
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row chack_keyin_member">
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -251,6 +251,23 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'3'){
         </div>
     </div>
 <div id="base_url" class="<?php echo base_url(); ?>"></div>
+<?php
+if($members_keyin == true){
+  $link = array(
+      'href' => '/assets/css/key_in_member.css',
+      'type' => 'text/css',
+      'rel' => 'stylesheet'
+  );
+  echo link_tag($link);
+}else{
+  $link = array(
+      'href' => '/assets/css/key_in_no_member.css',
+      'type' => 'text/css',
+      'rel' => 'stylesheet'
+  );
+  echo link_tag($link);
+}
+?>
 <?php
 $link = array(
     'src' => 'assets/js/js.cookie.js',

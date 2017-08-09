@@ -178,7 +178,7 @@ $dateNow = date('d/m/Y H:i:s',strtotime('+543 years'));
                             จุดเกิดเหตุ/Scene location :
                         </label>
                         <label class="col-sm-2">
-                            ละติจูด/latitute
+                            ละติจูด/ latitute
                         </label>
                         <label class="col-sm-4">
                             <input type="text" class="form-control" readonly id="txt_lat" name="latitude"
@@ -189,7 +189,7 @@ $dateNow = date('d/m/Y H:i:s',strtotime('+543 years'));
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="col-sm-3">
-                            ลองติจูด/longtitute
+                            ลองติจูด/ longtitute
                         </label>
                         <label class="col-sm-5">
                             <input type="text" class="form-control" readonly id="txt_lon" name="longitude"

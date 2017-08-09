@@ -527,7 +527,7 @@ class Complaint extends REST_Controller
             $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
     }
-    
+
     public function result_get()
     {
         $id = $this->get('id');
@@ -598,18 +598,18 @@ class Complaint extends REST_Controller
                     $ret = array();
                     $error =$_FILES["attach_file"]["error"][$key_file];
                     $fileName=array();
-                    $list_dir = array(); 
-                        $cdir = scandir($output_dir); 
-                        foreach ($cdir as $key => $value) { 
-                           if (!in_array($value,array(".",".."))) { 
-                              if (is_dir(@$dir . DIRECTORY_SEPARATOR . $value)){ 
-                                $list_dir[$value] = dirToArray(@$dir . DIRECTORY_SEPARATOR . $value); 
+                    $list_dir = array();
+                        $cdir = scandir($output_dir);
+                        foreach ($cdir as $key => $value) {
+                           if (!in_array($value,array(".",".."))) {
+                              if (is_dir(@$dir . DIRECTORY_SEPARATOR . $value)){
+                                $list_dir[$value] = dirToArray(@$dir . DIRECTORY_SEPARATOR . $value);
                               }else{
                                 if(substr($value,0,8) == date('Ymd')){
                                 $list_dir[] = $value;
                                 }
-                              } 
-                           } 
+                              }
+                           }
                         }
                         $explode_arr=array();
                         foreach($list_dir as $key => $value){
@@ -644,7 +644,7 @@ class Complaint extends REST_Controller
         exit;
     }
     }
-    
+
     public function result_file_delete_post(){
         $file_id = $this->post('file_id');
         $file_name = $this->post('file_name');
@@ -664,7 +664,8 @@ class Complaint extends REST_Controller
         $sql = " SELECT
                     au_applications.mode_id,
                     au_applications.app_id,
-                    au_applications.app_name
+                    au_applications.app_name,
+                    au_users_groups.group_id
                 FROM au_users_groups
                 INNER JOIN au_groups_permissions ON au_groups_permissions.gid = au_users_groups.group_id
                 INNER JOIN au_applications ON au_applications.app_id = au_groups_permissions.appid
@@ -675,6 +676,30 @@ class Complaint extends REST_Controller
             $result_data = array();
             foreach( $user_data as $key => $value ){
                 $result_data[$value['mode_id']][$value['app_id']] = $value['app_id'];
+            }
+            $this->response($result_data, REST_Controller::HTTP_OK);
+        }else{
+            $this->response($user_id, REST_Controller::HTTP_NOT_FOUND);
+        }
+    }
+
+    public function user_groups_get()
+    {
+        $user_id = $this->get('user_id');
+        $sql = " SELECT
+                  au_users_groups.user_id,
+                  au_groups.id,
+                  au_groups.`name`
+                  FROM
+                  au_groups
+                  JOIN au_users_groups
+                  ON au_groups.id = au_users_groups.group_id
+                  WHERE au_users_groups.user_id='".$user_id."' ";
+        $user_data = $this->User_model->sql_query($sql)->result_array();
+        if( !empty($user_data) ) {
+            $result_data = array();
+            foreach( $user_data as $key => $value ){
+                $result_data[] = $value['id'];
             }
             $this->response($result_data, REST_Controller::HTTP_OK);
         }else{

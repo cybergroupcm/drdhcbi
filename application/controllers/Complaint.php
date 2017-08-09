@@ -32,6 +32,23 @@ class Complaint extends CI_Controller
 
         $url = base_url("api/dropdown/title_name_lists");
         $arr_data['title_name'] = api_call_get($url);
+
+        //กำหนดการแสดงผลหน้าบันทึกข้อมูล
+        $url = base_url("api/authen/token_info");
+        $user_data_id = api_call_get($url);
+        $url = base_url("api/complaint/user_groups/user_id/" . $user_data_id['userid']);
+        $user_modes_groups = api_call_get($url);
+        if(isset($user_modes_groups)){
+            $members_keyin = false;
+            // 2 = group member
+            if(in_array(2,$user_modes_groups)){
+              $members_keyin = true;
+            }else{
+              $members_keyin = false;
+            }
+            $arr_data['members_keyin'] = $members_keyin;
+        }
+
         $arr_data['key_in_data'] = [];
         if ($id != '') {
             $url = base_url("api/complaint/key_in/" . $id);
@@ -68,7 +85,19 @@ class Complaint extends CI_Controller
                     }
                 }
             }
+
+            if($members_keyin == true && $arr_data['key_in_data']['channel_id'] == ''){
+              $arr_data['key_in_data']['channel_id'] = '2';
+            }
+            if($members_keyin == true && $arr_data['key_in_data']['subject_id'] == ''){
+              $arr_data['key_in_data']['subject_id'] = '1';
+            }
         }else{
+            if($members_keyin == true){
+              $arr_data['key_in_data']['recipient'] = '-';
+            }else{
+              $arr_data['key_in_data']['recipient'] = '';
+            }
             $url = base_url("api/dropdown/accused_type_lists/0");
             $arr_data['accused_type'][] = api_call_get($url);
 
