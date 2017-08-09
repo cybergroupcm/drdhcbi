@@ -12,14 +12,18 @@ $(document).ready(function () {
         //var result_date = $('#result_date').val();
         var result_date = '';
         if($('#result_date').val() != '') {
-            var arr_result_date = $('#result_date').val().split('/');
-            var result_date = (arr_result_date[2] - 543) + '-' + arr_result_date[1] + '-' + arr_result_date[0];
+            //var arr_result_date = $('#result_date').val().split('/');
+            // var result_date = (arr_result_date[2] - 543) + '-' + arr_result_date[1] + '-' + arr_result_date[0];
+            var result_date = $('#result_date').val();
+        }else{
+            var result_date = moment(new Date ).format('DD/MM/BBBB HH:mm:ss');
         }
         if($('#save_result_status').prop('checked') == true){
             current_status_id = '4';
         }else{
             current_status_id = '3';
         }
+
         add_result(keyin_id,result_detail,result_date,method);
         update_status(keyin_id,current_status_id,result_detail,result_date);
         result_attach_file(keyin_id);

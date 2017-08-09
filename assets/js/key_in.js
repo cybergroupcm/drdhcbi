@@ -313,6 +313,18 @@ $(document).ready(function () {
         thaiyear: true,
         todayHighlight: true
     });
+    $('.datetimepicker').datetimepicker({
+        locale: 'th',
+        format: 'DD/MM/BBBB HH:mm:ss',
+        dayViewHeaderFormat: 'MMMM BBBB',
+        showTodayButton: true,
+        showClear: true,
+        tooltips: {
+            today: 'วันนี้',
+            clear: 'ล้างค่า',
+            selectTime: 'เลือกเวลา'
+        }
+    });
     $('.datepicker').each(function(){
         $(this).datepicker('update', $(this).val());
     });

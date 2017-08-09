@@ -23,7 +23,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" name="reply_date" id="reply_date" class="form-control pull-right datepicker" />
+                                            <input type="text" name="reply_date" id="reply_date" class="form-control pull-right" />
                                         </div>
                                     </label>
                                 </div>
@@ -93,7 +93,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" name="send_org_date" id="send_org_date" class="form-control pull-right datepicker" />
+                                            <input type="text" name="send_org_date" id="send_org_date" class="form-control pull-right" />
                                         </div>
                                     </label>
                                 </div>
