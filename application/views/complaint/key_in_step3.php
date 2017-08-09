@@ -26,6 +26,7 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
 }else{
     $step = '3';
 }
+$dateNow = date('d/m/Y H:i:s',strtotime('+543 years'));
 ?>
     <input type="hidden" id="step" name="step" value="<?php echo $step; ?>">
     <input type="hidden" id="step_now" name="step_now" value="3">
@@ -48,9 +49,19 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
+                                <?php
+                                if(@$key_in_data['scene_date']!=''&&@$key_in_data['scene_date']!='0000-00-00 00:00:00') {
+                                    $arrSceneDate = explode(' ',$key_in_data['scene_date']);
+                                    $sceneDate = explode('-',$arrSceneDate[0]);
+                                    $sceneTime = $arrSceneDate[1];
+                                    $sceneDateTime = $sceneDate[2].'/'.$sceneDate[1].'/'.($sceneDate[0]+543).' '.$sceneTime;
+                                }else{
+                                    $sceneDateTime = $dateNow;
+                                }
+                                ?>
                                 <input type="text" name="scene_date" id="scene_date"
-                                       class="form-control pull-right datepicker"
-                                       value="<?php echo @$key_in_data['scene_date']!='0000-00-00' && @$key_in_data['scene_date']!=''?date('d/m/Y',  strtotime(@$key_in_data['scene_date'])):date('d/m/Y'); ?>">
+                                       class="form-control pull-right datetimepicker"
+                                       value="<?php echo $sceneDateTime; ?>">
                             </div>
                         </label>
                     </div>
@@ -227,6 +238,22 @@ $link = array(
 echo script_tag($link);
 $link = array(
     'src' => 'assets/js/js.cookie.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    'href' => 'template/plugins/datepicker/bootstrap-datetimepicker.min.css',
+    'rel' => 'stylesheet',
+    'type' => 'text/css'
+);
+echo link_tag($link);
+$link = array(
+    'src' => 'template/plugins/datepicker/moment-with-locales.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    'src' => 'template/plugins/datepicker/bootstrap-datetimepicker.min.js',
     'type' => 'text/javascript'
 );
 echo script_tag($link);

@@ -25,6 +25,44 @@ $( document ).ready(function() {
         }
     });
 
+    $('#reply_date').datetimepicker({
+        locale: 'th',
+        format: 'DD/MM/BBBB HH:mm:ss',
+        dayViewHeaderFormat: 'MMMM BBBB',
+        showTodayButton: true,
+        showClear: true,
+        tooltips: {
+            today: 'วันนี้',
+            clear: 'ล้างค่า',
+            selectTime: 'เลือกเวลา'
+        }
+    });
+
+    $('#send_org_date').datetimepicker({
+        locale: 'th',
+        format: 'DD/MM/BBBB HH:mm:ss',
+        dayViewHeaderFormat: 'MMMM BBBB',
+        showTodayButton: true,
+        showClear: true,
+        tooltips: {
+            today: 'วันนี้',
+            clear: 'ล้างค่า',
+            selectTime: 'เลือกเวลา'
+        }
+    });
+
+    $('#result_date').datetimepicker({
+        locale: 'th',
+        format: 'DD/MM/BBBB HH:mm:ss',
+        dayViewHeaderFormat: 'MMMM BBBB',
+        showTodayButton: true,
+        showClear: true,
+        tooltips: {
+            today: 'วันนี้',
+            clear: 'ล้างค่า',
+            selectTime: 'เลือกเวลา'
+        }
+    });
     //start ปฏิทิน
     $('.datepickerstart').datepicker({
         format: 'dd/mm/yyyy',
@@ -96,12 +134,15 @@ $( document ).ready(function() {
             console.log(dataReceived.result);
             if (dataReceived.result != null) {
                 $('#result_detail').val(dataReceived.result.result_detail);
-                if (dataReceived.result_date != '0000-00-00') {
-                    var result_date = dataReceived.result.result_date.split('-');
-                    var result_date_eng = result_date[2]+'/'+result_date[1]+'/'+result_date[0];
-                    $('#result_date').datepicker("setDate", result_date_eng);  //กำหนดวัน
+                if (dataReceived.result.result_date != '0000-00-00 00:00:00') {
+                    var original_result_date = dataReceived.result.result_date.split(' ');
+                    var new_result_date = original_result_date[0];
+                    var new_result_time = original_result_date[1];
+                    var arr_result_date = new_result_date.split('-');
+                    var result_date_eng = arr_result_date[2]+'/'+arr_result_date[1]+'/'+(parseInt(arr_result_date[0])+543)+' '+new_result_time;
+                    $('#result_date').data("DateTimePicker").date(result_date_eng);
                 }else{
-                    $('#result_date').datepicker("setDate", "0");
+                    $('#result_date').data("DateTimePicker").date(moment(new Date ).format('DD/MM/BBBB HH:mm:ss'));
                 }
                 $('#result_id').val(dataReceived.result.result_id);
                 var result_attach_file = dataReceived.result_attach_file;
@@ -170,7 +211,7 @@ function getDataReceived(id){
             var new_receive_date = original_receive_date[0];
             var new_receive_time = original_receive_date[1];
             var arr_receive_date = new_receive_date.split('-');
-            var receive_date_eng = arr_receive_date[2]+'/'+arr_receive_date[1]+'/'+arr_receive_date[0]+' '+new_receive_time;
+            var receive_date_eng = arr_receive_date[2]+'/'+arr_receive_date[1]+'/'+(parseInt(arr_receive_date[0])+543)+' '+new_receive_time;
             //$('#receive_date').datepicker("setDate", receive_date_eng);  //กำหนดวัน
             $('#receive_date').data("DateTimePicker").date(receive_date_eng);
         }else{
@@ -199,25 +240,42 @@ function getDataSend(id){
         async:false
     }).done(function (result) {
         var  dataSend = JSON.parse(result);
-        if((dataSend.reply_date != '') && (dataSend.reply_date != '0000-00-00') && (dataSend.reply_date != null)) {
-            var arr_reply_date = dataSend.reply_date.split('-');
-            var reply_date_eng = arr_reply_date[2]+'/'+arr_reply_date[1]+'/'+arr_reply_date[0];
-            $('#reply_date').datepicker("setDate", reply_date_eng);  //กำหนดวัน
+        if((dataSend.reply_date != '') && (dataSend.reply_date != '0000-00-00 00:00:00') && (dataSend.reply_date != null)) {
+            var original_reply_date = dataSend.reply_date.split(' ');
+            var new_reply_date = original_reply_date[0];
+            var new_reply_time = original_reply_date[1];
+            var arr_reply_date = new_reply_date.split('-');
+            var reply_date_eng = arr_reply_date[2]+'/'+arr_reply_date[1]+'/'+(parseInt(arr_reply_date[0])+543)+' '+new_reply_time;
+            //$('#reply_date').datepicker("setDate", reply_date_eng);  //กำหนดวัน
+            $('#reply_date').data("DateTimePicker").date(reply_date_eng);
         }else{
-            $('#reply_date').datepicker("setDate", "0");
+            //$('#reply_date').datepicker("setDate", "0");
+            $('#reply_date').data("DateTimePicker").date(moment(new Date ).format('DD/MM/BBBB HH:mm:ss'));
         }
 
-        if((dataSend.send_org_date != '') && (dataSend.send_org_date != '0000-00-00') && (dataSend.send_org_date != null)) {
-            var arr_send_org_date = dataSend.send_org_date.split('-');
-            var send_org_date_eng = arr_send_org_date[2]+'/'+arr_send_org_date[1]+'/'+arr_send_org_date[0];
-            $('#send_org_date').datepicker("setDate", send_org_date_eng);  //กำหนดวัน
+        if((dataSend.send_org_date != '') && (dataSend.send_org_date != '0000-00-00 00:00:00') && (dataSend.send_org_date != null)) {
+            var original_send_org_date = dataSend.send_org_date.split(' ');
+            var new_send_org_date = original_send_org_date[0];
+            var new_send_org_time = original_send_org_date[1];
+            var arr_send_org_date = new_send_org_date.split('-');
+            var send_org_date_eng = arr_send_org_date[2]+'/'+arr_send_org_date[1]+'/'+(parseInt(arr_send_org_date[0])+543)+' '+new_send_org_time;
+
+            //$('#send_org_date').datepicker("setDate", send_org_date_eng);  //กำหนดวัน
+            $('#send_org_date').data("DateTimePicker").date(send_org_date_eng);
         }else{
-            $('#send_org_date').datepicker("setDate", "0");
+            //$('#send_org_date').datepicker("setDate", "0");
+            $('#send_org_date').data("DateTimePicker").date(moment(new Date ).format('DD/MM/BBBB HH:mm:ss'));
         }
 
         var send_org_id = dataSend.send_org_id;
+        $('#send_org_id').val(send_org_id);
 
-        if(send_org_id != '' && send_org_id != '0') {
+        var url = base_url+'complaint/get_send_org/'+send_org_id;  //the url to call
+        $.post(url, {data: ''}, function (data) {
+            $('#send_org').html(data);
+        });
+
+        /*if(send_org_id != '' && send_org_id != '0') {
             if (send_org_id == '2') {
                 $('input[name=send_org_parent][value="2"]').prop('checked', true);
             } else {
@@ -226,7 +284,7 @@ function getDataSend(id){
             }
         }else{
             $('#send_org_id option[value=""]').prop('selected', 'selected');
-        }
+        }*/
 
         if(dataSend.current_status_id == '3' || dataSend.current_status_id == '4'){
             if(!$('#send_status').prop('checked')) {
@@ -364,3 +422,18 @@ $(document).ready(function() {
     } );
 } );
 
+var count_send_org = 0;
+function get_send_org_child(ele){
+    var value = ele.value;
+    $('#send_org_id').val(value);
+    if($('#'+ele.id).attr('has_child') != '') {
+        $('#' + $('#' + ele.id).attr('has_child')).html('');
+    }
+    if(value!=''){
+        count_send_org++;
+        var url = base_url+'complaint/get_send_org_child/'+value+'/'+count_send_org;  //the url to call
+        $.post(url, {data: ''}, function (data) {
+            $('#' + $('#' + ele.id).attr('has_child')).append(data);
+        });
+    }
+}

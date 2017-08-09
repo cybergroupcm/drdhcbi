@@ -6,13 +6,12 @@ $(document).ready(function () {
         var keyin_id = $('#keyin_id').val();
         var complain_no = $('#complain_no').val();
         var receive_date = $('#receive_date').val();
-        console.log(receive_date);
-        return false;
         if($('#receive_status').prop('checked') == true){
             receive_status = '2';
         }else{
             receive_status = '1';
         }
+
         var text_ok = 'บันทึกข้อมูลสำเร็จ';
         var text_error = 'บันทึกข้อมูลไม่สำเร็จ';
         $.ajax({

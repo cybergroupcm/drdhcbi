@@ -11,7 +11,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
         echo"<pre>";print_r(@$district_list);echo"</pre>";
     }
 
-$dateNow = date('d/m/Y',strtotime('+543 years'));
+$dateNow = date('d/m/Y H:i:s',strtotime('+543 years'));
 ?>
 <input type="hidden" id="action" value="<?php echo (@$id!='')?'edit':'add'; ?>">
 <input type="hidden" id="keyin_id" name="keyin_id" value="<?php echo (@$id!='')?$id:''; ?>">
@@ -43,8 +43,18 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
+                                <?php
+                                    if(@$key_in_data['complain_date']!=''&&@$key_in_data['complain_date']!='0000-00-00 00:00:00') {
+                                        $arrComplainDate = explode(' ',$key_in_data['complain_date']);
+                                        $complainDate = explode('-',$arrComplainDate[0]);
+                                        $complainTime = $arrComplainDate[1];
+                                        $complainDateTime = $complainDate[2].'/'.$complainDate[1].'/'.($complainDate[0]+543).' '.$complainTime;
+                                    }else{
+                                        $complainDateTime = $dateNow;
+                                    }
+                                ?>
                                 <input type="text" name="complain_date" id="complain_date"
-                                       class="form-control pull-right datepicker" value="<?php echo @$key_in_data['complain_date']!=''?date('d/m/Y',  strtotime(@$key_in_data['complain_date'])):$dateNow; ?>">
+                                       class="form-control pull-right datetimepicker" value="<?php echo $complainDateTime; ?>">
                             </div>
                         </label>
                     </div>
@@ -77,8 +87,18 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
+                                <?php
+                                if(@$key_in_data['doc_receive_date']!=''&&@$key_in_data['doc_receive_date']!='0000-00-00 00:00:00') {
+                                    $arrDocReceiveDate = explode(' ',$key_in_data['doc_receive_date']);
+                                    $docReceiveDate = explode('-',$arrDocReceiveDate[0]);
+                                    $docReceiveTime = $arrDocReceiveDate[1];
+                                    $docReceiveDateTime = $docReceiveDate[2].'/'.$docReceiveDate[1].'/'.($docReceiveDate[0]+543).' '.$docReceiveTime;
+                                }else{
+                                    $docReceiveDateTime = $dateNow;
+                                }
+                                ?>
                                 <input type="text" name="doc_receive_date" id="doc_receive_date"
-                                       class="form-control pull-right datepicker" value="<?php echo @$key_in_data['doc_receive_date']!='0000-00-00' && @$key_in_data['doc_receive_date']!= ''?date('d/m/Y',  strtotime(@$key_in_data['doc_receive_date'])):$dateNow; ?>">
+                                       class="form-control pull-right datetimepicker" value="<?php echo $docReceiveDateTime ?>">
                             </div>
                         </label>
                     </div>
@@ -111,8 +131,18 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
+                                <?php
+                                if(@$key_in_data['doc_send_date']!=''&&@$key_in_data['doc_send_date']!='0000-00-00 00:00:00') {
+                                    $arrDocSendDate = explode(' ',$key_in_data['doc_send_date']);
+                                    $docSendDate = explode('-',$arrDocSendDate[0]);
+                                    $docSendTime = $arrDocSendDate[1];
+                                    $docSendDateTime = $docSendDate[2].'/'.$docSendDate[1].'/'.($docSendDate[0]+543).' '.$docSendTime;
+                                }else{
+                                    $docSendDateTime = $dateNow;
+                                }
+                                ?>
                                 <input type="text" name="doc_send_date" id="doc_send_date"
-                                       class="form-control pull-right datepicker" value="<?php echo @$key_in_data['doc_send_date']!='0000-00-00' && @$key_in_data['doc_send_date']!= ''?date('d/m/Y',  strtotime(@$key_in_data['doc_send_date'])):$dateNow; ?>">
+                                       class="form-control pull-right datetimepicker" value="<?php echo $docSendDateTime; ?>">
                             </div>
                         </label>
                     </div>
@@ -261,6 +291,22 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
 <?php
 $link = array(
     'src' => 'assets/js/js.cookie.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    'href' => 'template/plugins/datepicker/bootstrap-datetimepicker.min.css',
+    'rel' => 'stylesheet',
+    'type' => 'text/css'
+);
+echo link_tag($link);
+$link = array(
+    'src' => 'template/plugins/datepicker/moment-with-locales.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    'src' => 'template/plugins/datepicker/bootstrap-datetimepicker.min.js',
     'type' => 'text/javascript'
 );
 echo script_tag($link);
