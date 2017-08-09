@@ -200,8 +200,14 @@ function getDataSend(id){
         }
 
         var send_org_id = dataSend.send_org_id;
+        $('#send_org_id').val(send_org_id);
 
-        if(send_org_id != '' && send_org_id != '0') {
+        var url = base_url+'complaint/get_send_org/'+send_org_id;  //the url to call
+        $.post(url, {data: ''}, function (data) {
+            $('#send_org').html(data);
+        });
+
+        /*if(send_org_id != '' && send_org_id != '0') {
             if (send_org_id == '2') {
                 $('input[name=send_org_parent][value="2"]').prop('checked', true);
             } else {
@@ -210,7 +216,7 @@ function getDataSend(id){
             }
         }else{
             $('#send_org_id option[value=""]').prop('selected', 'selected');
-        }
+        }*/
 
         if(dataSend.current_status_id == '3' || dataSend.current_status_id == '4'){
             if(!$('#send_status').prop('checked')) {
@@ -348,3 +354,18 @@ $(document).ready(function() {
     } );
 } );
 
+var count_send_org = 0;
+function get_send_org_child(ele){
+    var value = ele.value;
+    $('#send_org_id').val(value);
+    if($('#'+ele.id).attr('has_child') != '') {
+        $('#' + $('#' + ele.id).attr('has_child')).html('');
+    }
+    if(value!=''){
+        count_send_org++;
+        var url = base_url+'complaint/get_send_org_child/'+value+'/'+count_send_org;  //the url to call
+        $.post(url, {data: ''}, function (data) {
+            $('#' + $('#' + ele.id).attr('has_child')).append(data);
+        });
+    }
+}
