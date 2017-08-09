@@ -168,6 +168,20 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="col-sm-5 right">
+                            หน่วยงานที่มาของเรื่อง :
+                        </label>
+                        <label class="col-sm-7">
+                            <input type="text" name="origin_of_subject" id="origin_of_subject" class="form-control" value="<?php echo @$key_in_data['origin_of_subject']; ?>">
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-sm-5 right">
                             ผู้บันทึก :
                         </label>
                         <label class="col-sm-7">
