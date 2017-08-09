@@ -10,6 +10,13 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
         echo"<pre>";print_r(@$key_in_data);echo"</pre>";
         echo"<pre>";print_r(@$district_list);echo"</pre>";
     }
+  if(@$_GET['debug']=='token_info'){
+    if($members_keyin){
+      echo "members_keyin";
+    }else{
+      echo "No members_keyin";
+    }
+  }
 
 $dateNow = date('d/m/Y H:i:s',strtotime('+543 years'));
 ?>
@@ -31,7 +38,7 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
                 <div class="form-group">บันทึกเรื่องร้องทุกข์/ร้องเรียน</div>
             </div>
         </div>
-        <div class="row">
+        <div class="row chack_keyin_member">
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -61,7 +68,7 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row chack_keyin_member">
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -75,7 +82,7 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row chack_keyin_member">
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -105,7 +112,7 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row chack_keyin_member">
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -119,7 +126,7 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row chack_keyin_member">
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -149,7 +156,7 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row chack_keyin_member">
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -163,7 +170,7 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row chack_keyin_member">
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -177,7 +184,7 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row chack_keyin_member">
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -195,7 +202,7 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-6 right">
+                        <label class="col-sm-6 right required">
                             ผู้ร้องทุกข์/Complainant :
                         </label>
                         <label class="col-sm-6">
@@ -302,6 +309,23 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
         </div>
     </div>
 <div id="base_url" class="<?php echo base_url(); ?>"></div>
+<?php
+if($members_keyin == true){
+  $link = array(
+      'href' => '/assets/css/key_in_member.css',
+      'type' => 'text/css',
+      'rel' => 'stylesheet'
+  );
+  echo link_tag($link);
+}else{
+  $link = array(
+      'href' => '/assets/css/key_in_no_member.css',
+      'type' => 'text/css',
+      'rel' => 'stylesheet'
+  );
+  echo link_tag($link);
+}
+?>
 <?php
 $link = array(
     'src' => 'assets/js/js.cookie.js',
