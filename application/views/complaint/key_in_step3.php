@@ -40,10 +40,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'3'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right required">
-                            ประเภทเรื่อง :
+                        <label class="col-sm-6 right required">
+                            ประเภทเรื่อง/Complaint type :
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-6">
                         <?php
                             $i = 0;
                             foreach($complain_type as $key => $value){ ?>
@@ -79,10 +79,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'3'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right required">
-                            หัวข้อเรื่อง :
+                        <label class="col-sm-6 right required">
+                            หัวข้อเรื่อง/Complaint topic :
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-6">
                             <input type="text" name="complain_name" id="complain_name" class="form-control" value="<?php echo @$key_in_data['complain_name']; ?>">
                         </label>
                     </div>
@@ -93,10 +93,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'3'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right required">
-                            ช่องทางรับเรื่อง :
+                        <label class="col-sm-6 right required">
+                            ช่องทางรับเรื่อง/Complaint channel :
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-6">
                             <?php
                             $dd2 = $channel;
                             $dd2[''] = 'กรุณาเลือก';
@@ -116,10 +116,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'3'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right required">
-                            ลักษณะเรื่อง :
+                        <label class="col-sm-6 right required">
+                            ลักษณะเรื่อง/Complaint category :
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-6">
                             <?php
                             $dd3 = $subject;
                             $dd3[''] = 'กรุณาเลือก';
@@ -139,10 +139,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'3'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right required">
-                                หน่วยงานหรือผู้ถูกร้องเรียนร้องทุกข์ :
+                        <label class="col-sm-6 right required">
+                                หน่วยงานหรือผู้ถูกร้องเรียนร้องทุกข์<br>/Accused(Department or person) :
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-6">
                             <?php
                             $i = 0;
                             foreach($accused_type as $key => $value){ ?>
@@ -178,10 +178,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'3'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right">
-                            ชื่อผู้ถูกร้องเรียน :
+                        <label class="col-sm-6 right">
+                            ชื่อผู้ถูกร้องเรียน/Accused name :
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-6">
                             <input type="text" name="accused_name" id="accused_name" class="form-control"
                                    value="<?php echo @$key_in_data['accused_name']; ?>">
                         </label>
@@ -193,10 +193,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'3'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-md-5 col-sm-5 right required">
-                                ความประสงค์ :
+                        <label class="col-md-6 col-sm-6 right required">
+                                ความประสงค์/Wishes :
                         </label>
-                        <label class="col-md-7 col-sm-7">
+                        <label class="col-md-6 col-sm-6">
                             <?php
                             $wish_id = array();
                             if(@$key_in_data['wish']!=''){
@@ -223,10 +223,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'3'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right">
-                            ความประสงค์อื่น :
+                        <label class="col-sm-6 right">
+                            ความประสงค์อื่น/Other wishes :
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-6">
                                     <textarea class="form-control" cols="100" rows="5" id="wish_detail"
                                               name="wish_detail"><?php echo @$key_in_data['wish_detail']; ?></textarea>
                         </label>
