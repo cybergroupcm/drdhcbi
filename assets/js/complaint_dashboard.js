@@ -300,28 +300,30 @@ function getDataSend(id){
 
 function bt_delete(id) {
     var base_url = $('#base_url').attr('class');
+    var cancel_status = '5'; //สถานะการยกเลิก
     swal({
-            title: "คุณต้องการจะลบข้อมูลหรือไม่?",
+            title: "คุณต้องการจะยกเลิกข้อมูลหรือไม่?",
             text: "",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
-            confirmButtonText: "ใช่, ต้องการจะลบข้อมูล!",
+            confirmButtonText: "ใช่, ต้องการจะยกเลิกข้อมูล!",
             cancelButtonText: "ไม่",
             closeOnConfirm: false
         },
         function () {
             $.ajax({
-                type: 'DELETE', //GET, POST, PUT
+                type: 'PUT', //GET, POST, PUT
                 url: base_url+'api/complaint/key_in/'+id, //the url to call
                 async:false,
                 //contentType: 'application/json',
+                data: {keyin_id: id,current_status_id:cancel_status},
                 beforeSend: function (xhr) {   //Include the bearer token in header
                     xhr.setRequestHeader("Authorization", 'Bearer ' + jwt);
                 }
             }).done(function (response) {
                 swal({
-                        title: "ลบข้อมูลสำเร็จ",
+                        title: "ยกเลิกข้อมูลสำเร็จ",
                         text: "",
                         type: "success",
                         showCancelButton: false,
@@ -336,7 +338,7 @@ function bt_delete(id) {
                     });
 
             }).fail(function (err) {
-                swal("ลบข้อมูลไม่สำเร็จ", "", "error");
+                swal("ยกเลิกข้อมูลไม่สำเร็จ", "", "error");
             });
         });
 }
@@ -415,7 +417,7 @@ $(document).ready(function() {
         "bLengthChange": false,
         "pageLength": 15
     });
-    $('#example1 tbody>tr').on('click', 'td.open', function () {
+    $('#example1 tbody').on('click', 'td.open', function () {
         var id = table.row( this ).id();
         var href = base_url+'complaint/view_detail/'+id;
         window.location.href = href;

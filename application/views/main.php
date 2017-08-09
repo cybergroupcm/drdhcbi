@@ -184,14 +184,17 @@
                    </tr>
                    <?php
                    foreach ($current_status_data as $status_data) {
+                       //แสดงสถานะที่ไม่ใช่ยกเลิก
+                       if($status_data['status_id'] != '5'){
                    ?>
-                   <tr>
-                      <td width="30" align="center">
-                      <input name="map_<?php echo $status_data['status_id'];?>" type="checkbox" checked="checked" onClick="addlayerXML(this);" value="main/get_xml_map_status/<?php echo $status_data['status_id'];?>" id="map_<?php echo $status_data['status_id'];?>" >
-                    </td>
-                        <td align="left"><?php echo $status_data['status_name'];?></td>
-                    </tr>
+                       <tr>
+                          <td width="30" align="center">
+                          <input name="map_<?php echo $status_data['status_id'];?>" type="checkbox" checked="checked" onClick="addlayerXML(this);" value="main/get_xml_map_status/<?php echo $status_data['status_id'];?>" id="map_<?php echo $status_data['status_id'];?>" >
+                        </td>
+                            <td align="left"><?php echo $status_data['status_name'];?></td>
+                        </tr>
                    <?php
+                        }
                    }
                    ?>
                    <tr>

@@ -36,6 +36,11 @@ class Complaint extends CI_Controller
         if ($id != '') {
             $url = base_url("api/complaint/key_in/" . $id);
             $arr_data['key_in_data'] = api_call_get($url);
+            if($_GET['debug']=='on') {
+                echo "<pre>";
+                print_r($arr_data['key_in_data']);
+                exit;
+            }
             $arr_data['id'] = $id;
 
             $url = base_url("api/dropdown/accused_type_lists/0");
@@ -105,13 +110,46 @@ class Complaint extends CI_Controller
         $filtered = array_filter($filter, function ($value) {
             return ($value !== null && $value !== false && $value !== '');
         });
+        $arr_data['txtDetail'] = '';
+        $isFirst = true;
+        $hasStartDate = false;
         if (count($filtered) > 0) {
+            $arr_data['txtDetail'] = 'ค้นหา:';
             foreach ($filtered as $index => $item) {
+                if(!$isFirst  && !$hasStartDate){
+                    $arr_data['txtDetail'] .= ' และ ';
+                }
+                switch ($index){
+                    case 'complain_no':
+                        $arr_data['txtDetail'] .= " เลขที่เรื่องร้องทุกข์ {$item}";
+                        break;
+                    case 'petitioner':
+                        $arr_data['txtDetail'] .= " ชื่อผู้ร้องทุกข์ {$item}";
+                        break;
+                    case 'complaint_detail':
+                        $arr_data['txtDetail'] .= " เรื่องร้องทุกข์ {$item}";
+                        break;
+                    case 'current_status':
+                        $url = base_url("api/dropdown/current_status_lists");
+                        $current_status = api_call_get($url);
+                        $arr_data['txtDetail'] = "สถานะ {$current_status[$item]}";
+                        break;
+                    case 'complaint_date_start':
+                        $dateText = date_thai(date_eng($item));
+                        $arr_data['txtDetail'] .= " ตั้งแต่วันที่ {$dateText}";
+                        $hasStartDate = true;
+                        break;
+                    case 'complaint_date_end':
+                        $dateText = date_thai(date_eng($item));
+                        $arr_data['txtDetail'] .= " ถึงวันที่ {$dateText}";
+                        break;
+                }
                 if ($index == 'complaint_date_start' || $index == 'complaint_date_end') {
                     $item = date_eng($item);
                 }
                 $item = urlencode($item);
                 $queryFilter .= "/{$index}/{$item}";
+                $isFirst = false;
             }
         }
 
@@ -174,6 +212,22 @@ class Complaint extends CI_Controller
                 }
             }
         }
+        //@start เช็คให้ข้อมูลกลุ่มผู้ใช้งานเพื่อ แสดงรายการที่ยกเลิก
+        $id=$arr_data['token']['userid'];
+        $url = base_url()."api/user/user/".$id;
+        $arr_data_user = api_call_get($url);
+        $arr_group = array();
+        foreach($arr_data_user['currentGroups'] AS $key=>$val){
+            $arr_group[$key] = $val['id'];
+        }
+
+        if(in_array('1',$arr_group)){
+            $check_no_status  = "";
+        }else{
+            $check_no_status  = "/no_status/5";
+        }
+
+        //@end เช็คให้ข้อมูลกลุ่มผู้ใช้งานเพื่อ แสดงรายการที่ยกเลิก
 
 //        $url = base_url("api/dropdown/complain_type_lists");
 //        $arr_data['data_filter'] = api_call_get($url);
@@ -181,7 +235,7 @@ class Complaint extends CI_Controller
         $total_row = api_call_get($url);
         $arr_data['total_row'] = $total_row;*/
 //        $url = base_url('/api/complaint/dashboard/overall/'.$overall.'/user_id/'.$user_data_id['userid'].'/page/'.$page);
-        $url = base_url('/api/complaint/dashboard_last_month/overall/' . $overall . '/user_id/' . $user_data_id['userid'] . $queryFilter);
+        $url = base_url('/api/complaint/dashboard_last_month/overall/' . $overall . '/user_id/' . $user_data_id['userid'] . $queryFilter.$check_no_status);
         $arr_data['data'] = api_call_get($url);
         if (isset($arr_data['data']['status'])) {
             $arr_data['data'] = [];
@@ -195,6 +249,14 @@ class Complaint extends CI_Controller
 
         $url = base_url("api/dropdown/send_org_lists");
         $arr_data['send_org'] = api_call_get($url);
+
+        if($arr_data['txtDetail']==''){
+            $date = new DateTime('now');
+            $date->modify('last day of this month');
+            $firstDate =  date_thai(date("Y-m-1"));
+            $lastDate =  date_thai($date->format('Y-m-d'));
+            $arr_data['txtDetail'] = "ข้อมูล วันที่ {$firstDate} ถึง วันที่ {$lastDate}";
+        }
 
         //start แบ่งหน้า
         //$this->load->library('pagination');
