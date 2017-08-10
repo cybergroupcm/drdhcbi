@@ -203,6 +203,7 @@ $dateNow = date('d/m/Y H:i:s',strtotime('+543 years'));
             <div class="col-md-12">
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
+                    <input id="pac-input" class="controls form-control" type="text" placeholder="ค้นหาพื้นที่...">
                     <div id="map_canvas" style="width:100%; height:300px;"></div>
                 </div>
             </div>
@@ -227,15 +228,21 @@ echo form_close();
 <div id="base_url" class="<?php echo base_url(); ?>"></div>
 <?php
 $link = array(
-    ' src' => 'http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=true&amp;key=AIzaSyACSdMKi4OrvylAegEJXXR3--RnLUYUBtw',
-    ' type' => 'text/javascript'
-);
-echo script_tag($link);
-$link = array(
     'src' => 'assets/js/map.js',
     'type' => 'text/javascript'
 );
 echo script_tag($link);
+$link = array(
+    ' src' => 'https://maps.googleapis.com/maps/api/js?key=AIzaSyACSdMKi4OrvylAegEJXXR3--RnLUYUBtw&libraries=places',
+    ' type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    'href' => '/assets/css/key_in_map.css',
+    'type' => 'text/css',
+    'rel' => 'stylesheet'
+);
+echo link_tag($link);
 $link = array(
     'src' => 'assets/js/js.cookie.js',
     'type' => 'text/javascript'
