@@ -1,5 +1,6 @@
 mapoverlay = Array();
 var markers = [];
+var marker = [];
 var geocoder = null;
 var map;
 
@@ -38,7 +39,7 @@ function initialize() {
 
           // Clear out the old markers.
 					var  p_arr = markers.push(marker);
-					if(p_arr >= 1){
+					if(p_arr > 1){
 						for (var i = 0; i < p_arr; i++) {
 							markers[i].setMap(null);
 						}
@@ -104,14 +105,16 @@ function initialize() {
 
 		google.maps.event.addListener(map, 'click', function(latlng) {
 		  if(latlng){
-				var  p_arr = markers.push(marker);
-				console.log('p_arr:'+p_arr);
-				if(p_arr >= 1){
-					for (var i = 0; i < p_arr; i++) {
-						markers[i].setMap(null);
-						console.log('setMap null');
-					}
-			  }
+				if(marker){
+					var  p_arr = markers.push(marker);
+					console.log('p_arr:'+p_arr);
+					if(p_arr > 1){
+						for (var i = 0; i < p_arr; i++) {
+							markers[i].setMap(null);
+							console.log('setMap null');
+						}
+				  }
+				}
 
 				//console.log('latlng:'+latlng.latLng.lat());
 				var lat = latlng.latLng.lat();
