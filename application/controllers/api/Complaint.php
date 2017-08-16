@@ -728,7 +728,8 @@ class Complaint extends REST_Controller
                     address,
                     address_id,
                     gender,
-                    position
+                    position,
+                    email
                 FROM
                     au_users
                 WHERE 1=1 ".$where;

@@ -128,10 +128,12 @@ class Dropdown extends REST_Controller
         }
     }
 
-    public function ccaa_lists_get($ccType,$ccaa_code='')
+    public function ccaa_lists_get($ccType='',$ccaa_code='')
     {
         $conditions = array();
-        $conditions['ccType'] = $ccType;
+        if($ccType!='') {
+            $conditions['ccType'] = $ccType;
+        }
         if($ccaa_code!=''){
             $conditions['ccDigi LIKE'] = $ccaa_code."%";
         }
