@@ -40,10 +40,10 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'4'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right">
-                            แนบไฟล์เอกสารหลักฐาน :
+                        <label class="col-sm-6 right">
+                            แนบไฟล์เอกสารหลักฐาน<br>/Attach confident document :
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-6">
                             <!--input type="file" multiple id="myFile" name="attach_file[]" onchange="checkFile()"
                                    accept=".jpg, .png, .pdf"-->
                             <input type="button" id="add_file" class="btn btn-primary" value="เพิ่มไฟล์" onclick="add_new_file()">

@@ -136,6 +136,27 @@ class Complaint extends CI_Controller
 
     public function dashboard()
     {
+        $url = base_url("api/dropdown/send_org_parent_lists/0");
+        $arr_data['send_org_parent'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/send_org_lists");
+        $arr_data['send_org'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/channel_lists");
+        $arr_data['channel'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/subject_lists");
+        $arr_data['subject'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/current_status_lists");
+        $arr_data['current_status'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/complain_type_lists//parent_id/0");
+        $arr_data['complain_type'][] = api_call_get($url);
+
+        $url = base_url("api/dropdown/ccaa_lists/Changwat");
+        $arr_data['province_list'] = api_call_get($url);
+
         $queryFilter = '';
         $filter = $this->input->get();
         $filtered = array_filter($filter, function ($value) {
@@ -160,10 +181,36 @@ class Complaint extends CI_Controller
                     case 'complaint_detail':
                         $arr_data['txtDetail'] .= " เรื่องร้องทุกข์ {$item}";
                         break;
+                    case 'complain_type_id':
+                        $url = base_url("api/dropdown/complain_type_lists");
+                        $complain_type = api_call_get($url);
+                        $arr_data['txtDetail'] .= " ประเภทเรื่องร้องทุกข์ {$complain_type[$item]}";
+                        break;
+                    case 'channel_id':
+                        $arr_data['txtDetail'] .= " ช่องทางร้องทุกข์ {$arr_data['channel'][$item]}";
+                        break;
+                    case 'subject_id':
+                        $arr_data['txtDetail'] .= " ลักษณะเรื่องร้องทุกข์ {$arr_data['subject'][$item]}";
+                        break;
                     case 'current_status':
-                        $url = base_url("api/dropdown/current_status_lists");
-                        $current_status = api_call_get($url);
-                        $arr_data['txtDetail'] = "สถานะ {$current_status[$item]}";
+                        $arr_data['txtDetail'] = "สถานะ {$arr_data['current_status'][$item]}";
+                        break;
+                    case 'province_id':
+                        $url = base_url("api/dropdown/ccaa_lists/Changwat/{$item}");
+                        $province = api_call_get($url);
+                        $arr_data['txtDetail'] .= "พื้นที่ จังหวัด{$province[$item]}";
+                        break;
+                    case 'district_id':
+                        $url = base_url("api/dropdown/ccaa_lists/Aumpur/{$item}");
+                        $district = api_call_get($url);
+                        $arr_data['txtDetail'] = rtrim($arr_data['txtDetail'], ' และ ');
+                        $arr_data['txtDetail'] .= " อำเภอ{$district[$item]}";
+                        break;
+                    case 'address_id':
+                        $url = base_url("api/dropdown/ccaa_lists/Tamboon/{$item}");
+                        $address = api_call_get($url);
+                        $arr_data['txtDetail'] = rtrim($arr_data['txtDetail'], ' และ ');
+                        $arr_data['txtDetail'] .= " ตำบล{$address[$item]}";
                         break;
                     case 'complaint_date_start':
                         $dateText = date_thai(date_eng($item));
@@ -275,20 +322,6 @@ class Complaint extends CI_Controller
 //        $arr_data['start_row'] = (($page-1)*15)+1;
         $arr_data['start_row'] = 1;
 
-        $url = base_url("api/dropdown/send_org_parent_lists/0");
-        $arr_data['send_org_parent'] = api_call_get($url);
-
-        $url = base_url("api/dropdown/send_org_lists");
-        $arr_data['send_org'] = api_call_get($url);
-
-        $url = base_url("api/dropdown/channel_lists");
-        $arr_data['channel'] = api_call_get($url);
-
-        $url = base_url("api/dropdown/subject_lists");
-        $arr_data['subject'] = api_call_get($url);
-
-        $url = base_url("api/dropdown/complain_type_lists//parent_id/0");
-        $arr_data['complain_type'][] = api_call_get($url);
 
         if($arr_data['txtDetail']==''){
             $date = new DateTime('now');

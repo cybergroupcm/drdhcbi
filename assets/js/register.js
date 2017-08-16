@@ -4,52 +4,36 @@
             action = 'edit';
         }
         var text_warning = "";
-        if ($('#username').val() == "") {
-            text_warning += " - ชื่อผู้ใช้งาน\n";
-        }
-        if(action == "") {
-            if ($('#password').val() == "") {
-                text_warning += " - รหัสผ่าน\n";
-            }else{
-                if($('#password').val() != $('#password2').val()){
-                    text_warning += " - การยืนยันรหัสผ่านไม่ตรงกัน\n";
-                }
-            }
-        }else{
-            if($('#password').val() != $('#password2').val()){
-                text_warning += " - การยืนยันรหัสผ่านไม่ตรงกัน\n";
-            }
-        }
-        if ($('#email').val() == "" ) {
-            text_warning += " - อีเมล์\n";
-        }else{
-            if($('#email').val() != $('#email2').val() && $('#email2').val() !='none'){
-                    text_warning += " - การยืนยัน email ไม่ตรงกัน\n";
-            }
-        }
         if ($('#idcard').val() == "") {
             text_warning += " - รหัสประจำตัวประชาชน\n";
         }
-        if ($('#prename_th_id').val() == "") {
-            text_warning += " - คำนำหน้าชื่อ\n";
+        if(action != "") {
+            if ($('#prename_th_id').val() == "") {
+                text_warning += " - คำนำหน้าชื่อ\n";
+            }
         }
-        if ($('#name_th').val() == "") {
-            text_warning += " - ชื่อ\n";
-        }
-        if ($('#surname_th').val() == "") {
-            text_warning += " - นามสกุล\n";
+        if($("#id_type").val() != '2') {
+            if ($('#name_th').val() == "") {
+                text_warning += " - ชื่อ\n";
+            }
+            if ($('#surname_th').val() == "") {
+                text_warning += " - นามสกุล\n";
+            }
         }
         if ($('#gender1').is(':checked') === false && $('#gender2').is(':checked') === false ) {
-         if(action == ""){
+         if(action != ""){
              text_warning += " - เพศ\n";
          }
         }
-        if ($('#section').val() == "") {
-            text_warning += " - หน่วยงาน/แผนก ที่สังกัด\n";
+        if(action != "") {
+            if ($('#section').val() == "") {
+                text_warning += " - หน่วยงาน/แผนก ที่สังกัด\n";
+            }
+
+            if ($('#address').val() == "") {
+                text_warning += " - ที่อยู่\n";
+            }
         }
-//        if ($('#address').val() == "") {
-//            text_warning += " - ที่อยู่\n";
-//        }
         if ($('#province').val() == "") {
             text_warning += " - จังหวัด\n";
         }
@@ -59,7 +43,41 @@
         if ($('#sub_district').val() == "") {
             text_warning += " - ตำบล\n";
         }
-        
+
+        if(action != "") {
+            if ($('#email').val() == "" ) {
+                text_warning += " - อีเมล์\n";
+            }else{
+                if($('#email').val() != $('#email2').val() && $('#email2').val() !='none'){
+                    text_warning += " - การยืนยัน email ไม่ตรงกัน\n";
+                }
+            }
+        }
+
+        if ($('#phone_number').val() == "") {
+            text_warning += " - เบอร์โทรศัพท์\n";
+        }
+        if ($('#username').val() == "") {
+            text_warning += " - ชื่อผู้ใช้งาน\n";
+        }
+
+        if(action == "") {
+            if ($('#password').val() == "") {
+                text_warning += " - รหัสผ่าน\n";
+            }else{
+                if ($('#password2').val() == "") {
+                    text_warning += " - ยืนยันรหัสผ่าน\n";
+                }else {
+                    if ($('#password').val() != $('#password2').val()) {
+                        text_warning += " - การยืนยันรหัสผ่านไม่ตรงกัน\n";
+                    }
+                }
+            }
+        }else{
+            if($('#password').val() != $('#password2').val()){
+                text_warning += " - การยืนยันรหัสผ่านไม่ตรงกัน\n";
+            }
+        }
         
         if (text_warning != "") {
             swal("กรุณาระบุข้อมูลต่อไปนี้", text_warning, "warning");
@@ -161,6 +179,35 @@
                 event.preventDefault(); 
             }
         });
+
+        $("#id_type").change(function() {
+            if($(this).val() == '2'){
+                $(".show_input").hide();
+                $("#idcard").attr("placeholder", "Passport");
+                $("#prename_en").attr("placeholder", "Prename");
+                $("#name_en").attr("placeholder", "First name");
+                $("#surname_en").attr("placeholder", "Last name");
+                $("#address").attr("placeholder", "Address");
+                $("#email").attr("placeholder", "Email address");
+                $("#phone_number").attr("placeholder", "Phone");
+                $("#username").attr("placeholder", "User name");
+                $("#password").attr("placeholder", "Enter a password");
+                $("#password2").attr("placeholder", "Confirm the password");
+            }else{
+                $(".show_input").show();
+                $("#idcard").attr("placeholder", "รหัสประจำตัวประชาชน");
+                $("#prename_en").attr("placeholder", "คำนำหน้าชื่อ (ภาษาอังกฤษ)");
+                $("#name_en").attr("placeholder", "ชื่อ (ภาษาอังกฤษ)");
+                $("#surname_en").attr("placeholder", "นามสกุล (ภาษาอังกฤษ)");
+                $("#address").attr("placeholder", "ที่อยู่ติดต่อกลับ");
+                $("#email").attr("placeholder", "อีเมลล์");
+                $("#phone_number").attr("placeholder", "เบอร์โทรศัพท์");
+                $("#username").attr("placeholder", "ชื่อผู้ใช้");
+                $("#password").attr("placeholder", "รหัสผ่าน");
+                $("#password2").attr("placeholder", "ยืนยันรหัสผ่าน");
+            }
+        });
+
     });
     function readURL(input) {
 

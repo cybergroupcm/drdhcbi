@@ -174,6 +174,23 @@ class Auth extends MY_Controller {
         $url = base_url()."api/dropdown/title_name_lists";
         $this->data['title_name'] = api_call_get($url);
 
+        $url = base_url("api/dropdown/ccaa_lists/Changwat");
+        $this->data['province_list'] = api_call_get($url);
+
+        if(@$this->data['data']['user']['address_id']!=''){
+            $ccaa_code = substr(@$this->data['data']['address_id'], 0, 3);
+        }else{
+            $ccaa_code = '200';
+        }
+        $url = base_url("api/dropdown/ccaa_lists/Aumpur/".$ccaa_code);
+        $this->data['district_list'] = api_call_get($url);
+
+        if(@$this->data['data']['user']['address_id']!=''){
+            $ccaa_code = substr(@$this->data['data']['address_id'], 0, 4);
+            $url = base_url("api/dropdown/ccaa_lists/Tamboon/".$ccaa_code);
+            $arr_data['subdistrict_list'] = api_call_get($url);
+        }
+
         $this->template->auth_render('auth/register',$this->data);
     }
 

@@ -37,7 +37,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" name="result_date" id="result_date" class="form-control pull-right datepicker key_date" />
+                                            <input type="text" name="result_date" id="result_date" class="form-control pull-right key_date" />
                                         </div>
                                     </label>
                                 </div>
