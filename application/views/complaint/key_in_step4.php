@@ -21,7 +21,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
 <input type="hidden" id="keyin_id" name="keyin_id" value="<?php echo (@$id!='')?$id:''; ?>">
 <input type="hidden" id="action_to" value="key_in_step5">
 <?php
-if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
+if(@$key_in_data['step']!='' && $key_in_data['step']>'4'){
     $step = @$key_in_data['step'];
 }else{
     $step = '4';
@@ -54,9 +54,9 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                            <span class="col-sm-12 right" style="color:red;">
+                            <!--span class="col-sm-12 right" style="color:red;">
                                 อณุญาตให้แนบไฟล์นามสกุล .jpg, .png, .pdf ขนาดไม่เกิน 1 MB
-                            </span>
+                            </span-->
                     </div>
                 </div>
             </div>
@@ -114,6 +114,22 @@ $link = array(
 echo script_tag($link);
 $link = array(
     'src' => 'assets/js/step.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    'href' => 'template/plugins/datepicker/bootstrap-datetimepicker.min.css',
+    'rel' => 'stylesheet',
+    'type' => 'text/css'
+);
+echo link_tag($link);
+$link = array(
+    'src' => 'template/plugins/datepicker/moment-with-locales.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    'src' => 'template/plugins/datepicker/bootstrap-datetimepicker.min.js',
     'type' => 'text/javascript'
 );
 echo script_tag($link);

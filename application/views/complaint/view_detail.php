@@ -485,7 +485,7 @@
                                     $runno++;
                                     $event_date = '';
                                     $detail = '';
-                                    $update_user = $update_user_detail['prename_th'].$update_user_detail['first_name']." ".$update_user_detail['last_name'];
+                                    $update_user = @$update_user_detail['prename_th'].@$update_user_detail['first_name']." ".@$update_user_detail['last_name'];
                                     if($key == '1'){
                                         $event_date = $key_in_data['complain_date']!='0000-00-00'?$key_in_data['complain_date']:'';
                                     }else if($key == '2'){
