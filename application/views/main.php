@@ -231,8 +231,8 @@
                 echo script_tag($link);
                 ?>
                   <center>
-                      <div id="canvas-holder" style="width:420px">
-                          <canvas id="chart-area" />
+                      <div class="chart">
+                          <canvas id="barChart" style="height:420px"></canvas>
                       </div>
                   </center>
               </div><!-- /.box -->
@@ -240,8 +240,23 @@
                   var randomScalingFactor = function() {
                       return Math.round(Math.random() * 100);
                   };
+                  <?php
+                  function substr_utf8( $str, $start_p , $len_p){
+                      return preg_replace( '#^(?:[\x00-\x7F]|[\xC0-\xFF][\x80-\xBF]+){0,'.$start_p.'}'.'((?:[\x00-\x7F]|[\xC0-\xFF][\x80-\xBF]+){0,'.$len_p.'}).*#s','$1' , $str );
+                  }
+                  foreach($sum_type as $key => $value ){
+                      $arr_complain_type[] = array('complain_type' => $value['complain_type_name']);
+                      if($value['complain_type_name'] == 'ไม่มีข้อมูล'){
+                        $arr_complain_type_shrot[] = $value['complain_type_name'];
+                      }else{
+                        $arr_complain_type_shrot[] = substr_utf8($value['complain_type_name'],0,9).'...';
+                      }
+                  }
+                  ?>
+                  var  arr_complain_type = '<?php echo json_encode($arr_complain_type);?>';
+                  var  complain_type = JSON.parse(arr_complain_type);
                   var config = {
-                      type: 'doughnut',
+                      type: 'bar',
                       data: {
                           datasets: [{
                               data: [
@@ -258,20 +273,21 @@
                                   }
                                   ?>
                               ],
-                              label: 'Dataset 1'
+                              label: '# จำนวน '
                           }],
                           labels: [
                               <?php
-                              foreach($sum_type as $key => $value ){
-                                  echo "'".$value['complain_type_name']."',";
+                              foreach($arr_complain_type_shrot as $key => $complain_type_name ){
+                                  echo "'".$complain_type_name."',";
                               }
                               ?>
                           ]
                       },
                       options: {
                           responsive: true,
+                          label:{display: false},
                           legend: {
-                              position: 'bottom',
+                              display: false,
                           },
                           title: {
                               display: true,
@@ -280,11 +296,27 @@
                           animation: {
                               animateScale: true,
                               animateRotate: true
-                          }
+                          },
+                            tooltips: {
+                            callbacks: {
+                                title: function(tooltipItems, data) {
+                                    // Pick first xLabel for now
+                                    var title = '';
+                                    if (tooltipItems.length > 0) {
+                                       title = complain_type[tooltipItems[0].index].complain_type;
+                                    }
+                                    return title;
+                                },
+                                label: function(tooltipItem, data) {
+                                    var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || '';
+                                    return datasetLabel + ': ' + tooltipItem.yLabel;
+                                }
+                            }
+                        }
                       }
                   };
                   window.onload = function() {
-                      var ctx = document.getElementById("chart-area").getContext("2d");
+                      var ctx = document.getElementById("barChart").getContext("2d");
                       window.myDoughnut = new Chart(ctx,config);
                   };
               </script>
