@@ -44,9 +44,13 @@ class Main_model extends CI_Model {
     }
 
     public function get_data_status($status_id){
+        $to_day = date('Y-m-d');
+        //$to_day = '2017-08-16';
         $sql = "SELECT complain_no, complain_name, latitude, longitude
                 FROM `dt_keyin`
-                WHERE current_status_id='".$status_id."' ";
+                WHERE current_status_id='".$status_id."'
+                AND complain_date LIKE('".$to_day."%')
+                ";
         $query = $this->db->query($sql);
         $result = $query->result();
         return $result;
@@ -92,9 +96,14 @@ class Main_model extends CI_Model {
 
     public function get_sum_type($user_id='')
     {
+        $to_day = date('Y-m-d');
+        //$to_day = '2017-08-16';
         $where = "";
         if( $user_id != '' ){
-            $where = " WHERE report_all_complaint.create_user_id = '".$user_id."' ";
+            $where = "  WHERE report_all_complaint.create_user_id = '".$user_id."'
+                        AND report_all_complaint.complain_date LIKE('".$to_day."%') ";
+        }else{
+            $where = "  WHERE report_all_complaint.complain_date LIKE('".$to_day."%') ";
         }
       $sql = " SELECT report_all_complaint.complain_type_id,
               	ms_complain_type.complain_type_name,
@@ -102,7 +111,8 @@ class Main_model extends CI_Model {
               FROM report_all_complaint INNER JOIN ms_complain_type ON report_all_complaint.complain_type_id = ms_complain_type.complain_type_id
               ".$where."
               GROUP BY report_all_complaint.complain_type_id
-              ORDER BY report_all_complaint.complain_type_id ASC ";
+              ORDER BY sum_complain DESC
+              LIMIT 5 ";
       $query = $this->db->query($sql);
       $sum_all = 0;
       $color = array('#00C0EF','#DD4B39','#F39C12','#0073B7','#00A65A');
@@ -111,12 +121,12 @@ class Main_model extends CI_Model {
       {
         $result[$row->complain_type_id]['complain_type_name'] = $row->complain_type_name;
         $result[$row->complain_type_id]['sum_complain'] = $row->sum_complain;
-        $result[$row->complain_type_id]['color'] = $color[$sum_all];
+        $result[$row->complain_type_id]['color'] = @$color[$sum_all];
         $sum_all++;
       }
       if( empty($result) ){
           $result[1]['complain_type_name'] = 'ไม่มีข้อมูล';
-          $result[1]['sum_complain'] = 1;
+          $result[1]['sum_complain'] = 0;
           $result[1]['color'] = '#CCCCCC';
       }
       return $result;
