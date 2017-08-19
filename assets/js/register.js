@@ -78,14 +78,14 @@
                 text_warning += " - การยืนยันรหัสผ่านไม่ตรงกัน\n";
             }
         }
-        
+
         if (text_warning != "") {
             swal("กรุณาระบุข้อมูลต่อไปนี้", text_warning, "warning");
             return false;
         }else{
             //var data = $("#frm_user").serialize();
             var data = new FormData($("#frm_user")[0]);
-            
+
             $.ajax({
                     method: "POST",
                     url: base_url +"api/user/user/",
@@ -113,17 +113,17 @@
                 });
         }
     }
-    
+
     function check_first_letters(element,event){
         if($('#'+element.id).val() == ''){
             var inputValue = event.which;
             // allow letters and whitespaces only.
-            if(!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)) { 
-                event.preventDefault(); 
+            if(!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)) {
+                event.preventDefault();
             }
         }
     }
-    
+
     function validateEmail(element){
         if($('#'+element.id).val()!=''){
             if (/^\w+([\.-]?\ w+)*@\w+([\.-]?\ w+)*(\.\w{2,3})+$/.test($('#'+element.id).val())){
@@ -133,9 +133,9 @@
                 $('#'+element.id).focus();
                 //return (false);
             }
-        }   
+        }
     }
-    
+
     function confirm_input(id_main,id_confirm,id_return){
         if($('#'+id_main).val()!=$('#'+id_confirm).val()){
             $('#'+id_return).text('การยืนยันข้อมูลไม่ตรงกัน');
@@ -143,7 +143,7 @@
             $('#'+id_return).text('');
         }
     }
-    
+
     $( document ).ready(function() {
         //input no symbol
         var restricted = [96, 126, 40, 41, 61, 91, 93, 123, 125, 92, 124, 59, 47, 60, 62];
@@ -160,7 +160,7 @@
             // Allow: backspace, delete, tab, escape, enter and .
             if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
                  // Allow: Ctrl+A, Command+A
-                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) || 
+                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
                  // Allow: home, end, left, right, down, up
                 (e.keyCode >= 35 && e.keyCode <= 40)) {
                      // let it happen, don't do anything
@@ -171,12 +171,12 @@
                 e.preventDefault();
             }
         });
-        
+
         $(".letters").keypress(function(event){
             var inputValue = event.which;
             // allow letters and whitespaces only.
-            if(!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)) { 
-                event.preventDefault(); 
+            if(!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)) {
+                event.preventDefault();
             }
         });
 
@@ -221,11 +221,11 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
-    
+
     function get_district(value,defaule_value){
     if(value!=''){
         var province_code = value.substring(0, 3);
-        var url = base_url+'complaint/get_district_list/Aumpur/'+province_code+'/'+defaule_value;  //the url to call
+        var url = base_url+'auth/get_district_list/Aumpur/'+province_code+'/'+defaule_value;  //the url to call
         $.post(url, {data: ''}, function (data) {
             $('#district_span').html(data);
             var subdistrict = '';
@@ -240,7 +240,7 @@
 function get_subdistrict(value,defaule_value){
     if(value!=''){
         var district_code = value.substring(0, 4);
-        var url = base_url+'complaint/get_district_list/Tamboon/'+district_code+'/'+defaule_value;  //the url to call
+        var url = base_url+'auth/get_district_list/Tamboon/'+district_code+'/'+defaule_value;  //the url to call
         $.post(url, {data: ''}, function (data) {
             $('#subdistrict_span').html(data);
         });

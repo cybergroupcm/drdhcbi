@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="form-group has-feedback show_input">
                     <?php
                     $prename = $title_name;
-                    $prename[''] = 'กรุณาเลือกคำนำหน้าชื่อ';
+                    $prename[''] = 'กรุณาเลือกคำนำหน้าชื่อ (ภาษาไทย)';
                     ksort($prename);
                     echo form_dropdown([
                         'name' => 'prename_th',
@@ -60,9 +60,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
                 <div class="form-group has-feedback">
-                    <input type="text" class="form-control" id="prename_en" name="prename_en"
+                    <!--<input type="text" class="form-control" id="prename_en" name="prename_en"
                            placeholder="คำนำหน้าชื่อ (ภาษาอังกฤษ)"/>
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>-->
+                    <?php
+                    $prename_en = $title_name_en;
+                    $prename_en[''] = 'กรุณาเลือกคำนำหน้าชื่อ (ภาษาอังกฤษ)';
+                    ksort($prename_en);
+                    echo form_dropdown([
+                        'name' => 'prename_en',
+                        'id' => 'prename_en',
+                        'class' => 'form-control',
+                        'style'=>'padding: 0px 8px;'
+                    ], $prename_en, '');
+                    ?>
                 </div>
                 <div class="form-group has-feedback">
                     <input type="text" class="form-control" id="name_en" name="first_name_en"
@@ -131,7 +142,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>-->
                 <div class="form-group has-feedback">
                     <input type="text" class="form-control" onblur='return validateEmail(this)' name="email" id="email"
-                           placeholder="อีเมลล์"/>
+                           placeholder="อีเมล์"/>
                     <input type="hidden" name="email2" id="email2" value="none"/>
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
@@ -160,16 +171,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                            placeholder="ยืนยันรหัสผ่าน"/>
                     <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
                 </div>
-                <div class="row">
-                    <div class="col-xs-8">
-                        <!--<div class="checkbox icheck">
-                            <label>
-                                <input type="checkbox"> I agree to the <a href="#">terms</a>
-                            </label>
-                        </div>-->
-                    </div><!-- /.col -->
-                    <div class="col-xs-4">
-                        <button type="button" class="btn btn-primary btn-block btn-flat" onclick="validateForm('add')">
+                <div class="row center">
+
+                    <div >
+                        <button type="button" class="btn btn-primary btn-block btn-flat col-xs-4" onclick="validateForm('add')">
                             ลงทะเบียน
                         </button>
                     </div><!-- /.col -->
