@@ -68,12 +68,16 @@ class Complaint extends CI_Controller
                 }
             }
 
-            $url = base_url("api/dropdown/complain_type_lists//parent_id/0");
+            #status_active = 1 คือ สถานะใช้งาน
+            $url = base_url("api/dropdown/complain_type_lists//parent_id/0/status_active/1");
+
             $arr_data['complain_type'][] = api_call_get($url);
             if($arr_data['key_in_data']['accused_type_id']!='') {
                 $arr_data['get_complain_type'] = $this->complain_type->sort_complain_type($arr_data['key_in_data']['complain_type_id']);
                 foreach ($arr_data['get_complain_type'] as $key => $value) {
-                    $url = base_url("api/dropdown/complain_type_lists//parent_id/" . $value);
+                    #status_active = 1 คือ สถานะใช้งาน
+                    $url = base_url("api/dropdown/complain_type_lists//parent_id/" . $value."/status_active/1");
+
                     $complain_type = api_call_get($url);
                     if (!array_key_exists('message', $complain_type)) {
                         $arr_data['complain_type'][] = $complain_type;

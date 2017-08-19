@@ -245,19 +245,43 @@ class Setting extends REST_Controller
     {
         $ids = $this->Complain_type_model->insert(array(
             'complain_type_name' => $this->post('complain_type_name'),
-            'parent_id' => $this->post('parent_id')
+            'parent_id' => $this->post('parent_id'),
+            'status_active' => '1'
         ));
         $this->set_response($ids, REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
     }
 
     public function complain_type_put()
     {
-        //$id = $this->put('accused_type');
-        //$ids = $this->AccusedType_model->update(array('accused_type' => $this->put('accused_type')),$id);
-        $ids = $this->Complain_type_model->update(array(
-            'complain_type_name' => $this->put('complain_type_name'),
-            'parent_id' => $this->put('parent_id')
-        ), $this->put('complain_type_id'));
+        $data = $this->put();
+        if (!array_key_exists('complain_type_name', $data)) {
+            unset($data['complain_type_name']);
+        }
+        if (!array_key_exists('parent_id', $data)) {
+            unset($data['parent_id']);
+        }
+
+        $status_active = $data['status_active'];
+        if (!array_key_exists('status_active', $data)) {
+            unset($data['status_active']);
+        }
+        if (array_key_exists('complain_type_id', $data)) {
+            $complain_type_id = $data['complain_type_id'];
+            unset($data['complain_type_id']);
+        }
+
+        if (!empty($complain_type_id)) {
+            if ($status_active != '' || !empty($status_active)) {
+                $data_result = $this->Complain_type_model->where('parent_id', $complain_type_id)->order_by('complain_type_id', 'DESC')->get_all();
+                foreach($data_result AS $val){
+                    $this->Complain_type_model->update(array(
+                        'status_active' => $status_active
+                    ), $val->complain_type_id);
+                }
+            }
+            $ids = $this->Complain_type_model->update($data, $complain_type_id);
+        }
+
         if ($ids) {
             $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }

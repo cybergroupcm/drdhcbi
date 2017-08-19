@@ -58,11 +58,17 @@ class Dropdown extends REST_Controller
 
     public function complain_type_lists_get()
     {
+        #status_active = 1 คือ สถานะใช้งาน
+        $where_status_active = [];
+        $status_active= $this->get('status_active');
+        if (!is_null($status_active)) {
+            $where_status_active['status_active'] = $status_active;
+        }
         $parent_id= $this->get('parent_id');
         if($parent_id != ''){
-            $types = $this->Complain_type_model->as_dropdown('complain_type_name')->where('parent_id', $parent_id)->get_all();
+            $types = $this->Complain_type_model->as_dropdown('complain_type_name')->where('parent_id', $parent_id)->where($where_status_active)->get_all();
         }else{
-            $types = $this->Complain_type_model->as_dropdown('complain_type_name')->get_all();
+            $types = $this->Complain_type_model->as_dropdown('complain_type_name')->where($where_status_active)->get_all();
         }
 
         // Check if the users data store contains users (in case the database result returns NULL)
