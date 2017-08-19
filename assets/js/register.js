@@ -4,21 +4,37 @@
             action = 'edit';
         }
         var text_warning = "";
-        if ($('#idcard').val() == "") {
-            text_warning += " - รหัสประจำตัวประชาชน\n";
-        }
+
         if(action != "") {
             if ($('#prename_th_id').val() == "") {
                 text_warning += " - คำนำหน้าชื่อ\n";
             }
         }
-        if($("#id_type").val() != '2') {
+        if($("#id_type").val() == '1') {
+            if ($('#idcard').val() == "") {
+                text_warning += " - รหัสประจำตัวประชาชน\n";
+            }
+            if($('#id_type').val() == 1 ){
+              if(!CheckIdCardThai($('#idcard').val())){
+                text_warning += "เลขบัตรประจำตัวประชาชนไม่ตามกรมการปกครอง\n";
+              }
+            }
             if ($('#name_th').val() == "") {
                 text_warning += " - ชื่อ\n";
             }
             if ($('#surname_th').val() == "") {
                 text_warning += " - นามสกุล\n";
             }
+        }else if($("#id_type").val() == '2'){
+          if ($('#idcard').val() == "") {
+              text_warning += " - Passport\n";
+          }
+          if ($('#name_en').val() == "") {
+              text_warning += " - First name\n";
+          }
+          if ($('#surname_en').val() == "") {
+              text_warning += " - Last name\n";
+          }
         }
         if ($('#gender1').is(':checked') === false && $('#gender2').is(':checked') === false ) {
          if(action != ""){
@@ -114,6 +130,42 @@
         }
     }
 
+    function CheckIdCardIsNumeric(input) {
+        var RE = /^-?(0|INF|(0[1-7][0-7]*)|(0x[0-9a-fA-F]+)|((0|[1-9][0-9]*|(?=[\.,]))([\.,][0-9]+)?([eE]-?\d+)?))$/;
+        return (RE.test(input));
+    }
+
+    function CheckIdCardThai(id) {
+
+        id = id.toString();
+        id = id.replace('-', '');
+        // for support jquery masked input
+        id = id.replace('-', '');
+        id = id.replace('-', '');
+        id = id.replace('-', '');
+
+        if (!CheckIdCardIsNumeric(id))
+            return false;
+        if (id.substring(0, 1) == 0)
+            return false;
+        if (id.length != 13)
+            return false;
+        for (i = 0, sum = 0; i < 12; i++)
+            sum += parseFloat(id.charAt(i)) * (13 - i);
+        if ((11 - sum % 11) % 10 != parseFloat(id.charAt(12)))
+            return false;
+        return true;
+    }
+
+    function checkIdCardRegister(element){
+        if($('#id_type').val() == 1 && element.value != ''){
+          if(!CheckIdCardThai(element.value)){
+            swal("กรุณาตรวจสอบข้อมูล", 'เลขบัตรประจำตัวประชาชนไม่ตามกรมการปกครอง', "warning");
+            return false;
+          }
+        }
+    }
+
     function check_first_letters(element,event){
         if($('#'+element.id).val() == ''){
             var inputValue = event.which;
@@ -184,7 +236,7 @@
             if($(this).val() == '2'){
                 $(".show_input").hide();
                 $("#idcard").attr("placeholder", "Passport");
-                $("#prename_en").attr("placeholder", "Prename");
+                $("#prename_en option[value='']").text('Prename');
                 $("#name_en").attr("placeholder", "First name");
                 $("#surname_en").attr("placeholder", "Last name");
                 $("#address").attr("placeholder", "Address");
@@ -193,10 +245,12 @@
                 $("#username").attr("placeholder", "User name");
                 $("#password").attr("placeholder", "Enter a password");
                 $("#password2").attr("placeholder", "Confirm the password");
+                $('#text_danger_name_en').html("*");
+                $('#text_danger_surname_en').html("*");
             }else{
                 $(".show_input").show();
                 $("#idcard").attr("placeholder", "รหัสประจำตัวประชาชน");
-                $("#prename_en").attr("placeholder", "คำนำหน้าชื่อ (ภาษาอังกฤษ)");
+                $("#prename_en option[value='']").text('คำนำหน้าชื่อ (ภาษาอังกฤษ)');
                 $("#name_en").attr("placeholder", "ชื่อ (ภาษาอังกฤษ)");
                 $("#surname_en").attr("placeholder", "นามสกุล (ภาษาอังกฤษ)");
                 $("#address").attr("placeholder", "ที่อยู่ติดต่อกลับ");
@@ -205,6 +259,8 @@
                 $("#username").attr("placeholder", "ชื่อผู้ใช้");
                 $("#password").attr("placeholder", "รหัสผ่าน");
                 $("#password2").attr("placeholder", "ยืนยันรหัสผ่าน");
+                $('#text_danger_name_en').html("");
+                $('#text_danger_surname_en').html("");
             }
         });
 

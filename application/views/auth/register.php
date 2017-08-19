@@ -28,7 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <span class="text-danger">*</span>
                 <div class="form-group has-feedback">
-                    <input type="text" class="form-control numbers" name="idcard" id="idcard" maxlength='13'
+                    <input type="text" class="form-control numbers" name="idcard" id="idcard" maxlength='13' onblur="checkIdCardRegister(this);"
                            placeholder="รหัสประจำตัวประชาชน"/>
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
@@ -75,11 +75,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     ], $prename_en, '');
                     ?>
                 </div>
+                <span id="text_danger_name_en" class="text-danger"></span>
                 <div class="form-group has-feedback">
                     <input type="text" class="form-control" id="name_en" name="first_name_en"
                            placeholder="ชื่อ (ภาษาอังกฤษ)"/>
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
+                <span id="text_danger_surname_en" class="text-danger"></span>
                 <div class="form-group has-feedback">
                     <input type="text" class="form-control" id="surname_en" name="last_name_en"
                            placeholder="นามสกุล (ภาษาอังกฤษ)"/>
