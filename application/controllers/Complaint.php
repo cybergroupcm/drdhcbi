@@ -36,6 +36,7 @@ class Complaint extends CI_Controller
         //กำหนดการแสดงผลหน้าบันทึกข้อมูล
         $url = base_url("api/authen/token_info");
         $user_data_id = api_call_get($url);
+        $arr_data['user_login_data'] = $user_data_id;
         $url = base_url("api/complaint/user_groups/user_id/" . $user_data_id['userid']);
         $user_modes_groups = api_call_get($url);
         if(isset($user_modes_groups)){
@@ -68,12 +69,16 @@ class Complaint extends CI_Controller
                 }
             }
 
-            $url = base_url("api/dropdown/complain_type_lists//parent_id/0");
+            #status_active = 1 คือ สถานะใช้งาน
+            $url = base_url("api/dropdown/complain_type_lists//parent_id/0/status_active/1");
+
             $arr_data['complain_type'][] = api_call_get($url);
             if($arr_data['key_in_data']['accused_type_id']!='') {
                 $arr_data['get_complain_type'] = $this->complain_type->sort_complain_type($arr_data['key_in_data']['complain_type_id']);
                 foreach ($arr_data['get_complain_type'] as $key => $value) {
-                    $url = base_url("api/dropdown/complain_type_lists//parent_id/" . $value);
+                    #status_active = 1 คือ สถานะใช้งาน
+                    $url = base_url("api/dropdown/complain_type_lists//parent_id/" . $value."/status_active/1");
+
                     $complain_type = api_call_get($url);
                     if (!array_key_exists('message', $complain_type)) {
                         $arr_data['complain_type'][] = $complain_type;
@@ -90,6 +95,12 @@ class Complaint extends CI_Controller
 
             $url = base_url("api/complaint/user_detail/idcard/".$arr_data['key_in_data']['id_card']);
             $arr_data['user_detail'] = api_call_get($url);
+
+            $url = base_url("api/complaint/user_detail/id/".$arr_data['key_in_data']['create_user_id']);
+            $arr_data['recorder'] = api_call_get($url);
+
+            $url = base_url("api/complaint/user_detail/id/".$arr_data['key_in_data']['update_user_id']);
+            $arr_data['updater'] = api_call_get($url);
             //echo"<pre>";print_r($arr_data['user_detail'] );echo"</pre>";exit;
         }else{
             if($members_keyin == true){

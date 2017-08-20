@@ -27,6 +27,8 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'2'){
     $step = '2';
 }
 $dateNow = date('d/m/Y H:i:s',strtotime('+543 years'));
+$col_left = '5';
+$col_right = '3';
 ?>
     <input type="hidden" id="step" name="step" value="<?php echo $step; ?>">
     <input type="hidden" id="step_now" name="step_now" value="2">
@@ -39,133 +41,41 @@ $dateNow = date('d/m/Y H:i:s',strtotime('+543 years'));
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-6 right">
-                            วันเดือนปีที่เกิดเหตุ(ถ้ามี)/Date of scene :
-                        </label>
-                        <label class="col-sm-6">
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
-                                <?php
-                                if(@$key_in_data['scene_date']!=''&&@$key_in_data['scene_date']!='0000-00-00 00:00:00') {
-                                    $arrSceneDate = explode(' ',$key_in_data['scene_date']);
-                                    $sceneDate = explode('-',$arrSceneDate[0]);
-                                    $sceneTime = $arrSceneDate[1];
-                                    $sceneDateTime = $sceneDate[2].'/'.$sceneDate[1].'/'.($sceneDate[0]+543).' '.$sceneTime;
-                                }else{
-                                    $sceneDateTime = $dateNow;
-                                }
-                                ?>
-                                <input type="text" name="scene_date" id="scene_date"
-                                       class="form-control pull-right datetimepicker"
-                                       value="<?php echo $sceneDateTime; ?>">
+                <div class="form-group">
+                    <label class="col-sm-<?php echo $col_left; ?> right">
+                        วันเดือนปีที่เกิดเหตุ(ถ้ามี)/Date of scene :
+                    </label>
+                    <div class="col-sm-<?php echo $col_right; ?>">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
                             </div>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-6 right required">
-                            สถานที่เกิดเหตุ/Scene Place :
-                        </label>
-                        <label class="col-sm-6">
-                            <input type="text" name="place_scene" id="place_scene" value="<?php echo @$key_in_data['place_scene']; ?>" class="form-control"/>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-6 right required">
-                            จังหวัด/Province :
-                        </label>
-                        <label class="col-sm-6">
                             <?php
-                            $province_arr = $province_list;
-                            $province_arr[''] = 'กรุณาเลือก';
-                            ksort($province_arr);
-                            echo form_dropdown([
-                                'id' => 'province_id',
-                                'class' => 'form-control',
-                                'onchange'=>"get_district(this.value,'')"
-                            ], $province_arr, @$key_in_data['address_id']!=''?  substr(@$key_in_data['address_id'],0,3)."00000":'20000000');
+                            if(@$key_in_data['scene_date']!=''&&@$key_in_data['scene_date']!='0000-00-00 00:00:00') {
+                                $arrSceneDate = explode(' ',$key_in_data['scene_date']);
+                                $sceneDate = explode('-',$arrSceneDate[0]);
+                                $sceneTime = $arrSceneDate[1];
+                                $sceneDateTime = $sceneDate[2].'/'.$sceneDate[1].'/'.($sceneDate[0]+543).' '.$sceneTime;
+                            }else{
+                                $sceneDateTime = $dateNow;
+                            }
                             ?>
-                        </label>
+                            <input type="text" name="scene_date" id="scene_date"
+                                   class="form-control pull-right datetimepicker"
+                                   value="<?php echo $sceneDateTime; ?>">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-6 right required">
-                            อำเภอ/District :
-                        </label>
-                        <label class="col-sm-6">
-                                    <span id="district_span">
-                                        <?php
-                                        $district_arr = $district_list;
-                                        $district_arr[''] = 'กรุณาเลือก';
-                                        ksort($district_arr);
-                                        echo form_dropdown([
-                                            'id' => 'district_id',
-                                            'class' => 'form-control',
-                                            'onchange'=>"get_subdistrict(this.value,'')"
-                                        ], $district_arr, substr(@$key_in_data['address_id'],0,4)."0000");
-                                        ?>
-                                    </span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-6 right required">
-                            ตำบล/Parish :
-                        </label>
-                        <label class="col-sm-6">
-                                    <span id="subdistrict_span">
-                                        <?php
-                                        $subdistrict_arr = @$subdistrict_list;
-                                        $subdistrict_arr[''] = 'กรุณาเลือก';
-                                        ksort($subdistrict_arr);
-                                        echo form_dropdown([
-                                            'name' => 'address_id',
-                                            'id' => 'address_id',
-                                            'class' => 'form-control'
-                                        ], $subdistrict_arr, @$key_in_data['address_id']);
-                                        ?>
-                                    </span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-6 right required">
-                            รายละเอียดการร้องเรียน/ร้องทุกข์/Complaint details :
-                        </label>
-                        <label class="col-sm-6">
-                                    <textarea class="form-control" name="complaint_detail" id="complaint_detail"
-                                              cols="20" rows="5"><?php echo @$key_in_data['complaint_detail']; ?></textarea>
-                        </label>
+                <div class="form-group">
+                    <label class="col-sm-<?php echo $col_left; ?> right required">
+                        สถานที่เกิดเหตุ/Scene Place :
+                    </label>
+                    <div class="col-sm-<?php echo $col_right; ?>">
+                        <input type="text" name="place_scene" id="place_scene" value="<?php echo @$key_in_data['place_scene']; ?>" class="form-control"/>
                     </div>
                 </div>
             </div>
@@ -180,10 +90,10 @@ $dateNow = date('d/m/Y H:i:s',strtotime('+543 years'));
                         <label class="col-sm-2">
                             ละติจูด/ latitute
                         </label>
-                        <label class="col-sm-4">
+                        <div class="col-sm-4">
                             <input type="text" class="form-control" readonly id="txt_lat" name="latitude"
                                    value="<?php echo @$key_in_data['latitude']; ?>">
-                        </label>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -191,10 +101,10 @@ $dateNow = date('d/m/Y H:i:s',strtotime('+543 years'));
                         <label class="col-sm-3">
                             ลองติจูด/ longtitute
                         </label>
-                        <label class="col-sm-5">
+                        <div class="col-sm-5">
                             <input type="text" class="form-control" readonly id="txt_lon" name="longitude"
                                    value="<?php echo @$key_in_data['longitude']; ?>">
-                        </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -203,12 +113,93 @@ $dateNow = date('d/m/Y H:i:s',strtotime('+543 years'));
             <div class="col-md-12">
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
-                    <input id="pac-input" class="controls form-control" type="text" placeholder="ค้นหาพื้นที่...">
+                    <!--<input id="pac-input" class="controls form-control" type="text" placeholder="ค้นหาพื้นที่...">-->
                     <div id="map_canvas" style="width:100%; height:300px;"></div>
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-sm-<?php echo $col_left; ?> right required">
+                        จังหวัด/Province :
+                    </label>
+                    <div class="col-sm-<?php echo $col_right; ?>">
+                        <?php
+                        $province_arr = $province_list;
+                        $province_arr[''] = 'กรุณาเลือก';
+                        ksort($province_arr);
+                        echo form_dropdown([
+                            'id' => 'province_id',
+                            'class' => 'form-control',
+                            'onchange'=>"get_district(this.value,'')"
+                        ], $province_arr, @$key_in_data['address_id']!=''?  substr(@$key_in_data['address_id'],0,3)."00000":'20000000');
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-sm-<?php echo $col_left; ?> right required">
+                        อำเภอ/District :
+                    </label>
+                    <div class="col-sm-<?php echo $col_right; ?>">
+                                <span id="district_span">
+                                    <?php
+                                    $district_arr = $district_list;
+                                    $district_arr[''] = 'กรุณาเลือก';
+                                    ksort($district_arr);
+                                    echo form_dropdown([
+                                        'id' => 'district_id',
+                                        'class' => 'form-control',
+                                        'onchange'=>"get_subdistrict(this.value,'')"
+                                    ], $district_arr, substr(@$key_in_data['address_id'],0,4)."0000");
+                                    ?>
+                                </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-sm-<?php echo $col_left; ?> right required">
+                        ตำบล/Parish :
+                    </label>
+                    <div class="col-sm-<?php echo $col_right; ?>">
+                                <span id="subdistrict_span">
+                                    <?php
+                                    $subdistrict_arr = @$subdistrict_list;
+                                    $subdistrict_arr[''] = 'กรุณาเลือก';
+                                    ksort($subdistrict_arr);
+                                    echo form_dropdown([
+                                        'name' => 'address_id',
+                                        'id' => 'address_id',
+                                        'class' => 'form-control'
+                                    ], $subdistrict_arr, @$key_in_data['address_id']);
+                                    ?>
+                                </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-sm-<?php echo $col_left; ?> right required">
+                        รายละเอียดการร้องเรียน/ร้องทุกข์/Complaint details :
+                    </label>
+                    <div class="col-sm-<?php echo $col_right; ?>">
+                                <textarea class="form-control" name="complaint_detail" id="complaint_detail"
+                                          cols="20" rows="5"><?php echo @$key_in_data['complaint_detail']; ?></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+<input type="hidden" name="update_user_id" value="<?php echo $user_login_data['userid']; ?>">
 <?php
 echo form_close();
 ?>

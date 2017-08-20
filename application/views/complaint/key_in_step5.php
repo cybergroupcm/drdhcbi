@@ -27,6 +27,9 @@ if(@$_GET['debug']=='on'){
         <?php $this->load->view('complaint/step_of_keyin'); ?>
         <div class="col-xs-12 text-right">
             <a onclick="validateForm('key_in_step5_pdf','')"><i class="fa fa-print" aria-hidden="true" style="cursor: pointer;font-size: 3em;" title="สั่งพิมพ์"></i></a>
+            <?php
+                echo '<a href="'.base_url('complaint/key_in_step5_word').'" target="_blank"><i class="fa fa-file-word-o" aria-hidden="true" style="cursor: pointer;font-size: 3em;" title="ส่งออก Word"></a></i>';
+            ?>
             <br>
             <br>
         </div>
@@ -166,6 +169,7 @@ if(@$_GET['debug']=='on'){
                 </div>
             </div>
         </div>
+        <input type="hidden" name="update_user_id" value="<?php echo $user_login_data['userid']; ?>">
         <?php echo form_close(); ?>
         <div class="row footer">
             <div class="col-md-12">
