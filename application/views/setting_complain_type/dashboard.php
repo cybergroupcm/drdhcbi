@@ -57,6 +57,7 @@ echo script_tag($link);
                                     <th width="5%" class="text-center">ลำดับ</th>
                                     <th width="20%" class="text-center">รหัสประเภทเรื่องร้องทุกข์</th>
                                     <th class="text-center">ประเภทเรื่องร้องทุกข์</th>
+                                    <th class="text-center">สถานะ</th>
                                     <th width="15%" class="text-center">จัดการ</th>
                                 </tr>
                             </thead>
@@ -69,17 +70,20 @@ echo script_tag($link);
                                         $link_data = 'onclick="window.location.href=\'' . base_url('setting_complain_type/dashboard?type=parent&parent_id=' . @$val['complain_type_id']) . '\'"';
                                         $link_data .= 'style="cursor: pointer;"';
                                     }
+
+                                    $status_active = ($val['status_active']=='1')?'ใช้งาน':'ไม่ใช้งาน';
                                     ?>
                                     <tr>
                                         <td class="text-center" <?php echo @$link_data; ?>><?php echo $start_row++; ?></td>
                                         <td class="text-center" <?php echo @$link_data; ?>><?php echo $val['complain_type_id'];?></td>
                                         <td <?php echo @$link_data; ?>><?php echo $val['complain_type_name'];?></td>
+                                        <td class="text-center" <?php echo @$link_data; ?>><?php echo $status_active;?></td>
                                         <td class="text-center">
                                             <span onclick="window.location.href='<?php echo base_url('setting_complain_type/add/'.$val['complain_type_id'].$param_add)?>';">
                                                 <i class="fa fa-pencil" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;" title="แก้ไข"></i>
                                             </span>
-                                            <span class="bt_delete" id="<?php echo $val['complain_type_id'];?>" onclick="bt_delete(<?php echo $val['complain_type_id'];?>)">
-                                                <i class="fa fa-trash" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;" title="ลบ"></i>
+                                            <span class="bt_delete" id="<?php echo $val['complain_type_id'];?>" onclick="bt_delete(<?php echo $val['complain_type_id'];?>,<?php echo $val['status_active'];?>)">
+                                                <i class="fa fa-refresh" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;" title="เปลี่ยนสถานะ"></i>
                                             </span>
                                         </td>
                                     </tr>

@@ -174,6 +174,9 @@ class Auth extends MY_Controller {
         $url = base_url()."api/dropdown/title_name_lists";
         $this->data['title_name'] = api_call_get($url);
 
+				$url = base_url()."api/dropdown/title_name_lists/prename_en";
+				$this->data['title_name_en'] = api_call_get($url);
+
         $url = base_url("api/dropdown/ccaa_lists/Changwat");
         $this->data['province_list'] = api_call_get($url);
 
@@ -193,6 +196,14 @@ class Auth extends MY_Controller {
 
         $this->template->auth_render('auth/register',$this->data);
     }
+
+		public function get_district_list($type, $id, $default = '')
+		{
+				$url = base_url("api/dropdown/ccaa_lists/" . $type . "/" . $id);
+				$arr_data['type'] = $type;
+				$arr_data['district_list'] = api_call_get($url);
+				$this->load->view('complaint/get_district_list', $arr_data);
+		}
 
     /*function save_user(){
         $data = array(

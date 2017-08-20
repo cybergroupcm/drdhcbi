@@ -23,6 +23,12 @@ class Complaint extends REST_Controller
     public function dashboard_last_month_get()
     {
         $filter = [];
+        $channel = $this->get('channel_id');
+        $subject = $this->get('subject_id');
+        $complainType = $this->get('complain_type_id');
+        $province = $this->get('province_id');
+        $district = $this->get('district_id');
+        $address = $this->get('address_id');
         $currentStatus = $this->get('current_status');
         $complainNo = $this->get('complain_no');
         $complaintDetail = $this->get('complaint_detail');
@@ -32,6 +38,22 @@ class Complaint extends REST_Controller
         $overall = $this->get('overall');
         $user_id = $this->get('user_id');
         $no_status = $this->get('no_status');
+        if (!is_null($channel)) {
+            $filter['channel_id'] = $channel;
+        }
+        if (!is_null($subject)) {
+            $filter['subject_id'] = $subject;
+        }
+        if (!is_null($complainType)) {
+            $filter['complain_type_id'] = $complainType;
+        }
+        if (!is_null($address)) {
+            $filter['address_id'] = $address;
+        }elseif (!is_null($district)) {
+            $filter['address_id LIKE'] = substr($district,0,4). '%';
+        }elseif (!is_null($province)) {
+            $filter['address_id LIKE'] = substr($province,0,2). '%';
+        }
         if (!is_null($currentStatus) && $currentStatus >= 1 && $currentStatus <= 4) {
             $filter['current_status_id'] = $currentStatus;
         }
@@ -486,6 +508,7 @@ class Complaint extends REST_Controller
     {
         $config['upload_path'] = './upload/complaints/' . $keyin_id;
         $config['allowed_types'] = '*';//gif|jpg|png
+        $config['max_size'] = 256000;
         $config['file_name'] = 'fileupload';
 
         if (!is_dir($config['upload_path'])) mkdir($config['upload_path'], 0777, TRUE);
@@ -751,7 +774,13 @@ class Complaint extends REST_Controller
     }
 
     public function complain_type_get($id){
-        $types = $this->Complain_type_model->where('complain_type_id', $id)->get();
+        #status_active = 1 คือ สถานะใช้งาน
+        $where_status_active = [];
+        $status_active= $this->get('status_active');
+        if (!is_null($status_active)) {
+            $where_status_active['status_active'] = $status_active;
+        }
+        $types = $this->Complain_type_model->where('complain_type_id', $id)->where($where_status_active)->get();
         // Check if the users data store contains users (in case the database result returns NULL)
         if ($types) {
             // Set the response and exit
