@@ -527,8 +527,12 @@ public function create($id='')
         $this->data['id'] = $id;
         $url = base_url()."api/user/user/".$id;
         $this->data['data'] = api_call_get($url);
+
         $url = base_url()."api/dropdown/title_name_lists";
         $this->data['title_name'] = api_call_get($url);
+
+        $url = base_url()."api/dropdown/title_name_lists/prename_en";
+				$this->data['title_name_en'] = api_call_get($url);
 
         $url = base_url("api/dropdown/ccaa_lists/Changwat");
         $this->data['province_list'] = api_call_get($url);
