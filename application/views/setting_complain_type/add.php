@@ -6,6 +6,12 @@
             border-color: #4db6ac;
         }
         .btn-info.hover{background-color:#4db6ac}
+        .dd-selected{
+            padding: 4px;
+        }
+        .dd-option{
+            padding: 4px;
+        }
     </style>
     <section class="content">
         <div class="row">
@@ -46,6 +52,77 @@
                                 </div>
                             </div>
                         </div>
+                        <?php
+                            $show_list_icon=@($_GET['type'] == 'parent')?'style="display: none;"':'';
+                        ?>
+                        <div class="row" <?php echo $show_list_icon;?>>
+                            <div class="col-md-12">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <label class="col-sm-5 text-right">
+                                            icon :
+                                        </label>
+                                        <label class="col-sm-7">
+                                            <?php
+                                                $arr_pin_icon = array(
+                                                    '0'=>array(
+                                                        'title'=>'',
+                                                        'icon'=>'pin-map1.png'
+                                                    ),
+                                                    '1'=>array(
+                                                        'title'=>'',
+                                                        'icon'=>'pin-map2.png'
+                                                    ),
+                                                    '2'=>array(
+                                                        'title'=>'',
+                                                        'icon'=>'pin-map3.png'
+                                                    ),
+                                                    '3'=>array(
+                                                        'title'=>'',
+                                                        'icon'=>'pin-map4.png'
+                                                    ),
+                                                    '4'=>array(
+                                                        'title'=>'',
+                                                        'icon'=>'pin-map5.png'
+                                                    ),
+                                                    '5'=>array(
+                                                        'title'=>'',
+                                                        'icon'=>'pin-map6.png'
+                                                    ),
+                                                    '6'=>array(
+                                                        'title'=>'',
+                                                        'icon'=>'pin-map7.png'
+                                                    ),
+                                                    '7'=>array(
+                                                        'title'=>'',
+                                                        'icon'=>'pin-map8.png'
+                                                    ),
+                                                    '8'=>array(
+                                                        'title'=>'',
+                                                        'icon'=>'pin-map9.png'
+                                                    )
+                                                );
+                                            ?>
+
+                                            <select id="list_icon_pin" name="list_icon_pin">
+                                                <?php
+                                                foreach($arr_pin_icon AS $key=>$val) {
+                                                    if($data['icon_pin'] == $val['icon']){
+                                                        $selected = 'selected=selected';
+                                                    }else{
+                                                        $selected = '';
+                                                    }
+                                                    echo '<option value="'.$val['icon'].'" data-imagesrc="' . base_url('assets/images/'.$val['icon'].'') . '"data-description="" '.$selected.'>'.$val['title'].'</option>';
+                                                }
+                                                ?>
+                                            </select>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br><br>
+                        <input type="hidden" name="icon_pin" id="icon_pin" value="<?php echo $data['icon_pin'];?>">
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <button class="btn btn-info" title="เพิ่ม" id="bt_add"><i class="fa fa-save"></i> บันทึกข้อมูล</button>
@@ -70,4 +147,28 @@ $link = array(
     'type' => 'text/javascript'
 );
 echo script_tag($link);
+$link = array(
+    'src' => 'assets/js/jquery.ddslick.min.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
 ?>
+
+<script>
+    //Dropdown plugin data
+    var ddData = [];
+
+    $('#list_icon_pin').ddslick({
+        data: ddData,
+        width: 80,
+        imagePosition: "left",
+        selectText: "",
+        onSelected: function (data) {
+            //console.log(data);
+            //console.log(data.selectedData.value);
+            $('#icon_pin').val(data.selectedData.value);
+        }
+    });
+
+</script>
+

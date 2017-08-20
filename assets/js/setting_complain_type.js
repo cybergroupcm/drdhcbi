@@ -11,11 +11,12 @@ $(document).ready(function () {
             var complain_type_id = $('#complain_type_id').val();
             var complain_type_name = $('#complain_type_name').val();
             var parent_id = $('#parent_id').val();
+            var icon_pin = $('#icon_pin').val();
             $.ajax({
                 type: method, //GET, POST, PUT
                 url: base_url + 'api/setting/complain_type/',  //the url to call
                 async:false,
-                data: {complain_type_id: complain_type_id, complain_type_name: complain_type_name, parent_id: parent_id},     //Data sent to server
+                data: {complain_type_id: complain_type_id, complain_type_name: complain_type_name, parent_id: parent_id,icon_pin:icon_pin},     //Data sent to server
                 //contentType: 'application/json',
                 beforeSend: function (xhr) {   //Include the bearer token in header
                     xhr.setRequestHeader("Authorization", 'Bearer ' + jwt);
