@@ -67,6 +67,22 @@ $( document ).ready(function() {
         var base_url = $('#base_url').attr('class');
         window.location.href=base_url+'report/report_statistic_by_status';
     });
+
+    $("#btSearchSubject").click(function() {
+        var base_url = $('#base_url').attr('class');
+        var year = $("#year").val();
+        var subject_id = $("#subject_id").val();
+        var partid = $("#partid").val();
+        var province_id = $("#province_id").val();
+        var district_id = $("#district_id").val();
+        var address_id = $("#address_id").val();
+        window.location.href=base_url+'report/report_by_type?year='+year+'&subject_id='+subject_id+'&partid='+partid+'&province_id='+province_id+'&district_id='+district_id+'&address_id='+address_id;
+    });
+
+    $("#btClearSubject").click(function() {
+        var base_url = $('#base_url').attr('class');
+        window.location.href=base_url+'report/report_by_type';
+    });
 });
 function thaidateformat(d,long) {
     var gD = new Date(d);

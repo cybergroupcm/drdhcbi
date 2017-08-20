@@ -8,7 +8,7 @@ $(document).ready(function () {
         var reply_date = $('#reply_date').val();
         var send_org_date = $('#send_org_date').val();
 
-        if($('input[name=send_org_parent]:checked').val() == '2'){
+        /*if($('input[name=send_org_parent]:checked').val() == '2'){
             send_org_id = $('input[name=send_org_parent]:checked').val();
         }else{
             if(send_org_id == ''){
@@ -16,7 +16,8 @@ $(document).ready(function () {
             }else{
                 send_org_id = $('#send_org_id :selected').val();
             }
-        }
+        }*/
+        send_org_id = $('#send_org_id').val();
 
         if($('#send_status').prop('checked') == true){
             send_status = '3';
@@ -51,7 +52,7 @@ $(document).ready(function () {
     });
 
     $(".btOpenReceived").click(function () {
-        $(this).attr('id', $("#keyin_id_send").val());
+        $(this).attr('data-id', $("#keyin_id_send").val());
         $("#send .close").click();
     });
 });

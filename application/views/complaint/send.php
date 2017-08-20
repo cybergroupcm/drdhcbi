@@ -23,7 +23,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" name="reply_date" id="reply_date" class="form-control pull-right datepicker" />
+                                            <input type="text" name="reply_date" id="reply_date" class="form-control pull-right" />
                                         </div>
                                     </label>
                                 </div>
@@ -39,7 +39,7 @@
                                     </label>
                                     <label class="col-sm-7 text-left">
                                     <?php
-                                        foreach($send_org_parent AS $key_parent=>$val_parent) {
+                                        /*foreach($send_org_parent AS $key_parent=>$val_parent) {
                                             ?>
                                             <input type="radio" id="send_org_parent<?php echo $key_parent; ?>" name="send_org_parent" value="<?php echo $key_parent; ?>"> <?php echo $val_parent; ?><br>
                                             <?php
@@ -56,8 +56,26 @@
                                             <br>
                                             <?php
                                             }
-                                        }
+                                        }*/
                                     ?>
+                                    <span id='send_org'>
+                                        <?php
+                                            $i++;
+                                            $send_org_parent_list = $send_org_parent;
+                                            $send_org_parent_list[''] = 'กรุณาเลือก';
+                                            ksort($send_org_parent_list);
+                                            echo form_dropdown([
+                                                'id' => 'send_org_'.$i,
+                                                'class' => 'form-control',
+                                                'has_child'=>'send_org_space_'.$i,
+                                                'onchange' => 'get_send_org_child(this)'
+                                            ], $send_org_parent_list, '');
+                                        ?>
+                                        <span id="send_org_space_<?php echo $i; ?>">
+
+                                        </span>
+                                    </span>
+                                    <input type="hidden" name="send_org_id" id="send_org_id" >
                                     </label>
                                 </div>
                             </div>
@@ -75,7 +93,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" name="send_org_date" id="send_org_date" class="form-control pull-right datepicker" />
+                                            <input type="text" name="send_org_date" id="send_org_date" class="form-control pull-right" />
                                         </div>
                                     </label>
                                 </div>
@@ -96,7 +114,7 @@
                     </div>
                 </form>
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" name="btOpenReceived" class="btn btn-warning btOpenReceived" data-toggle="modal" data-target="#received" id="">ยกเลิกการรับเรื่อง</button>
+                    <button type="button" name="btOpenReceived" class="btn btn-warning btOpenReceived open-received" data-toggle="modal" data-target="#received" data-id="">ยกเลิกการรับเรื่อง</button>
                     <button type="button" name="btSaveSend" id="btSaveSend" class="btn btn-primary">บันทึกส่งต่อเรื่องร้องทุกข์</button>
                 </div>
             </div>

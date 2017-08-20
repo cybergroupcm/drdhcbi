@@ -2,9 +2,21 @@
 
 class Setting_complain_type extends CI_Controller {
 
+    public function __construct()
+    {
+        parent::__construct();
+        if ( ! $this->ion_auth->logged_in() || !$this->api_auth->logged_in())
+        {
+            redirect('alert', 'refresh');
+        }
+    }
     public function dashboard()
     {
-        $url = base_url()."api/setting/complain_type";
+        $param = '';
+        $param .= (@$_GET['type'] !="")?"/type/".@$_GET['type']:"";
+        $param .= (@$_GET['parent_id'] !="")?"/parent_id/".@$_GET['parent_id']:"";
+
+        $url = base_url()."api/setting/complain_type".$param;
         $arr_data['data'] = api_call_get($url);
         $this->libraries->template('setting_complain_type/dashboard',$arr_data);
     }
@@ -19,5 +31,29 @@ class Setting_complain_type extends CI_Controller {
         }
 
         $this->libraries->template('setting_complain_type/add',$arr_data);
+    }
+
+    public function getComplainType($id)
+    {
+        $url = base_url("api/setting/use_complain_type/" . $id);
+        $arr_data['data_use'] = api_call_get($url);
+        $send_org_id = 0;
+        if(@$arr_data['data_use']['message']){
+            $send_org_id = 0;
+        }else{
+            foreach ($arr_data['data_use'] AS $key => $val) {
+                if ($val['complain_type_id']) {
+                    $send_org_id++;
+                }
+            }
+        }
+
+        if($send_org_id > 0){
+            $result = 'NO';
+        }else{
+            $result = 'YES';
+        }
+        echo json_encode($result);
+        exit;
     }
 }

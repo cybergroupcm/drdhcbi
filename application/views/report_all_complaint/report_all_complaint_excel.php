@@ -4,48 +4,65 @@ $link = array(
     'type' => 'text/javascript'
 );
     echo script_tag($link);
+function replace_empty($value){
+    if($value==''){
+        return '0';
+    }else{
+        return $value;
+    }
+}
 ?>
-<section class="content">
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title"> รายงานรวมเรื่องร้องทุกข์</h3>
-                </div>
-                <div class="box-body">
-                    <div id="exportData">
-                        <table border="1" id="example1" class="table table-bordered table-striped table-hover dataTable">
+<div id="exportData">
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-body">
+                        <table style="width: 100%;border-collapse: collapse;font-size: 16pt;">
                             <thead>
                             <tr>
-                                <th class="text-center" rowspan="2">ประเภทการร้องทุกข์</th>
-                                <th class="text-center" colspan="12">ช่องทางการร้องทุกข์</th>
+                                <th class="text-center" style="vertical-align: middle;text-align: center;padding: 5px;" colspan="<?php echo count($channel_max)+2;?>">รายงานรวมเรื่องร้องทุกข์</th>
                             </tr>
                             <tr>
-                                <th class="text-center">มาด้วยตนเอง</th>
-                                <th class="text-center">โทรศัพท์/โทรสาร/ฝากข้อความอัตโนมัติ 1567</th>
-                                <th class="text-center">สำนักนายกรัฐมนตรี 1111</th>
-                                <th class="text-center">จดหมาย</th>
-                                <th class="text-center">สำนักงานรัฐมนตรีกระทรวงมหาดไทย</th>
-                                <th class="text-center">ศูนย์ดำรงธรรมจังหวัด</th>
-                                <th class="text-center">ปลัดกระทรวงมหาดไทย</th>
-                                <th class="text-center">กระทรวง/กรม/อื่นๆ</th>
-                                <th class="text-center">ผ่าน สนง.ผู้ตรวจการแผ่นดิน</th>
-                                <th class="text-center">ศูนย์ดำรงธรรมอำเภอ</th>
-                                <th class="text-center">ศูนย์ดำรงธรรมส่วนกลาง</th>
-                                <th class="text-center">รวม</th>
+                                <th style="vertical-align: middle;text-align: center;border: 1px solid black;border-width:thin;" rowspan="2">ประเภทการร้องทุกข์</th>
+                                <th style="vertical-align: middle;text-align: center;border: 1px solid black;border-width:thin;padding: 5px;" colspan="<?php echo count($channel_max);?>">ช่องทางการร้องทุกข์</th>
+                                <th style="vertical-align: middle;text-align: center;border: 1px solid black;border-width:thin;width: 6%;" rowspan="2">รวม</th>
+                            </tr>
+                            <tr>
+                                <?php foreach($channel_max as $key => $value){ ?>
+                                    <th style="vertical-align: middle;text-align: center;border: 1px solid black;border-width:thin;width:6%;"><?php echo $value; ?></th>
+                                <?php } ?>
+
                             </tr>
                             </thead>
                             <tbody>
-
+                            <?php foreach($complaint_type as $key => $value){ ?>
+                                <tr>
+                                    <td style="text-align: left;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;border-width:thin;vertical-align: top;padding: 5px;"><?php echo $value; ?></td>
+                                    <?php foreach($channel_max as $key2 => $value2){ ?>
+                                        <td align="right" style="text-align: right;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;border-width:thin;vertical-align: top;padding: 5px;"><?php echo replace_empty(@$data[$key][$key2]); ?></td>
+                                        <?php
+                                        @$data[$key]['sum_all'] += replace_empty(@$data[$key][$key2]);
+                                        @$data['sum_all'][$key2] += replace_empty(@$data[$key][$key2]);
+                                    } ?>
+                                    <td align="right" style="text-align: right;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;border-width:thin;vertical-align: top;padding: 5px;"><?php echo replace_empty(@$data[$key]['sum_all']); ?></td>
+                                </tr>
+                                <?php $sum_all += replace_empty(@$data[$key]['sum_all']); } ?>
+                            <tr>
+                                <td align="center" style="text-align: center;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;border-width:thin;vertical-align: top;padding: 5px;">รวม</td>
+                                <?php foreach($channel_max as $key2 => $value2){ ?>
+                                    <td align="right" style="text-align: right;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;border-width:thin;vertical-align: top;padding: 5px;"><?php echo replace_empty(@$data['sum_all'][$key2]); ?></td>
+                                <?php } ?>
+                                <td align="right" style="text-align: right;border-left: 1px solid black;border-right: 1px solid black;border-bottom: 1px solid black;border-width:thin;vertical-align: top;padding: 5px;"><?php echo $sum_all; ?></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
-                    <?php //echo $pagination; ?>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+</div>
 <div id="base_url" class="<?php echo base_url();?>"></div>
 <script>
     function exportExcel(){

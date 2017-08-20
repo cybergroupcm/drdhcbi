@@ -20,9 +20,13 @@ class Dropdown extends REST_Controller
         $this->load->model('master/Current_status_model');
     }
 
-    public function accused_type_lists_get()
+    public function accused_type_lists_get($parent_id='')
     {
-        $types = $this->Accused_type_model->as_dropdown('accused_type')->get_all();
+        if($parent_id!='') {
+            $types = $this->Accused_type_model->where('parent_id', $parent_id)->as_dropdown('accused_type')->get_all();
+        }else{
+            $types = $this->Accused_type_model->as_dropdown('accused_type')->get_all();
+        }
         // Check if the users data store contains users (in case the database result returns NULL)
         if ($types) {
             // Set the response and exit
@@ -54,7 +58,19 @@ class Dropdown extends REST_Controller
 
     public function complain_type_lists_get()
     {
-        $types = $this->Complain_type_model->as_dropdown('complain_type_name')->get_all();
+        #status_active = 1 คือ สถานะใช้งาน
+        $where_status_active = [];
+        $status_active= $this->get('status_active');
+        if (!is_null($status_active)) {
+            $where_status_active['status_active'] = $status_active;
+        }
+        $parent_id= $this->get('parent_id');
+        if($parent_id != ''){
+            $types = $this->Complain_type_model->as_dropdown('complain_type_name')->where('parent_id', $parent_id)->where($where_status_active)->get_all();
+        }else{
+            $types = $this->Complain_type_model->as_dropdown('complain_type_name')->where($where_status_active)->get_all();
+        }
+
         // Check if the users data store contains users (in case the database result returns NULL)
         if ($types) {
             // Set the response and exit
@@ -101,10 +117,10 @@ class Dropdown extends REST_Controller
         }
     }
 
-    public function title_name_lists_get()
+    public function title_name_lists_get($fieldname = 'prename')
     {
 
-        $types = $this->Title_name_model->as_dropdown('prename')->where('status_active','on')->get_all();
+        $types = $this->Title_name_model->as_dropdown($fieldname)->where('status_active','on')->get_all();
         // Check if the users data store contains users (in case the database result returns NULL)
         if ($types) {
             // Set the response and exit
@@ -118,15 +134,28 @@ class Dropdown extends REST_Controller
         }
     }
 
-    public function ccaa_lists_get($ccType,$ccaa_code='')
+
+    public function ccaa_lists_get($ccType='',$ccaa_code='')
     {
         $conditions = array();
-        $conditions['ccType'] = $ccType;
+        $replace ='';
+        if($ccType!='') {
+            $conditions['ccType'] = $ccType;
+        }
         if($ccaa_code!=''){
             $conditions['ccDigi LIKE'] = $ccaa_code."%";
         }
-        $types = $this->Ccaa_model->as_dropdown('ccName')->where($conditions)->get_all();
-        
+        if($ccType == 'Changwat'){
+            $replace = 'จังหวัด';
+
+        }elseif($ccType == 'Aumpur'){
+            $replace = 'อำเภอ';
+
+        }elseif($ccType == 'Tamboon'){
+            $replace = 'ตำบล';
+        }
+        $types = $this->Ccaa_model->as_dropdown("REPLACE(ccName,'{$replace}','')")->where($conditions)->get_all();
+
         if ($types) {
             // Set the response and exit
             $this->response($types, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
@@ -137,13 +166,18 @@ class Dropdown extends REST_Controller
                 'message' => 'No title name were found'
             ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
         }
-      
+
     }
 
 
-    public function send_org_parent_lists_get()
+    public function send_org_parent_lists_get($parent_id='')
     {
-        $types = $this->Send_org_model->as_dropdown('send_org_name')->where('parent_id','0')->get_all();
+
+        if($parent_id != ''){
+            $types = $this->Send_org_model->as_dropdown('send_org_name')->where('parent_id',$parent_id)->get_all();
+        }else{
+            $types = $this->Send_org_model->as_dropdown('send_org_name')->get_all();
+        }
         // Check if the users data store contains users (in case the database result returns NULL)
         if ($types) {
             // Set the response and exit
@@ -198,6 +232,22 @@ class Dropdown extends REST_Controller
     public function current_status_lists_get()
     {
         $types = $this->Current_status_model->as_dropdown('current_status_name')->get_all();
+        // Check if the users data store contains users (in case the database result returns NULL)
+        if ($types) {
+            // Set the response and exit
+            $this->response($types, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        } else {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'No complain type were found'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
+    public function current_subject_lists_get()
+    {
+        $types = $this->Subject_model->as_dropdown('subject_name')->get_all();
         // Check if the users data store contains users (in case the database result returns NULL)
         if ($types) {
             // Set the response and exit

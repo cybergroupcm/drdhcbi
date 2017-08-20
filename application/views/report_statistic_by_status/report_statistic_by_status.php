@@ -41,7 +41,7 @@ $this->load->view('report_statistic_by_status/search');
 
                         echo '<i class="fa fa-search" aria-hidden="true" style="cursor: pointer;font-size: 3em;" data-toggle="modal" data-target="#search" title="ค้นหาข้อมูล"></i>  ';
                         echo '<a href="'.base_url('report/report_statistic_by_status_pdf'.$param_pdf).'" style="color: #333333;" target="_blank"><i class="fa fa-print" aria-hidden="true" style="cursor: pointer;font-size: 3em;" title="สั่งพิมพ์"></a></i>  ';
-                        echo '<a href="'.base_url('report/report_statistic_by_status_excel'.$param_pdf).'" style="color: #333333;" target="_blank"><i class="fa fa-file-excel-o" aria-hidden="true" style="cursor: pointer;font-size: 3em;" title="ส่งออก Excel"></a></i>';
+                        echo '<a href="'.base_url('report/report_statistic_by_status_excel'.$param_pdf).'" style="color: #333333;" target="_blank" id="export"><i class="fa fa-file-excel-o" aria-hidden="true" style="cursor: pointer;font-size: 3em;" title="ส่งออก Excel"></a></i>';
                         ?>
                     </div>
                     <div class="col-xs-1"></div>

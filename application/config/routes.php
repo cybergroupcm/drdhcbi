@@ -70,6 +70,7 @@ $route['api/complaint/dashboard'] = 'api/complaint/dashboard';
 $route['api/complaint/key_in/(:num)'] = 'api/complaint/key_in/id/$1';
 $route['api/complaint/key_in_file/(:num)'] = 'api/complaint/key_in_file/id/$1';
 $route['api/complaint/result/(:num)'] = 'api/complaint/result/id/$1';
+$route['api/complaint/user_detail/(:num)'] = 'api/complaint/user_detail/$1';
 
 
 //User  REST API Routes
@@ -84,9 +85,15 @@ $route['api/setting/accused_type/(:num)'] = 'api/setting/accused_type/id/$1'; //
 $route['api/setting/channel/(:num)'] = 'api/setting/channel/id/$1'; // Example 4
 $route['api/setting/subject/(:num)'] = 'api/setting/subject/id/$1'; // Example 4
 $route['api/setting/wish/(:num)'] = 'api/setting/wish/id/$1'; // Example 4
+$route['api/report/report_statistic_by_type/(:num)'] = 'api/report/report_all_complaint/$1'; // Example 4
 $route['api/report/report_statistic_by_type/(:num)'] = 'api/report/report_statistic_by_type/year/$1'; // Example 4
 $route['api/report/report_statistic_by_type_max/(:num)'] = 'api/report/report_statistic_by_type_max/year/$1'; // Example 4
 $route['api/report/month_report/(:num)'] = 'api/report/month_report/year/$1'; // Example 4
+$route['api/setting/org/(:num)'] = 'api/setting/org/id/$1'; // Example 4
+$route['api/setting/use_org/(:num)'] = 'api/setting/use_org/id/$1'; // Example 4
+$route['api/setting/use_complain_type/(:num)'] = 'api/setting/use_complain_type/id/$1'; // Example 4
+$route['api/setting/use_accused_type/(:num)'] = 'api/setting/use_accused_type/id/$1'; // Example 4
+$route['api/setting/complain_type_lists/(:num)'] = 'api/setting/complain_type_lists/id/$1'; // Example 4
 
 
 

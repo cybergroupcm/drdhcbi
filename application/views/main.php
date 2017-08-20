@@ -15,6 +15,26 @@
                 -webkit-box-shadow: 5px 5px 10px #888888;
             }
         </style>
+        <!-- Content map -->
+        <style type="text/css">
+        	.mapTitle{
+        				z-index:1;
+            		position:absolute;
+            		text-align:center;
+            		top:40px;
+            		left:315px;
+                color:#000000;
+            		width:150px;
+            		padding:3px;
+            		margin:0px;
+            		font-size:14px;
+            		/*border:#999 1px solid;*/
+                border-radius: 5px;
+            		background-color:#FFFFFF;
+                -webkit-box-shadow: 5px 5px 10px #888888;
+        	}
+
+        </style>
         <section class="content-header">
           <h1>
             สรุปภาพรวมข้อมูลเรื่องร้องทุกข์
@@ -103,17 +123,20 @@
               echo script_tag($link);
               $link = array('src' => 'assets/js/util_control.js', 'language' => 'javascript', 'type' => 'text/javascript');
               echo script_tag($link);
+              $link = array('src' => 'assets/js/markerclusterer.js', 'language' => 'javascript','type' => 'text/javascript');
+              echo script_tag($link);
               $link = array('src' => 'assets/js/main_map.js', 'language' => 'javascript','type' => 'text/javascript');
               echo script_tag($link);
               ?>
               <script type="text/javascript">
               var map;
+              var markerClusterer = null;
               var all_markers = [];
               var all_polygons = [];
               var all_polygonMap = [];
               var xml = [];
                 function initialize() {
-                  var myLatlng = new google.maps.LatLng(13.0464384,101.1786521);
+                  var myLatlng = new google.maps.LatLng(13.0934384,101.4286521);
                   var myOptions = {
                     zoom: 9,
                     center: myLatlng,
@@ -121,9 +144,16 @@
                   }
                   map = new google.maps.Map(document.getElementById("map"), myOptions);
                   <?php
-                  foreach ($area_data as $area_id) {
+                  foreach ($area_data as $area) {
                   ?>
-                  addlayerXML(document.getElementById('map_<?php echo $area_id;?>'));
+                  addlayerXML(document.getElementById('map_<?php echo $area['area_id'];?>'));
+                  <?php
+                  }
+                  ?>
+                  <?php
+                  foreach ($current_status_data as $status_data) {
+                  ?>
+                  addlayerXML(document.getElementById('map_<?php echo $status_data['status_id'];?>'));
                   <?php
                   }
                   ?>
@@ -136,18 +166,41 @@
               <div class="box box-primary" >
                 <div style="margin:0px;background-color: #2A5D9C;color:#ffffff;font-size:18px;" >
                     <div style="padding-left: 5px;padding-top: 2px;padding-bottom:2px;">
-                    <?php
-                    foreach ($area_data as $area_id) {
-                    ?>
-                      <input name="map_<?php echo $area_id;?>" type="checkbox" style="display:none;" checked="checked" value="main/get_xml_map/<?php echo $area_id;?>" id="map_<?php echo $area_id;?>" >
-                    <?php
-                    }
-                    ?>
                     <i class="fa fa-map-marker" aria-hidden="true"></i>
                     ข้อมูลเรื่องร้องทุกข์ทั้งหมดจำแนกรายพื้นที่
                     </div>
                 </div>
                 <div id="map" style="height:420px; width:100%;" ></div>
+                <?php
+                foreach ($area_data as $area) {
+                ?>
+                   <input name="map_<?php echo $area['area_id'];?>" type="checkbox" style="display:none" checked="checked" value="main/get_xml_map/<?php echo $area['area_id'];?>" id="map_<?php echo $area['area_id'];?>" >
+                <?php
+                }
+                ?>
+                <table cellspacing="2" cellpadding="2" class="mapTitle">
+                    <tr>
+                        <td  style="background-color:#0493C6;padding:5px; color:#FFF;border-radius: 5px 5px 0px 0px;" align="center" colspan="2"><b>สถานะเรื่องร้องทุกข์</b></td>
+                   </tr>
+                   <?php
+                   foreach ($current_status_data as $status_data) {
+                       //แสดงสถานะที่ไม่ใช่ยกเลิก
+                       if($status_data['status_id'] != '5'){
+                   ?>
+                       <tr>
+                          <td width="30" align="center">
+                          <input name="map_<?php echo $status_data['status_id'];?>" type="checkbox" checked="checked" onClick="addlayerXML(this);" value="main/get_xml_map_status/<?php echo $status_data['status_id'];?>" id="map_<?php echo $status_data['status_id'];?>" >
+                        </td>
+                            <td align="left"><?php echo $status_data['status_name'];?></td>
+                        </tr>
+                   <?php
+                        }
+                   }
+                   ?>
+                   <tr>
+                       <td   align="center" colspan="2">&nbsp;</td>
+                  </tr>
+                </table>
               </div>
             </div>
 
@@ -178,8 +231,8 @@
                 echo script_tag($link);
                 ?>
                   <center>
-                      <div id="canvas-holder" style="width:420px">
-                          <canvas id="chart-area" />
+                      <div class="chart">
+                          <canvas id="barChart" style="height:420px"></canvas>
                       </div>
                   </center>
               </div><!-- /.box -->
@@ -187,8 +240,23 @@
                   var randomScalingFactor = function() {
                       return Math.round(Math.random() * 100);
                   };
+                  <?php
+                  function substr_utf8( $str, $start_p , $len_p){
+                      return preg_replace( '#^(?:[\x00-\x7F]|[\xC0-\xFF][\x80-\xBF]+){0,'.$start_p.'}'.'((?:[\x00-\x7F]|[\xC0-\xFF][\x80-\xBF]+){0,'.$len_p.'}).*#s','$1' , $str );
+                  }
+                  foreach($sum_type as $key => $value ){
+                      $arr_complain_type[] = array('complain_type' => $value['complain_type_name']);
+                      if($value['complain_type_name'] == 'ไม่มีข้อมูล'){
+                        $arr_complain_type_shrot[] = $value['complain_type_name'];
+                      }else{
+                        $arr_complain_type_shrot[] = substr_utf8($value['complain_type_name'],0,9).'...';
+                      }
+                  }
+                  ?>
+                  var  arr_complain_type = '<?php echo json_encode($arr_complain_type);?>';
+                  var  complain_type = JSON.parse(arr_complain_type);
                   var config = {
-                      type: 'doughnut',
+                      type: 'bar',
                       data: {
                           datasets: [{
                               data: [
@@ -205,20 +273,21 @@
                                   }
                                   ?>
                               ],
-                              label: 'Dataset 1'
+                              label: '# จำนวน '
                           }],
                           labels: [
                               <?php
-                              foreach($sum_type as $key => $value ){
-                                  echo "'".$value['complain_type_name']."',";
+                              foreach($arr_complain_type_shrot as $key => $complain_type_name ){
+                                  echo "'".$complain_type_name."',";
                               }
                               ?>
                           ]
                       },
                       options: {
                           responsive: true,
+                          label:{display: false},
                           legend: {
-                              position: 'bottom',
+                              display: false,
                           },
                           title: {
                               display: true,
@@ -227,11 +296,27 @@
                           animation: {
                               animateScale: true,
                               animateRotate: true
-                          }
+                          },
+                            tooltips: {
+                            callbacks: {
+                                title: function(tooltipItems, data) {
+                                    // Pick first xLabel for now
+                                    var title = '';
+                                    if (tooltipItems.length > 0) {
+                                       title = complain_type[tooltipItems[0].index].complain_type;
+                                    }
+                                    return title;
+                                },
+                                label: function(tooltipItem, data) {
+                                    var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || '';
+                                    return datasetLabel + ': ' + tooltipItem.yLabel;
+                                }
+                            }
+                        }
                       }
                   };
                   window.onload = function() {
-                      var ctx = document.getElementById("chart-area").getContext("2d");
+                      var ctx = document.getElementById("barChart").getContext("2d");
                       window.myDoughnut = new Chart(ctx,config);
                   };
               </script>

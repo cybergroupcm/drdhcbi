@@ -37,7 +37,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" name="result_date" id="result_date" class="form-control pull-right datepicker key_date" />
+                                            <input type="text" name="result_date" id="result_date" class="form-control pull-right key_date" />
                                         </div>
                                     </label>
                                 </div>
@@ -93,7 +93,7 @@
                 </div>
                 </form>
                 <div class="modal-footer" style="text-align: center;">
-                    <button type="button" name="btOpenSend" class="btn btn-warning btOpenSend" data-toggle="modal" data-target="#send" id="">ยกเลิกส่งต่อเรื่องร้องทุกข์</button>
+                    <button type="button" name="btOpenSend" class="btn btn-warning btOpenSend open-send" data-toggle="modal" data-target="#send" data-id="">ยกเลิกส่งต่อเรื่องร้องทุกข์</button>
                     <button type="button" name="btSaveResult" id="btSaveResult" class="btn btn-primary">บันทึกผลการดำเนินการ</button>
                 </div>
             </div>

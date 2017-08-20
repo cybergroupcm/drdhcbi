@@ -48,6 +48,28 @@ $( document ).ready(function() {
                 }
 
         });
+
+    var table = $('#example1').DataTable({
+        "order": [[ 1, "desc" ]],
+        "columnDefs": [
+            { "targets": [0,3], "orderable": false },
+            { "targets": [0,3],"searchable": false }
+        ],
+        "language": {
+            "search": "ค้นหา:",
+            "info": "เรื่องที่ _START_ ถึง _END_ จากทั้งหมด _TOTAL_ เรื่อง",
+            "infoEmpty":"เรื่องที่ 0 ถึง 0 จากทั้งหมด 0 เรื่อง",
+            "zeroRecords":"ไม่พบรายการที่ค้นหา",
+            "paginate": {
+                "first":      "หน้าแรก",
+                "last":       "หน้าสุดท้าย",
+                "next":       "ต่อไป",
+                "previous":   "ย้อนกลับ"
+            },
+        },
+        "bLengthChange": false,
+        "pageLength": 15
+    });
 });
 
 function bt_delete(id) {
