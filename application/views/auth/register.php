@@ -29,7 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <span class="text-danger">*</span>
                 <div class="form-group has-feedback">
                     <input type="text" class="form-control numbers" name="idcard" id="idcard" maxlength='13' onblur="checkIdCardRegister(this);"
-                           placeholder="รหัสประจำตัวประชาชน"/>
+                           placeholder="บัตรประจำตัวประชาชน"/>
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
                 <div class="form-group has-feedback show_input">
