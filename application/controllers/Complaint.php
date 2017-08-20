@@ -36,6 +36,8 @@ class Complaint extends CI_Controller
         //กำหนดการแสดงผลหน้าบันทึกข้อมูล
         $url = base_url("api/authen/token_info");
         $user_data_id = api_call_get($url);
+        $url = base_url("api/complaint/user_detail/id/".$user_data_id['userid']);
+        $arr_data['user_login_data'] = api_call_get($url);
         $url = base_url("api/complaint/user_groups/user_id/" . $user_data_id['userid']);
         $user_modes_groups = api_call_get($url);
         if(isset($user_modes_groups)){
@@ -94,6 +96,12 @@ class Complaint extends CI_Controller
 
             $url = base_url("api/complaint/user_detail/idcard/".$arr_data['key_in_data']['id_card']);
             $arr_data['user_detail'] = api_call_get($url);
+
+            $url = base_url("api/complaint/user_detail/id/".$arr_data['key_in_data']['create_user_id']);
+            $arr_data['recorder'] = api_call_get($url);
+
+            $url = base_url("api/complaint/user_detail/id/".$arr_data['key_in_data']['update_user_id']);
+            $arr_data['updater'] = api_call_get($url);
             //echo"<pre>";print_r($arr_data['user_detail'] );echo"</pre>";exit;
         }else{
             if($members_keyin == true){
@@ -580,5 +588,65 @@ class Complaint extends CI_Controller
         $this->my_mpdf->WriteHTML($html, 2);
         $this->my_mpdf->Output('example_mpdf.pdf', 'I');
         exit;
+    }
+
+    public function key_in_step5_word($id){
+        $url = base_url("api/dropdown/channel_lists");
+        $arr_data['channel'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/subject_lists");
+        $arr_data['subject'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/wish_lists");
+        $arr_data['wish'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/title_name_lists");
+        $arr_data['title_name'] = api_call_get($url);
+
+        $arr_data['key_in_data'] = [];
+
+        $url = base_url("api/complaint/key_in/" . $id);
+        $arr_data['key_in_data'] = api_call_get($url);
+        $arr_data['id'] = $id;
+
+        $url = base_url("api/dropdown/accused_type_lists/0");
+        $arr_data['accused_type'][] = api_call_get($url);
+        if($arr_data['key_in_data']['accused_type_id']!='') {
+            $arr_data['get_accused_type'] = $this->accused_type->sort_accused($arr_data['key_in_data']['accused_type_id']);
+            foreach ($arr_data['get_accused_type'] as $key => $value) {
+                $url = base_url("api/dropdown/accused_type_lists/" . $value);
+                $accused_type = api_call_get($url);
+                if (!array_key_exists('message', $accused_type)) {
+                    $arr_data['accused_type'][] = $accused_type;
+                }
+            }
+        }
+
+        $url = base_url("api/dropdown/complain_type_lists//parent_id/0");
+        $arr_data['complain_type'][] = api_call_get($url);
+        if($arr_data['key_in_data']['accused_type_id']!='') {
+            $arr_data['get_complain_type'] = $this->complain_type->sort_complain_type($arr_data['key_in_data']['complain_type_id']);
+            foreach ($arr_data['get_complain_type'] as $key => $value) {
+                $url = base_url("api/dropdown/complain_type_lists//parent_id/" . $value);
+                $complain_type = api_call_get($url);
+                if (!array_key_exists('message', $complain_type)) {
+                    $arr_data['complain_type'][] = $complain_type;
+                }
+            }
+        }
+
+        $url = base_url("api/complaint/user_detail/idcard/".$arr_data['key_in_data']['id_card']);
+        $arr_data['user_detail'] = api_call_get($url);
+        //echo"<pre>";print_r($arr_data['user_detail'] );echo"</pre>";exit;
+
+        $url = base_url("api/dropdown/accused_type_lists");
+        $arr_data['accused_type_all'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/complain_type_lists");
+        $arr_data['complain_type_all'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/ccaa_lists");
+        $arr_data['ccaa_all'] = api_call_get($url);
+        $this->load->view('complaint/key_in_step5_word',$arr_data);
     }
 }
