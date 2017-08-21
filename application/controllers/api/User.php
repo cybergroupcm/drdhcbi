@@ -18,7 +18,7 @@ class User extends REST_Controller
             $id = $this->get('id');
         }else{
             $user_data = $this->jwt_decode($this->jwt_token());
-            $id = $user_data['$output_data'];
+            $id = $user_data['userid'];
         }
         $user          = $this->ion_auth->user($id)->row();
         $groups        = $this->ion_auth->groups()->result_array();
@@ -54,6 +54,7 @@ class User extends REST_Controller
             'idcard' => $this->post('idcard'),
             'prename_th_id'=> $this->post('prename_th_id'),
             'prename_th'=> $this->post('prename_th'),
+            'prename_en_id'=> $this->post('prename_en_id'),
             'prename_en'=> $this->post('prename_en'),
             'first_name_en' => $this->post('first_name_en'),
             'last_name_en'  => $this->post('last_name_en'),
@@ -93,7 +94,7 @@ class User extends REST_Controller
             $now_id = $ids;
         }
         //upload file
-        if(isset($_FILES['register_photo']) && $_FILES['register_photo']['name']!=''){
+        /*if(isset($_FILES['register_photo']) && $_FILES['register_photo']['name']!=''){
             $output_dir = "./upload/register_photos/";
             //echo $output_dir;
             if(!@mkdir($output_dir,0,true)){
@@ -136,8 +137,59 @@ class User extends REST_Controller
                 }
                 $sql = "UPDATE au_users SET register_photo = '".$new_file_name."' WHERE id='".$now_id."'";
                 $update_file = $this->User_model->sql_query($sql);
+        }*/
+        if($this->post('register_photo') != ""){
+
+            $explode_arr=array();
+            $list_dir = array();
+            $output_dir = "./upload/register_photos/";
+            //echo $output_dir;
+            if(!@mkdir($output_dir,0,true)){
+                chmod($output_dir, 0777);
+            }else{
+                chmod($output_dir, 0777);
+            }
+            $cdir = scandir($output_dir);
+            foreach ($cdir as $key => $value) {
+                if (!in_array($value,array(".",".."))) {
+                    if (is_dir(@$dir . DIRECTORY_SEPARATOR . $value)){
+                        $list_dir[$value] = dirToArray(@$dir . DIRECTORY_SEPARATOR . $value);
+                    }else{
+                        if(substr($value,0,8) == date('Ymd')){
+                            $list_dir[] = $value;
+                        }
+                    }
+                }
+            }
+            foreach($list_dir as $key => $value){
+                $task = explode('.',$value);
+                $task2 = explode('_',$task[0]);
+                $explode_arr[] = $task2[1];
+            }
+            $max_run_num = sprintf("%04d",count($explode_arr)+1);
+            $filename_ex = explode("/",$this->post('register_photo'));
+            $explode_old_file = explode('.',$filename_ex[count($filename_ex)-1]);
+            $new_file_name = date('Ymd')."_".$max_run_num.".".$explode_old_file[(count($explode_old_file)-1)];
+            if(copy('./upload/tmp_register/'.$filename_ex[count($filename_ex)-1],$output_dir.$new_file_name)){
+                $sql = "UPDATE au_users SET register_photo = '".$new_file_name."' WHERE id='".$now_id."'";
+                $update_file = $this->User_model->sql_query($sql);
+                unlink('./upload/tmp_register/'.$filename_ex[count($filename_ex)-1]);
+            }
         }
         //upload file
+
+        //update group
+        $groupData = $this->input->post('user_group_id');
+
+        if($now_id != ""){
+            if (isset($groupData) && !empty($groupData))
+            {
+                $this->ion_auth->remove_from_group('', $now_id);
+                $this->ion_auth->add_to_group($groupData, $now_id);
+            }
+        }
+
+
         //$this->response($this->post(), REST_Controller::HTTP_OK); // CREATED (201) being the HTTP response code
         if($this->post('id')==''){
             $this->set_response($ids, REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
@@ -196,5 +248,7 @@ class User extends REST_Controller
             ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
         }
     }
+
+
 
 }
