@@ -33,7 +33,22 @@
             		background-color:#FFFFFF;
                 -webkit-box-shadow: 5px 5px 10px #888888;
         	}
-
+            .mapTitleIcon{
+                  z-index:1;
+                  position:absolute;
+                  text-align:center;
+                  top:175px;
+                  left:315px;
+                  color:#000000;
+                  width:150px;
+                  padding:3px;
+                  margin:0px;
+                  font-size:12px;
+                  /*border:#999 1px solid;*/
+                  border-radius: 5px;
+                  background-color:#FFFFFF;
+                  -webkit-box-shadow: 5px 5px 10px #888888;
+            }
         </style>
         <section class="content-header">
           <h1>
@@ -195,6 +210,29 @@
                         </tr>
                    <?php
                         }
+                   }
+                   ?>
+                   <tr>
+                       <td   align="center" colspan="2">&nbsp;</td>
+                  </tr>
+                </table>
+                <table cellspacing="2" cellpadding="2" class="mapTitleIcon">
+                    <tr>
+                        <td  style="background-color:#0493C6;padding:5px;font-size:14px; color:#FFF;border-radius: 5px 5px 0px 0px;" align="center" colspan="2"><b>สัญลักษณ์ประเภทเรื่อง</b></td>
+                   </tr>
+                   <?php
+                   foreach ($complain_type_list_icon as $type_list_icon) {
+                   ?>
+                       <tr>
+                          <td width="30" align="center">
+                          <img src="<?php echo base_url().'assets/images/'.$type_list_icon['icon_pin'];?>" width="18px"/>
+                        </td>
+                            <td align="left"><?php echo $type_list_icon['complain_type_name'];?></td>
+                        </tr>
+                        <tr>
+                            <td  align="center" colspan="2" style="border-bottom:1px solid #EEE;"></td>
+                       </tr>
+                   <?php
                    }
                    ?>
                    <tr>

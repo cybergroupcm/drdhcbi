@@ -144,7 +144,7 @@ $this->load->view('complaint/save_result');
                                         if (@$val['current_status_id'] == '5') {
                                             echo '-';
                                         } else {
-                                            if (@$val['current_status_id'] == '1') {
+                                            if($val['current_status_id'] != '4'){
                                         ?>
                                                 <span class="dropdown">
                                             <span class="dropdown-toggle glyphicon glyphicon-cog" data-toggle="dropdown"
@@ -161,13 +161,15 @@ $this->load->view('complaint/save_result');
                                                     echo '<li><a href="' . base_url('complaint/key_in/key_in_step' . ($step + 1) . '/' . @$val['keyin_id']) . '">แก้ไข</a></li>';
                                                     echo '<li><a onclick="bt_delete(' . @$val['keyin_id'] . ');">ยกเลิก</a></li>';
                                                 } else {
-                                                    echo '<li><a>แก้ไข</a></li>';
-                                                    echo '<li><a>ยกเลิก</a></li>';
+                                                    if (@$val['current_status_id'] == '1') {
+                                                        echo '<li><a>แก้ไข</a></li>';
+                                                    }
+                                                    echo '<li><a onclick="bt_delete(' . @$val['keyin_id'] . ');">ยกเลิก</a></li>';
                                                 }
                                                 ?>
                                             </ul>
                                         </span>
-                                            <?php } ?>
+                                        <?php } ?>
                                         <?php } ?>
                                         <span>
                                       <?php

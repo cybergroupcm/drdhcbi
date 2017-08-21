@@ -246,7 +246,8 @@ class Setting extends REST_Controller
         $ids = $this->Complain_type_model->insert(array(
             'complain_type_name' => $this->post('complain_type_name'),
             'parent_id' => $this->post('parent_id'),
-            'status_active' => '1'
+            'status_active' => '1',
+            'icon_pin' => $this->post('icon_pin')
         ));
         $this->set_response($ids, REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
     }
@@ -259,6 +260,9 @@ class Setting extends REST_Controller
         }
         if (!array_key_exists('parent_id', $data)) {
             unset($data['parent_id']);
+        }
+        if (!array_key_exists('icon_pin', $data)) {
+            unset($data['icon_pin']);
         }
 
         $status_active = $data['status_active'];
