@@ -60,7 +60,7 @@
                                 <div class="col-md-10">
                                     <div class="form-group">
                                         <label class="col-sm-5 text-right">
-                                            icon :
+                                            สัญลักษณ์บนแผนที่ :
                                         </label>
                                         <label class="col-sm-7">
                                             <?php
@@ -171,4 +171,3 @@ echo script_tag($link);
     });
 
 </script>
-
