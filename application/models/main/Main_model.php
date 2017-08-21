@@ -46,13 +46,37 @@ class Main_model extends CI_Model {
     public function get_data_status($status_id){
         $to_day = date('Y-m-d');
         //$to_day = '2017-08-16';
-        $sql = "SELECT complain_no, complain_name, latitude, longitude
-                FROM `dt_keyin`
-                WHERE current_status_id='".$status_id."'
+        $sql = "SELECT
+                dt_keyin.complain_no,
+                dt_keyin.complain_name,
+                dt_keyin.latitude,
+                dt_keyin.longitude,
+                ms_complain_type.parent_id AS complain_type_id
+                FROM dt_keyin
+                JOIN ms_complain_type
+                ON dt_keyin.complain_type_id = ms_complain_type.complain_type_id
+                WHERE ms_complain_type.parent_id != 0
+                AND current_status_id='".$status_id."'
                 AND complain_date LIKE('".$to_day."%')
                 ";
         $query = $this->db->query($sql);
         $result = $query->result();
+        return $result;
+    }
+    public function get_complain_type_list(){
+        $sql = "SELECT complain_type_name, icon_pin FROM ms_complain_type WHERE parent_id=0 AND status_active=1 ";
+        $query = $this->db->query($sql);
+        $result = $query->result();
+        return $result;
+    }
+
+    public function get_complain_type_icon($complain_type_id=''){
+        $sql = "SELECT icon_pin FROM ms_complain_type WHERE complain_type_id='".$complain_type_id."' ";
+        $query = $this->db->query($sql);
+        foreach ($query->result() as $row)
+        {
+          $result = $row->icon_pin;
+        }
         return $result;
     }
 
