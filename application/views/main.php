@@ -27,7 +27,7 @@
             		width:150px;
             		padding:3px;
             		margin:0px;
-            		font-size:14px;
+            		font-size:12px;
             		/*border:#999 1px solid;*/
                 border-radius: 5px;
             		background-color:#FFFFFF;
@@ -51,10 +51,10 @@
             }
         </style>
         <section class="content-header">
-          <h1>
+          <h3>
             สรุปภาพรวมข้อมูลเรื่องร้องทุกข์
             <small>ศูนย์ดำรงธรรม จังหวัดชลบุรี</small>
-          </h1>
+          </h3>
         </section>
 
         <!-- Main content -->
@@ -65,8 +65,8 @@
               <!-- small box -->
               <div class="small-box bg-aqua">
                 <div class="inner">
-                  <h3><?php echo $sum_status['sum_all'];?> <sup style="font-size: 20px">(รายการ)</sup></h3>
-                  <p><h4>ข้อมูลเรื่องร้องทุกข์ทั้งหมด<h4></p>
+                  <h4><?php echo $sum_status['sum_all'];?> <sup style="font-size: 18px">(รายการ)</sup></h4>
+                  <p><h5>ข้อมูลเรื่องร้องทุกข์ทั้งหมด</h5></p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-ios-paper-outline"></i>
@@ -80,8 +80,8 @@
               <!-- small box -->
               <div class="small-box bg-red">
                 <div class="inner">
-                  <h3><?php echo @$sum_status['1'];?> <sup style="font-size: 20px">(รายการ)</sup></h3>
-                  <p><h4>อยู่ระหว่างรับเรื่อง<h4></p>
+                  <h4><?php echo @$sum_status['1'];?> <sup style="font-size: 18px">(รายการ)</sup></h4>
+                  <p><h5>อยู่ระหว่างรับเรื่อง</h5></p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-email-unread"></i>
@@ -93,8 +93,8 @@
               <!-- small box -->
               <div class="small-box bg-yellow">
                 <div class="inner">
-                  <h3><?php echo @$sum_status['2'];?> <sup style="font-size: 20px">(รายการ)</sup></h3>
-                  <p><h4>รับเรื่อง<h4></p>
+                  <h4><?php echo @$sum_status['2'];?> <sup style="font-size: 18px">(รายการ)</sup></h4>
+                  <p><h5>รับเรื่อง</h5></p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-android-drafts"></i>
@@ -106,8 +106,8 @@
               <!-- small box -->
               <div class="small-box bg-blue">
                 <div class="inner">
-                  <h3><?php echo @$sum_status['3'];?> <sup style="font-size: 20px">(รายการ)</sup></h3>
-                  <p><h4>ส่งต่อเรื่อง<h4></p>
+                  <h4><?php echo @$sum_status['3'];?> <sup style="font-size: 18px">(รายการ)</sup></h4>
+                  <p><h5>ส่งต่อเรื่อง</h5></p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-share"></i>
@@ -119,8 +119,8 @@
               <!-- small box -->
               <div class="small-box bg-green">
                 <div class="inner">
-                  <h3><?php echo @$sum_status['4'];?> <sup style="font-size: 20px">(รายการ)</sup></h3>
-                  <p><h4>บันทึกผลเรียบร้อย<h4></p>
+                  <h4><?php echo @$sum_status['4'];?> <sup style="font-size: 18px">(รายการ)</sup></h4>
+                  <p><h5>บันทึกผลเรียบร้อย</h5></p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-checkmark-circled"></i>
@@ -179,7 +179,7 @@
               google.maps.event.addDomListener(window, 'load', initialize);
               </script>
               <div class="box box-primary" >
-                <div style="margin:0px;background-color: #2A5D9C;color:#ffffff;font-size:18px;" >
+                <div style="margin:0px;background-color: #2A5D9C;color:#ffffff;font-size:16px;" >
                     <div style="padding-left: 5px;padding-top: 2px;padding-bottom:2px;">
                     <i class="fa fa-map-marker" aria-hidden="true"></i>
                     ข้อมูลเรื่องร้องทุกข์ทั้งหมดจำแนกรายพื้นที่
@@ -218,7 +218,7 @@
                 </table>
                 <table cellspacing="2" cellpadding="2" class="mapTitleIcon">
                     <tr>
-                        <td  style="background-color:#0493C6;padding:5px;font-size:14px; color:#FFF;border-radius: 5px 5px 0px 0px;" align="center" colspan="2"><b>สัญลักษณ์ประเภทเรื่อง</b></td>
+                        <td  style="background-color:#0493C6;padding:5px; color:#FFF;border-radius: 5px 5px 0px 0px;" align="center" colspan="2"><b>สัญลักษณ์ประเภทเรื่อง</b></td>
                    </tr>
                    <?php
                    foreach ($complain_type_list_icon as $type_list_icon) {
@@ -245,7 +245,7 @@
             <div class="col-md-6">
               <!-- DONUT CHART -->
               <div class="box box-primary">
-                <div style="margin:0px;background-color: #2A5D9C;color:#ffffff;font-size:18px;" >
+                <div style="margin:0px;background-color: #2A5D9C;color:#ffffff;font-size:16px;" >
                     <div style="padding-left: 5px;padding-top: 2px;padding-bottom:2px;">
                       <i class="fa fa-bar-chart-o"></i>
                       จำนวนผู้ร้องทุกข์แยกตามประเภท
