@@ -248,7 +248,7 @@
                 <div style="margin:0px;background-color: #2A5D9C;color:#ffffff;font-size:18px;" >
                     <div style="padding-left: 5px;padding-top: 2px;padding-bottom:2px;">
                       <i class="fa fa-bar-chart-o"></i>
-                      เรื่องร้องทุกข์ 5 ประเภทที่มีผู้ร้องเรียนมากสุด
+                      จำนวนผู้ร้องทุกข์แยกตามประเภท
                     </div>
                 </div>
                 <?php
