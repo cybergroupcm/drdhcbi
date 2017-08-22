@@ -38,11 +38,16 @@ $this->load->view('report_statistic_by_status/search');
                     <div class="col-xs-12 text-right" style="margin-bottom: 5px;">
                         <?php
                         $param_pdf = "?year=".$_GET['year']."&current_status_id=".$_GET['complain_type_id']."&partid=".$_GET['partid']."&province_id=".$_GET['province_id']."&district_id=".$_GET['district_id']."&address_id=".$_GET['address_id'];
-
-                        echo '<i class="fa fa-search" aria-hidden="true" style="cursor: pointer;font-size: 3em;" data-toggle="modal" data-target="#search" title="ค้นหาข้อมูล"></i>  ';
-                        echo '<a href="'.base_url('report/report_statistic_by_status_pdf'.$param_pdf).'" style="color: #333333;" target="_blank"><i class="fa fa-print" aria-hidden="true" style="cursor: pointer;font-size: 3em;" title="สั่งพิมพ์"></a></i>  ';
-                        echo '<a href="'.base_url('report/report_statistic_by_status_excel'.$param_pdf).'" style="color: #333333;" target="_blank" id="export"><i class="fa fa-file-excel-o" aria-hidden="true" style="cursor: pointer;font-size: 3em;" title="ส่งออก Excel"></a></i>';
                         ?>
+                        <a href="#" class="btn btn-default" role="button" data-toggle="modal" data-target="#search" title="ค้นหาข้อมูล">
+                            <i class="fa fa-search" aria-hidden="true" style="cursor: pointer;font-size: 2em;"></i>
+                        </a>
+                        <a href="<?php echo base_url('report/report_statistic_by_status_pdf'.$param_pdf); ?>" class="btn btn-default" role="button"  title="สั่งพิมพ์" target="_blank">
+                            <i class="fa fa-print" aria-hidden="true" style="cursor: pointer;font-size: 2em;"></i>
+                        </a>
+                        <a href="<?php echo base_url('report/report_statistic_by_status_excel'.$param_pdf); ?>" class="btn btn-default" role="button" title="ส่งออก Excel" target="_blank">
+                            <i class="fa fa-file-excel-o" aria-hidden="true" style="cursor: pointer;font-size: 2em;"></i>
+                        </a>
                     </div>
                     <div class="col-xs-1"></div>
                     <div class="col-xs-10">

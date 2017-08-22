@@ -15,22 +15,46 @@ $step_array[3]['color'] = 'btn-primary';
 $step_array[4]['name'] = 'บันทึกผลเรียบร้อย';
 $step_array[4]['color'] = 'btn-success';
 ?>
-        <div class="stepwizard col-md-offset-0">
-            <div class="stepwizard-row setup-panel">
-                <?php foreach($step_array as $key => $value){
-                    if(@$key_in_data['current_status_id'] == $key){
-                        $btn = $value['color'];
-                    }else{
-                        $btn = 'btn-default';
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <ul class="breadcrumb">
+                    <?php foreach($step_array as $key => $value) {
+                        if ($key > @$key_in_data['current_status_id'] ) {
+                            $class = '';
+                        }elseif( @$key_in_data['current_status_id'] == $key ){
+                            $class = 'active';
+                        } else {
+                            $class = 'completed';
+                        }
+                        ?>
+                        <li class="<?php echo $class;?>">
+                            <a style="cursor:default;"><?php echo $step_array[$key]['name']; ?></a>
+                        </li>
+                        <?php
                     }
                     ?>
-                <div class="stepwizard-step" style="width:25%;">
-                        <a type="button" class="btn <?php echo $btn; ?> btn-circle" disabled="disabled"><?php echo $key; ?></a>
-                        <p><?php echo $value['name']; ?></p>
-                </div>
-                <?php } ?>
+                </ul>
             </div>
         </div>
+    </div>
+
+<!--        <div class="stepwizard col-md-offset-0">-->
+<!--            <div class="stepwizard-row setup-panel">-->
+<!--                --><?php //foreach($step_array as $key => $value){
+//                    if(@$key_in_data['current_status_id'] == $key){
+//                        $btn = $value['color'];
+//                    }else{
+//                        $btn = 'btn-default';
+//                    }
+//                    ?>
+<!--                <div class="stepwizard-step" style="width:25%;">-->
+<!--                        <a type="button" class="btn --><?php //echo $btn; ?><!-- btn-circle" disabled="disabled">--><?php //echo $key; ?><!--</a>-->
+<!--                        <p>--><?php //echo $value['name']; ?><!--</p>-->
+<!--                </div>-->
+<!--                --><?php //} ?>
+<!--            </div>-->
+<!--        </div>-->
 <?php
 $link = array(
     'src' => 'assets/js/step.js',
