@@ -18,6 +18,7 @@ class Dropdown extends REST_Controller
         $this->load->model('master/Send_org_model');
         $this->load->model('master/Area_part_model');
         $this->load->model('master/Current_status_model');
+        $this->load->model('master/Au_group_model');
     }
 
     public function accused_type_lists_get($parent_id='')
@@ -142,17 +143,22 @@ class Dropdown extends REST_Controller
         if($ccType!='') {
             $conditions['ccType'] = $ccType;
         }
-        if($ccaa_code!=''){
-            $conditions['ccDigi LIKE'] = $ccaa_code."%";
-        }
+
         if($ccType == 'Changwat'){
             $replace = 'จังหวัด';
-
+            if($ccaa_code!=''){
+                $conditions['ccDigi LIKE'] = $ccaa_code."%";
+            }
         }elseif($ccType == 'Aumpur'){
             $replace = 'อำเภอ';
-
+            if($ccaa_code!=''){
+                $conditions['ccDigi LIKE'] = substr($ccaa_code,0,2)."%";
+            }
         }elseif($ccType == 'Tamboon'){
             $replace = 'ตำบล';
+            if($ccaa_code!=''){
+                $conditions['ccDigi LIKE'] = substr($ccaa_code,0,4)."%";
+            }
         }
         $types = $this->Ccaa_model->as_dropdown("REPLACE(ccName,'{$replace}','')")->where($conditions)->get_all();
 
@@ -248,6 +254,21 @@ class Dropdown extends REST_Controller
     public function current_subject_lists_get()
     {
         $types = $this->Subject_model->as_dropdown('subject_name')->get_all();
+        // Check if the users data store contains users (in case the database result returns NULL)
+        if ($types) {
+            // Set the response and exit
+            $this->response($types, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        } else {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'No complain type were found'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
+    public function au_group_list_get(){
+        $types = $this->Au_group_model->as_dropdown('description')->get_all();
         // Check if the users data store contains users (in case the database result returns NULL)
         if ($types) {
             // Set the response and exit

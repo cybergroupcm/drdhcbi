@@ -94,7 +94,7 @@ class User extends REST_Controller
             $now_id = $ids;
         }
         //upload file
-        if(isset($_FILES['register_photo']) && $_FILES['register_photo']['name']!=''){
+        /*if(isset($_FILES['register_photo']) && $_FILES['register_photo']['name']!=''){
             $output_dir = "./upload/register_photos/";
             //echo $output_dir;
             if(!@mkdir($output_dir,0,true)){
@@ -137,6 +137,44 @@ class User extends REST_Controller
                 }
                 $sql = "UPDATE au_users SET register_photo = '".$new_file_name."' WHERE id='".$now_id."'";
                 $update_file = $this->User_model->sql_query($sql);
+        }*/
+        if($this->post('register_photo') != ""){
+
+            $explode_arr=array();
+            $list_dir = array();
+            $output_dir = "./upload/register_photos/";
+            //echo $output_dir;
+            if(!@mkdir($output_dir,0,true)){
+                chmod($output_dir, 0777);
+            }else{
+                chmod($output_dir, 0777);
+            }
+            $cdir = scandir($output_dir);
+            foreach ($cdir as $key => $value) {
+                if (!in_array($value,array(".",".."))) {
+                    if (is_dir(@$dir . DIRECTORY_SEPARATOR . $value)){
+                        $list_dir[$value] = dirToArray(@$dir . DIRECTORY_SEPARATOR . $value);
+                    }else{
+                        if(substr($value,0,8) == date('Ymd')){
+                            $list_dir[] = $value;
+                        }
+                    }
+                }
+            }
+            foreach($list_dir as $key => $value){
+                $task = explode('.',$value);
+                $task2 = explode('_',$task[0]);
+                $explode_arr[] = $task2[1];
+            }
+            $max_run_num = sprintf("%04d",count($explode_arr)+1);
+            $filename_ex = explode("/",$this->post('register_photo'));
+            $explode_old_file = explode('.',$filename_ex[count($filename_ex)-1]);
+            $new_file_name = date('Ymd')."_".$max_run_num.".".$explode_old_file[(count($explode_old_file)-1)];
+            if(copy('./upload/tmp_register/'.$filename_ex[count($filename_ex)-1],$output_dir.$new_file_name)){
+                $sql = "UPDATE au_users SET register_photo = '".$new_file_name."' WHERE id='".$now_id."'";
+                $update_file = $this->User_model->sql_query($sql);
+                unlink('./upload/tmp_register/'.$filename_ex[count($filename_ex)-1]);
+            }
         }
         //upload file
 

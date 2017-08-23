@@ -387,29 +387,30 @@ $link = array(
                             อัพโหลดรูปภาพ :
                         </label>
                         <label class="col-sm-4">
-                            <input type="file" accept=".jpg, .png" id="register_photo" name="register_photo" class="form-control" onchange="readURL(this);"/>
+                            <!--<input type="file" accept=".jpg, .png" id="register_photo" name="register_photo" class="form-control" onchange="readURL(this);"/>-->
+                            <div id="container_image"></div>
                         </label>
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <!--<div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="col-sm-3 right">
                         </label>
                         <label class="col-sm-4">
                             <?php
-                                if(@$data['user']['register_photo']!=''){
+/*                                if(@$data['user']['register_photo']!=''){
                                     @$register_photo = @$data['user']['register_photo'];
                                 }else{
                                     @$register_photo = 'no_photo.jpg';
                                 }
-                            ?>
-                            <img id="show_photo" width="150px" height="160px" src="<?php echo base_url('upload/register_photos/'.@$register_photo);?>" alt="your image" />
+                            */?>
+                            <img id="show_photo" width="150px" height="160px" src="<?php /*echo base_url('upload/register_photos/'.@$register_photo);*/?>" alt="your image" />
                         </label>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -428,8 +429,30 @@ $link = array(
     </form>
 </div>
 </section>
+<?php
+$link = array(
+    'src' => 'assets/frameworks/picture_cut/src/jquery.picture.cut.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+?>
 <script>
-    var base_url = '<?php echo base_url() ?>';</script>
+    var base_url = '<?php echo base_url() ?>';
+    $("#container_image").PictureCut({
+        InputOfImageDirectory       : "register_photo",
+        PluginFolderOnServer        : "sysdamrongdham/assets/frameworks/picture_cut/",
+        FolderOnServer              : "/sysdamrongdham/upload/tmp_register/",
+        EnableCrop                  : true,
+        CropWindowStyle             : "Bootstrap"
+    });
+    <?php
+        if(@$data['user']['register_photo'] != ""){
+            echo "$('.picture-element-image').attr('src','/sysdamrongdham/upload/register_photos/". @$data['user']['register_photo'] ."');";
+            echo "$('.picture-element-principal').css('background','none')";
+        }
+    ?>
+    //$('.picture-element-image').attr('src','/drdhcbi/upload/e9af0f10.jpg');
+</script>
 <?php
 
 $link = array(
