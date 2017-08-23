@@ -143,17 +143,22 @@ class Dropdown extends REST_Controller
         if($ccType!='') {
             $conditions['ccType'] = $ccType;
         }
-        if($ccaa_code!=''){
-            $conditions['ccDigi LIKE'] = $ccaa_code."%";
-        }
+
         if($ccType == 'Changwat'){
             $replace = 'จังหวัด';
-
+            if($ccaa_code!=''){
+                $conditions['ccDigi LIKE'] = $ccaa_code."%";
+            }
         }elseif($ccType == 'Aumpur'){
             $replace = 'อำเภอ';
-
+            if($ccaa_code!=''){
+                $conditions['ccDigi LIKE'] = substr($ccaa_code,0,2)."%";
+            }
         }elseif($ccType == 'Tamboon'){
             $replace = 'ตำบล';
+            if($ccaa_code!=''){
+                $conditions['ccDigi LIKE'] = substr($ccaa_code,0,4)."%";
+            }
         }
         $types = $this->Ccaa_model->as_dropdown("REPLACE(ccName,'{$replace}','')")->where($conditions)->get_all();
 

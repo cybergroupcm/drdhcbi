@@ -38,11 +38,15 @@ function replace_empty($value){
                 </div>
                 <div class="box-body">
                     <div class="col-xs-12 text-right" style="margin-bottom: 5px;">
-                        <?php //echo img(array('src'=>'assets/images/search.png', 'title'=> 'ค้นหาข้อมูล','width'=>'48px','style'=>'cursor:pointer','data-toggle'=>'modal','data-target'=>'#search')); ?>
-                        <!--a href="<?php echo base_url("report/report_all_complaint_pdf");?>" target="_blank"><?php echo img(array('src'=>'assets/images/print.png', 'title'=> 'สั่งพิมพ์','width'=>'48px','style'=>'cursor:pointer')); ?></a-->
-                        <i class="fa fa-search" aria-hidden="true" style="cursor: pointer;font-size: 3em;" data-toggle="modal" data-target="#search" title="ค้นหาข้อมูล"></i>
-                        <a href="<?php echo base_url('report/report_all_complaint_pdf'.$param_get); ?>" style="color: #333333;" target="_blank"><i class="fa fa-print" aria-hidden="true" style="cursor: pointer;font-size: 3em;" title="สั่งพิมพ์"></a></i>
-                        <a href="<?php echo base_url('report/report_all_complaint_excel'.$param_get); ?>" style="color: #333333;" target="_blank"><i class="fa fa-file-excel-o" aria-hidden="true" style="cursor: pointer;font-size: 3em;" title="ส่งออก Excel"></a></i>
+                        <a href="#" class="btn btn-default" role="button" data-toggle="modal" data-target="#search" title="ค้นหาข้อมูล">
+                            <i class="fa fa-search" aria-hidden="true" style="cursor: pointer;font-size: 2em;"></i>
+                        </a>
+                        <a href="<?php echo base_url('report/report_all_complaint_pdf'.$param_get); ?>" class="btn btn-default" role="button"  title="สั่งพิมพ์" target="_blank">
+                            <i class="fa fa-print" aria-hidden="true" style="cursor: pointer;font-size: 2em;"></i>
+                        </a>
+                        <a href="<?php echo base_url('report/report_all_complaint_excel'.$param_get); ?>" class="btn btn-default" role="button" title="ส่งออก Excel" target="_blank">
+                            <i class="fa fa-file-excel-o" aria-hidden="true" style="cursor: pointer;font-size: 2em;"></i>
+                        </a>
                     </div>
                     <div class="col-xs-1"></div>
                     <div class="col-xs-10">
