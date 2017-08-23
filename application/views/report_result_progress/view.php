@@ -33,32 +33,18 @@ echo script_tag($link);
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">รายงานผลการดำเนินการแก้ไขปัญหาเรื่องร้องเรียนขอศูนย์ดำรงธรรมจังหวัดชลบุรี</h3>
-                </div>
-                <div class="col-xs-12 text-left">
-                    ตั้งแต่เดือนตุลาคม 2557 – กรกฎาคม 2560
+                    <h3 class="box-title">3. รายงานรวมผลการดำเนินงานแก้ไขปัญหาเรื่องร้องเรียนของศูนย์ดำรงธรรมจังหวัดแบบรายเดือน</h3>
                 </div>
                 <div class="box-body">
-                    <div class="col-xs-12 text-right" style="margin-bottom: 5px;">
-                        <?php
-                            $param_pdf = "?year=".$_GET['year']."&current_status_id=".$_GET['complain_type_id']."&partid=".$_GET['partid']."&province_id=".$_GET['province_id']."&district_id=".$_GET['district_id']."&address_id=".$_GET['address_id'];
-                        ?>
-                            <a href="#" class="btn btn-default" role="button" data-toggle="modal" data-target="#search" title="ค้นหาข้อมูล">
-                                <i class="fa fa-search" aria-hidden="true" style="cursor: pointer;font-size: 2em;"></i>
-                            </a>
-                            <a href="<?php echo base_url('report_result_progress/pdf'.$param_pdf); ?>" class="btn btn-default" role="button"  title="สั่งพิมพ์" target="_blank">
-                                <i class="fa fa-print" aria-hidden="true" style="cursor: pointer;font-size: 2em;"></i>
-                            </a>
-                            <a href="<?php echo base_url('report_result_progress/excel'.$param_pdf); ?>" class="btn btn-default" role="button" title="ส่งออก Excel" target="_blank">
-                                <i class="fa fa-file-excel-o" aria-hidden="true" style="cursor: pointer;font-size: 2em;"></i>
-                            </a>
-                    </div>
+                <?php
+                $yymm=$_GET['yy'].'-'.$_GET['mm'];
+                ?>
                     <table id="example1" class="table table-bordered table-striped table-hover dataTable">
                         <thead>
                         <tr>
                             <th class="text-center" style="vertical-align: middle;width: 15%;" rowspan="2">ตัวชี้วัด</th>
                             <th class="text-center" style="vertical-align: middle;" colspan="<?php echo (count(@$complaint_type)+1);?>">
-                                ผลการดำเนินการในเดือน กรกฎาคม 2560
+                                ผลการดำเนินการในเดือน <U><?php echo date_thai($yymm.'-01', true,'m y');?></U>
                             </th>
                             <th class="text-center" style="vertical-align: middle;" colspan="<?php echo (count(@$progress_type)+1);?>">
                                 ผลการดำเนินงาน
@@ -69,7 +55,7 @@ echo script_tag($link);
                             $i=0;
                             foreach($complaint_type AS $key_complaint=>$val_complaint){
                                 $i++;
-                                echo '<th class="text-center" style="vertical-align: middle;width: 6%;">'.$i.'.<br>'.$val_complaint.'</th>';
+                                echo '<th class="text-center" style="vertical-align: middle;width: 6%;">'.$i.'. '.$val_complaint.'</th>';
                             }
                             echo '<th class="text-center" style="vertical-align: middle;width: 6%;">รวมทั้งสิ้น</th>';
 

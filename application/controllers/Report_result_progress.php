@@ -24,6 +24,8 @@ class Report_result_progress extends CI_Controller {
         $param .= ($_GET['district_id'] !="")?"/district_id/".$_GET['district_id']:"";
         $param .= ($_GET['address_id'] !="")?"/address_id/".$_GET['address_id']:"";
 
+        $yymm=$_GET['yy'].'-'.$_GET['mm'];
+
         $url = base_url("api/dropdown/complain_type_lists/parent_id/0");
         $arr_data['complaint_type'] = api_call_get($url);
 
@@ -35,11 +37,11 @@ class Report_result_progress extends CI_Controller {
         $arr_data['result_progress'] = array(
             '1'=>array(
                 'result'=>array(
-                    'column1'=>'3.1 เรื่องร้องเรียนที่ค้างดำเนินการเมื่อปีงบประมาณ พ.ศ.2558'
+                    'column1'=>'3.1 เรื่องร้องเรียนที่ค้างดำเนินการเมื่อปีงบประมาณ พ.ศ.'.(date_thai($yymm.'-01', true,'y')-2)
                 ),
                 'result_sub'=>array(
                     '0'=>array(
-                        'column1'=>'เรื่องร้องเรียนงบประมาณ พ.ศ.2558',
+                        'column1'=>'เรื่องร้องเรียนงบประมาณ พ.ศ.'.(date_thai($yymm.'-01', true,'y')-2),
                         'column2'=>'203',
                         'column3'=>'410',
                         'column4'=>'0',
@@ -55,11 +57,11 @@ class Report_result_progress extends CI_Controller {
             ),
             '2'=>array(
                 'result'=>array(
-                    'column1'=>'3.2 เรื่องร้องเรียนที่ค้างดำเนินการเมื่อปีงบประมาณ พ.ศ.2559'
+                    'column1'=>'3.2 เรื่องร้องเรียนที่ค้างดำเนินการเมื่อปีงบประมาณ พ.ศ.'.(date_thai($yymm.'-01', true,'y')-1)
                 ),
                 'result_sub'=>array(
                     '0'=>array(
-                        'column1'=>'เรื่องร้องเรียนงบประมาณ พ.ศ.2559',
+                        'column1'=>'เรื่องร้องเรียนงบประมาณ พ.ศ.'.(date_thai($yymm.'-01', true,'y')-1),
                         'column2'=>'94',
                         'column3'=>'373',
                         'column4'=>'0',
@@ -75,7 +77,7 @@ class Report_result_progress extends CI_Controller {
             ),
             '3'=>array(
                 'result'=>array(
-                    'column1'=>'3.3 เรื่องร้องเรียนที่ค้างดำเนินการเมื่อปีงบประมาณ พ.ศ.2560'
+                    'column1'=>'3.3 เรื่องร้องเรียนที่ค้างดำเนินการเมื่อปีงบประมาณ พ.ศ.'.date_thai($yymm.'-01', true,'y')
                 ),
                 'result_sub'=>array(
                     '0'=>array(
