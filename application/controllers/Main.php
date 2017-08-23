@@ -67,6 +67,13 @@ class Main extends MY_Controller {
 			$arr_area_data[$row_area->area_id] = array('area_id'=>$row_area->area_id, 'area_name'=>$row_area->area_name);
 		}
 		$arr_data['area_data'] = $arr_area_data;
+		//สัญลักษณ์ประเภทเรื่อง
+		$obj_complain_type = $this->main->get_complain_type_list();
+		foreach ($obj_complain_type as $row)
+		{
+			$arr_complain_type_list_icon[] = array('complain_type_name'=>$row->complain_type_name,'icon_pin'=>$row->icon_pin);
+		}
+		$arr_data['complain_type_list_icon'] = $arr_complain_type_list_icon;
 		//ข้อมูลสถานะ
 		$obj_status = $this->main->get_current_status();
 		foreach ($obj_status as $row)
@@ -103,6 +110,7 @@ class Main extends MY_Controller {
 
 		$str =  "<markers>";
 		foreach($obj_data_status as $row){
+					$icon = $this->main->get_complain_type_icon($row->complain_type_id);
 					$name = 'เลขที่: '.$row->complain_no;
 					$lat = $row->latitude;
 					$lng = $row->longitude;
@@ -116,7 +124,7 @@ class Main extends MY_Controller {
 						$str .= 'shape_color="" ';
 						$str .= 'shape_opacity="0.1" ';
 						$str .= 'picture="picture" ';
-						$str .= 'icon="'.base_url().'assets/images/pin-map.png" ';
+						$str .= 'icon="'.base_url().'assets/images/'.$icon.'" ';
 						$str .= 'identify="" />';
 				}
 			}
@@ -184,7 +192,8 @@ class Main extends MY_Controller {
         $arr_data['data'] = api_call_get($url);
         $url = base_url()."api/dropdown/title_name_lists";
         $arr_data['title_name'] = api_call_get($url);
-
+	  $url = base_url()."api/dropdown/title_name_lists/prename_en";
+	  $arr_data['title_name_en'] = api_call_get($url);
         $url = base_url("api/dropdown/ccaa_lists/Changwat");
         $arr_data['province_list'] = api_call_get($url);
 

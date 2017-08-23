@@ -54,7 +54,7 @@ class Complaint extends REST_Controller
         }elseif (!is_null($province)) {
             $filter['address_id LIKE'] = substr($province,0,2). '%';
         }
-        if (!is_null($currentStatus) && $currentStatus >= 1 && $currentStatus <= 4) {
+        if (!is_null($currentStatus) && $currentStatus >= 1 && $currentStatus <= 6) {
             $filter['current_status_id'] = $currentStatus;
         }
         if (!is_null($complainNo)) {
@@ -90,6 +90,7 @@ class Complaint extends REST_Controller
                 ->with_complaint_type('fields:complain_type_name')
                 ->with_wish('fields:wish_name')
                 ->with_current_status('fields:current_status_name')
+                ->with_attach_file('fields:file_name')
                 ->get_all();
         }
         else {
@@ -102,6 +103,7 @@ class Complaint extends REST_Controller
                 ->with_complaint_type('fields:complain_type_name')
                 ->with_wish('fields:wish_name')
                 ->with_current_status('fields:current_status_name')
+                ->with_attach_file('fields:file_name')
                 ->get_all();
         }
 
@@ -744,10 +746,15 @@ class Complaint extends REST_Controller
         $sql = "SELECT
                     first_name,
                     last_name,
+                    first_name_en,
+                    last_name_en,
                     company,
                     phone,
                     idcard,
                     prename_th,
+                    prename_th_id,
+                    prename_en,
+                    prename_en_id,
                     address,
                     address_id,
                     gender,

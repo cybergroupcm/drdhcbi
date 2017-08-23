@@ -19,6 +19,7 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
   }
 
 $dateNow = date('d/m/Y H:i:s',strtotime('+543 years'));
+//echo"<pre>";print_r($user_login_data);echo"</pre>";exit;
 ?>
 <input type="hidden" id="action" value="<?php echo (@$id!='')?'edit':'add'; ?>">
 <input type="hidden" id="keyin_id" name="keyin_id" value="<?php echo (@$id!='')?$id:''; ?>">
@@ -193,7 +194,7 @@ $col_right = '3';
                     <div class="col-sm-<?php echo $col_right; ?>">
                         <?php echo $updater['prename_th'].$updater['first_name']." ".$updater['last_name']; ?>
                     </div>
-                    <input type="hidden" name="update_user_id" value="<?php echo $user_login_data['userid']; ?>">
+                    <input type="hidden" name="update_user_id" value="<?php echo $user_login_data['id']; ?>">
                 </div>
             </div>
         </div>
@@ -225,7 +226,7 @@ $col_right = '3';
                         รหัสประจำตัวประชาชน/Citizen ID :
                     </label>
                     <div class="col-sm-<?php echo $col_right; ?>">
-                        <input type="text" name="id_card" id="id_card" maxlength='13' value="<?php echo @$key_in_data['id_card']; ?>" class="form-control numbers">
+                        <input type="text" name="id_card" id="id_card" maxlength='13' value="<?php echo @$members_keyin?@$user_login_data['idcard']:@$key_in_data['id_card']; ?>" <?php echo $readonly; ?> class="form-control numbers" onblur="checkIdCardRegister(this);">
                     </div>
                 </div>
             </div>
@@ -236,14 +237,21 @@ $col_right = '3';
                     </label>
                     <div class="col-sm-<?php echo $col_right; ?>">
                         <?php
-                        $dd4 = $title_name;
-                        $dd4[''] = 'กรุณาเลือก';
-                        ksort($dd4);
-                        echo form_dropdown([
-                            'name' => 'pn_id',
-                            'id' => 'pn_id',
-                            'class' => 'form-control'
-                        ], $dd4, @$key_in_data['pn_id']);
+                        if(@$members_keyin) { ?>
+                            <input type="text" class="form-control" <?php echo $readonly; ?> value="<?php echo @$user_login_data['prename_th'] != '' ? @$user_login_data['prename_th'] : @$user_login_data['prename_en']; ?>">
+                            <input type="hidden" name="pn_id" id="pn_id" value="<?php echo @$user_login_data['prename_th_id'] != '' ? @$user_login_data['prename_th_id'] : @$user_login_data['prename_en_id']; ?>">
+                            <?php
+                        }else{
+                            $dd4 = $title_name;
+                            $dd4[''] = 'กรุณาเลือก';
+                            ksort($dd4);
+                            echo form_dropdown([
+                                'name' => 'pn_id',
+                                'id' => 'pn_id',
+                                'class' => 'form-control'
+                            ], $dd4, @$key_in_data['pn_id']);
+
+                        }
                         ?>
                     </div>
                 </div>
@@ -254,7 +262,7 @@ $col_right = '3';
                         ชื่อ/First name :
                     </label>
                     <div class="col-sm-<?php echo $col_right; ?>">
-                        <input type="text" name="first_name" id="first_name" class='form-control' value="<?php echo @$key_in_data['first_name']; ?>">
+                        <input type="text" name="first_name" id="first_name" class='form-control' <?php echo $readonly; ?> value="<?php echo @$members_keyin?@$user_login_data['first_name']!=''?@$user_login_data['first_name']:@$user_login_data['first_name_en']:@$key_in_data['first_name']; ?>">
                     </div>
                 </div>
             </div>
@@ -264,7 +272,7 @@ $col_right = '3';
                         นามสกุล/Last name :
                     </label>
                     <div class="col-sm-<?php echo $col_right; ?>">
-                        <input type="text" name="last_name" id="last_name" class='form-control' value="<?php echo @$key_in_data['last_name']; ?>">
+                        <input type="text" name="last_name" id="last_name" class='form-control' <?php echo $readonly; ?> value="<?php echo @$members_keyin?@$user_login_data['last_name']!=''?@$user_login_data['last_name']:@$user_login_data['last_name_en']:@$key_in_data['last_name']; ?>">
                     </div>
                 </div>
             </div>
@@ -274,8 +282,8 @@ $col_right = '3';
                         โทรศัพท์เคลื่อนที่/Mobile number : <br>(ที่สามารถติดต่อได้)
                     </label>
                     <div class="col-sm-<?php echo $col_right; ?>">
-                        <input type="text" name="phone_number" id="phone_number" class='form-control'
-                               value="<?php echo @$key_in_data['phone_number']; ?>">
+                        <input type="text" name="phone_number" id="phone_number" <?php echo $readonly; ?> class='form-control'
+                               value="<?php echo @$members_keyin?@$user_login_data['phone']:@$key_in_data['phone_number']; ?>">
                     </div>
                 </div>
             </div>

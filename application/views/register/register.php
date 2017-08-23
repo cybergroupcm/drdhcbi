@@ -168,9 +168,19 @@ $link = array(
                     คำนำหน้าชื่อ :<br>(ภาษาอังกฤษ)
                 </label>
                 <label class="col-sm-3">
-                    <select id="prename_en" name="prename_en" class="form-control">
-                        <option value=''>--กรุณาระบุ--</option>
-                    </select>
+                    <?php
+                    $prename_en = $title_name_en;
+                    $prename_en[''] = 'กรุณาเลือกคำนำหน้าชื่อ (ภาษาอังกฤษ)';
+                    ksort($prename_en);
+                    echo form_dropdown([
+                        'name' => 'prename_en_id',
+                        'id' => 'prename_en_id',
+                        'class' => 'form-control',
+                        'style'=>'padding: 0px 8px;',
+                        'onchange'=>"get_list_text('prename_en_id','prename_en')"
+                    ], $prename_en, @$data['user']['prename_en_id']);
+                    ?>
+                    <input type="hidden" name="prename_en" id="prename_en" value="<?php echo @$data['user']['prename_en']; ?>">
                 </label>
             </div>
         </div>

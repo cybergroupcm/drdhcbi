@@ -193,12 +193,14 @@ $link = array(
                             $prename_en[''] = 'กรุณาเลือกคำนำหน้าชื่อ (ภาษาอังกฤษ)';
                             ksort($prename_en);
                             echo form_dropdown([
-                                'name' => 'prename_en',
-                                'id' => 'prename_en',
+                                'name' => 'prename_en_id',
+                                'id' => 'prename_en_id',
                                 'class' => 'form-control',
-                                'style'=>'padding: 0px 8px;'
-                            ], $prename_en, '');
+                                'style'=>'padding: 0px 8px;',
+                                'onchange'=>"get_list_text('prename_en_id','prename_en')"
+                            ], $prename_en, @$data['user']['prename_en_id']);
                             ?>
+                            <input type="hidden" name="prename_en" id="prename_en" value="<?php echo @$data['user']['prename_en']; ?>">
                         </label>
                     </div>
                 </div>
@@ -361,6 +363,27 @@ $link = array(
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="col-sm-3 right">
+                            ประเภทสมาชิก :
+                        </label>
+                        <label class="col-sm-3">
+                            <?php
+                            @$user_group_arr = @$user_group;
+                            @$user_group_arr[''] = 'กรุณาเลือก';
+                            ksort($user_group_arr);
+                            echo form_dropdown([
+                                'name' => 'user_group_id',
+                                'id' => 'user_group_id',
+                                'class' => 'form-control'
+                            ], @$user_group_arr, @$data['currentGroups'][0]['id']);
+                            ?>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="col-sm-3 right">
                             อัพโหลดรูปภาพ :
                         </label>
                         <label class="col-sm-4">
@@ -396,7 +419,7 @@ $link = array(
                             <input type="button" class="btn btn-bitbucket" value="บันทึก" onclick="validateForm()">
                         </label>
                         <label class="col-sm-5">
-                            <input type="button" class="btn btn-default" value="ยกเลิก">
+                            <input type="button" class="btn btn-default" value="ยกเลิก" onclick="window.location.href='<?php echo base_url('admin/users')?>';">
                         </label>
                     </div>
                 </div>

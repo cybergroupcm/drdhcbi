@@ -104,6 +104,10 @@ function validateForm(action_to,type) {
         } else if ($('#user_complain_2').is(':checked') === true) {
             if ($('#id_card').val() == "") {
                 text_warning += " - รหัสประจำตัวประชาชนของผู้ร้องทุกข์\n";
+            }else{
+                if(!CheckIdCardThai($('#id_card').val())){
+                    text_warning += " - เลขบัตรประจำตัวประชาชนไม่ตามกรมการปกครอง\n";
+                }
             }
             if ($('#pn_id').val() == "" || $('#first_name').val() == "" || $('#last_name').val() == "") {
                 text_warning += " - ชื่อผู้ร้องทุกข์\n";

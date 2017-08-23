@@ -14,7 +14,12 @@ class User extends REST_Controller
 
     public function user_get()
     {
-        $id = $this->get('id');
+        if($this->get('id') != ""){
+            $id = $this->get('id');
+        }else{
+            $user_data = $this->jwt_decode($this->jwt_token());
+            $id = $user_data['userid'];
+        }
         $user          = $this->ion_auth->user($id)->row();
         $groups        = $this->ion_auth->groups()->result_array();
         $currentGroups = $this->ion_auth->get_users_groups($id)->result();
@@ -49,6 +54,7 @@ class User extends REST_Controller
             'idcard' => $this->post('idcard'),
             'prename_th_id'=> $this->post('prename_th_id'),
             'prename_th'=> $this->post('prename_th'),
+            'prename_en_id'=> $this->post('prename_en_id'),
             'prename_en'=> $this->post('prename_en'),
             'first_name_en' => $this->post('first_name_en'),
             'last_name_en'  => $this->post('last_name_en'),
@@ -133,6 +139,19 @@ class User extends REST_Controller
                 $update_file = $this->User_model->sql_query($sql);
         }
         //upload file
+
+        //update group
+        $groupData = $this->input->post('user_group_id');
+
+        if($now_id != ""){
+            if (isset($groupData) && !empty($groupData))
+            {
+                $this->ion_auth->remove_from_group('', $now_id);
+                $this->ion_auth->add_to_group($groupData, $now_id);
+            }
+        }
+
+
         //$this->response($this->post(), REST_Controller::HTTP_OK); // CREATED (201) being the HTTP response code
         if($this->post('id')==''){
             $this->set_response($ids, REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
@@ -191,5 +210,7 @@ class User extends REST_Controller
             ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
         }
     }
+
+
 
 }
