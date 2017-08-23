@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 if (!function_exists('date_thai')) {
     function date_thai($strDate,$long=false,$format="d m y")
     {
+        $strYearShort = substr(date("Y",strtotime($strDate))+543,2,2);
         $strYear = date("Y",strtotime($strDate))+543;
         $strMonth= date("n",strtotime($strDate));
         $strDay= date("j",strtotime($strDate));
@@ -17,6 +18,7 @@ if (!function_exists('date_thai')) {
         $format = str_replace("d", $strDay, $format);
         $format = str_replace("m", $strMonthThai, $format);
         $format = str_replace("y", $strYear, $format);
+        $format = str_replace("Y", $strYearShort, $format);
         return $format;
     }
 }
