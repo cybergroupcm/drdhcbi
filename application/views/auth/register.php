@@ -29,7 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <span class="text-danger">*</span>
                 <div class="form-group has-feedback">
                     <input type="text" class="form-control numbers" name="idcard" id="idcard" maxlength='13' onblur="checkIdCardRegister(this);"
-                           placeholder="บัตรประจำตัวประชาชน"/>
+                           placeholder="รหัสประจำตัวประชาชน"/>
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
                 <div class="form-group has-feedback show_input">
@@ -38,12 +38,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $prename[''] = 'กรุณาเลือกคำนำหน้าชื่อ (ภาษาไทย)';
                     ksort($prename);
                     echo form_dropdown([
-                        'name' => 'prename_th',
-                        'id' => 'prename_th',
+                        'name' => 'prename_th_id',
+                        'id' => 'prename_th_id',
                         'class' => 'form-control',
-                        'style'=>'padding: 0px 8px;'
+                        'style'=>'padding: 0px 8px;',
+                        'onchange'=>"get_list_text('prename_th_id','prename_th')"
                     ], $prename, '');
                     ?>
+                    <input type="hidden" name="prename_th" id="prename_th" value="">
                     <!--                <input type="text" class="form-control" id="prename_th" name="prename_th" placeholder="คำนำหน้าชื่อ (ภาษาไทย)"/>-->
                     <!--<span class="glyphicon glyphicon-user form-control-feedback"></span>-->
                 </div>
@@ -68,12 +70,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $prename_en[''] = 'กรุณาเลือกคำนำหน้าชื่อ (ภาษาอังกฤษ)';
                     ksort($prename_en);
                     echo form_dropdown([
-                        'name' => 'prename_en',
-                        'id' => 'prename_en',
+                        'name' => 'prename_en_id',
+                        'id' => 'prename_en_id',
                         'class' => 'form-control',
-                        'style'=>'padding: 0px 8px;'
+                        'style'=>'padding: 0px 8px;',
+                        'onchange'=>"get_list_text('prename_en_id','prename_en')"
                     ], $prename_en, '');
                     ?>
+                    <input type="hidden" name="prename_en" id="prename_en" value="">
                 </div>
                 <span id="text_danger_name_en" class="text-danger"></span>
                 <div class="form-group has-feedback">

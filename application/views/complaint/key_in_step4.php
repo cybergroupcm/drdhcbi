@@ -41,7 +41,7 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'4'){
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="col-sm-6 right">
-                            แนบไฟล์เอกสารหลักฐาน<br>/Attach confident document :
+                            แนบไฟล์เอกสารหลักฐาน<br>/Attach file of evidence :
                         </label>
                         <label class="col-sm-6">
                             <!--input type="file" multiple id="myFile" name="attach_file[]" onchange="checkFile()"
@@ -84,6 +84,7 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'4'){
             <div id="file_add_space">
             </div>
         </div>
+        <input type="hidden" name="update_user_id" value="<?php echo $user_login_data['userid']; ?>">
         <?php
         echo form_close();
         ?>

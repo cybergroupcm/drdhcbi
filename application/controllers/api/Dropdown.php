@@ -69,7 +69,7 @@ class Dropdown extends REST_Controller
         if($parent_id != ''){
             $types = $this->Complain_type_model->as_dropdown('complain_type_name')->where('parent_id', $parent_id)->where($where_status_active)->get_all();
         }else{
-            $types = $this->Complain_type_model->as_dropdown('complain_type_name')->where($where_status_active)->get_all();
+            $types = $this->Complain_type_model->as_dropdown('complain_type_name')->get_all();
         }
 
         // Check if the users data store contains users (in case the database result returns NULL)

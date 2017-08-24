@@ -199,6 +199,7 @@ $col_right = '3';
             </div>
         </div>
     </div>
+<input type="hidden" name="update_user_id" value="<?php echo $user_login_data['userid']; ?>">
 <?php
 echo form_close();
 ?>
