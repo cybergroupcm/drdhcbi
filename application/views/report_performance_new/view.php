@@ -72,7 +72,7 @@ $this->load->view('report_result_progress/search');
                             <td> - เรื่องรับเข้าใหม่ปีงบฯ <?php echo date_thai($yymm.'-01', true,'Y');?> ดังนี้</td>
                             <?php
                             foreach($complaint_type AS $type_id => $type_name){
-                                echo '<td class="text-center" style="vertical-align: middle;width: 6%;">&nbsp;</td>';
+                                echo '<td class="text-right" style="vertical-align: middle;width: 6%;">&nbsp;</td>';
                             }
                             ?>
                             <td></td>
@@ -83,10 +83,10 @@ $this->load->view('report_result_progress/search');
                             $sum_outstanding_month = 0;
                             foreach($complaint_type AS $type_id => $type_name){
                                 $sum_outstanding_month += $outstanding_month[$type_id];
-                                echo '<td class="text-center" style="vertical-align: middle;width: 6%;">'.number_format($outstanding_month[$type_id]).'</td>';
+                                echo '<td class="text-right" style="vertical-align: middle;width: 6%;">'.number_format($outstanding_month[$type_id]).'</td>';
                             }
                             ?>
-                            <td class="text-center" style="vertical-align: middle;width: 6%;"><?php echo number_format($sum_outstanding_month);?></td>
+                            <td class="text-right" style="vertical-align: middle;width: 6%;"><?php echo number_format($sum_outstanding_month);?></td>
                           </tr>
                           <tr>
                             <td>   เรื่องเข้าเดือน<?php echo date_thai($yymm.'-01', true,'m y');?></td>
@@ -94,10 +94,10 @@ $this->load->view('report_result_progress/search');
                             $sum_incoming_month = 0;
                             foreach($complaint_type AS $type_id => $type_name){
                                 $sum_incoming_month += $incoming_month[$type_id];
-                                echo '<td class="text-center" style="vertical-align: middle;width: 6%;">'.number_format($incoming_month[$type_id]).'</td>';
+                                echo '<td class="text-right" style="vertical-align: middle;width: 6%;">'.number_format($incoming_month[$type_id]).'</td>';
                             }
                             ?>
-                            <td class="text-center" style="vertical-align: middle;width: 6%;"><?php echo number_format($sum_incoming_month);?></td>
+                            <td class="text-right" style="vertical-align: middle;width: 6%;"><?php echo number_format($sum_incoming_month);?></td>
                           </tr>
                           <tr>
                             <td>   ยุติได้ในเดือน<?php echo date_thai($yymm.'-01', true,'m y');?></td>
@@ -105,10 +105,10 @@ $this->load->view('report_result_progress/search');
                             $sum_terminate_month = 0;
                             foreach($complaint_type AS $type_id => $type_name){
                                 $sum_terminate_month += $terminate_month[$type_id];
-                                echo '<td class="text-center" style="vertical-align: middle;width: 6%;">'.number_format($terminate_month[$type_id]).'</td>';
+                                echo '<td class="text-right" style="vertical-align: middle;width: 6%;">'.number_format($terminate_month[$type_id]).'</td>';
                             }
                             ?>
-                            <td class="text-center" style="vertical-align: middle;width: 6%;"><?php echo number_format($sum_terminate_month);?></td>
+                            <td class="text-right" style="vertical-align: middle;width: 6%;"><?php echo number_format($sum_terminate_month);?></td>
                           </tr>
                         </tbody>
                         <tfoot>
@@ -117,10 +117,10 @@ $this->load->view('report_result_progress/search');
                             <?php
                             foreach($complaint_type AS $type_id => $type_name){
                                 $total = ($outstanding_month[$type_id]+$incoming_month[$type_id])-$terminate_month[$type_id];
-                                echo '<td class="text-center" style="vertical-align: middle;width: 6%;">'.number_format($total).'</td>';
+                                echo '<td class="text-right" style="vertical-align: middle;width: 6%;">'.number_format($total).'</td>';
                             }
                             ?>
-                            <td class="text-center" style="vertical-align: middle;width: 6%;">
+                            <td class="text-right" style="vertical-align: middle;width: 6%;">
                               <?php
                               $total_terminate = ($sum_outstanding_month+$sum_incoming_month)-$sum_terminate_month;
                               echo number_format($total_terminate);
