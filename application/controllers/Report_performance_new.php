@@ -35,7 +35,7 @@ class Report_performance_new extends CI_Controller {
         $arr_data['terminate_month'] = array('1'=>'31','7'=>'89','12'=>'0','17'=>'14','22'=>'12','26'=>'0');
         $arr_data['terminate_cumulative_month'] = array('1'=>'201','7'=>'853','12'=>'15','17'=>'149','22'=>'83','26'=>'37');
 
-        $this->libraries->template('report_performance_new/view', $arr_data);
+        $this->libraries->report('report_performance_new/view', $arr_data);
     }
 
     public function pdf(){
