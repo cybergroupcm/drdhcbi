@@ -104,6 +104,14 @@ class File_search extends CI_Controller
                         $dateText = date_thai(date_eng($item));
                         $arr_data['txtDetail'] .= " ถึงวันที่ {$dateText}";
                         break;
+                    case 'time_start':
+                        $dateText = $item;
+                        $arr_data['txtDetail'] .= " ช่วงเวลา {$dateText}";
+                        break;
+                    case 'time_end':
+                        $dateText = $item;
+                        $arr_data['txtDetail'] .= " ถึงเวลา {$dateText}";
+                        break;
                 }
                 if ($index == 'complaint_date_start' || $index == 'complaint_date_end') {
                     $item = date_eng($item);

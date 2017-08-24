@@ -52,6 +52,19 @@ $( document ).ready(function() {
         var dateMax =parseInt(arrDateMax[0])+'/'+parseInt(arrDateMax[1])+'/'+parseInt((arrDateMax[2]-543));
         $('.datepickerstart').datepicker('setEndDate', dateMax);
     });
+
+    $('.timepicker').datetimepicker({
+        locale: 'th',
+        format: 'HH:mm:ss',
+        dayViewHeaderFormat: 'MMMM BBBB',
+        showTodayButton: true,
+        showClear: true,
+        tooltips: {
+            today: 'วันนี้',
+            clear: 'ล้างค่า',
+            selectTime: 'เลือกเวลา'
+        }
+    });
     //end ปฏิทิน
 
     $("#btSearch").click(function() {

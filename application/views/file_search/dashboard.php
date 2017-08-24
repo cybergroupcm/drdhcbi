@@ -15,6 +15,22 @@ $link = array(
     'type' => 'text/javascript'
 );
 echo script_tag($link);
+$link = array(
+    'href' => 'template/plugins/datepicker/bootstrap-datetimepicker.min.css',
+    'rel' => 'stylesheet',
+    'type' => 'text/css'
+);
+echo link_tag($link);
+$link = array(
+    'src' => 'template/plugins/datepicker/moment-with-locales.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    'src' => 'template/plugins/datepicker/bootstrap-datetimepicker.min.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
 ?>
 <div id="base_url" class="<?php echo base_url(); ?>"></div>
 <?php
@@ -72,10 +88,10 @@ $this->load->view('file_search/search');
                             <th width="10%" class="text-center">เลขที่</th>
                             <th width="13%" class="text-center">รายการเอกสาร</th>
                             <th width="12%" class="text-center">วันที่ร้องเรียน</th>
-                            <th width="20%" class="text-center">ประเภทเรื่อง</th>
-                            <th width="15%" class="text-center">สถานที่เกิดเหตุ</th>
+                            <th width="15%" class="text-center">ประเภทเรื่อง</th>
+                            <th width="20%" class="text-center">สถานที่เกิดเหตุ</th>
                             <th width="10%" class="text-center">ผู้ร้องทุกข์</th>
-                            <th width="18%" class="text-center">สถานะ</th>
+                            <th width="15%" class="text-center">สถานะ</th>
 
                         </tr>
                         </thead>
@@ -90,21 +106,29 @@ $this->load->view('file_search/search');
                                     $user_complain = 'ไม่ประสงค์ออกนาม';
                                 }
                                 $complain_date = (@$val['complain_date'] != '' && @$val['complain_date'] != '0000-00-00') ? date_thai(@$val['complain_date'], true) : '';
+                                $district = $ccaa_all[substr($val['address_id'],0,4)."0000"];
+                                $province = $ccaa_all[substr($val['address_id'],0,3)."00000"];
+                                $scene_place = $val['place_scene']." ".$ccaa_all[$val['address_id']]." ".$district." ".$province;
+
                                 ?>
                                 <tr>
                                     <td class="text-center open"><?php echo $start_row++; ?></td>
                                     <td class="open"><?php echo @$val['complain_no']; ?></td>
                                     <td class="open text-right"><?php
                                         if(count(@$val['attach_file'])=='0'){
-                                            echo count(@$val['attach_file']);
+                                            echo count(@$val['attach_file'])." ไฟล์";
                                         }else{ ?>
-                                            <a data-toggle="modal" data-target="#show_file" onclick="getFileData('<?php echo $val['keyin_id']; ?>')"><?php echo count(@$val['attach_file']); ?></a>
+                                            <a data-toggle="modal" data-target="#show_file" onclick="getFileData('<?php echo $val['keyin_id']; ?>')"><?php echo count(@$val['attach_file'])." ไฟล์"; ?></a>
                                         <?php } ?></td>
                                     <td class="text-center open"><?php echo $complain_date; ?></td>
-                                    <td class="open"><?php foreach($val['complain_type'] as $key => $value){
-                                            echo $complain_type_all[$value];
-                                        }?></td>
-                                    <td class="open"></td>
+                                    <td class="open"><?php
+                                        $complain_type='';
+                                        foreach($val['complain_type'] as $key => $value){
+                                            $complain_type .= $complain_type_all[$value]." / ";
+                                        }
+                                        echo substr($complain_type,0,-3);
+                                        ?></td>
+                                    <td class="open"><?php echo $scene_place; ?></td>
                                     <td class="open"><?php echo $user_complain; ?></td>
                                     <td class="open text-center">
                                         <?php

@@ -227,10 +227,10 @@ $this->load->view('complaint/save_result');
                                             <ul class="edit dropdown-menu" style="width: 100px !important;">
                                                 <?php
                                                 echo '<li style="' . $displaySend . '">
-                                                <a data-toggle="modal" data-target="#send" data-id="' . @$val['keyin_id'] . '">ส่งต่อเรื่อง</a>
+                                                <a data-toggle="modal" class="open-send" data-target="#send" data-id="' . @$val['keyin_id'] . '">ส่งต่อเรื่อง</a>
                                                 </li>';
                                                 echo '<li style="' . $displayFinish . '">
-                                                <a data-toggle="modal" data-target="#save_result" data-id="' . @$val['keyin_id'] . '">บันทึกผล</a>
+                                                <a data-toggle="modal" class="open-result" data-target="#save_result" data-id="' . @$val['keyin_id'] . '">บันทึกผล</a>
                                                 </li>';
                                                 ?>
                                             </ul>

@@ -35,6 +35,8 @@ class Complaint extends REST_Controller
         $petitioner = $this->get('petitioner');
         $dateStart = $this->get('complaint_date_start');
         $dateEnd = $this->get('complaint_date_end');
+        $timeStart = $this->get('time_start');
+        $timeEnd = $this->get('time_end');
         $overall = $this->get('overall');
         $user_id = $this->get('user_id');
         $no_status = $this->get('no_status');
@@ -76,6 +78,16 @@ class Complaint extends REST_Controller
         elseif (is_null($dateStart) && !is_null($dateEnd)) {
             $filter['complain_date <='] = urldecode($dateEnd);
         }
+        if (!is_null($timeStart) && !is_null($timeEnd)) {
+            $filter['TIME(complain_date) >='] = urldecode($timeStart);
+            $filter['TIME(complain_date) <='] = urldecode($timeEnd);
+        }
+        elseif (!is_null($timeStart) && is_null($timeEnd)) {
+            $filter['TIME(complain_date) >='] = urldecode($timeStart);
+        }
+        elseif (is_null($timeStart) && !is_null($timeEnd)) {
+            $filter['TIME(complain_date) <='] = urldecode($timeEnd);
+        }
         if(count($filter)==0){
             $filter['MONTH(complain_date)'] = date('m');
             $filter['YEAR(complain_date)'] = date('Y');
@@ -106,7 +118,6 @@ class Complaint extends REST_Controller
                 ->with_attach_file('fields:file_name')
                 ->get_all();
         }
-
         if ($complaint) {
             // Set the response and exit
             $this->response($complaint, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code

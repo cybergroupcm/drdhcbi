@@ -267,6 +267,40 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        <label class="col-sm-5 text-right">
+                                            ช่วงเวลา :
+                                        </label>
+                                        <label class="col-sm-7">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" id="time_start" name="time_start" class="form-control pull-right timepicker" />
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label class="col-sm-1 text-right">
+                                            ถึง
+                                        </label>
+                                        <label class="col-sm-10">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" id="time_end" name="time_end" class="form-control pull-right timepicker" />
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </form>
                 <div class="modal-footer" style="text-align: center;">
