@@ -11,6 +11,28 @@ $step_array[2] = 'เนื้อหา';
 $step_array[3] = 'ความประสงค์';
 $step_array[4] = 'หลักฐาน';
 $step_array[5] = 'สรุปข้อมูล';
+<<<<<<< HEAD
+?>
+        <div class="stepwizard col-md-offset-0">
+            <div class="stepwizard-row setup-panel">
+                <?php foreach($step_array as $key => $value){
+                    if($step == $key){
+                        $btn = 'btn-primary';
+                    }else{
+                        $btn = 'btn-default';
+                    }
+                    if($key <= $key_in_data['step']+1){
+                        $disabled = '';
+                    }else{
+                        $disabled = 'disabled="disabled"';
+                    }
+                    ?>
+                <div class="stepwizard-step" style="width:20%;">
+                        <a type="button" class="btn <?php echo $btn; ?> btn-circle" <?php echo $disabled; ?> onclick="location.href='<?php echo base_url('complaint/key_in/key_in_step'.$key.'/'.@$id); ?>'"><?php echo $key; ?></a>
+                        <p><?php echo $value; ?></p>
+                </div>
+                <?php } ?>
+=======
 //echo $key_in_data['step'];
 ?>
 
@@ -34,6 +56,7 @@ $step_array[5] = 'สรุปข้อมูล';
                             }
                         ?>
                 </ul>
+>>>>>>> 707d20ae57d2ad41907c4143a15227e0eb5007b0
             </div>
         </div>
     </div>

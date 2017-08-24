@@ -85,34 +85,40 @@ $this->load->view('complaint/save_result');
                         <?php
                         if ($action_mode['edit'] == 1) {
                             $displayEdit = '';
-                        } else {
+                        }
+                        else {
                             $displayEdit = ' display:none; ';
                         }
                         if ($action_mode['delete'] == 1) {
                             $displayDelete = '';
-                        } else {
+                        }
+                        else {
                             $displayDelete = ' display:none; ';
                         }
                         if ($action_mode['receive'] == 1) {
                             $displayReceive = '';
-                        } else {
+                        }
+                        else {
                             $displayReceive = ' display:none; ';
                         }
                         if ($action_mode['send'] == 1) {
                             $displaySend = '';
-                        } else {
+                        }
+                        else {
                             $displaySend = ' display:none; ';
                         }
                         if ($action_mode['finish'] == 1) {
                             $displayFinish = '';
-                        } else {
+                        }
+                        else {
                             $displayFinish = ' display:none; ';
                         }
                         if (count($data) > 0) {
                             foreach ($data AS $val) {
                                 if (@$val['user_complain_type_id'] == '2') {
                                     $user_complain = @$val['prename']['prename'] . $val['first_name'] . '   ' . $val['last_name'];
-                                } else {
+                                }
+                                else {
                                     $user_complain = 'ไม่ประสงค์ออกนาม';
                                 }
                                 $complain_date = (@$val['complain_date'] != '' && @$val['complain_date'] != '0000-00-00') ? date_thai(@$val['complain_date'], true) : '';
@@ -127,13 +133,17 @@ $this->load->view('complaint/save_result');
                                         <?php
                                         if (@$val['current_status'][0]['current_status_id'] == '1') {
                                             $bg = '#dd4b39';
-                                        } elseif (@$val['current_status'][0]['current_status_id'] == '2') {
+                                        }
+                                        elseif (@$val['current_status'][0]['current_status_id'] == '2') {
                                             $bg = '#f39c12';
-                                        } elseif (@$val['current_status'][0]['current_status_id'] == '3') {
+                                        }
+                                        elseif (@$val['current_status'][0]['current_status_id'] == '3') {
                                             $bg = '#0073b7';
-                                        } elseif (@$val['current_status'][0]['current_status_id'] == '4') {
+                                        }
+                                        elseif (@$val['current_status'][0]['current_status_id'] == '4') {
                                             $bg = '#00a65a';
-                                        } else {
+                                        }
+                                        else {
                                             $bg = '#848484';
                                         }
                                         echo '<span class="label" style="background:' . $bg . ';">' . @$val['current_status'][0]['current_status_name'] . '</span>'
@@ -143,9 +153,10 @@ $this->load->view('complaint/save_result');
                                         <?php
                                         if (@$val['current_status_id'] == '5') {
                                             echo '-';
-                                        } else {
-                                            if($val['current_status_id'] != '4'){
-                                        ?>
+                                        }
+                                        else {
+                                            if ($val['current_status_id'] != '4') {
+                                                ?>
                                                 <span class="dropdown">
                                             <span class="dropdown-toggle glyphicon glyphicon-cog" data-toggle="dropdown"
                                                   data-hover="dropdown"
@@ -154,13 +165,15 @@ $this->load->view('complaint/save_result');
                                                 <?php
                                                 if (@$val['step'] == '') {
                                                     $step = '1';
-                                                } else {
+                                                }
+                                                else {
                                                     $step = @$val['step'];
                                                 }
                                                 if (@$val['current_status_id'] == '1') {
                                                     echo '<li><a href="' . base_url('complaint/key_in/key_in_step' . ($step + 1) . '/' . @$val['keyin_id']) . '">แก้ไข</a></li>';
                                                     echo '<li><a onclick="bt_delete(' . @$val['keyin_id'] . ');">ยกเลิก</a></li>';
-                                                } else {
+                                                }
+                                                else {
                                                     if (@$val['current_status_id'] == '1') {
                                                         echo '<li><a>แก้ไข</a></li>';
                                                     }
@@ -169,26 +182,77 @@ $this->load->view('complaint/save_result');
                                                 ?>
                                             </ul>
                                         </span>
+                                            <?php } ?>
                                         <?php } ?>
-                                        <?php } ?>
+                                        <!--<span>
+                                      <?php
+/*                                      if (@$val['current_status_id'] == '1') {
+                                          echo '<i class="fa fa-inbox open-received" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;' . $displayReceive . '" data-toggle="modal" data-target="#received" data-id="' . @$val['keyin_id'] . '"></i>';
+                                      }
+                                      elseif (@$val['current_status_id'] == '2') {
+                                          echo '<i class="fa  fa-send open-send" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;' . $displaySend . '" data-toggle="modal" data-target="#send" data-id="' . @$val['keyin_id'] . '"></i>';
+                                      }
+                                      elseif (@$val['current_status_id'] == '3' || @$val['current_status_id'] == '4') {
+                                          echo '<i class="fa fa-gavel open-result" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;' . $displayFinish . '" data-toggle="modal" data-target="#save_result" data-id="' . @$val['keyin_id'] . '"></i>';
+                                      }
+                                      else {
+                                          echo '';
+                                      }
+                                      */?>
+                                            </span>-->
                                         <span>
                                       <?php
                                       if (@$val['current_status_id'] == '1') {
-                                          echo '<i class="fa fa-inbox open-received" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;' . $displayReceive . '" data-toggle="modal" data-target="#received" data-id="' . @$val['keyin_id'] . '"></i>';
-                                      } elseif (@$val['current_status_id'] == '2') {
-                                          echo '<i class="fa  fa-send open-send" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;' . $displaySend . '" data-toggle="modal" data-target="#send" data-id="' . @$val['keyin_id'] . '"></i>';
-                                      } elseif (@$val['current_status_id'] == '3' || @$val['current_status_id'] == '4') {
+                                          ?>
+                                          <span class="dropdown" style="<?php echo $displayReceive;?>">
+                                            <span class="dropdown-toggle fa fa-inbox" data-toggle="dropdown"
+                                                  data-hover="dropdown"
+                                                  style="cursor: pointer;font-size: 1.5em;"></span>
+                                            <ul class="edit dropdown-menu" style="width: 50px !important;">
+                                                <?php
+                                                echo '<li><a onclick="Accept(\'' . @$val['keyin_id'] . '\',\'2\');">รับเรื่อง</a></li>';
+                                                echo '<li><a onclick="Accept(\'' . @$val['keyin_id'] . '\',\'1\');">ไม่รับเรื่อง</a></li>';
+                                                ?>
+                                            </ul>
+                                          </span>
+                                          <?php
+                                          //echo '<i class="fa fa-inbox open-received" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;' . $displayReceive . '" data-toggle="modal" data-target="#received" data-id="' . @$val['keyin_id'] . '"></i>';
+                                      }
+                                      elseif (@$val['current_status_id'] == '2') {
+                                          ?>
+                                          <span class="dropdown" >
+                                            <span class="dropdown-toggle fa fa-send" data-toggle="dropdown"
+                                                  data-hover="dropdown"
+                                                  style="cursor: pointer;font-size: 1.5em;"></span>
+                                            <ul class="edit dropdown-menu" style="width: 100px !important;">
+                                                <?php
+                                                echo '<li style="' . $displaySend . '">
+                                                <a data-toggle="modal" class="open-send" data-target="#send" data-id="' . @$val['keyin_id'] . '">ส่งต่อเรื่อง</a>
+                                                </li>';
+                                                echo '<li style="' . $displayFinish . '">
+                                                <a data-toggle="modal" class="open-result" data-target="#save_result" data-id="' . @$val['keyin_id'] . '">บันทึกผล</a>
+                                                </li>';
+                                                ?>
+                                            </ul>
+                                          </span>
+                                          <?php
+                                          //echo '<i class="fa  fa-send open-send" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;' . $displaySend . '" data-toggle="modal" data-target="#send" data-id="' . @$val['keyin_id'] . '"></i>';
+                                      }
+                                      elseif (in_array(@$val['current_status_id'],['3','4'])) {
                                           echo '<i class="fa fa-gavel open-result" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;' . $displayFinish . '" data-toggle="modal" data-target="#save_result" data-id="' . @$val['keyin_id'] . '"></i>';
-                                      } else {
+                                      }
+                                      else {
                                           echo '';
                                       }
                                       ?>
                                             </span>
+
                                     </td>
                                 </tr>
                                 <?php
                             }
-                        } else {
+                        }
+                        else {
                             echo '<td colspan="7" class="text-center">ไม่พบข้อมูล</td>';
                         }
                         ?>
