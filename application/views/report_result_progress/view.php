@@ -68,40 +68,41 @@ echo script_tag($link);
                         </thead>
                         <tbody>
                         <?php
+                        $col_sub = (count(@$complaint_type)+count(@$progress_type)+3);
                         foreach($result_progress AS $key_result=>$val) {
                             echo '<tr>';
-                            echo '<td class="text-left" colspan="11">'.$val['result']['column1'].'</td>';
+                            echo '<td class="text-left" colspan="'.$col_sub.'">'.$val['result']['column1'].'</td>';
                             echo '</tr>';
                             ###############รายเดือน
                             foreach($val['result_sub'] AS $key_sub => $val_sub){
                                 echo '<tr>';
                                 echo '<td class="text-left">'.$val_sub['column1'].'</td>';
-                                echo '<td class="text-center">'.$val_sub['column2'].'</td>';
-                                echo '<td class="text-center">'.$val_sub['column3'].'</td>';
-                                echo '<td class="text-center">'.$val_sub['column4'].'</td>';
-                                echo '<td class="text-center">'.$val_sub['column5'].'</td>';
-                                echo '<td class="text-center">'.$val_sub['column6'].'</td>';
-                                echo '<td class="text-center">'.$val_sub['column7'].'</td>';
-                                echo '<td class="text-center">'.$val_sub['column8'].'</td>';
-                                echo '<td class="text-center">'.$val_sub['column9'].'</td>';
-                                echo '<td class="text-center">'.$val_sub['column10'].'</td>';
-                                echo '<td class="text-center">'.$val_sub['column11'].'</td>';
+                                echo '<td class="text-right">'.number_format($val_sub['column2']).'</td>';
+                                echo '<td class="text-right">'.number_format($val_sub['column3']).'</td>';
+                                echo '<td class="text-right">'.number_format($val_sub['column4']).'</td>';
+                                echo '<td class="text-right">'.number_format($val_sub['column5']).'</td>';
+                                echo '<td class="text-right">'.number_format($val_sub['column6']).'</td>';
+                                echo '<td class="text-right">'.number_format($val_sub['column7']).'</td>';
+                                echo '<td class="text-right">'.number_format($val_sub['column8']).'</td>';
+                                echo '<td class="text-right">'.number_format($val_sub['column9']).'</td>';
+                                echo '<td class="text-right">'.number_format($val_sub['column10']).'</td>';
+                                echo '<td class="text-right">'.number_format($val_sub['column11']).'</td>';
                                 echo '</tr>';
                             }
                             ###############รวม
                             if($val['result_sum'] != '') {
                                 echo '<tr>';
                                 echo '<td class="text-right">' . $val['result_sum']['column1'] . '</td>';
-                                echo '<td class="text-center">' . $val['result_sum']['column2'] . '</td>';
-                                echo '<td class="text-center">' . $val['result_sum']['column3'] . '</td>';
-                                echo '<td class="text-center">' . $val['result_sum']['column4'] . '</td>';
-                                echo '<td class="text-center">' . $val['result_sum']['column5'] . '</td>';
-                                echo '<td class="text-center">' . $val['result_sum']['column6'] . '</td>';
-                                echo '<td class="text-center">' . $val['result_sum']['column7'] . '</td>';
-                                echo '<td class="text-center">' . $val['result_sum']['column8'] . '</td>';
-                                echo '<td class="text-center">' . $val['result_sum']['column9'] . '</td>';
-                                echo '<td class="text-center">' . $val['result_sum']['column10'] . '</td>';
-                                echo '<td class="text-center">' . $val['result_sum']['column11'] . '</td>';
+                                echo '<td class="text-right">' . number_format($val['result_sum']['column2']) . '</td>';
+                                echo '<td class="text-right">' . number_format($val['result_sum']['column3']) . '</td>';
+                                echo '<td class="text-right">' . number_format($val['result_sum']['column4']) . '</td>';
+                                echo '<td class="text-right">' . number_format($val['result_sum']['column5']) . '</td>';
+                                echo '<td class="text-right">' . number_format($val['result_sum']['column6']) . '</td>';
+                                echo '<td class="text-right">' . number_format($val['result_sum']['column7']) . '</td>';
+                                echo '<td class="text-right">' . number_format($val['result_sum']['column8']) . '</td>';
+                                echo '<td class="text-right">' . number_format($val['result_sum']['column9']) . '</td>';
+                                echo '<td class="text-right">' . number_format($val['result_sum']['column10']) . '</td>';
+                                echo '<td class="text-right">' . number_format($val['result_sum']['column11']) . '</td>';
                                 echo '</tr>';
                             }
                         }
