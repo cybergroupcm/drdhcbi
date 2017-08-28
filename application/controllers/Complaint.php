@@ -45,8 +45,10 @@ class Complaint extends CI_Controller
             // 2 = group member
             if(in_array(2,$user_modes_groups)){
               $members_keyin = true;
+                $arr_data['readonly'] = 'readonly="readonly"';
             }else{
               $members_keyin = false;
+                $arr_data['readonly'] = '';
             }
             $arr_data['members_keyin'] = $members_keyin;
         }

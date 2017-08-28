@@ -192,7 +192,8 @@ class Main extends MY_Controller {
         $arr_data['data'] = api_call_get($url);
         $url = base_url()."api/dropdown/title_name_lists";
         $arr_data['title_name'] = api_call_get($url);
-
+	  $url = base_url()."api/dropdown/title_name_lists/prename_en";
+	  $arr_data['title_name_en'] = api_call_get($url);
         $url = base_url("api/dropdown/ccaa_lists/Changwat");
         $arr_data['province_list'] = api_call_get($url);
 

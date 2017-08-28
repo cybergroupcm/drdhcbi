@@ -386,6 +386,10 @@ $link = array(
     </div>
 </div>
     </form>
+<<<<<<< HEAD
+<script>
+    var base_url = '<?php echo base_url() ?>';</script>
+=======
 <?php
 $link = array(
     'src' => 'assets/frameworks/picture_cut/src/jquery.picture.cut.js',
@@ -409,6 +413,7 @@ echo script_tag($link);
     }
     ?>
 </script>
+>>>>>>> 707d20ae57d2ad41907c4143a15227e0eb5007b0
 <?php
 
 $link = array(

@@ -26,7 +26,6 @@ $link = array(
 echo script_tag($link);
 
 $this->load->view('report_result_progress/search');
-
 ?>
 <section class="content">
     <div class="row">
@@ -45,7 +44,7 @@ $this->load->view('report_result_progress/search');
                     <div class="col-xs-1"></div>
 
                     <?php
-                    $yymm=$_GET['yy'].'-'.$_GET['mm'];
+                    $yymm=$yy.'-'.$mm;
                     ?>
                     <table id="example1" class="table table-bordered table-striped table-hover dataTable">
                         <thead>
@@ -78,7 +77,7 @@ $this->load->view('report_result_progress/search');
                             <td></td>
                           </tr>
                           <tr>
-                            <td>   ค้างเดือน<?php echo date_thai($_GET['yy'].'-'.($_GET['mm']-1).'-01', true,'m y');?></td>
+                            <td>   ค้างเดือน<?php echo date_thai($yy.'-'.($mm-1).'-01', true,'m y');?></td>
                             <?php
                             $sum_outstanding_month = 0;
                             foreach($complaint_type AS $type_id => $type_name){
@@ -116,7 +115,7 @@ $this->load->view('report_result_progress/search');
                             <td> - คงเหลือ</td>
                             <?php
                             foreach($complaint_type AS $type_id => $type_name){
-                                $total = ($outstanding_month[$type_id]+$incoming_month[$type_id])-$terminate_month[$type_id];
+                                $total = $remain[$type_id];
                                 echo '<td class="text-right" style="vertical-align: middle;width: 6%;">'.number_format($total).'</td>';
                             }
                             ?>
