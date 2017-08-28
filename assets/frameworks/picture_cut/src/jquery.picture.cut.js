@@ -108,7 +108,7 @@ $(function() {
     var f;
     a.fn.uploadAjax = function(g) {
         var b = a.extend({
-            accept: /^(jpg|png|gif)/gi,
+            accept: /^(jpg|png|gif|jpeg)/gi,
             acceptEx: "",
             name: "file",
             method: "POST",
@@ -197,7 +197,7 @@ $(function() {
                 DefaultImageButton: "src/img/icon_add_image2.png"
             };
             var defaults = {
-                Extensions: ["jpg", "png", "gif"],
+                Extensions: ["jpg", "png", "gif","jpeg"],
                 InputOfImageDirectory: "image",
                 InputOfImageDirectoryAttr: {},
                 InputOfFile: "",
@@ -654,7 +654,7 @@ $(function() {
                             }
                         },
                         extError: function() {
-                            PcAlert("types are supported: " + (Options.Extensions.join(",")).toString(), "Attention")
+                            PcAlert("รองรับเฉพาะไฟล์ : " + (Options.Extensions.join(",")).toString(), "ไม่สามารถเพิ่มรูปภาพได้")
                         }
                     });
                     element.find(":file[name='" + Options.InputOfFile + "']").mouseenter(function() {

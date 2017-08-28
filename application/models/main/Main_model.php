@@ -35,6 +35,22 @@ class Main_model extends CI_Model {
       return $result;
     }
 
+    public function get_sum_dashboard($user_id='')
+    {
+        $where = "";
+        if( $user_id != '' ){
+            $where = " WHERE report_statistic_by_status.create_user_id = '".$user_id."' ";
+        }
+        $sql = "  SELECT SUM(report_statistic_by_status.sum_complain) AS sum_complain,
+                      report_statistic_by_status.current_status_id
+                FROM report_statistic_by_status
+                ".$where."
+                GROUP BY report_statistic_by_status.current_status_id
+                ORDER BY report_statistic_by_status.current_status_id ASC ";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+
     public function get_current_status()
     {
       $sql = "SELECT current_status_id, current_status_name FROM ms_current_status ";
