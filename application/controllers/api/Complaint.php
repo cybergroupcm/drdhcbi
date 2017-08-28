@@ -16,6 +16,7 @@ class Complaint extends REST_Controller
         $this->load->model('master/Accused_type_model');
         $this->load->model('master/Complain_type_model');
         $this->load->model('master/Send_org_model');
+        $this->load->model('main/Main_model','main');
         $this->load->helper('file','url','api');
         $this->load->library(array('accused_type','complain_type'));
     }
@@ -35,6 +36,8 @@ class Complaint extends REST_Controller
         $petitioner = $this->get('petitioner');
         $dateStart = $this->get('complaint_date_start');
         $dateEnd = $this->get('complaint_date_end');
+        $timeStart = $this->get('time_start');
+        $timeEnd = $this->get('time_end');
         $overall = $this->get('overall');
         $user_id = $this->get('user_id');
         $no_status = $this->get('no_status');
@@ -54,7 +57,7 @@ class Complaint extends REST_Controller
         }elseif (!is_null($province)) {
             $filter['address_id LIKE'] = substr($province,0,2). '%';
         }
-        if (!is_null($currentStatus) && $currentStatus >= 1 && $currentStatus <= 4) {
+        if (!is_null($currentStatus) && $currentStatus >= 1 && $currentStatus <= 6) {
             $filter['current_status_id'] = $currentStatus;
         }
         if (!is_null($complainNo)) {
@@ -76,6 +79,16 @@ class Complaint extends REST_Controller
         elseif (is_null($dateStart) && !is_null($dateEnd)) {
             $filter['complain_date <='] = urldecode($dateEnd);
         }
+        if (!is_null($timeStart) && !is_null($timeEnd)) {
+            $filter['TIME(complain_date) >='] = urldecode($timeStart);
+            $filter['TIME(complain_date) <='] = urldecode($timeEnd);
+        }
+        elseif (!is_null($timeStart) && is_null($timeEnd)) {
+            $filter['TIME(complain_date) >='] = urldecode($timeStart);
+        }
+        elseif (is_null($timeStart) && !is_null($timeEnd)) {
+            $filter['TIME(complain_date) <='] = urldecode($timeEnd);
+        }
         if(count($filter)==0){
             $filter['MONTH(complain_date)'] = date('m');
             $filter['YEAR(complain_date)'] = date('Y');
@@ -90,6 +103,7 @@ class Complaint extends REST_Controller
                 ->with_complaint_type('fields:complain_type_name')
                 ->with_wish('fields:wish_name')
                 ->with_current_status('fields:current_status_name')
+                ->with_attach_file('fields:file_name')
                 ->get_all();
         }
         else {
@@ -102,9 +116,9 @@ class Complaint extends REST_Controller
                 ->with_complaint_type('fields:complain_type_name')
                 ->with_wish('fields:wish_name')
                 ->with_current_status('fields:current_status_name')
+                ->with_attach_file('fields:file_name')
                 ->get_all();
         }
-
         if ($complaint) {
             // Set the response and exit
             $this->response($complaint, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
@@ -121,6 +135,7 @@ class Complaint extends REST_Controller
 
     public function dashboard_mobile_get()
     {
+
         $filter = [];
         $currentStatus = $this->get('current_status');
         $complainNo = $this->get('complain_no');
@@ -132,6 +147,9 @@ class Complaint extends REST_Controller
         $overall = 1;
         $user_id = $this->get('user_id');
         $page = $this->get('page');
+        if($this->get('page') == ""){
+            $page = 1;
+        }
         if (!is_null($currentStatus) && $currentStatus >= 1 && $currentStatus <= 4) {
             $filter['current_status_id'] = $currentStatus;
         }
@@ -159,6 +177,7 @@ class Complaint extends REST_Controller
             $filter['YEAR(complain_date)'] = date('Y');
         }*/
         if ($overall == 1) { // มองเห็น เรื่องร้องเรียนทั้งหมด
+
             $total_complaint = $this->Key_in_model
                 ->where($filter)
                 ->order_by('complain_no', 'DESC')
@@ -202,7 +221,6 @@ class Complaint extends REST_Controller
                 ->with_current_status('fields:current_status_name')
                 ->paginate(15, $total_complaint, $page);
         }
-
         if ($complaint) {
             // Set the response and exit
             $this->response($complaint, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
@@ -294,6 +312,32 @@ class Complaint extends REST_Controller
         if ($total_complaint) {
             // Set the response and exit
             $this->response($total_complaint, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }
+        else {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'No complaint were found'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
+    public function total_status_row_get()
+    {
+        if($this->get('id') != ""){
+            $id = $this->get('id');
+        }else{
+            $user_data = $this->jwt_decode($this->jwt_token());
+            $id = $user_data['userid'];
+        }
+
+        $data_row = $this->main->get_sum_dashboard($id);
+        $data_all['current_status_id'] = 'all';
+        $data_all['sum_complain'] = array_sum(array_map(function($v){return $v['sum_complain']; }, $data_row));
+        array_push($data_row,$data_all);
+        if ($data_row) {
+            // Set the response and exit
+            $this->response($data_row, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
         else {
             // Set the response and exit
@@ -744,10 +788,15 @@ class Complaint extends REST_Controller
         $sql = "SELECT
                     first_name,
                     last_name,
+                    first_name_en,
+                    last_name_en,
                     company,
                     phone,
                     idcard,
                     prename_th,
+                    prename_th_id,
+                    prename_en,
+                    prename_en_id,
                     address,
                     address_id,
                     gender,

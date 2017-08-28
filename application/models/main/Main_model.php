@@ -35,6 +35,22 @@ class Main_model extends CI_Model {
       return $result;
     }
 
+    public function get_sum_dashboard($user_id='')
+    {
+        $where = "";
+        if( $user_id != '' ){
+            $where = " WHERE report_statistic_by_status.create_user_id = '".$user_id."' ";
+        }
+        $sql = "  SELECT SUM(report_statistic_by_status.sum_complain) AS sum_complain,
+                      report_statistic_by_status.current_status_id
+                FROM report_statistic_by_status
+                ".$where."
+                GROUP BY report_statistic_by_status.current_status_id
+                ORDER BY report_statistic_by_status.current_status_id ASC ";
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
+
     public function get_current_status()
     {
       $sql = "SELECT current_status_id, current_status_name FROM ms_current_status ";
@@ -131,23 +147,33 @@ class Main_model extends CI_Model {
         }
       $sql = " SELECT report_all_complaint.complain_type_id,
               	ms_complain_type.complain_type_name,
+              	ms_complain_type.parent_id,
               	SUM(report_all_complaint.sum_complain) AS sum_complain
               FROM report_all_complaint INNER JOIN ms_complain_type ON report_all_complaint.complain_type_id = ms_complain_type.complain_type_id
               ".$where."
               GROUP BY report_all_complaint.complain_type_id
-              ORDER BY sum_complain DESC
-              LIMIT 5 ";
+              ORDER BY sum_complain DESC";
+              //LIMIT 5 ";
       $query = $this->db->query($sql);
       $sum_all = 0;
-      $color = array('#00C0EF','#DD4B39','#F39C12','#0073B7','#00A65A');
       $result = array();
-      foreach ($query->result() as $row)
-      {
-        $result[$row->complain_type_id]['complain_type_name'] = $row->complain_type_name;
-        $result[$row->complain_type_id]['sum_complain'] = $row->sum_complain;
-        $result[$row->complain_type_id]['color'] = @$color[$sum_all];
+    $sql_main = "SELECT complain_type_id,complain_type_name,color FROM ms_complain_type WHERE parent_id = '0' ORDER BY complain_type_id ASC";
+    $query_main = $this->db->query($sql_main);
+    foreach ($query_main->result() as $row_main)
+    {
+        foreach ($query->result() as $row)
+        {
+            if(($row_main->complain_type_id == $row->parent_id) || ($row_main->complain_type_id == $row->complain_type_id)) {
+                $result[$row_main->complain_type_id]['sum_complain'] += $row->sum_complain;
+            }
+
+        }
+        $result[$row_main->complain_type_id]['complain_type_name'] = $row_main->complain_type_name;
+        $result[$row_main->complain_type_id]['color'] = $row_main->color;
         $sum_all++;
-      }
+
+    }
+
       if( empty($result) ){
           $result[1]['complain_type_name'] = 'ไม่มีข้อมูล';
           $result[1]['sum_complain'] = 0;
