@@ -18,10 +18,10 @@ if( !isset($_GET['mm']) || $_GET['mm'] == '' ){
             <a href="#" class="btn btn-default" role="button" data-toggle="modal" data-target="#search" title="ค้นหาข้อมูล">
                 <i class="fa fa-search" aria-hidden="true" style="cursor: pointer;font-size: 2em;"></i>
             </a>
-            <a href="#" class="btn btn-default" role="button"  title="สั่งพิมพ์" target="_blank">
+            <a href="<?php echo base_url('Report_overall_summary/pdf?yy='.@$_GET['yy'].'&mm='.@$_GET['mm']); ?>" class="btn btn-default" role="button"  title="สั่งพิมพ์" target="_blank">
                 <i class="fa fa-print" aria-hidden="true" style="cursor: pointer;font-size: 2em;"></i>
             </a>
-            <a href="#" class="btn btn-default" role="button" title="ส่งออก Excel" target="_blank">
+            <a href="<?php echo base_url('Report_overall_summary/excel?yy='.@$_GET['yy'].'&mm='.@$_GET['mm']); ?>" class="btn btn-default" role="button" title="ส่งออก Excel" target="_blank">
                 <i class="fa fa-file-excel-o" aria-hidden="true" style="cursor: pointer;font-size: 2em;"></i>
             </a>
         </div>
@@ -33,12 +33,12 @@ if( !isset($_GET['mm']) || $_GET['mm'] == '' ){
     </div>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <iframe src="<?php echo base_url('report_result_stale/view?yy='.@$_GET['yy'].'&mm='.@$_GET['mm']); ?>" width="100%" style="border:0px; height: 1000px;"></iframe>
+            <iframe src="<?php echo base_url('report_result_stale/view?yy='.@$_GET['yy'].'&mm='.@$_GET['mm']); ?>" width="100%" style="border:0px; height: 1200px;"></iframe>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <iframe src="<?php echo base_url('report_result_progress/view?yy='.@$_GET['yy'].'&mm='.@$_GET['mm']); ?>" width="100%" style="border:0px; height: 1000px;"></iframe>
+            <iframe src="<?php echo base_url('report_result_progress/view?yy='.@$_GET['yy'].'&mm='.@$_GET['mm']); ?>" width="100%" style="border:0px; height: 1200px;"></iframe>
         </div>
     </div>
 </div>
