@@ -48,11 +48,11 @@
                                     <td style="vertical-align: top;border: 1px solid black;padding: 5px;">&nbsp;- <?php echo  $value_sub?></td>
                                     <?php
                                     foreach ($complaint_type AS $key => $value) {
-                                        echo '<td class="text-center"  style="vertical-align: top;border: 1px solid black;text-align: right;padding: 5px;">' .number_format($sub_detail_report[$key_sub][$key]) . '</td>';
+                                        echo '<td class="text-center"  style="vertical-align: top;border: 1px solid black;text-align: right;padding: 5px;">' .number_format($sub_detail_report[$key_main][$key_sub][$key]) . '</td>';
                                         $index_complaint++;
                                     }
                                     ?>
-                                    <td style="vertical-align: top;border: 1px solid black;text-align: right;padding: 5px;"><?php echo number_format(array_sum($sub_detail_report[$key_sub]))?></td>
+                                    <td style="vertical-align: top;border: 1px solid black;text-align: right;padding: 5px;"><?php echo number_format(array_sum($sub_detail_report[$key_main][$key_sub]))?></td>
                                 </tr>
                                 <?php
                             }

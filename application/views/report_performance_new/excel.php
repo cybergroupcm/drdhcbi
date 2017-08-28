@@ -80,7 +80,7 @@
                             <td style="vertical-align: middle;border: 1px solid black;padding: 5px;border-width:thin;">&nbsp;- คงเหลือ</td>
                             <?php
                             foreach($complaint_type AS $type_id => $type_name){
-                                $total = ($outstanding_month[$type_id]+$incoming_month[$type_id])-$terminate_month[$type_id];
+                                $total = $remain[$type_id];
                                 echo '<td class="text-center" style="vertical-align: middle;border: 1px solid black;text-align: right;padding: 5px;border-width:thin;">'.number_format($total).'</td>';
                             }
                             ?>
