@@ -27,7 +27,7 @@
                             $i=0;
                             foreach($complaint_type AS $key_complaint=>$val_complaint){
                                 $i++;
-                                echo '<th class="text-center" style="vertical-align: middle;text-align: center;border: 1px solid black;width: 6%;border-width:thin;">'.$i.'.<br>'.$val_complaint.'</th>';
+                                echo '<th class="text-center" style="vertical-align: middle;text-align: center;border: 1px solid black;width: 6%;border-width:thin;">'.$i.'.'.$val_complaint.'</th>';
                             }
                             echo '<th class="text-center" style="vertical-align: middle;text-align: center;border: 1px solid black;width: 6%;border-width:thin;">รวมทั้งสิ้น</th>';
 
