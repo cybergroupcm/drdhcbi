@@ -105,18 +105,18 @@ class User extends REST_Controller
                 $ret = array();
                 $error =$_FILES["register_photo"]["error"];
                 $fileName=array();
-                $list_dir = array(); 
-                    $cdir = scandir($output_dir); 
-                    foreach ($cdir as $key => $value) { 
-                       if (!in_array($value,array(".",".."))) { 
-                          if (is_dir(@$dir . DIRECTORY_SEPARATOR . $value)){ 
-                            $list_dir[$value] = dirToArray(@$dir . DIRECTORY_SEPARATOR . $value); 
+                $list_dir = array();
+                    $cdir = scandir($output_dir);
+                    foreach ($cdir as $key => $value) {
+                       if (!in_array($value,array(".",".."))) {
+                          if (is_dir(@$dir . DIRECTORY_SEPARATOR . $value)){
+                            $list_dir[$value] = dirToArray(@$dir . DIRECTORY_SEPARATOR . $value);
                           }else{
                             if(substr($value,0,8) == date('Ymd')){
                             $list_dir[] = $value;
                             }
-                          } 
-                       } 
+                          }
+                       }
                     }
                     $explode_arr=array();
                     foreach($list_dir as $key => $value){
