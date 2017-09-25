@@ -19,6 +19,7 @@ class Dropdown extends REST_Controller
         $this->load->model('master/Area_part_model');
         $this->load->model('master/Current_status_model');
         $this->load->model('master/Au_group_model');
+        $this->load->library(array('accused_type','complain_type','send_org'));
     }
 
     public function accused_type_lists_get($parent_id='')
@@ -268,11 +269,45 @@ class Dropdown extends REST_Controller
     }
 
     public function au_group_list_get(){
-        $types = $this->Au_group_model->as_dropdown('description')->get_all();
+        $types = $this->Au_group_mordel->as_dropdown('description')->get_all();
         // Check if the users data store contains users (in case the database result returns NULL)
         if ($types) {
             // Set the response and exit
             $this->response($types, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        } else {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'No complain type were found'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
+    public function complain_type_parent_get($id){
+        #status_active = 1 คือ สถานะใช้งาน
+        $data = [];
+        $where_status_active = [];
+        $status_active= $this->get('status_active');
+        if (!is_null($status_active)) {
+            $where_status_active['status_active'] = $status_active;
+        }
+        $id_now = $id;
+        for($i=1;$i<=10;$i++){
+            $types = $this->Complain_type_model->where('complain_type_id', $id_now)->where($where_status_active)->get();
+            if($types) {
+                $data[] = $types;
+            }
+            if($types->parent_id=='0'){
+                break;
+            }else{
+                $id_now = $types->parent_id;
+            }
+
+        }
+        // Check if the users data store contains users (in case the database result returns NULL)
+        if ($data) {
+            // Set the response and exit
+            $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         } else {
             // Set the response and exit
             $this->response([
