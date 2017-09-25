@@ -294,7 +294,7 @@ class Dropdown extends REST_Controller
         for($i=1;$i<=10;$i++){
             $types = $this->Complain_type_model->where('complain_type_id', $id_now)->where($where_status_active)->get();
             if($types) {
-                $data[] = $types;
+                $data[] = $types->complain_type_id;
             }
             if($types->parent_id=='0'){
                 break;
@@ -303,10 +303,14 @@ class Dropdown extends REST_Controller
             }
 
         }
+        $return = [];
+        for($i=(count($data)-1);$i>=0;$i--){
+            $return[] = $data[$i];
+        }
         // Check if the users data store contains users (in case the database result returns NULL)
-        if ($data) {
+        if ($return) {
             // Set the response and exit
-            $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+            $this->response($return, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         } else {
             // Set the response and exit
             $this->response([
@@ -328,7 +332,7 @@ class Dropdown extends REST_Controller
         for($i=1;$i<=10;$i++){
             $types = $this->Accused_type_model->where('accused_type_id', $id_now)->get();
             if($types) {
-                $data[] = $types;
+                $data[] = $types->accused_type_id;
             }
             if($types->parent_id=='0'){
                 break;
@@ -337,10 +341,14 @@ class Dropdown extends REST_Controller
             }
 
         }
+        $return = [];
+        for($i=(count($data)-1);$i>=0;$i--){
+            $return[] = $data[$i];
+        }
         // Check if the users data store contains users (in case the database result returns NULL)
-        if ($data) {
+        if ($return) {
             // Set the response and exit
-            $this->response($data, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+            $this->response($return, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         } else {
             // Set the response and exit
             $this->response([
