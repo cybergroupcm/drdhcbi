@@ -439,3 +439,88 @@ function get_send_org_child(ele){
         });
     }
 }
+var count_complain_type = 0;
+function get_complain_type_child(ele){
+    var value = ele.value;
+    $('#complain_type_id').val(value);
+    if($('#'+ele.id).attr('has_child') != '') {
+        $('#' + $('#' + ele.id).attr('has_child')).html('');
+    }
+    if(value!=''){
+        count_complain_type++;
+        var url = base_url+'complaint/get_complain_type_child/'+value+'/'+count_complain_type;  //the url to call
+        $.post(url, {data: ''}, function (data) {
+            $('#' + $('#' + ele.id).attr('has_child')).append(data);
+        });
+    }
+}
+
+function get_district(value,defaule_value){
+    if(value!=''){
+        var province_code = value.substring(0, 3);
+        var url = base_url+'complaint/get_district_list/Aumpur/'+province_code+'/'+defaule_value;  //the url to call
+        $.post(url, {data: ''}, function (data) {
+            $('#district_span').html(data);
+            var subdistrict = '';
+            subdistrict += '<select name="subdistrict_id" class="form-control" id="subdistrict_id">';
+            subdistrict += '<option value="">กรุณาเลือก</option>';
+            subdistrict += '</select>';
+            $('#subdistrict_span').html(subdistrict);
+        });
+    }
+}
+
+function get_subdistrict(value,defaule_value){
+    if(value!=''){
+        var district_code = value.substring(0, 4);
+        var url = base_url+'complaint/get_district_list/Tamboon/'+district_code+'/'+defaule_value;  //the url to call
+        $.post(url, {data: ''}, function (data) {
+            $('#subdistrict_span').html(data);
+        });
+    }
+}
+
+function Accept(keyin_id,receive_status) {
+    Number.prototype.padLeft = function(base,chr){
+        var  len = (String(base || 10).length - String(this).length)+1;
+        return len > 0? new Array(len).join(chr || '0')+this : this;
+    }
+    var base_url = $('#base_url').attr('class');
+    var jwt = Cookies.get("api_token");
+    var d = new Date,
+        dformat = [d.getDate().padLeft(),
+                (d.getMonth()+1).padLeft(),
+                (d.getFullYear()+543)].join('/') +' ' +
+            [d.getHours().padLeft(),
+                d.getMinutes().padLeft(),
+                d.getSeconds().padLeft()].join(':');
+    var receive_date = dformat;
+
+    var text_ok = 'บันทึกข้อมูลสำเร็จ';
+    var text_error = 'บันทึกข้อมูลไม่สำเร็จ';
+
+    $.ajax({
+        type: 'PUT', //GET, POST, PUT
+        url: base_url+'api/complaint/key_in/',  //the url to call
+        data: {keyin_id: keyin_id,current_status_id:receive_status, receive_date: receive_date },     //Data sent to server
+        beforeSend: function (xhr) {   //Include the bearer token in header
+            xhr.setRequestHeader("Authorization", 'Bearer ' + jwt);
+        }
+    }).done(function (response,xhr) {
+        if(xhr.state = 201){
+            swal({
+                title: "สำเร็จ",
+                text: text_ok,
+                type: "success",
+                timer: 2000,
+                showConfirmButton: false
+            });
+            setTimeout(function(){
+                $(location).attr('href',base_url+'complaint/dashboard');
+            }, 2000);
+        }
+        console.log("response:"+response);
+    }).fail(function (err) {
+        swal("ผิดพลาด",text_error, "error");
+    });
+}

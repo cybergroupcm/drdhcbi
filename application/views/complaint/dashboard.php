@@ -170,7 +170,7 @@ $this->load->view('complaint/save_result');
                                                     $step = @$val['step'];
                                                 }
                                                 if (@$val['current_status_id'] == '1') {
-                                                    echo '<li><a href="' . base_url('complaint/key_in/key_in_step' . ($step + 1) . '/' . @$val['keyin_id']) . '">แก้ไข</a></li>';
+                                                    echo '<li><a href="' . base_url('complaint/key_in/key_in_step' . ((($step + 1)>5)?5:($step + 1)) . '/' . @$val['keyin_id']) . '">แก้ไข</a></li>';
                                                     echo '<li><a onclick="bt_delete(' . @$val['keyin_id'] . ');">ยกเลิก</a></li>';
                                                 }
                                                 else {
@@ -211,7 +211,7 @@ $this->load->view('complaint/save_result');
                                             <ul class="edit dropdown-menu" style="width: 50px !important;">
                                                 <?php
                                                 echo '<li><a onclick="Accept(\'' . @$val['keyin_id'] . '\',\'2\');">รับเรื่อง</a></li>';
-                                                echo '<li><a onclick="Accept(\'' . @$val['keyin_id'] . '\',\'1\');">ไม่รับเรื่อง</a></li>';
+                                                echo '<li><a onclick="Accept(\'' . @$val['keyin_id'] . '\',\'6\');">ไม่รับเรื่อง</a></li>';
                                                 ?>
                                             </ul>
                                           </span>

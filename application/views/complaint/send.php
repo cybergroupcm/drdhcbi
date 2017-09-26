@@ -121,6 +121,7 @@
         </div>
     </div>
 </div>
+</div>
 <?php
 $link = array(
     'src' => 'assets/js/js.cookie.js',
