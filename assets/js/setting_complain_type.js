@@ -11,10 +11,12 @@ $(document).ready(function () {
             var complain_type_id = $('#complain_type_id').val();
             var complain_type_name = $('#complain_type_name').val();
             var parent_id = $('#parent_id').val();
+            var icon_pin = $('#icon_pin').val();
             $.ajax({
                 type: method, //GET, POST, PUT
                 url: base_url + 'api/setting/complain_type/',  //the url to call
-                data: {complain_type_id: complain_type_id, complain_type_name: complain_type_name, parent_id: parent_id},     //Data sent to server
+                async:false,
+                data: {complain_type_id: complain_type_id, complain_type_name: complain_type_name, parent_id: parent_id,icon_pin:icon_pin},     //Data sent to server
                 //contentType: 'application/json',
                 beforeSend: function (xhr) {   //Include the bearer token in header
                     xhr.setRequestHeader("Authorization", 'Bearer ' + jwt);
@@ -57,8 +59,8 @@ $(document).ready(function () {
     var table = $('#example1').DataTable({
         "order": [[ 1, "desc" ]],
         "columnDefs": [
-            { "targets": [0,3], "orderable": false },
-            { "targets": [0,3],"searchable": false }
+            { "targets": [0,4], "orderable": false },
+            { "targets": [0,4],"searchable": false }
         ],
         "language": {
             "search": "ค้นหา:",
@@ -78,9 +80,52 @@ $(document).ready(function () {
 
 });
 
-function bt_delete(id) {
-    var url = $('#base_url').attr("class")+"setting_complain_type/getComplainType/"+id;
-    $.ajax({
+function bt_delete(id,status_now) {
+    var base_url = $('#base_url').attr('class');
+    var status_active = '';
+    if(status_now =='1'){
+        status_active = '0';
+    }else{
+        status_active = '1';
+    }
+    swal({title: "คุณต้องการแก้ไขสถานะหรือไม่?",
+            text: "",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "ใช่",
+            cancelButtonText: "ไม่",
+            closeOnConfirm: false},
+        function () {
+         $.ajax({
+             type: 'PUT', //GET, POST, PUT
+             url: base_url + 'api/setting/complain_type/',  //the url to call
+             data: {complain_type_id: id, status_active: status_active},     //Data sent to server
+             //contentType: 'application/json',
+             beforeSend: function (xhr) {   //Include the bearer token in header
+                xhr.setRequestHeader("Authorization", 'Bearer ' + jwt);
+             }
+         }).done(function (response) {
+             swal({
+                 title: "แก้ไขสถานะสำเร็จ",
+                 text: "",
+                 type: "success",
+                 showCancelButton: false,
+                 confirmButtonColor: "#00C0EF",
+                 confirmButtonText: "ตกลง",
+                 closeOnConfirm: false
+             },
+             function(isConfirm){
+                 if (isConfirm) {
+                    window.location.href=base_url+'setting_complain_type/dashboard';
+                 }
+             });
+         }).fail(function (err) {
+            swal("แก้ไขสถานะไม่สำเร็จ", "", "error");
+         });
+     });
+
+    /*$.ajax({
         method: "GET",
         url: url,
         async:false
@@ -92,6 +137,7 @@ function bt_delete(id) {
             swal("ไม่สามารถลบข้อมูลได้ \nเนื่องจากรายการนี้ถูกใช้งานแล้ว", "", "error");
         }
     });
+    */
 }
 
 function save_delete(id){

@@ -122,10 +122,11 @@ $link = array(
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="col-sm-3 right required">
-                            รหัสประจำตัวประชาชน :
+                            เลขบัตรประจำตัวประชาชน :
                         </label>
                         <label class="col-sm-3">
-                            <input type="text" name="idcard" id="idcard" class="form-control numbers" maxlength='13' value="<?php echo @$data['user']['idcard']?>" />
+                            <input type="hidden" name="id_type" id="id_type" value="1"/>
+                            <input type="text" name="idcard" id="idcard" class="form-control numbers" maxlength='13' value="<?php echo @$data['user']['idcard']?>" onblur="checkIdCardRegister(this);" />
                         </label>
                     </div>
                 </div>
@@ -184,9 +185,22 @@ $link = array(
                             คำนำหน้าชื่อ :<br>(ภาษาอังกฤษ)
                         </label>
                         <label class="col-sm-3">
-                            <select id="prename_en" name="prename_en" class="form-control">
+                            <!--<select id="prename_en" name="prename_en" class="form-control">
                                 <option value=''>--กรุณาระบุ--</option>
-                            </select>
+                            </select>-->
+                            <?php
+                            $prename_en = $title_name_en;
+                            $prename_en[''] = 'กรุณาเลือกคำนำหน้าชื่อ (ภาษาอังกฤษ)';
+                            ksort($prename_en);
+                            echo form_dropdown([
+                                'name' => 'prename_en_id',
+                                'id' => 'prename_en_id',
+                                'class' => 'form-control',
+                                'style'=>'padding: 0px 8px;',
+                                'onchange'=>"get_list_text('prename_en_id','prename_en')"
+                            ], $prename_en, @$data['user']['prename_en_id']);
+                            ?>
+                            <input type="hidden" name="prename_en" id="prename_en" value="<?php echo @$data['user']['prename_en']; ?>">
                         </label>
                     </div>
                 </div>
@@ -349,10 +363,19 @@ $link = array(
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="col-sm-3 right">
-                            อัพโหลดรูปภาพ :
+                            ประเภทสมาชิก :
                         </label>
-                        <label class="col-sm-4">
-                            <input type="file" accept=".jpg, .png" id="register_photo" name="register_photo" class="form-control" onchange="readURL(this);"/>
+                        <label class="col-sm-3">
+                            <?php
+                            @$user_group_arr = @$user_group;
+                            @$user_group_arr[''] = 'กรุณาเลือก';
+                            ksort($user_group_arr);
+                            echo form_dropdown([
+                                'name' => 'user_group_id',
+                                'id' => 'user_group_id',
+                                'class' => 'form-control'
+                            ], @$user_group_arr, @$data['currentGroups'][0]['id']);
+                            ?>
                         </label>
                     </div>
                 </div>
@@ -361,20 +384,33 @@ $link = array(
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="col-sm-3 right">
+                            อัพโหลดรูปภาพ :
                         </label>
                         <label class="col-sm-4">
-                            <?php
-                                if(@$data['user']['register_photo']!=''){
-                                    @$register_photo = @$data['user']['register_photo'];
-                                }else{
-                                    @$register_photo = 'no_photo.jpg';
-                                }
-                            ?>
-                            <img id="show_photo" width="150px" height="160px" src="<?php echo base_url('upload/register_photos/'.@$register_photo);?>" alt="your image" />
+                            <!--<input type="file" accept=".jpg, .png" id="register_photo" name="register_photo" class="form-control" onchange="readURL(this);"/>-->
+                            <div id="container_image"></div>
                         </label>
                     </div>
                 </div>
             </div>
+            <!--<div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="col-sm-3 right">
+                        </label>
+                        <label class="col-sm-4">
+                            <?php
+/*                                if(@$data['user']['register_photo']!=''){
+                                    @$register_photo = @$data['user']['register_photo'];
+                                }else{
+                                    @$register_photo = 'no_photo.jpg';
+                                }
+                            */?>
+                            <img id="show_photo" width="150px" height="160px" src="<?php /*echo base_url('upload/register_photos/'.@$register_photo);*/?>" alt="your image" />
+                        </label>
+                    </div>
+                </div>
+            </div>-->
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -384,7 +420,7 @@ $link = array(
                             <input type="button" class="btn btn-bitbucket" value="บันทึก" onclick="validateForm()">
                         </label>
                         <label class="col-sm-5">
-                            <input type="button" class="btn btn-default" value="ยกเลิก">
+                            <input type="button" class="btn btn-default" value="ยกเลิก" onclick="window.location.href='<?php echo base_url('admin/users')?>';">
                         </label>
                     </div>
                 </div>
@@ -393,8 +429,30 @@ $link = array(
     </form>
 </div>
 </section>
+<?php
+$link = array(
+    'src' => 'assets/frameworks/picture_cut/src/jquery.picture.cut.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+?>
 <script>
-    var base_url = '<?php echo base_url() ?>';</script>
+    var base_url = '<?php echo base_url() ?>';
+    $("#container_image").PictureCut({
+        InputOfImageDirectory       : "register_photo",
+        PluginFolderOnServer        : "sysdamrongdham/assets/frameworks/picture_cut/",
+        FolderOnServer              : "/sysdamrongdham/upload/tmp_register/",
+        EnableCrop                  : true,
+        CropWindowStyle             : "Bootstrap"
+    });
+    <?php
+        if(@$data['user']['register_photo'] != ""){
+            echo "$('.picture-element-image').attr('src','/sysdamrongdham/upload/register_photos/". @$data['user']['register_photo'] ."');";
+            echo "$('.picture-element-principal').css('background','none')";
+        }
+    ?>
+    //$('.picture-element-image').attr('src','/drdhcbi/upload/e9af0f10.jpg');
+</script>
 <?php
 
 $link = array(

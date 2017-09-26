@@ -91,33 +91,60 @@ class Key_in_model extends MY_Model
     protected function changeDateFormat($data)
     {
         if (array_key_exists('complain_date',$data)){
-            $data['complain_date'] = date_eng($data['complain_date'] );
-//            $data['complain_no'] = $this->genComplainNo($data['complain_date']);
+            $arrComplainDate = explode(' ',$data['complain_date']);
+            $complainDate = explode('/',$arrComplainDate[0]);
+            $complainTime = $arrComplainDate[1];
+            $complainDateTime = ($complainDate[2]-543).'-'.$complainDate[1].'-'.$complainDate[0].' '.$complainTime;
+            $data['complain_date'] = $complainDateTime;
         }
 
         if (array_key_exists('doc_receive_date',$data)){
-            $data['doc_receive_date'] = date_eng($data['doc_receive_date'] );
+            $arrDocReceiveDate = explode(' ',$data['doc_receive_date']);
+            $docReceiveDate = explode('/',$arrDocReceiveDate[0]);
+            $docReceiveTime = $arrDocReceiveDate[1];
+            $docReceiveDateTime = ($docReceiveDate[2]-543).'-'.$docReceiveDate[1].'-'.$docReceiveDate[0].' '.$docReceiveTime;
+            $data['doc_receive_date'] = $docReceiveDateTime;
         }
 
         if (array_key_exists('doc_send_date',$data)){
-            $data['doc_send_date'] = date_eng($data['doc_send_date'] );
+            $arrDocSendDate = explode(' ',$data['doc_send_date']);
+            $docSendDate = explode('/',$arrDocSendDate[0]);
+            $docSendTime = $arrDocSendDate[1];
+            $docSendDateTime = ($docSendDate[2]-543).'-'.$docSendDate[1].'-'.$docSendDate[0].' '.$docSendTime;
+            $data['doc_send_date'] = $docSendDateTime;
         }
 
         if (array_key_exists('scene_date',$data)){
-            $data['scene_date'] = date_eng($data['scene_date'] );
+            $arrSceneDate = explode(' ',$data['scene_date']);
+            $sceneDate = explode('/',$arrSceneDate[0]);
+            $sceneTime = $arrSceneDate[1];
+            $sceneDateTime = ($sceneDate[2]-543).'-'.$sceneDate[1].'-'.$sceneDate[0].' '.$sceneTime;
+            $data['scene_date'] = $sceneDateTime;
         }
 
 
         if (array_key_exists('receive_date',$data)){
-            $data['receive_date'] = date_eng($data['receive_date'] );
+            $arrReceiveDate = explode(' ',$data['receive_date']);
+            $receiveDate = explode('/',$arrReceiveDate[0]);
+            $receiveTime = $arrReceiveDate[1];
+            $receiveDateTime = ($receiveDate[2]-543).'-'.$receiveDate[1].'-'.$receiveDate[0].' '.$receiveTime;
+            $data['receive_date'] = $receiveDateTime;
         }
 
         if (array_key_exists('reply_date',$data)){
-            $data['reply_date'] = date_eng($data['reply_date'] );
+            $arrReplyDate = explode(' ',$data['reply_date']);
+            $replyDate = explode('/',$arrReplyDate[0]);
+            $replyTime = $arrReplyDate[1];
+            $replyDateTime = ($replyDate[2]-543).'-'.$replyDate[1].'-'.$replyDate[0].' '.$replyTime;
+            $data['reply_date'] = $replyDateTime;
         }
 
         if (array_key_exists('send_org_date',$data)){
-            $data['send_org_date'] = date_eng($data['send_org_date'] );
+            $arrSendOrgDate = explode(' ',$data['send_org_date']);
+            $sendOrgDate = explode('/',$arrSendOrgDate[0]);
+            $sendOrgTime = $arrSendOrgDate[1];
+            $sendOrgDateTime = ($sendOrgDate[2]-543).'-'.$sendOrgDate[1].'-'.$sendOrgDate[0].' '.$sendOrgTime;
+            $data['send_org_date'] = $sendOrgDateTime;
         }
         return $data;
     }

@@ -32,6 +32,27 @@ class Complaint extends CI_Controller
 
         $url = base_url("api/dropdown/title_name_lists");
         $arr_data['title_name'] = api_call_get($url);
+
+        //กำหนดการแสดงผลหน้าบันทึกข้อมูล
+        $url = base_url("api/authen/token_info");
+        $user_data_id = api_call_get($url);
+        $url = base_url("api/complaint/user_detail/id/".$user_data_id['userid']);
+        $arr_data['user_login_data'] = api_call_get($url);
+        $url = base_url("api/complaint/user_groups/user_id/" . $user_data_id['userid']);
+        $user_modes_groups = api_call_get($url);
+        if(isset($user_modes_groups)){
+            $members_keyin = false;
+            // 2 = group member
+            if(in_array(2,$user_modes_groups)){
+              $members_keyin = true;
+                $arr_data['readonly'] = 'readonly="readonly"';
+            }else{
+              $members_keyin = false;
+                $arr_data['readonly'] = '';
+            }
+            $arr_data['members_keyin'] = $members_keyin;
+        }
+
         $arr_data['key_in_data'] = [];
         if ($id != '') {
             $url = base_url("api/complaint/key_in/" . $id);
@@ -51,19 +72,45 @@ class Complaint extends CI_Controller
                 }
             }
 
-            $url = base_url("api/dropdown/complain_type_lists//parent_id/0");
+            #status_active = 1 คือ สถานะใช้งาน
+            $url = base_url("api/dropdown/complain_type_lists//parent_id/0/status_active/1");
+
             $arr_data['complain_type'][] = api_call_get($url);
             if($arr_data['key_in_data']['accused_type_id']!='') {
                 $arr_data['get_complain_type'] = $this->complain_type->sort_complain_type($arr_data['key_in_data']['complain_type_id']);
                 foreach ($arr_data['get_complain_type'] as $key => $value) {
-                    $url = base_url("api/dropdown/complain_type_lists//parent_id/" . $value);
+                    #status_active = 1 คือ สถานะใช้งาน
+                    $url = base_url("api/dropdown/complain_type_lists//parent_id/" . $value."/status_active/1");
+
                     $complain_type = api_call_get($url);
                     if (!array_key_exists('message', $complain_type)) {
                         $arr_data['complain_type'][] = $complain_type;
                     }
                 }
             }
+
+            if($members_keyin == true && $arr_data['key_in_data']['channel_id'] == ''){
+              $arr_data['key_in_data']['channel_id'] = '2';
+            }
+            if($members_keyin == true && $arr_data['key_in_data']['subject_id'] == ''){
+              $arr_data['key_in_data']['subject_id'] = '1';
+            }
+
+            $url = base_url("api/complaint/user_detail/idcard/".$arr_data['key_in_data']['id_card']);
+            $arr_data['user_detail'] = api_call_get($url);
+
+            $url = base_url("api/complaint/user_detail/id/".$arr_data['key_in_data']['create_user_id']);
+            $arr_data['recorder'] = api_call_get($url);
+
+            $url = base_url("api/complaint/user_detail/id/".$arr_data['key_in_data']['update_user_id']);
+            $arr_data['updater'] = api_call_get($url);
+            //echo"<pre>";print_r($arr_data['user_detail'] );echo"</pre>";exit;
         }else{
+            if($members_keyin == true){
+              $arr_data['key_in_data']['recipient'] = '-';
+            }else{
+              $arr_data['key_in_data']['recipient'] = '';
+            }
             $url = base_url("api/dropdown/accused_type_lists/0");
             $arr_data['accused_type'][] = api_call_get($url);
 
@@ -95,11 +142,35 @@ class Complaint extends CI_Controller
             $arr_data['subdistrict_list'] = api_call_get($url);
         }
 
+        $url = base_url("api/dropdown/ccaa_lists");
+        $arr_data['ccaa_all'] = api_call_get($url);
+
         $this->libraries->template('complaint/' . $step, $arr_data);
     }
 
     public function dashboard()
     {
+        $url = base_url("api/dropdown/send_org_parent_lists/0");
+        $arr_data['send_org_parent'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/send_org_lists");
+        $arr_data['send_org'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/channel_lists");
+        $arr_data['channel'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/subject_lists");
+        $arr_data['subject'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/current_status_lists");
+        $arr_data['current_status'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/complain_type_lists//parent_id/0");
+        $arr_data['complain_type'][] = api_call_get($url);
+
+        $url = base_url("api/dropdown/ccaa_lists/Changwat");
+        $arr_data['province_list'] = api_call_get($url);
+
         $queryFilter = '';
         $filter = $this->input->get();
         $filtered = array_filter($filter, function ($value) {
@@ -124,10 +195,36 @@ class Complaint extends CI_Controller
                     case 'complaint_detail':
                         $arr_data['txtDetail'] .= " เรื่องร้องทุกข์ {$item}";
                         break;
+                    case 'complain_type_id':
+                        $url = base_url("api/dropdown/complain_type_lists");
+                        $complain_type = api_call_get($url);
+                        $arr_data['txtDetail'] .= " ประเภทเรื่องร้องทุกข์ {$complain_type[$item]}";
+                        break;
+                    case 'channel_id':
+                        $arr_data['txtDetail'] .= " ช่องทางร้องทุกข์ {$arr_data['channel'][$item]}";
+                        break;
+                    case 'subject_id':
+                        $arr_data['txtDetail'] .= " ลักษณะเรื่องร้องทุกข์ {$arr_data['subject'][$item]}";
+                        break;
                     case 'current_status':
-                        $url = base_url("api/dropdown/current_status_lists");
-                        $current_status = api_call_get($url);
-                        $arr_data['txtDetail'] = "สถานะ {$current_status[$item]}";
+                        $arr_data['txtDetail'] = "สถานะ {$arr_data['current_status'][$item]}";
+                        break;
+                    case 'province_id':
+                        $url = base_url("api/dropdown/ccaa_lists/Changwat/{$item}");
+                        $province = api_call_get($url);
+                        $arr_data['txtDetail'] .= "พื้นที่ จังหวัด{$province[$item]}";
+                        break;
+                    case 'district_id':
+                        $url = base_url("api/dropdown/ccaa_lists/Aumpur/{$item}");
+                        $district = api_call_get($url);
+                        $arr_data['txtDetail'] = rtrim($arr_data['txtDetail'], ' และ ');
+                        $arr_data['txtDetail'] .= " อำเภอ{$district[$item]}";
+                        break;
+                    case 'address_id':
+                        $url = base_url("api/dropdown/ccaa_lists/Tamboon/{$item}");
+                        $address = api_call_get($url);
+                        $arr_data['txtDetail'] = rtrim($arr_data['txtDetail'], ' และ ');
+                        $arr_data['txtDetail'] .= " ตำบล{$address[$item]}";
                         break;
                     case 'complaint_date_start':
                         $dateText = date_thai(date_eng($item));
@@ -207,6 +304,22 @@ class Complaint extends CI_Controller
                 }
             }
         }
+        //@start เช็คให้ข้อมูลกลุ่มผู้ใช้งานเพื่อ แสดงรายการที่ยกเลิก
+        $id=$arr_data['token']['userid'];
+        $url = base_url()."api/user/user/".$id;
+        $arr_data_user = api_call_get($url);
+        $arr_group = array();
+        foreach($arr_data_user['currentGroups'] AS $key=>$val){
+            $arr_group[$key] = $val['id'];
+        }
+
+        if(in_array('1',$arr_group)){
+            $check_no_status  = "";
+        }else{
+            $check_no_status  = "/no_status/5";
+        }
+
+        //@end เช็คให้ข้อมูลกลุ่มผู้ใช้งานเพื่อ แสดงรายการที่ยกเลิก
 
 //        $url = base_url("api/dropdown/complain_type_lists");
 //        $arr_data['data_filter'] = api_call_get($url);
@@ -214,7 +327,7 @@ class Complaint extends CI_Controller
         $total_row = api_call_get($url);
         $arr_data['total_row'] = $total_row;*/
 //        $url = base_url('/api/complaint/dashboard/overall/'.$overall.'/user_id/'.$user_data_id['userid'].'/page/'.$page);
-        $url = base_url('/api/complaint/dashboard_last_month/overall/' . $overall . '/user_id/' . $user_data_id['userid'] . $queryFilter);
+        $url = base_url('/api/complaint/dashboard_last_month/overall/' . $overall . '/user_id/' . $user_data_id['userid'] . $queryFilter.$check_no_status);
         $arr_data['data'] = api_call_get($url);
         if (isset($arr_data['data']['status'])) {
             $arr_data['data'] = [];
@@ -223,11 +336,6 @@ class Complaint extends CI_Controller
 //        $arr_data['start_row'] = (($page-1)*15)+1;
         $arr_data['start_row'] = 1;
 
-        $url = base_url("api/dropdown/send_org_parent_lists/0");
-        $arr_data['send_org_parent'] = api_call_get($url);
-
-        $url = base_url("api/dropdown/send_org_lists");
-        $arr_data['send_org'] = api_call_get($url);
 
         if($arr_data['txtDetail']==''){
             $date = new DateTime('now');
@@ -411,5 +519,136 @@ class Complaint extends CI_Controller
             }
         }
         $this->load->view('complaint/get_send_org', $arr_data);
+    }
+
+    public function key_in_step5_pdf($id)
+    {
+        $url = base_url("api/dropdown/channel_lists");
+        $arr_data['channel'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/subject_lists");
+        $arr_data['subject'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/wish_lists");
+        $arr_data['wish'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/title_name_lists");
+        $arr_data['title_name'] = api_call_get($url);
+
+        $arr_data['key_in_data'] = [];
+
+        $url = base_url("api/complaint/key_in/" . $id);
+        $arr_data['key_in_data'] = api_call_get($url);
+        $arr_data['id'] = $id;
+
+        $url = base_url("api/dropdown/accused_type_lists/0");
+        $arr_data['accused_type'][] = api_call_get($url);
+        if($arr_data['key_in_data']['accused_type_id']!='') {
+            $arr_data['get_accused_type'] = $this->accused_type->sort_accused($arr_data['key_in_data']['accused_type_id']);
+            foreach ($arr_data['get_accused_type'] as $key => $value) {
+                $url = base_url("api/dropdown/accused_type_lists/" . $value);
+                $accused_type = api_call_get($url);
+                if (!array_key_exists('message', $accused_type)) {
+                    $arr_data['accused_type'][] = $accused_type;
+                }
+            }
+        }
+
+        $url = base_url("api/dropdown/complain_type_lists//parent_id/0");
+        $arr_data['complain_type'][] = api_call_get($url);
+        if($arr_data['key_in_data']['accused_type_id']!='') {
+            $arr_data['get_complain_type'] = $this->complain_type->sort_complain_type($arr_data['key_in_data']['complain_type_id']);
+            foreach ($arr_data['get_complain_type'] as $key => $value) {
+                $url = base_url("api/dropdown/complain_type_lists//parent_id/" . $value);
+                $complain_type = api_call_get($url);
+                if (!array_key_exists('message', $complain_type)) {
+                    $arr_data['complain_type'][] = $complain_type;
+                }
+            }
+        }
+
+        $url = base_url("api/complaint/user_detail/idcard/".$arr_data['key_in_data']['id_card']);
+        $arr_data['user_detail'] = api_call_get($url);
+        //echo"<pre>";print_r($arr_data['user_detail'] );echo"</pre>";exit;
+
+        $url = base_url("api/dropdown/accused_type_lists");
+        $arr_data['accused_type_all'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/complain_type_lists");
+        $arr_data['complain_type_all'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/ccaa_lists");
+        $arr_data['ccaa_all'] = api_call_get($url);
+
+        $html = $this->load->view('complaint/key_in_step5_pdf', $arr_data, true);
+        // As PDF creation takes a bit of memory, we're saving the created file in /downloads/reports/
+
+        $this->my_mpdf->SetDisplayMode('fullpage');
+        $this->my_mpdf->list_indent_first_level = 0;
+        //$stylesheet = file_get_contents(APPPATH.'third_party/mpdf/css/mpdfstyletables.css');
+        //$this->mpdf->WriteHTML($stylesheet, 1);
+        $this->my_mpdf->WriteHTML($html, 2);
+        $this->my_mpdf->Output('example_mpdf.pdf', 'I');
+        exit;
+    }
+
+    public function key_in_step5_word($id){
+        $url = base_url("api/dropdown/channel_lists");
+        $arr_data['channel'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/subject_lists");
+        $arr_data['subject'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/wish_lists");
+        $arr_data['wish'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/title_name_lists");
+        $arr_data['title_name'] = api_call_get($url);
+
+        $arr_data['key_in_data'] = [];
+
+        $url = base_url("api/complaint/key_in/" . $id);
+        $arr_data['key_in_data'] = api_call_get($url);
+        $arr_data['id'] = $id;
+
+        $url = base_url("api/dropdown/accused_type_lists/0");
+        $arr_data['accused_type'][] = api_call_get($url);
+        if($arr_data['key_in_data']['accused_type_id']!='') {
+            $arr_data['get_accused_type'] = $this->accused_type->sort_accused($arr_data['key_in_data']['accused_type_id']);
+            foreach ($arr_data['get_accused_type'] as $key => $value) {
+                $url = base_url("api/dropdown/accused_type_lists/" . $value);
+                $accused_type = api_call_get($url);
+                if (!array_key_exists('message', $accused_type)) {
+                    $arr_data['accused_type'][] = $accused_type;
+                }
+            }
+        }
+
+        $url = base_url("api/dropdown/complain_type_lists//parent_id/0");
+        $arr_data['complain_type'][] = api_call_get($url);
+        if($arr_data['key_in_data']['accused_type_id']!='') {
+            $arr_data['get_complain_type'] = $this->complain_type->sort_complain_type($arr_data['key_in_data']['complain_type_id']);
+            foreach ($arr_data['get_complain_type'] as $key => $value) {
+                $url = base_url("api/dropdown/complain_type_lists//parent_id/" . $value);
+                $complain_type = api_call_get($url);
+                if (!array_key_exists('message', $complain_type)) {
+                    $arr_data['complain_type'][] = $complain_type;
+                }
+            }
+        }
+
+        $url = base_url("api/complaint/user_detail/idcard/".$arr_data['key_in_data']['id_card']);
+        $arr_data['user_detail'] = api_call_get($url);
+        //echo"<pre>";print_r($arr_data['user_detail'] );echo"</pre>";exit;
+
+        $url = base_url("api/dropdown/accused_type_lists");
+        $arr_data['accused_type_all'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/complain_type_lists");
+        $arr_data['complain_type_all'] = api_call_get($url);
+
+        $url = base_url("api/dropdown/ccaa_lists");
+        $arr_data['ccaa_all'] = api_call_get($url);
+        $this->load->view('complaint/key_in_step5_word',$arr_data);
     }
 }

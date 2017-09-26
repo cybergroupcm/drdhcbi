@@ -57,17 +57,17 @@ $this->load->view('complaint/save_result');
                 </div>
                 <div class="box-body">
                     <div class="row">
-                    <div class="col-md-7">
-                        <span><?php echo $txtDetail;?></span>
-                    </div>
-                    <div class="col-md-5 text-right" style="margin-bottom: 5px;padding-right:0;">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#search">
-                            <i class="glyphicon glyphicon-search"></i>&nbsp;&nbsp;ค้นหาขั้นสูง
-                        </button>
-                        <button type="button" class="btn btn-primary" id="bt_add">
-                            <i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;เพิ่มเรื่องร้องทุกข์
-                        </button>
-                    </div>
+                        <div class="col-md-7">
+                            <span><?php echo $txtDetail; ?></span>
+                        </div>
+                        <div class="col-md-5 text-right" style="margin-bottom: 5px;padding-right:0;">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#search">
+                                <i class="glyphicon glyphicon-search"></i>&nbsp;&nbsp;ค้นหาขั้นสูง
+                            </button>
+                            <button type="button" class="btn btn-primary" id="bt_add">
+                                <i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;เพิ่มเรื่องร้องทุกข์
+                            </button>
+                        </div>
                     </div>
                     <table id="example1" class="table table-bordered table-striped table-hover dataTable">
                         <thead>
@@ -140,14 +140,24 @@ $this->load->view('complaint/save_result');
                                         elseif (@$val['current_status'][0]['current_status_id'] == '3') {
                                             $bg = '#0073b7';
                                         }
-                                        else {
+                                        elseif (@$val['current_status'][0]['current_status_id'] == '4') {
                                             $bg = '#00a65a';
+                                        }
+                                        else {
+                                            $bg = '#848484';
                                         }
                                         echo '<span class="label" style="background:' . $bg . ';">' . @$val['current_status'][0]['current_status_name'] . '</span>'
                                         ?>
                                     </td>
                                     <td class="text-center">
-                                        <span class="dropdown">
+                                        <?php
+                                        if (@$val['current_status_id'] == '5') {
+                                            echo '-';
+                                        }
+                                        else {
+                                            if ($val['current_status_id'] != '4') {
+                                                ?>
+                                                <span class="dropdown">
                                             <span class="dropdown-toggle glyphicon glyphicon-cog" data-toggle="dropdown"
                                                   data-hover="dropdown"
                                                   style="cursor: pointer;font-size: 1.5em;"></span>
@@ -161,28 +171,82 @@ $this->load->view('complaint/save_result');
                                                 }
                                                 if (@$val['current_status_id'] == '1') {
                                                     echo '<li><a href="' . base_url('complaint/key_in/key_in_step' . ($step + 1) . '/' . @$val['keyin_id']) . '">แก้ไข</a></li>';
-                                                    echo '<li><a onclick="bt_delete(' . @$val['keyin_id'] . ');">ลบ</a></li>';
+                                                    echo '<li><a onclick="bt_delete(' . @$val['keyin_id'] . ');">ยกเลิก</a></li>';
                                                 }
                                                 else {
-                                                    echo '<li><a>แก้ไข</a></li>';
-                                                    echo '<li><a>ลบ</a></li>';
+                                                    if (@$val['current_status_id'] == '1') {
+                                                        echo '<li><a>แก้ไข</a></li>';
+                                                    }
+                                                    echo '<li><a onclick="bt_delete(' . @$val['keyin_id'] . ');">ยกเลิก</a></li>';
                                                 }
                                                 ?>
                                             </ul>
                                         </span>
-                                        <span>
+                                            <?php } ?>
+                                        <?php } ?>
+                                        <!--<span>
                                       <?php
-                                      if (@$val['current_status_id'] == '1') {
+/*                                      if (@$val['current_status_id'] == '1') {
                                           echo '<i class="fa fa-inbox open-received" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;' . $displayReceive . '" data-toggle="modal" data-target="#received" data-id="' . @$val['keyin_id'] . '"></i>';
                                       }
                                       elseif (@$val['current_status_id'] == '2') {
                                           echo '<i class="fa  fa-send open-send" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;' . $displaySend . '" data-toggle="modal" data-target="#send" data-id="' . @$val['keyin_id'] . '"></i>';
                                       }
-                                      else {
+                                      elseif (@$val['current_status_id'] == '3' || @$val['current_status_id'] == '4') {
                                           echo '<i class="fa fa-gavel open-result" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;' . $displayFinish . '" data-toggle="modal" data-target="#save_result" data-id="' . @$val['keyin_id'] . '"></i>';
+                                      }
+                                      else {
+                                          echo '';
+                                      }
+                                      */?>
+                                            </span>-->
+                                        <span>
+                                      <?php
+                                      if (@$val['current_status_id'] == '1') {
+                                          ?>
+                                          <span class="dropdown" style="<?php echo $displayReceive;?>">
+                                            <span class="dropdown-toggle fa fa-inbox" data-toggle="dropdown"
+                                                  data-hover="dropdown"
+                                                  style="cursor: pointer;font-size: 1.5em;"></span>
+                                            <ul class="edit dropdown-menu" style="width: 50px !important;">
+                                                <?php
+                                                echo '<li><a onclick="Accept(\'' . @$val['keyin_id'] . '\',\'2\');">รับเรื่อง</a></li>';
+                                                echo '<li><a onclick="Accept(\'' . @$val['keyin_id'] . '\',\'1\');">ไม่รับเรื่อง</a></li>';
+                                                ?>
+                                            </ul>
+                                          </span>
+                                          <?php
+                                          //echo '<i class="fa fa-inbox open-received" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;' . $displayReceive . '" data-toggle="modal" data-target="#received" data-id="' . @$val['keyin_id'] . '"></i>';
+                                      }
+                                      elseif (@$val['current_status_id'] == '2') {
+                                          ?>
+                                          <span class="dropdown" >
+                                            <span class="dropdown-toggle fa fa-send" data-toggle="dropdown"
+                                                  data-hover="dropdown"
+                                                  style="cursor: pointer;font-size: 1.5em;"></span>
+                                            <ul class="edit dropdown-menu" style="width: 100px !important;">
+                                                <?php
+                                                echo '<li style="' . $displaySend . '">
+                                                <a data-toggle="modal" class="open-send" data-target="#send" data-id="' . @$val['keyin_id'] . '">ส่งต่อเรื่อง</a>
+                                                </li>';
+                                                echo '<li style="' . $displayFinish . '">
+                                                <a data-toggle="modal" class="open-result" data-target="#save_result" data-id="' . @$val['keyin_id'] . '">บันทึกผล</a>
+                                                </li>';
+                                                ?>
+                                            </ul>
+                                          </span>
+                                          <?php
+                                          //echo '<i class="fa  fa-send open-send" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;' . $displaySend . '" data-toggle="modal" data-target="#send" data-id="' . @$val['keyin_id'] . '"></i>';
+                                      }
+                                      elseif (in_array(@$val['current_status_id'],['3','4'])) {
+                                          echo '<i class="fa fa-gavel open-result" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;' . $displayFinish . '" data-toggle="modal" data-target="#save_result" data-id="' . @$val['keyin_id'] . '"></i>';
+                                      }
+                                      else {
+                                          echo '';
                                       }
                                       ?>
                                             </span>
+
                                     </td>
                                 </tr>
                                 <?php

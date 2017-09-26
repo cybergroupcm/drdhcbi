@@ -21,11 +21,14 @@ echo form_open_multipart('',array('id' => 'keyInForm'));
 <input type="hidden" id="keyin_id" name="keyin_id" value="<?php echo (@$id!='')?$id:''; ?>">
 <input type="hidden" id="action_to" value="key_in_step3">
 <?php
-if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
+if(@$key_in_data['step']!='' && $key_in_data['step']>'2'){
     $step = @$key_in_data['step'];
 }else{
     $step = '2';
 }
+$dateNow = date('d/m/Y H:i:s',strtotime('+543 years'));
+$col_left = '5';
+$col_right = '3';
 ?>
     <input type="hidden" id="step" name="step" value="<?php echo $step; ?>">
     <input type="hidden" id="step_now" name="step_now" value="2">
@@ -33,210 +36,173 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
         <?php $this->load->view('complaint/step_of_keyin'); ?>
         <div class="row title">
             <div class="col-md-12">
-                <div class="form-group">ความประสงค์ในการดำเนินการ</div>
+                <div class="form-group">เนื้อหาเรื่องร้องทุกข์ร้องเรียน</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-sm-<?php echo $col_left; ?> right">
+                        วันเดือนปีที่เกิดเหตุ(ถ้ามี)/Date of scene :
+                    </label>
+                    <div class="col-sm-<?php echo $col_right; ?>">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <?php
+                            if(@$key_in_data['scene_date']!=''&&@$key_in_data['scene_date']!='0000-00-00 00:00:00') {
+                                $arrSceneDate = explode(' ',$key_in_data['scene_date']);
+                                $sceneDate = explode('-',$arrSceneDate[0]);
+                                $sceneTime = $arrSceneDate[1];
+                                $sceneDateTime = $sceneDate[2].'/'.$sceneDate[1].'/'.($sceneDate[0]+543).' '.$sceneTime;
+                            }else{
+                                $sceneDateTime = $dateNow;
+                            }
+                            ?>
+                            <input type="text" name="scene_date" id="scene_date"
+                                   class="form-control pull-right datetimepicker"
+                                   value="<?php echo $sceneDateTime; ?>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-sm-<?php echo $col_left; ?> right required">
+                        สถานที่เกิดเหตุ/Scene Place :
+                    </label>
+                    <div class="col-sm-<?php echo $col_right; ?>">
+                        <input type="text" name="place_scene" id="place_scene" value="<?php echo @$key_in_data['place_scene']; ?>" class="form-control"/>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="col-sm-5 right required">
-                            ประเภทเรื่อง :
+                        <label class="col-sm-6 right required">
+                            จุดเกิดเหตุ/Scene location :
                         </label>
-                        <label class="col-sm-7">
+                        <label class="col-sm-2">
+                            ละติจูด/ latitute
+                        </label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" readonly id="txt_lat" name="latitude"
+                                   value="<?php echo @$key_in_data['latitude']; ?>">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-sm-3">
+                            ลองติจูด/ longtitute
+                        </label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" readonly id="txt_lon" name="longitude"
+                                   value="<?php echo @$key_in_data['longitude']; ?>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <!--<input id="pac-input" class="controls form-control" type="text" placeholder="ค้นหาพื้นที่...">-->
+                    <div id="map_canvas" style="width:100%; height:300px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-sm-<?php echo $col_left; ?> right required">
+                        จังหวัด/Province :
+                    </label>
+                    <div class="col-sm-<?php echo $col_right; ?>">
                         <?php
-                            $i = 0;
-                            foreach($complain_type as $key => $value){ ?>
-                            <span id="complain_type_space_<?php echo $i; ?>">
-                        <?php
-                        $i++;
-                        $complain_type_list = $complain_type[$key];
-                        $complain_type_list[''] = 'กรุณาเลือก';
-                        ksort($complain_type_list);
+                        $province_arr = $province_list;
+                        $province_arr[''] = 'กรุณาเลือก';
+                        ksort($province_arr);
                         echo form_dropdown([
-                            'id' => 'complain_type_'.$i,
+                            'id' => 'province_id',
                             'class' => 'form-control',
-                            'has_child'=>'complain_type_space_'.$i,
-                            'onchange' => 'get_complain_type_child(this)'
-                        ], $complain_type_list, $get_complain_type[$key]);
-                        }
+                            'onchange'=>"get_district(this.value,'')"
+                        ], $province_arr, @$key_in_data['address_id']!=''?  substr(@$key_in_data['address_id'],0,3)."00000":'20000000');
                         ?>
-                        <span id="complain_type_space_<?php echo $i; ?>">
-
-                        </span>
-                        <?php
-                        foreach($complain_type as $key => $value){
-                            echo"</span>";
-                        }
-                        ?>
-                        <input type="hidden" name="complain_type_id" id="complain_type_id" value="<?php echo @$key_in_data['complain_type_id']; ?>">
-                        </label>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right required">
-                            หัวข้อเรื่อง :
-                        </label>
-                        <label class="col-sm-7">
-                            <input type="text" name="complain_name" id="complain_name" class="form-control" value="<?php echo @$key_in_data['complain_name']; ?>">
-                        </label>
+                <div class="form-group">
+                    <label class="col-sm-<?php echo $col_left; ?> right required">
+                        อำเภอ/District :
+                    </label>
+                    <div class="col-sm-<?php echo $col_right; ?>">
+                                <span id="district_span">
+                                    <?php
+                                    $district_arr = $district_list;
+                                    $district_arr[''] = 'กรุณาเลือก';
+                                    ksort($district_arr);
+                                    echo form_dropdown([
+                                        'id' => 'district_id',
+                                        'class' => 'form-control',
+                                        'onchange'=>"get_subdistrict(this.value,'')"
+                                    ], $district_arr, substr(@$key_in_data['address_id'],0,4)."0000");
+                                    ?>
+                                </span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right required">
-                            ช่องทางรับเรื่อง :
-                        </label>
-                        <label class="col-sm-7">
-                            <?php
-                            $dd2 = $channel;
-                            $dd2[''] = 'กรุณาเลือก';
-                            ksort($dd2);
-                            echo form_dropdown([
-                                'name' => 'channel_id',
-                                'id' => 'channel_id',
-                                'class' => 'form-control'
-                            ], $dd2, @$key_in_data['channel_id']);
-                            ?>
-                        </label>
+                <div class="form-group">
+                    <label class="col-sm-<?php echo $col_left; ?> right required">
+                        ตำบล/Parish :
+                    </label>
+                    <div class="col-sm-<?php echo $col_right; ?>">
+                                <span id="subdistrict_span">
+                                    <?php
+                                    $subdistrict_arr = @$subdistrict_list;
+                                    $subdistrict_arr[''] = 'กรุณาเลือก';
+                                    ksort($subdistrict_arr);
+                                    echo form_dropdown([
+                                        'name' => 'address_id',
+                                        'id' => 'address_id',
+                                        'class' => 'form-control'
+                                    ], $subdistrict_arr, @$key_in_data['address_id']);
+                                    ?>
+                                </span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right required">
-                            ลักษณะเรื่อง :
-                        </label>
-                        <label class="col-sm-7">
-                            <?php
-                            $dd3 = $subject;
-                            $dd3[''] = 'กรุณาเลือก';
-                            ksort($dd3);
-                            echo form_dropdown([
-                                'name' => 'subject_id',
-                                'id' => 'subject_id',
-                                'class' => 'form-control'
-                            ], $dd3, @$key_in_data['subject_id']);
-                            ?>
-                        </label>
+                <div class="form-group">
+                    <label class="col-sm-<?php echo $col_left; ?> right required">
+                        รายละเอียดการร้องเรียน/ร้องทุกข์/Complaint details :
+                    </label>
+                    <div class="col-sm-<?php echo $col_right; ?>">
+                                <textarea class="form-control" name="complaint_detail" id="complaint_detail"
+                                          cols="20" rows="5"><?php echo @$key_in_data['complaint_detail']; ?></textarea>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right required">
-                                หน่วยงานหรือผู้ถูกร้องเรียนร้องทุกข์ :
-                        </label>
-                        <label class="col-sm-7">
-                            <?php
-                            $i = 0;
-                            foreach($accused_type as $key => $value){ ?>
-                            <span id="accused_type_space_<?php echo $i; ?>">
-                        <?php
-                            $i++;
-                            $accused_type_list = $accused_type[$key];
-                            $accused_type_list[''] = 'กรุณาเลือก';
-                            ksort($accused_type_list);
-                            echo form_dropdown([
-                                'id' => 'accused_type_'.$i,
-                                'class' => 'form-control',
-                                'has_child'=>'accused_type_space_'.$i,
-                                'onchange' => 'get_accused_child(this)'
-                            ], $accused_type_list, $get_accused_type[$key]);
-                        }
-                        ?>
-                        <span id="accused_type_space_<?php echo $i; ?>">
-
-                        </span>
-                        <?php
-                            foreach($accused_type as $key => $value){
-                                echo"</span>";
-                            }
-                        ?>
-                            <input type="hidden" name="accused_type_id" id="accused_type_id" value="<?php echo @$key_in_data['accused_type_id']; ?>">
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right">
-                            ชื่อผู้ถูกร้องเรียน :
-                        </label>
-                        <label class="col-sm-7">
-                            <input type="text" name="accused_name" id="accused_name" class="form-control"
-                                   value="<?php echo @$key_in_data['accused_name']; ?>">
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right required">
-                                ความประสงค์ :
-                        </label>
-                        <label class="col-sm-7">
-                            <?php
-                            $wish_id = array();
-                            if(@$key_in_data['wish']!=''){
-                                foreach(@$key_in_data['wish'] as $key => $value){
-                                    $wish_id[] = $value['wish_id'];
-                                }
-                            }
-                            foreach ($wish as $key => $value) {
-                                ?>
-                                <div>
-                                    <input type="checkbox" class="desire" id="wish_<?php echo $key ?>" name="wish[]"
-                                           value="<?php echo $key; ?>" <?php echo in_array(@$key,@$wish_id)?'checked':''; ?> >
-                                    <label for="wish_<?php echo $key ?>">&nbsp;<?php echo $value; ?></label>
-                                </div>
-                                <?php
-                            }
-                            ?>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right">
-                            ความประสงค์เพิ่มเติม :
-                        </label>
-                        <label class="col-sm-7">
-                                    <textarea class="form-control" cols="100" rows="5" id="wish_detail"
-                                              name="wish_detail"><?php echo @$key_in_data['wish_detail']; ?></textarea>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <?php
-        echo form_close();
-        ?>
+    </div>
+<input type="hidden" name="update_user_id" value="<?php echo $user_login_data['userid']; ?>">
+<?php
+echo form_close();
+?>
         <div class="row footer">
             <div class="col-md-12">
                 <div class="form-group">
@@ -253,7 +219,39 @@ if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
 <div id="base_url" class="<?php echo base_url(); ?>"></div>
 <?php
 $link = array(
+    'src' => 'assets/js/map.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    ' src' => 'https://maps.googleapis.com/maps/api/js?key=AIzaSyACSdMKi4OrvylAegEJXXR3--RnLUYUBtw&libraries=places',
+    ' type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    'href' => '/assets/css/key_in_map.css',
+    'type' => 'text/css',
+    'rel' => 'stylesheet'
+);
+echo link_tag($link);
+$link = array(
     'src' => 'assets/js/js.cookie.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    'href' => 'template/plugins/datepicker/bootstrap-datetimepicker.min.css',
+    'rel' => 'stylesheet',
+    'type' => 'text/css'
+);
+echo link_tag($link);
+$link = array(
+    'src' => 'template/plugins/datepicker/moment-with-locales.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    'src' => 'template/plugins/datepicker/bootstrap-datetimepicker.min.js',
     'type' => 'text/javascript'
 );
 echo script_tag($link);

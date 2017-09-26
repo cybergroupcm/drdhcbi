@@ -74,7 +74,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" name="receive_date" id="receive_date" class="form-control pull-right datepicker key_date" />
+                                            <input type="text" name="receive_date" id="receive_date" class="form-control pull-right key_date datepickerinput" />
                                         </div>
                                     </label>
                                 </div>
@@ -105,6 +105,22 @@
 <?php
 $link = array(
     'src' => 'assets/js/js.cookie.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    'href' => 'template/plugins/datepicker/bootstrap-datetimepicker.min.css',
+    'rel' => 'stylesheet',
+    'type' => 'text/css'
+);
+echo link_tag($link);
+$link = array(
+    'src' => 'template/plugins/datepicker/moment-with-locales.js',
+    'type' => 'text/javascript'
+);
+echo script_tag($link);
+$link = array(
+    'src' => 'template/plugins/datepicker/bootstrap-datetimepicker.min.js',
     'type' => 'text/javascript'
 );
 echo script_tag($link);

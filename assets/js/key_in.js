@@ -34,7 +34,8 @@ function saveForm(action_to) {
             var keyin_id = response;
         }
         if(xhr.state = 201 && files > 0){
-            fileData.append('keyin_id',response);
+            fileData.append('keyin_id',keyin_id);
+            console.log(fileData);
             $.ajax({
                 type: 'POST', //GET, POST, PUT
                 url: base_url+'api/complaint/key_in_file/',  //the url to call
@@ -72,7 +73,13 @@ function saveForm(action_to) {
                 showConfirmButton: false
             });
             setTimeout(function(){
-                $(location).attr('href',base_url+'complaint/key_in/'+action_to+'/'+keyin_id);
+                if(action_to=='dashboard'){
+                    $(location).attr('href',base_url+'complaint/'+action_to);
+                }else if(action_to == 'key_in_step5_pdf'){
+                    window.open(base_url+'complaint/'+action_to+'/'+keyin_id, "_blank");
+                }else{
+                    $(location).attr('href',base_url+'complaint/key_in/'+action_to+'/'+keyin_id);
+                }
             }, 2000);
         }else{
             swal("ผิดพลาด",text_error, "error");
@@ -97,6 +104,10 @@ function validateForm(action_to,type) {
         } else if ($('#user_complain_2').is(':checked') === true) {
             if ($('#id_card').val() == "") {
                 text_warning += " - รหัสประจำตัวประชาชนของผู้ร้องทุกข์\n";
+            }else{
+                if(!CheckIdCardThai($('#id_card').val())){
+                    text_warning += " - เลขบัตรประจำตัวประชาชนไม่ตามกรมการปกครอง\n";
+                }
             }
             if ($('#pn_id').val() == "" || $('#first_name').val() == "" || $('#last_name').val() == "") {
                 text_warning += " - ชื่อผู้ร้องทุกข์\n";
@@ -105,7 +116,7 @@ function validateForm(action_to,type) {
                 text_warning += " - โทรศัพท์เคลื่อนที่ของผู้ร้องทุกข์\n";
             }
         }
-    }else if($('#step_now').val()=='2'){
+    }else if($('#step_now').val()=='3'){
         if ($('#complain_type_id').val() == "") {
             text_warning += " - ประเภทเรื่อง\n";
         }
@@ -132,7 +143,7 @@ function validateForm(action_to,type) {
         if (desire == 0) {
             text_warning += " - ความประสงค์ในการดำเนินการ\n";
         }
-    }else if($('#step_now').val()=='3'){
+    }else if($('#step_now').val()=='2'){
         if ($('#place_scene').val() == "") {
             text_warning += " - สถานที่เกิดเหตุ\n";
         }
@@ -165,11 +176,11 @@ function checkFile(id) {
         var j = 1;
         for (var i = 0; i < x.files.length; i++) {
             var file = x.files[i];
-            if (parseInt(file.size) > 1048576) {
+            /*if (parseInt(file.size) > 1048576) {
                 txt += "ไม่สามารถแนบไฟล์ " + file.name + " ได้เนื่องจากไฟล์มีขนาดใหญ่เกินไป<br>";
                 var file_show = '<span id="show_file_'+id+'">'+txt+'</span><hr>';
                 $('#attach_file_'+id).remove();
-            } else {
+            } else {*/
                 //txt += "<br><strong>" + (j) + ". file</strong><br>";
                 if ('name' in file) {
                     txt += "name: " + file.name + "<br>";
@@ -179,7 +190,7 @@ function checkFile(id) {
                 }
                 j++;
                 var file_show = '<span id="show_file_'+id+'">'+txt+'<input type="button" class="btn btn-danger" value="ลบ" onclick="delete_new_file(\''+id+'\')"><hr></span>';
-            }
+            //}
         }
     }
     
@@ -198,7 +209,7 @@ function changeUserComplain() {
 var file_count = $("#file_count").val();
 function add_new_file(){
     file_count++;
-    var input = '<input type="file" name="attach_file[]" class="attach_file" accept=".jpg, .png, .pdf" onchange="checkFile(\''+file_count.toString()+'\')" id="attach_file_'+file_count.toString()+'" style="display:none;">';
+    var input = '<input type="file" name="attach_file[]" class="attach_file" onchange="checkFile(\''+file_count.toString()+'\')" id="attach_file_'+file_count.toString()+'" style="display:none;">';
     $('#file_add_space').append(input);
     $('#attach_file_'+file_count.toString()).trigger('click');
 }
@@ -313,6 +324,18 @@ $(document).ready(function () {
         thaiyear: true,
         todayHighlight: true
     });
+    $('.datetimepicker').datetimepicker({
+        locale: 'th',
+        format: 'DD/MM/BBBB HH:mm:ss',
+        dayViewHeaderFormat: 'MMMM BBBB',
+        showTodayButton: true,
+        showClear: true,
+        tooltips: {
+            today: 'วันนี้',
+            clear: 'ล้างค่า',
+            selectTime: 'เลือกเวลา'
+        }
+    });
     $('.datepicker').each(function(){
         $(this).datepicker('update', $(this).val());
     });
@@ -337,3 +360,39 @@ $(document).ready(function () {
         }
     });
 });
+
+function CheckIdCardIsNumeric(input) {
+    var RE = /^-?(0|INF|(0[1-7][0-7]*)|(0x[0-9a-fA-F]+)|((0|[1-9][0-9]*|(?=[\.,]))([\.,][0-9]+)?([eE]-?\d+)?))$/;
+    return (RE.test(input));
+}
+
+function CheckIdCardThai(id) {
+
+    id = id.toString();
+    id = id.replace('-', '');
+    // for support jquery masked input
+    id = id.replace('-', '');
+    id = id.replace('-', '');
+    id = id.replace('-', '');
+
+    if (!CheckIdCardIsNumeric(id))
+        return false;
+    if (id.substring(0, 1) == 0)
+        return false;
+    if (id.length != 13)
+        return false;
+    for (i = 0, sum = 0; i < 12; i++)
+        sum += parseFloat(id.charAt(i)) * (13 - i);
+    if ((11 - sum % 11) % 10 != parseFloat(id.charAt(12)))
+        return false;
+    return true;
+}
+
+function checkIdCardRegister(element){
+    if(element.value != ''){
+        if(!CheckIdCardThai(element.value)){
+            swal("กรุณาตรวจสอบข้อมูล", 'เลขบัตรประจำตัวประชาชนไม่ตามกรมการปกครอง', "warning");
+            return false;
+        }
+    }
+}

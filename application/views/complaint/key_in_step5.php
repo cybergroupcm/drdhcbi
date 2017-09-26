@@ -5,455 +5,180 @@ $link = array(
     'rel' => 'stylesheet'
 );
 echo link_tag($link);
+echo form_open_multipart('',array('id' => 'keyInForm'));
+$month_arr = array('1'=>'มกราคม','2'=>'กุมภาพันธ์','3'=>'มีนาคม','4'=>'เมษายน','5'=>'พฤษภาคม','6'=>'มิถุนายน','7'=>'กรกฎาคม','8'=>'สิงหาคม','9'=>'กันยายน','10'=>'ตุลาคม','11'=>'พฤศจิกายน','12'=>'ธันวาคม');
 if(@$_GET['debug']=='on'){
-    echo"<pre>";print_r(@$key_in_data);echo"</pre>";
-    echo"<pre>";print_r(@$district_list);echo"</pre>";
+    //echo"<pre>";print_r(@$key_in_data);echo"</pre>";
+    echo"<pre>";print_r(@$user_detail);echo"</pre>";
 }
 ?>
     <input type="hidden" id="action" value="<?php echo (@$id!='')?'edit':'add'; ?>">
     <input type="hidden" id="keyin_id" name="keyin_id" value="<?php echo (@$id!='')?$id:''; ?>">
     <?php
-        if(@$key_in_data['step']!='' && $key_in_data['step']>'1'){
+        if(@$key_in_data['step']!='' && $key_in_data['step']>'4'){
             $step = @$key_in_data['step'];
         }else{
-            $step = '5';
+            $step = '4';
         }
     ?>
     <input type="hidden" id="step" name="step" value="<?php echo $step; ?>">
     <input type="hidden" id="step_now" name="step_now" value="5">
     <div class="row frame">
         <?php $this->load->view('complaint/step_of_keyin'); ?>
-        <div class="row title">
-            <div class="col-md-12">
-                <div class="form-group">บันทึกเรื่องร้องทุกข์/ร้องเรียน</div>
-            </div>
+        <div class="col-xs-12 text-right">
+            <a onclick="validateForm('key_in_step5_pdf','')"><i class="fa fa-print" aria-hidden="true" style="cursor: pointer;font-size: 3em;" title="สั่งพิมพ์"></i></a>
+            <?php
+                echo '<a href="'.base_url('complaint/key_in_step5_word/'.$key_in_data['keyin_id']).'" target="_blank"><i class="fa fa-file-word-o" aria-hidden="true" style="cursor: pointer;font-size: 3em;" title="ส่งออก Word"></a></i>';
+            ?>
+            <br>
+            <br>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right ">
-                            วันที่ร้องทุกข์ :
-                        </label>
-                        <span class="col-sm-7">
-                            <?php echo date('d/m/Y',  strtotime('+543 year',strtotime(@$key_in_data['complain_date']))); ?>
-                        </span>
-                    </div>
+            <div class="col-md-12 title">
+                <div class="form-group" style="text-align: center;">
+                    แบบรายงานรับ – ส่งต่อ (Service Link)
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right ">
-                            ผู้รับแจ้ง :
-                        </label>
-                        <span class="col-sm-7">
-                            <?php echo @$key_in_data['recipient']; ?>
-                        </span>
-                    </div>
+            <div class="col-md-12 title">
+                <div class="form-group" style="text-align: center;">
+                    ร้องเรียน/ร้องทุกข์ของศูนย์ดำรงธรรมจังหวัดชลบุรี
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right">
-                            วันที่หนังสือส่งเข้า :
-                        </label>
-                        <span class="col-sm-7">
-                            <?php echo date('d/m/Y',  strtotime('+543 year',strtotime(@$key_in_data['doc_receive_date']))); ?>
-                        </span>
-                    </div>
+                <div class="form-group">
+                    <?php
+                    $complain_date_arr = explode(' ',@$key_in_data['complain_date']);
+                    $date_arr = explode('-',@$complain_date_arr[0]);
+                    $day = $date_arr[2];
+                    $month = $date_arr[1];
+                    $year_th = $date_arr[0]+543;
+                    ?>
+                    1. วันที่ <?php echo sprintf("%01d",$day); ?> เดือน <?php echo $month_arr[sprintf("%01d",$month)]; ?> พ.ศ. <?php echo $year_th; ?> เวลา <?php echo $complain_date_arr[1]; ?>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right">
-                            เลขที่หนังสือส่งเข้า :
-                        </label>
-                        <span class="col-sm-7">
-                            <?php echo @$key_in_data['doc_receive_no']; ?>
-                        </span>
-                    </div>
+                <div class="form-group">
+                    2. สถานที่เกิดเหตุ
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-11">
+                <div class="form-group">
+                    2.1 <?php echo $subdistrict_list[@$key_in_data['address_id']]; ?> <?php echo $district_list[substr(@$key_in_data['address_id'],0,4)."0000"]; ?> <?php echo $province_list[substr(@$key_in_data['address_id'],0,3)."00000"]; ?>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-11">
+                <div class="form-group">
+                    2.2 บริเวณ <?php echo @$key_in_data['place_scene']; ?>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right">
-                            วันที่หนังสือส่งออก :
-                        </label>
-                        <span class="col-sm-7">
-                            <?php echo date('d/m/Y',  strtotime('+543 year',strtotime(@$key_in_data['doc_send_date']))); ?>
-                        </span>
-                    </div>
+                <div class="form-group">
+                    3. รายละเอียดที่แจ้ง
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <textarea class="form-control" name="conclude_complaint" cols="70" rows="6"><?php echo @$key_in_data['conclude_complaint']; ?></textarea>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right">
-                            เลขที่หนังสือส่งออก :
-                        </label>
-                        <span class="col-sm-7">
-                            <?php echo @$key_in_data['doc_send_no']; ?>
-                        </span>
-                    </div>
+                <div class="form-group">
+                    4. ได้แจ้งให้หน่วยงานที่รับผิดชอบทราบและดำเนินการแล้วหรือยัง
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-11">
+                <div class="form-group">
+                    (    ) 4.1 แจ้งแล้ว		(    ) 4.2 ยังไม่ได้แจ้ง		(    ) 4.3 ให้คำปรึกษา
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right">
-                            ผู้บันทึก :
-                        </label>
-                        <span class="col-sm-7">
-                            เจ้าหน้าที่รับผิดชอบเรื่องร้องเรียนจังหวัด ชลบุรี
-                        </span>
-                    </div>
+                <div class="form-group">
+                    5. ชื่อ – สกุล ผู้แจ้งเหตุ <?php
+                    $full_accused_name = @$key_in_data['title_name'][0]['prename'].@$key_in_data['first_name'].'  '.@$key_in_data['last_name'];
+                    echo (@$key_in_data['user_complain_type_id']=='1')?'':$full_accused_name." ".$user_detail['address_id'];
+                    ?>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right">
-                            ผู้ร้องทุกข์ :
-                        </label>
-                        <span class="col-sm-7">
-                            <?php
-                            if(@$key_in_data['user_complain_type_id'] == '1'){
-                                echo "ไม่ประสงค์ออกนาม";
-                            }else{
-                                echo @$title_name[$key_in_data['pn_id']].$key_in_data['first_name']." ".@$key_in_data['last_name'];
-                            }
-                            ?>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row" id="user_complain_detail" style="display: none;">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right ">
-                            รหัสประจำตัวประชาชน :
-                        </label>
-                        <span class="col-sm-7">
-                            <?php echo @$key_in_data['id_card']; ?>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right ">
-                            โทรศัพท์เคลื่อนที่ : <br>(ที่สามารถติดต่อได้)
-                        </label>
-                        <span class="col-sm-7">
-                            <?php echo @$key_in_data['phone_number']; ?>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row title">
-            <div class="col-md-12">
-                <div class="form-group">ความประสงค์ในการดำเนินการ</div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right">
-                            ประเภทเรื่อง :
-                        </label>
-                        <span class="col-sm-7">
-                            <?php
-                            foreach($get_complain_type as $key => $value){
-                                echo @$complain_type_all[$value]." ";
-                            }
-                            ?>
-                        </span>
-                    </div>
+                <div class="form-group">
+                    ที่อยู่ <?php echo (@$key_in_data['user_complain_type_id']=='1')?'':@$user_detail['address']; ?>
+                    <?php echo (@$key_in_data['user_complain_type_id']=='1')?'':$ccaa_all[@$user_detail['address_id']]; ?>
+                    <?php echo (@$key_in_data['user_complain_type_id']=='1')?'':$ccaa_all[@substr($user_detail['address_id'],0,4).'0000']; ?>
+                    <?php echo (@$key_in_data['user_complain_type_id']=='1')?'':$province_list[@substr($user_detail['address_id'],0,3).'00000']; ?>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right ">
-                            หัวข้อเรื่อง :
-                        </label>
-                        <span class="col-sm-7">
-                            <?php echo @$key_in_data['complain_name']; ?>
-                        </span>
-                    </div>
+                <div class="form-group">
+                    โทรศัพท์ <?php echo (@$key_in_data['user_complain_type_id']=='1')?'':@$user_detail['phone']; ?>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right ">
-                            ช่องทางรับเรื่อง :
-                        </label>
-                        <span class="col-sm-7">
-                            <?php echo @$channel[$key_in_data['channel_id']]; ?>
-                        </span>
-                    </div>
+                <div class="form-group">
+                    โทรศัพท์เคลื่อนที่ <?php echo (@$key_in_data['user_complain_type_id']=='1')?'':@$key_in_data['phone_number']; ?> E – mail <?php echo (@$key_in_data['user_complain_type_id']=='1')?'':@$user_detail['email']; ?>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right ">
-                            ลักษณะเรื่อง :
-                        </label>
-                        <span class="col-sm-7">
-                            <?php echo @$subject[$key_in_data['subject_id']]; ?>
-                        </span>
-                    </div>
+                <div class="form-group">
+                    E – mail <?php echo (@$key_in_data['user_complain_type_id']=='1')?'':@$user_detail['email']; ?>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right">
-                            หน่วยงานหรือผู้ถูกร้องเรียนร้องทุกข์ :
-                        </label>
-                        <span class="col-sm-7">
-                            <?php
-                            foreach($get_accused_type as $key => $value){
-                                echo @$accused_type_all[$value]." ";
-                            }
-                            ?>
-                        </span>
-                    </div>
+                <div class="form-group">
+                    เรียน   นายอำเภอสัตหีบ
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right">
-                            ชื่อผู้ถูกร้องเรียน :
-                        </label>
-                        <span class="col-sm-7">
-                            <?php echo @$key_in_data['accused_name']; ?>
-                        </span>
-                    </div>
+                <div class="form-group">
+                    -	เพื่อโปรดรับทราบและพิจารณาแก้ไขปัญหาความเดือดร้อนที่ร้องเรียน/ร้องทุกข์ดังกล่าวข้างต้น                ผลเป็นประการใดกรุณารายงานผู้ว่าราชการจังหวัดชลบุรี ภายใน 15 วันนับแต่วันที่ได้รับแจ้ง ด้วยจักขอบคุณยิ่ง
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right">
-                            ความประสงค์ :
-                        </label>
-                        <span class="col-sm-7">
-                            <?php
-                            if(@$key_in_data['wish']!=''){
-                                foreach (@$key_in_data['wish'] as $key => $value) { ?>
-                                    <div><?php echo $value['wish_name']; ?></div>
-                            <?php
-                                }
-                            } ?>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right">
-                            ความประสงค์เพิ่มเติม :
-                        </label>
-                        <span class="col-sm-7">
-                            <?php echo @$key_in_data['wish_detail']; ?>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row title">
-            <div class="col-md-12">
-                <div class="form-group">เนื้อหาเรื่องร้องทุกข์ร้องเรียน</div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right">
-                            วันเดือนปีที่เกิดเหตุ(ถ้ามี) :
-                        </label>
-                        <span class="col-sm-7">
-                            <?php echo date('d/m/Y',  strtotime('+543 year',strtotime(@$key_in_data['scene_date']))); ?>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right ">
-                            สถานที่เกิดเหตุ :
-                        </label>
-                        <span class="col-sm-7">
-                            <?php echo @$key_in_data['place_scene']; ?>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right ">
-                            จังหวัด :
-                        </label>
-                        <span class="col-sm-7">
-                            <?php echo $province_list[substr(@$key_in_data['address_id'],0,3)."00000"]; ?>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right ">
-                            อำเภอ :
-                        </label>
-                        <span class="col-sm-7">
-                            <?php echo $district_list[substr(@$key_in_data['address_id'],0,4)."0000"]; ?>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right ">
-                            ตำบล :
-                        </label>
-                        <span class="col-sm-7">
-                            <?php echo $subdistrict_list[@$key_in_data['address_id']]; ?>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right ">
-                            รายละเอียดการร้องเรียน/ร้องทุกข์ :
-                        </label>
-                        <span class="col-sm-7">
-                            <?php echo @$key_in_data['complaint_detail']; ?>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-5 right ">
-                            จุดเกิดเหตุ :
-                        </label>
-                        <label class="col-sm-2">
-                            ละติจูด
-                        </label>
-                        <span class="col-sm-5">
-                            <?php echo @$key_in_data['latitude']; ?>
-                        </span>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-sm-3">
-                            ลองติจูด
-                        </label>
-                        <span class="col-sm-5">
-                            <?php echo @$key_in_data['longitude']; ?>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <div class="row title">
-        <div class="col-md-12">
-            <div class="form-group">หลักฐานประกอบเรื่องร้องเรียน/ร้องทุกข์</div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group">
-                <label class="col-sm-2 right"></label>
-                            <span class="col-sm-10">
-                                    <?php
-                                    $fileCount = 0;
-                                    if(array_key_exists('attach_file',$key_in_data)){
-                                        if(!is_null($key_in_data['attach_file'])){
-                                            foreach ($key_in_data['attach_file'] as $file){
-                                                $fileCount++;
-                                                ?>
-                                                <?php echo $fileCount.". "; ?><a style="cursor:pointer;" onclick="window.open('<?php echo base_url($file['file_system_name']); ?>', '_blank');"><?php echo $file['file_name']; ?></a>
-                                                    <?php
-                                            }
-                                        }
-                                    }
-                                    ?>
-                            </span>
-            </div>
-        </div>
-    </div>
+        <input type="hidden" name="update_user_id" value="<?php echo $user_login_data['userid']; ?>">
+        <?php echo form_close(); ?>
         <div class="row footer">
             <div class="col-md-12">
                 <div class="form-group">
                     <label class="col-sm-5">
-                        <input type="button" class="btn btn-bitbucket" value="หน้าก่อนหน้า" onclick="document.location.href='<?php echo base_url('complaint/key_in/key_in_step4/'.$id); ?>';">
+                        <input type="button" class="btn btn-bitbucket" value="หน้าก่อนหน้า" onclick="validateForm('key_in_step4','back')">
                     </label>
                     <label class="col-sm-5 right">
-                        <input type="button" class="btn btn-bitbucket" value="กลับหน้าหลัก" onclick="document.location.href='<?php echo base_url('complaint/dashboard/'); ?>';">
+                        <input type="button" class="btn btn-bitbucket" value="กลับหน้าหลัก" onclick="validateForm('dashboard','')">
                     </label>
                 </div>
             </div>

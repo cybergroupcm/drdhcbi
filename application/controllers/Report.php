@@ -57,8 +57,23 @@ class Report extends CI_Controller {
 
         $url = base_url("api/dropdown/complain_type_lists/parent_id/0");
         $arr_data['complaint_type'] = api_call_get($url);
+
         $url = base_url('api/dropdown/channel_lists');
         $arr_data['channel'] = api_call_get($url);
+
+        $url = base_url("api/report/report_all_complaint_max".$param);
+        $arr_data['data_max'] = api_call_get($url);
+        if(empty($key_channel)) {
+            $arr_data['data_max'][$_GET['channel_id']] = $_GET['channel_id'];
+        }
+
+
+        $arr_data['channel_max'] = array();
+        foreach($arr_data['channel'] AS $key_channel=>$val_channel){
+            if (in_array($key_channel, $arr_data['data_max'])) {
+                $arr_data['channel_max'][$key_channel] = $val_channel;
+            }
+        }
 
         $url = base_url("api/dropdown/area_part_lists");
         $arr_data['area_part_list'] = api_call_get($url);
@@ -118,6 +133,19 @@ class Report extends CI_Controller {
         $arr_data['complaint_type'] = api_call_get($url);
         $url = base_url('api/dropdown/channel_lists');
         $arr_data['channel'] = api_call_get($url);
+
+        $url = base_url("api/report/report_all_complaint_max".$param);
+        $arr_data['data_max'] = api_call_get($url);
+        if(empty($key_channel)) {
+            $arr_data['data_max'][$_GET['channel_id']] = $_GET['channel_id'];
+        }
+
+        $arr_data['channel_max'] = array();
+        foreach($arr_data['channel'] AS $key_channel=>$val_channel){
+            if(in_array($key_channel,$arr_data['data_max'])){
+                $arr_data['channel_max'][$key_channel] = $val_channel;
+            }
+        }
         $url = base_url()."api/report/report_all_complaint".$param;
         $arr_data['data'] = api_call_get($url);
 
@@ -169,6 +197,20 @@ class Report extends CI_Controller {
         $arr_data['complaint_type'] = api_call_get($url);
         $url = base_url('api/dropdown/channel_lists');
         $arr_data['channel'] = api_call_get($url);
+
+        $url = base_url("api/report/report_all_complaint_max".$param);
+        $arr_data['data_max'] = api_call_get($url);
+        if(empty($key_channel)) {
+            $arr_data['data_max'][$_GET['channel_id']] = $_GET['channel_id'];
+        }
+
+        $arr_data['channel_max'] = array();
+        foreach($arr_data['channel'] AS $key_channel=>$val_channel){
+            if(in_array($key_channel,$arr_data['data_max'])){
+                $arr_data['channel_max'][$key_channel] = $val_channel;
+            }
+        }
+
         $url = base_url()."api/report/report_all_complaint".$param;
         $arr_data['data'] = api_call_get($url);
 
