@@ -422,6 +422,9 @@ $(document).ready(function() {
         var href = base_url+'complaint/view_detail/'+id;
         window.location.href = href;
     } );
+    $('[data-toggle="tooltip"]').tooltip({
+        container : 'body'
+    });
 } );
 
 var count_send_org = 0;
