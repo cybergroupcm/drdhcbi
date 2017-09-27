@@ -165,12 +165,11 @@ class Main_model extends CI_Model {
         {
             if(($row_main->complain_type_id == $row->parent_id) || ($row_main->complain_type_id == $row->complain_type_id)) {
                 $result[$row_main->complain_type_id]['sum_complain'] += $row->sum_complain;
+                $sum_all += $row->sum_complain;
             }
-
         }
         $result[$row_main->complain_type_id]['complain_type_name'] = $row_main->complain_type_name;
         $result[$row_main->complain_type_id]['color'] = $row_main->color;
-        $sum_all++;
 
     }
 
@@ -178,6 +177,10 @@ class Main_model extends CI_Model {
           $result[1]['complain_type_name'] = 'ไม่มีข้อมูล';
           $result[1]['sum_complain'] = 0;
           $result[1]['color'] = '#CCCCCC';
+      }else {
+          foreach ($result as $key => $value) {
+              $result[$key]['sum_complain'] = ($value['sum_complain'] * 100) / $sum_all;
+          }
       }
       return $result;
     }

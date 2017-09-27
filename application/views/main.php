@@ -273,24 +273,7 @@
                           <canvas id="barChart" style="height:420px"></canvas>
                       </div>
                   </center>
-                  <?php /* ?>
-                  <!-- Custom tabs (Charts with tabs)-->
-                      <div class="nav-tabs-custom">
-                          <!-- Tabs within a box -->
-                          <ul class="nav nav-tabs pull-right">
-                                <li class="active"><a href="#revenue-chart" data-toggle="tab">Area</a></li>
-                                <li><a href="#sales-chart" data-toggle="tab">Donut</a></li>
-                                <li class="pull-left header"><i class="fa fa-inbox"></i> Sales</li>
-                            </ul>
-                            <div class="tab-content no-padding">
-                                <!-- Morris chart - Sales -->
-                                <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;"></div>
-                                <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;"></div>
-                            </div>
-                      </div><!-- /.nav-tabs-custom -->
-                  <?php */ ?>    
-                </div>
-                <!-- /.box -->
+              </div><!-- /.box -->
               <script>
                   var randomScalingFactor = function() {
                       return Math.round(Math.random() * 100);
@@ -310,6 +293,7 @@
                   ?>
                   var  arr_complain_type = '<?php echo json_encode($arr_complain_type);?>';
                   var  complain_type = JSON.parse(arr_complain_type);
+                  console.log(complain_type);
                   var config = {
                       type: 'bar',
                       data: {
@@ -328,7 +312,7 @@
                                   }
                                   ?>
                               ],
-                              label: '# จำนวน '
+                              label: '# ร้อยละ '
                           }],
                           labels: [
                               <?php
@@ -351,8 +335,8 @@
                           animation: {
                               animateScale: true,
                               animateRotate: true
-                          },
-                            tooltips: {
+                          }, 
+                          tooltips: {
                             callbacks: {
                                 title: function(tooltipItems, data) {
                                     // Pick first xLabel for now
@@ -367,12 +351,26 @@
                                     return datasetLabel + ': ' + tooltipItem.yLabel;
                                 }
                             }
-                        }
+                          }
                       }
                   };
                   window.onload = function() {
                       var ctx = document.getElementById("barChart").getContext("2d");
                       window.myDoughnut = new Chart(ctx,config);
+                      ctx.onclick = function(evt) {
+                          var activePoints = window.myDoughnut.getElementsAtEvent(evt);
+                          if (activePoints[0]) {
+                              var chartData = activePoints[0]['_chart'].config.data;
+                              var idx = activePoints[0]['_index'];
+
+                              var label = chartData.labels[idx];
+                              var value = chartData.datasets[0].data[idx];
+
+                              var url = "http://example.com/?label=" + label + "&value=" + value;
+                              console.log(url);
+                              alert(url);
+                          }
+                      };
                   };
               </script>
           </div>
