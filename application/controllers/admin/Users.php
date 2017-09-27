@@ -525,9 +525,10 @@ public function create($id='')
     $this->breadcrumbs->unshift(2, lang('menu_users_create'), 'admin/users/create');
     $this->data['breadcrumb'] = $this->breadcrumbs->show();
         $this->data['id'] = $id;
-        $url = base_url()."api/user/user/".$id;
-        $this->data['data'] = api_call_get($url);
-
+		if($id) {
+			$url = base_url() . "api/user/user/" . $id;
+			$this->data['data'] = api_call_get($url);
+		}
         $url = base_url()."api/dropdown/title_name_lists";
         $this->data['title_name'] = api_call_get($url);
 
@@ -553,7 +554,6 @@ public function create($id='')
             $url = base_url("api/dropdown/ccaa_lists/Tamboon/".$ccaa_code);
             $this->data['subdistrict_list'] = api_call_get($url);
         }
-
         $this->libraries->template('admin/users/create',$this->data);
 
     }

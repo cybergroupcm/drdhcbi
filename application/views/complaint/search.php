@@ -271,7 +271,7 @@
                 </form>
                 <div class="modal-footer" style="text-align: center;">
                     <button type="button" name="btSearch" id="btSearch" class="btn btn-primary">ค้นหาข้อมูล</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">ล้างค่า</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
                 </div>
             </div>
         </div>
