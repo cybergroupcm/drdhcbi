@@ -28,7 +28,7 @@ if( !isset($_GET['mm']) || $_GET['mm'] == '' ){
     </div>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <iframe src="<?php echo base_url('report_performance_new/view?yy='.@$_GET['yy'].'&mm='.@$_GET['mm']); ?>" width="100%" style="border:0px; height: 850px;"></iframe>
+            <iframe src="<?php echo base_url('report_performance_new/view?yy='.@$_GET['yy'].'&mm='.@$_GET['mm']); ?>" width="100%" style="border:0px; height: 900px;"></iframe>
         </div>
     </div>
     <div class="row">
