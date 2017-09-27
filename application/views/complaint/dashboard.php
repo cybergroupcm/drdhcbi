@@ -123,7 +123,7 @@ $this->load->view('complaint/save_result');
                                 }
                                 $complain_date = (@$val['complain_date'] != '' && @$val['complain_date'] != '0000-00-00') ? date_thai(@$val['complain_date'], true) : '';
                                 ?>
-                                <tr id="<?php echo @$val['keyin_id']; ?>">
+                                <tr id="<?php echo @$val['keyin_id']; ?>" data-toggle="tooltip" data-placement="top" data-container="body" title="&nbsp;<?php echo @$val['recipient']; ?>&nbsp;">
                                     <td class="text-center open"><?php echo $start_row++; ?></td>
                                     <td class="open"><?php echo @$val['complain_no']; ?></td>
                                     <td class="text-center open"><?php echo $complain_date; ?></td>
