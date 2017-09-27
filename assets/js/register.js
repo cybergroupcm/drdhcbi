@@ -310,7 +310,7 @@ function get_list_text(id_from, id_to){
 function check_username(value){
     if(value!=''){
         block_ui();
-        var url = base_url+'main/check_username/'+value;  //the url to call
+        var url = base_url+'auth/check_username/'+value;  //the url to call
         $.post(url, {data: ''}, function (data) {
             if(data!=''){
                 //$('#username_confirm_text').html('ไม่สามารถใช้ username นี้ได้');

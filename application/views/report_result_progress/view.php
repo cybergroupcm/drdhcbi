@@ -36,9 +36,6 @@ echo script_tag($link);
                     <h3 class="box-title">3. รายงานรวมผลการดำเนินงานแก้ไขปัญหาเรื่องร้องเรียนของศูนย์ดำรงธรรมจังหวัดแบบรายเดือน</h3>
                 </div>
                 <div class="box-body">
-                <?php
-                $yymm=$_GET['yy'].'-'.$_GET['mm'];
-                ?>
                     <table id="example1" class="table table-bordered table-striped table-hover dataTable">
                         <thead>
                         <tr>
@@ -69,6 +66,16 @@ echo script_tag($link);
                         <tbody>
                         <?php
                         $col_sub = (count(@$complaint_type)+count(@$progress_type)+3);
+                        $sum_column2 = 0;
+                        $sum_column3 = 0;
+                        $sum_column4 = 0;
+                        $sum_column5 = 0;
+                        $sum_column6 = 0;
+                        $sum_column7 = 0;
+                        $sum_column8 = 0;
+                        $sum_column9 = 0;
+                        $sum_column10 = 0;
+                        $sum_column11 = 0;
                         foreach($result_progress AS $key_result=>$val) {
                             echo '<tr>';
                             echo '<td class="text-left" colspan="'.$col_sub.'">'.$val['result']['column1'].'</td>';
@@ -88,24 +95,32 @@ echo script_tag($link);
                                 echo '<td class="text-right">'.number_format($val_sub['column10']).'</td>';
                                 echo '<td class="text-right">'.number_format($val_sub['column11']).'</td>';
                                 echo '</tr>';
-                            }
-                            ###############รวม
-                            if($val['result_sum'] != '') {
-                                echo '<tr>';
-                                echo '<td class="text-right">' . $val['result_sum']['column1'] . '</td>';
-                                echo '<td class="text-right">' . number_format($val['result_sum']['column2']) . '</td>';
-                                echo '<td class="text-right">' . number_format($val['result_sum']['column3']) . '</td>';
-                                echo '<td class="text-right">' . number_format($val['result_sum']['column4']) . '</td>';
-                                echo '<td class="text-right">' . number_format($val['result_sum']['column5']) . '</td>';
-                                echo '<td class="text-right">' . number_format($val['result_sum']['column6']) . '</td>';
-                                echo '<td class="text-right">' . number_format($val['result_sum']['column7']) . '</td>';
-                                echo '<td class="text-right">' . number_format($val['result_sum']['column8']) . '</td>';
-                                echo '<td class="text-right">' . number_format($val['result_sum']['column9']) . '</td>';
-                                echo '<td class="text-right">' . number_format($val['result_sum']['column10']) . '</td>';
-                                echo '<td class="text-right">' . number_format($val['result_sum']['column11']) . '</td>';
-                                echo '</tr>';
+                                $sum_column2 += $val_sub['column2'];
+                                $sum_column3 += $val_sub['column3'];
+                                $sum_column4 += $val_sub['column4'];
+                                $sum_column5 += $val_sub['column5'];
+                                $sum_column6 += $val_sub['column6'];
+                                $sum_column7 += $val_sub['column7'];
+                                $sum_column8 += $val_sub['column8'];
+                                $sum_column9 += $val_sub['column9'];
+                                $sum_column10 += $val_sub['column10'];
+                                $sum_column11 += $val_sub['column11'];
                             }
                         }
+                        ###############รวม
+                        echo '<tr>';
+                        echo '<td class="text-right">รวม</td>';
+                        echo '<td class="text-right">' . number_format($sum_column2) . '</td>';
+                        echo '<td class="text-right">' . number_format($sum_column3) . '</td>';
+                        echo '<td class="text-right">' . number_format($sum_column4) . '</td>';
+                        echo '<td class="text-right">' . number_format($sum_column5) . '</td>';
+                        echo '<td class="text-right">' . number_format($sum_column6) . '</td>';
+                        echo '<td class="text-right">' . number_format($sum_column7) . '</td>';
+                        echo '<td class="text-right">' . number_format($sum_column8) . '</td>';
+                        echo '<td class="text-right">' . number_format($sum_column9) . '</td>';
+                        echo '<td class="text-right">' . number_format($sum_column10) . '</td>';
+                        echo '<td class="text-right">' . number_format($sum_colum11) . '</td>';
+                        echo '</tr>';
                         ?>
                         </tbody>
                     </table>

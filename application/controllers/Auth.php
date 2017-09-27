@@ -237,4 +237,16 @@ class Auth extends MY_Controller {
 
     }
 
+		public function check_username($username='')
+		{
+				/* Load */
+				$this->load->config('admin/dp_config');
+				$this->load->config('common/dp_config');
+
+				$this->load->model('Ion_auth_model','user');
+				$count_user = $this->user->username_check($username);
+				echo $count_user;
+				exit;
+		}
+
 }
