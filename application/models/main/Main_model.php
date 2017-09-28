@@ -137,7 +137,7 @@ class Main_model extends CI_Model {
     public function get_sum_type($user_id='')
     {
         $to_day = date('Y-m-d');
-        //$to_day = '2017-08-16';
+        //$to_day = '2017-09-27';
         $where = "";
         if( $user_id != '' ){
             $where = "  WHERE report_all_complaint.create_user_id = '".$user_id."'

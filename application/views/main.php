@@ -284,6 +284,7 @@
                   }
                   foreach($sum_type as $key => $value ){
                       $arr_complain_type[] = array('complain_type' => $value['complain_type_name']);
+                      $arr_complain_type_id[] = array('complain_type_id' => $key);
                       if($value['complain_type_name'] == 'ไม่มีข้อมูล'){
                         $arr_complain_type_shrot[] = $value['complain_type_name'];
                       }else{
@@ -292,8 +293,8 @@
                   }
                   ?>
                   var  arr_complain_type = '<?php echo json_encode($arr_complain_type);?>';
+                  var  arr_complain_type_id = '<?php echo json_encode($arr_complain_type_id);?>';
                   var  complain_type = JSON.parse(arr_complain_type);
-                  console.log(complain_type);
                   var config = {
                       type: 'bar',
                       data: {
@@ -351,27 +352,26 @@
                                     return datasetLabel + ': ' + tooltipItem.yLabel;
                                 }
                             }
+                          },
+                          onClick:function (evt, item) {
+                              var json_arr_complain_type_id = JSON.parse(arr_complain_type_id);
+                              var index = item[0]._index;
+                              var complain_type_id = json_arr_complain_type_id[index].complain_type_id;
+                              console.log(json_arr_complain_type_id[index].complain_type_id);
+                              linkTo(complain_type_id);
                           }
                       }
                   };
                   window.onload = function() {
                       var ctx = document.getElementById("barChart").getContext("2d");
                       window.myDoughnut = new Chart(ctx,config);
-                      ctx.onclick = function(evt) {
-                          var activePoints = window.myDoughnut.getElementsAtEvent(evt);
-                          if (activePoints[0]) {
-                              var chartData = activePoints[0]['_chart'].config.data;
-                              var idx = activePoints[0]['_index'];
-
-                              var label = chartData.labels[idx];
-                              var value = chartData.datasets[0].data[idx];
-
-                              var url = "http://example.com/?label=" + label + "&value=" + value;
-                              console.log(url);
-                              alert(url);
-                          }
-                      };
                   };
+                  function linkTo(complain_typer_id){
+//                      var d = new Date();
+//                      var yyyy = parseInt(d.getFullYear())+543;
+//                      var date_now = d.getDay()+'/'+d.getMonth()+'/'+yyyy;
+                      window.location.href = encodeURI("http://damrongdham.chonburi.go.th/sysdamrongdham/complaint/dashboard?complain_type_id="+complain_typer_id+"&complaint_date_start=<?php echo date('d').'/'.date('m').'/'.(date('Y')+543);?>");
+                  }
               </script>
           </div>
           </div>
