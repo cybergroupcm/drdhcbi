@@ -194,7 +194,7 @@ $col_right = '3';
                     <div class="col-sm-<?php echo $col_right; ?>">
                         <?php echo $updater['prename_th'].$updater['first_name']." ".$updater['last_name']; ?>
                     </div>
-                    <input type="hidden" name="update_user_id" value="<?php echo $user_login_data['id']; ?>">
+                    <input type="hidden" name="update_user_id" value="<?php echo $user_login_data['userid']; ?>">
                 </div>
             </div>
         </div>

@@ -1,3 +1,34 @@
+  <?php
+  $link = array(
+      'src' => 'assets/js/complaint_view_detail.js',
+      'type' => 'text/javascript'
+  );
+  echo script_tag($link);
+  $this->load->view('complaint/received');
+  $this->load->view('complaint/send');
+  $this->load->view('complaint/save_result');
+  ?>
+  <style>
+      .edit.dropdown-menu {
+          min-width: 80px !important;
+          left: 50%;
+          right: auto;
+          text-align: center;
+          transform: translate(-50%, 0);
+          background-color: rgba(255, 255, 255, 0.9);
+      }
+
+      .a, .edit.dropdown-menu {
+          width: 30px;
+          margin-top: -5px;
+          font-size: 1em;
+          cursor: pointer;
+      }
+
+      td.open {
+          cursor: pointer;
+      }
+  </style>
     <section class="content">
         <div class="row">
             <div class="col-xs-12">
@@ -8,6 +39,30 @@
                     <div class="box-body">
                         <?php $this->load->view('complaint/step_of_view_detail'); ?>
                         <div class="col-xs-12 text-right">
+                            <span>
+                                      <?php
+                                      //if (@$key_in_data['current_status_id'] == '1') {
+                                          ?>
+
+                    <?php
+                    echo '<i class="fa fa-inbox" style="cursor: pointer;font-size: 3em;color:#3c8dbc;" onclick="Accept(\'' . @$key_in_data['keyin_id'] . '\',\'2\');" title="รับเรื่อง"></i>';
+                    echo '<i class="fa fa-close" style="cursor: pointer;font-size: 3em;color:#3c8dbc;" onclick="Accept(\'' . @$key_in_data['keyin_id'] . '\',\'6\');" title="ไม่รับเรื่อง"></i>';
+                    ?>
+                                          </span>
+                                          <?php
+                                          //echo '<i class="fa fa-inbox open-received" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;' . $displayReceive . '" data-toggle="modal" data-target="#received" data-id="' . @$val['keyin_id'] . '"></i>';
+                                      //}elseif (@$key_in_data['current_status_id'] == '2') {
+                                          ?>
+                                            <i class="fa fa-send open-send" style="cursor: pointer;font-size: 3em;color:#3c8dbc;" data-toggle="modal" data-target="#send" data-id="<?php echo @$key_in_data['keyin_id']; ?>" title="ส่งต่อ"></i>
+                                          <?php
+                                          //echo '<i class="fa  fa-send open-send" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;' . $displaySend . '" data-toggle="modal" data-target="#send" data-id="' . @$val['keyin_id'] . '"></i>';
+                                      //}elseif (in_array(@$key_in_data['current_status_id'],['3','4'])) {
+                                          echo '<i class="fa fa-gavel open-result" aria-hidden="true" style="cursor: pointer;font-size: 3em;color:#3c8dbc;' . $displayFinish . '" data-toggle="modal" data-target="#save_result" data-id="' . @$key_in_data['keyin_id'] . '" title="บันทึกผล"></i>';
+                                      //}else {
+                                          //echo '';
+                                      //}
+                                      ?>
+                                            </span>
                            <a href="<?php echo base_url('complaint/pdf_detail/' . @$key_in_data['keyin_id'])?>" target="_blank"><i class="fa fa-print" aria-hidden="true" style="cursor: pointer;font-size: 3em;" title="สั่งพิมพ์"></i>
                                 <?php //echo img(array('src' => 'assets/images/print.png', 'title' => 'สั่งพิมพ์', 'width' => '48px', 'style' => 'cursor:pointer')); ?>
                             </a>
@@ -467,6 +522,7 @@
 
                                             var latlng = new google.maps.LatLng(<?php echo (isset($key_in_data['latitude']))?$key_in_data['latitude']:'0';?>,<?php echo (isset($key_in_data['longitude']))?$key_in_data['longitude']:'0';?>);
                                             var icon = '<?php echo base_url().'assets/images/'.$icon?>';
+                                          console.log(latlng);
                                             var marker = new google.maps.Marker({position: latlng, icon:icon, title:'<?php echo (isset($key_in_data['complain_no']))?$key_in_data['complain_no']:'-';?>', map: map});
                                             google.maps.event.addListener(marker, "click", function() {
                                               if (infowindow) infowindow.close();
@@ -636,3 +692,4 @@
         </div>
     </section>
 <div id="base_url" class="<?php echo base_url();?>"></div>
+<div id="return_to" class="view_detail/<?php echo @$key_in_data['keyin_id']; ?>"></div>

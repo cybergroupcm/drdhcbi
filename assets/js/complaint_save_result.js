@@ -1,6 +1,7 @@
 var base_url = $('#base_url').attr('class');
 $(document).ready(function () {
     $("#btSaveResult").click(function () {
+        var return_to = $('#return_to').attr('class');
         if($('#result_id').val()==''){
             var method = 'POST';
         }else{
@@ -28,7 +29,7 @@ $(document).ready(function () {
         update_status(keyin_id,current_status_id,result_detail,result_date);
         result_attach_file(keyin_id);
         setTimeout(function(){
-            $(location).attr('href',base_url+'complaint/dashboard');
+            $(location).attr('href',base_url+'complaint/'+return_to);
         }, 2000);
     });
 

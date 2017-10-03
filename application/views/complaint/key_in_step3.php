@@ -220,6 +220,21 @@ $col_right = '3';
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="col-sm-<?php echo $col_left; ?> right">
+                        ผลการดำเนินการ/Results of operations
+                        :
+                    </label>
+                    <div class="col-sm-<?php echo $col_right; ?>">
+                                <textarea class="form-control" cols="100" rows="5" id="result_detail"
+                                          name="result_detail"><?php echo @$data_result['result']['result_detail']; ?></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="result_id" value="<?php echo @$data_result['result']['result_id']; ?>">
         <input type="hidden" name="update_user_id" value="<?php echo $user_login_data['userid']; ?>">
         <?php
         echo form_close();

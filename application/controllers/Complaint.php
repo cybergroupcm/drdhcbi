@@ -446,6 +446,14 @@ class Complaint extends CI_Controller
         exit;
     }
 
+    public function get_province_list($type, $id, $default = '')
+    {
+        $url = base_url("api/dropdown/ccaa_lists/" . $type . "/" . $id);
+        $arr_data['type'] = $type;
+        $arr_data['province_list'] = api_call_get($url);
+        $this->load->view('complaint/get_province_list', $arr_data);
+    }
+
     public function get_district_list($type, $id, $default = '')
     {
         $url = base_url("api/dropdown/ccaa_lists/" . $type . "/" . $id);
