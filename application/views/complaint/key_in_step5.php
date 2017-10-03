@@ -95,7 +95,8 @@ if(@$_GET['debug']=='on'){
             <div class="col-md-1"></div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <textarea class="form-control" name="conclude_complaint" cols="70" rows="6"><?php echo @$key_in_data['conclude_complaint']; ?></textarea>
+                    <?php echo @$key_in_data['complaint_detail']; ?>
+                    <!--<textarea class="form-control" name="conclude_complaint" cols="70" rows="6"><?php echo @$key_in_data['conclude_complaint']; ?></textarea>-->
                 </div>
             </div>
         </div>
@@ -144,7 +145,7 @@ if(@$_GET['debug']=='on'){
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    โทรศัพท์เคลื่อนที่ <?php echo (@$key_in_data['user_complain_type_id']=='1')?'':@$key_in_data['phone_number']; ?> E – mail <?php echo (@$key_in_data['user_complain_type_id']=='1')?'':@$user_detail['email']; ?>
+                    โทรศัพท์เคลื่อนที่ <?php echo (@$key_in_data['user_complain_type_id']=='1')?'':@$key_in_data['phone_number']; ?>
                 </div>
             </div>
         </div>
