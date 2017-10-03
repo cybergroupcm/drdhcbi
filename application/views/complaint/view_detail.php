@@ -409,6 +409,124 @@
                             </div>
                         </div>
                         <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                    <!-- Map -->
+                                    <!-- Content map -->
+                                    <style type="text/css">
+                                      .mapTitle{
+                                            z-index:1;
+                                            position:absolute;
+                                            text-align:center;
+                                            top:40px;
+                                            right:50px;
+                                            color:#000000;
+                                            width:250px;
+                                            padding:3px;
+                                            margin:0px;
+                                            font-size:12px;
+                                            /*border:#999 1px solid;*/
+                                            border-radius: 5px;
+                                            background-color:#FFFFFF;
+                                            -webkit-box-shadow: 5px 5px 10px #888888;
+                                      }
+
+                                    </style>
+                                    <div class="row equal">
+                                      <div class="col-lg-12 col-xs-12 ">
+                                        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACSdMKi4OrvylAegEJXXR3--RnLUYUBtw"></script>
+                                        <?php
+                                        $link = array('src' => 'assets/js/util.js', 'language' => 'javascript', 'type' => 'text/javascript');
+                                        echo script_tag($link);
+                                        $link = array('src' => 'assets/js/util_control.js', 'language' => 'javascript', 'type' => 'text/javascript');
+                                        echo script_tag($link);
+                                        $link = array('src' => 'assets/js/main_map.js', 'language' => 'javascript','type' => 'text/javascript');
+                                        echo script_tag($link);
+                                        ?>
+                                        <script type="text/javascript">
+                                        var map;
+                                        var all_markers = [];
+                                        var all_polygons = [];
+                                        var all_polygonMap = [];
+                                        var xml = [];
+                                          function initialize() {
+                                            var myLatlng = new google.maps.LatLng(13.0934384,101.4286521);
+                                            var myOptions = {
+                                              zoom: 9,
+                                              center: myLatlng,
+                                              mapTypeId: google.maps.MapTypeId.ROADMAP
+                                            }
+                                            map = new google.maps.Map(document.getElementById("map"), myOptions);
+                                            <?php
+                                            foreach ($area_data as $area) {
+                                            ?>
+                                            addlayerXML(document.getElementById('map_<?php echo $area['area_id'];?>'));
+                                            <?php
+                                            }
+                                            ?>
+
+                                            var latlng = new google.maps.LatLng(<?php echo (isset($key_in_data['latitude']))?$key_in_data['latitude']:'0';?>,<?php echo (isset($key_in_data['longitude']))?$key_in_data['longitude']:'0';?>);
+                                            var icon = '<?php echo base_url().'assets/images/'.$icon?>';
+                                            var marker = new google.maps.Marker({position: latlng, icon:icon, title:'<?php echo (isset($key_in_data['complain_no']))?$key_in_data['complain_no']:'-';?>', map: map});
+                                            google.maps.event.addListener(marker, "click", function() {
+                                              if (infowindow) infowindow.close();
+                                              infowindow = new google.maps.InfoWindow({content: ''});
+                                              infowindow.open(map, marker);
+                                            });
+                                          }
+
+                                        /*
+                                        ========== On Load Map ===========
+                                        */
+                                        google.maps.event.addDomListener(window, 'load', initialize);
+                                        </script>
+
+                                        <div class="box box-primary" >
+                                          <div style="margin:0px;background-color: #2A5D9C;color:#ffffff;font-size:16px;" >
+                                              <div style="padding-left: 5px;padding-top: 2px;padding-bottom:2px;">
+                                              <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                              แผนที่สถานที่เกิดเหตุ ( พิกัด: <?php echo (isset($key_in_data['latitude']))?$key_in_data['latitude'].','.$key_in_data['longitude']:'-';?> )
+                                              </div>
+                                          </div>
+                                          <div id="map" style="height:420px; width:100%;" ></div>
+                                          <?php
+                                          foreach ($area_data as $area) {
+                                          ?>
+                                             <input name="map_<?php echo $area['area_id'];?>" type="checkbox" style="display:none" checked="checked" value="<?php echo base_url();?>main/get_xml_map/<?php echo $area['area_id'];?>" id="map_<?php echo $area['area_id'];?>" >
+                                          <?php
+                                          }
+                                          ?>
+                                          <table cellspacing="2" cellpadding="2" class="mapTitle">
+                                              <tr>
+                                                  <td  style="background-color:#0493C6;padding:5px; color:#FFF;border-radius: 5px 5px 0px 0px;" align="center" colspan="2"><b>สัญลักษณ์ประเภทเรื่อง</b></td>
+                                             </tr>
+                                             <?php
+                                             foreach ($complain_type_list_icon as $type_list_icon) {
+                                             ?>
+                                                 <tr>
+                                                    <td width="30" align="center">
+                                                    <img src="<?php echo base_url().'assets/images/'.$type_list_icon['icon_pin'];?>" width="18px"/>
+                                                  </td>
+                                                      <td align="left"><?php echo $type_list_icon['complain_type_name'];?></td>
+                                                  </tr>
+                                                  <tr>
+                                                      <td  align="center" colspan="2" style="border-bottom:1px solid #EEE;"></td>
+                                                 </tr>
+                                             <?php
+                                             }
+                                             ?>
+                                             <tr>
+                                                 <td   align="center" colspan="2">&nbsp;</td>
+                                            </tr>
+                                          </table>
+                                        </div>
+
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="col-sm-12">
