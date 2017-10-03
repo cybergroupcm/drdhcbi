@@ -57,7 +57,7 @@
                         <tr>
                             <td width="5%" style="padding-bottom:10px;">&nbsp;</td>
                             <td>
-                                <?php echo @$key_in_data['conclude_complaint']; ?>
+                                <?php echo @$key_in_data['complaint_detail']; ?>
                             </td>
                         </tr>
                         <tr>
@@ -95,7 +95,7 @@
                         </tr>
                         <tr>
                             <td colspan="2" style="padding-bottom:10px;">
-                                โทรศัพท์เคลื่อนที่ <?php echo (@$key_in_data['user_complain_type_id']=='1')?'':@$key_in_data['phone_number']; ?> E – mail <?php echo (@$key_in_data['user_complain_type_id']=='1')?'':@$user_detail['email']; ?>
+                                โทรศัพท์เคลื่อนที่ <?php echo (@$key_in_data['user_complain_type_id']=='1')?'':@$key_in_data['phone_number']; ?>
                             </td>
                         </tr>
                         <tr>
