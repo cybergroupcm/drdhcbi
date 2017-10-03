@@ -431,9 +431,9 @@ class Complaint extends CI_Controller
     			$arr_complain_type_list_icon[] = array('complain_type_name'=>$row->complain_type_name,'icon_pin'=>$row->icon_pin);
     		}
     		$arr_data['complain_type_list_icon'] = $arr_complain_type_list_icon;
-        //$arr_data['icon'] = $this->main->get_complain_type_icon($arr_data['key_in_data']['complain_type_id']);
-        $arr_data['icon'] = 'pin-map9.png';
-        //echo"<pre>";print_r($arr_data['result']);echo"</pre>";
+        $arr_data['icon'] = $this->main->get_complain_type_icon($arr_data['key_in_data']['complain_type_id']);
+        //$arr_data['icon'] = 'pin-map9.png';
+        //echo"<pre>";print_r($arr_data['key_in_data']);echo"</pre>";
         $this->libraries->template('complaint/view_detail', $arr_data);
     }
 
@@ -444,6 +444,14 @@ class Complaint extends CI_Controller
         $result = $arr_data['data_send'];
         echo json_encode($result);
         exit;
+    }
+
+    public function get_province_list($type, $id, $default = '')
+    {
+        $url = base_url("api/dropdown/ccaa_lists/" . $type . "/" . $id);
+        $arr_data['type'] = $type;
+        $arr_data['province_list'] = api_call_get($url);
+        $this->load->view('complaint/get_province_list', $arr_data);
     }
 
     public function get_district_list($type, $id, $default = '')

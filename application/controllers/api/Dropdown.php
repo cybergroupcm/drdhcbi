@@ -141,7 +141,13 @@ class Dropdown extends REST_Controller
         $conditions = array();
         $replace ='';
         if($ccType!='') {
-            $conditions['ccType'] = $ccType;
+            if($ccType == 'part'){
+                $conditions['partid'] = $ccaa_code;
+                $conditions['ccType'] = 'Changwat';
+            }else{
+                $conditions['ccType'] = $ccType;
+            }
+
         }
 
         if($ccType == 'Changwat'){
@@ -268,7 +274,7 @@ class Dropdown extends REST_Controller
     }
 
     public function au_group_list_get(){
-        $types = $this->Au_group_mordel->as_dropdown('description')->get_all();
+        $types = $this->Au_group_model->as_dropdown('description')->get_all();
         // Check if the users data store contains users (in case the database result returns NULL)
         if ($types) {
             // Set the response and exit
@@ -280,6 +286,7 @@ class Dropdown extends REST_Controller
                 'message' => 'No complain type were found'
             ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
         }
+
     }
 
     public function complain_type_parent_get($id){

@@ -87,13 +87,16 @@ class Main_model extends CI_Model {
     }
 
     public function get_complain_type_icon($complain_type_id=''){
-        $sql = "SELECT icon_pin FROM ms_complain_type WHERE complain_type_id='".$complain_type_id."' ";
+        $sql = "SELECT icon_pin,parent_id FROM ms_complain_type WHERE complain_type_id='".$complain_type_id."' ";
         $query = $this->db->query($sql);
         foreach ($query->result() as $row)
         {
-          $result = $row->icon_pin;
+          if($row->parent_id > 0){
+              return $this->get_complain_type_icon($row->parent_id);
+          }else{
+              return $row->icon_pin;
+          }
         }
-        return $result;
     }
 
     public function get_area($area_id='')
