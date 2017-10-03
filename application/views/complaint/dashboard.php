@@ -77,6 +77,7 @@ $this->load->view('complaint/save_result');
                             <th width="12%" class="text-center">วันที่ร้องเรียน</th>
                             <th width="20%" class="text-center">เรื่องร้องทุกข์</th>
                             <th width="15%" class="text-center">ผู้ร้องทุกข์</th>
+                            <th width="15%" class="text-center">ผู้รับผิดชอบ</th>
                             <th width="10%" class="text-center">สถานะ</th>
                             <th width="18%" class="text-center">จัดการ</th>
                         </tr>
@@ -123,12 +124,13 @@ $this->load->view('complaint/save_result');
                                 }
                                 $complain_date = (@$val['complain_date'] != '' && @$val['complain_date'] != '0000-00-00') ? date_thai(@$val['complain_date'], true) : '';
                                 ?>
-                                <tr id="<?php echo @$val['keyin_id']; ?>" data-toggle="tooltip" data-placement="top" data-container="body" title="&nbsp;<?php echo @$val['recipient']; ?>&nbsp;">
+                                <tr id="<?php echo @$val['keyin_id']; ?>">
                                     <td class="text-center open"><?php echo $start_row++; ?></td>
                                     <td class="open"><?php echo @$val['complain_no']; ?></td>
                                     <td class="text-center open"><?php echo $complain_date; ?></td>
                                     <td class="open"><?php echo @$val['complaint_detail']; ?></td>
                                     <td class="open"><?php echo $user_complain; ?></td>
+                                    <td class="open"><?php echo @$val['recipient']; ?></td>
                                     <td class="open">
                                         <?php
                                         if (@$val['current_status'][0]['current_status_id'] == '1') {
@@ -264,3 +266,4 @@ $this->load->view('complaint/save_result');
     </div>
 </section>
 <div id="base_url" class="<?php echo base_url(); ?>"></div>
+<div id="return_to" class="dashboard"></div>

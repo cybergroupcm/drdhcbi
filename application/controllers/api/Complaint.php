@@ -386,6 +386,44 @@ class Complaint extends REST_Controller
 
     }
 
+    public function key_in_mobile_get()
+    {
+        $id = $this->get('id');
+        if ($id === NULL) {
+            $complaint = $this->Key_in_model->with_complaint_type('fields:complain_type_name')->with_wish('fields:wish_name')->with_title_name('fields:prename')->with_subject('fields:subject_name')->with_channel('fields:channel_name')->with_attach_file('fields:file_id,file_name,file_system_name')->get_all();
+            if ($complaint) {
+                $this->response($complaint, REST_Controller::HTTP_OK);
+            }
+            else {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'No complaint were found'
+                ], REST_Controller::HTTP_NOT_FOUND);
+            }
+        }
+        $id = (int)$id;
+        if ($id <= 0) {
+            $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST);
+        }
+        $complaint = $this->Key_in_model->with_complaint_type('fields:complain_type_name')->with_wish('fields:wish_name')->with_title_name('fields:prename')->with_subject('fields:subject_name')->with_channel('fields:channel_name')->with_attach_file('fields:file_id,file_name,file_system_name')->get($id);
+        if (!empty($complaint)) {
+            $complain_type_id = $complaint->complain_type_id;
+            $complain_type_relation = $this->complain_type->sort_complain_type($complain_type_id);
+            foreach($complain_type_relation as $key => $value){
+                $complaint->complain_type_relation[$key] = $value;
+            }
+
+            $this->set_response($complaint, REST_Controller::HTTP_OK);
+        }
+        else {
+            $this->set_response([
+                'status' => FALSE,
+                'message' => 'complaint could not be found'
+            ], REST_Controller::HTTP_NOT_FOUND);
+        }
+
+    }
+
     public function key_in_post()
     {
         $user = $this->jwt_decode($this->jwt_token());
@@ -431,6 +469,14 @@ class Complaint extends REST_Controller
             $step_now = $data['step_now'];
             unset($data['step_now']);
         }
+        if (array_key_exists('result_detail', $data)) {
+            $result_detail = $data['result_detail'];
+            unset($data['result_detail']);
+        }
+        if (array_key_exists('result_id', $data)) {
+            $result_id = $data['result_id'];
+            unset($data['result_id']);
+        }
         if (array_key_exists('province_id', $data)) {
             unset($data['province_id']);
         }
@@ -471,13 +517,23 @@ class Complaint extends REST_Controller
             }
         }
         if($step_now=='3') {
-                $this->Key_in_model->beforeInsertPivotWish($keyInID);
-                if (!empty($keyInID) && count($wish) > 0) {
-                    foreach ($wish as $item) {
-                        $this->Key_in_model->insertPivotWish($keyInID, $item);
-                    }
+            $this->Key_in_model->beforeInsertPivotWish($keyInID);
+            if (!empty($keyInID) && count($wish) > 0) {
+                foreach ($wish as $item) {
+                    $this->Key_in_model->insertPivotWish($keyInID, $item);
                 }
             }
+
+            $data_result = [];
+            $data_result['keyin_id'] = $keyInID;
+            $data_result['result_detail'] = $result_detail;
+            $data_result['result_date'] = date('d/m/Y H:i:s',strtotime('+543 year'));
+            if($result_id!=''){
+                $this->Result_model->update($data_result, array('keyin_id'=>$keyInID));
+            }else{
+                $this->Result_model->insert($data_result);
+            }
+        }
 
         $keyInID = (int)$keyInID;
         $this->set_response($keyInID, REST_Controller::HTTP_CREATED);
@@ -550,15 +606,23 @@ class Complaint extends REST_Controller
 
     private function do_uploads($keyin_id, $field)
     {
-        $config['upload_path'] = './upload/complaints/' . $keyin_id;
+        $config['upload_path'] = './upload/complaints/' . $keyin_id.'/';
         $config['allowed_types'] = '*';//gif|jpg|png
         $config['max_size'] = 256000;
-        $config['file_name'] = 'fileupload';
+        $config['file_name'] = 'fileupload';    
 
-        if (!is_dir($config['upload_path'])) mkdir($config['upload_path'], 0777, TRUE);
+        if (!is_dir($config['upload_path'])) 
+        {
+            if (!mkdir($config['upload_path'], 0777, TRUE)) {
+                echo 'Failed to create folders...';
+            }
+        }
+        
 
         $this->load->library('upload', $config);
         $this->load->library('my_upload', $config);
+        
+        $this->upload->initialize($config);
 
         $upload = $this->upload->do_multi_upload($field);
         if (!$upload) {
@@ -849,6 +913,42 @@ class Complaint extends REST_Controller
         } else {
             // Set the response and exit
             $this->response('', REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
+    public function export_get(){
+        $id = $this->get('id');
+        if ($id === NULL) {
+            $complaint = $this->Key_in_model->with_complaint_type('fields:complain_type_name')->with_wish('fields:wish_name')->with_title_name('fields:prename')->with_subject('fields:subject_name')->with_channel('fields:channel_name')->with_attach_file('fields:file_id,file_name,file_system_name')->get_all();
+            if ($complaint) {
+                $this->response($complaint, REST_Controller::HTTP_OK);
+            }
+            else {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'No complaint were found'
+                ], REST_Controller::HTTP_NOT_FOUND);
+            }
+        }
+        $id = (int)$id;
+        if ($id <= 0) {
+            $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST);
+        }
+        $complaint = $this->Key_in_model->with_complaint_type('fields:complain_type_name')->with_wish('fields:wish_name')->with_title_name('fields:prename')->with_subject('fields:subject_name')->with_channel('fields:channel_name')->with_attach_file('fields:file_id,file_name,file_system_name')->get($id);
+        if (!empty($complaint)) {
+            $complain_type_id = $complaint->complain_type_id;
+            $complain_type_relation = $this->complain_type->sort_complain_type($complain_type_id);
+            foreach($complain_type_relation as $key => $value){
+                $complaint->complain_type_relation[$key] = $value;
+            }
+
+            $this->set_response($complaint, REST_Controller::HTTP_OK);
+        }
+        else {
+            $this->set_response([
+                'status' => FALSE,
+                'message' => 'complaint could not be found'
+            ], REST_Controller::HTTP_NOT_FOUND);
         }
     }
 }
