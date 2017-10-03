@@ -178,7 +178,8 @@
 
     function validateEmail(element){
         if($('#'+element.id).val()!=''){
-            if (/^\w+([\.-]?\ w+)*@\w+([\.-]?\ w+)*(\.\w{2,3})+$/.test($('#'+element.id).val())){
+            //if (/^\w+([\.-]?\ w+)*@\w+([\.-]?\ w+)*(\.\w{2,3})+$/.test($('#'+element.id).val())){
+            if (/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test($('#'+element.id).val())){
                 //return (true);
             }else{
                 swal("","ท่านกรอกรูปแบบของ email ไม่ถูกต้อง","warning");
