@@ -442,6 +442,7 @@ echo script_tag($link);
         InputOfImageDirectory       : "register_photo",
         PluginFolderOnServer        : "sysdamrongdham/assets/frameworks/picture_cut/",
         FolderOnServer              : "/sysdamrongdham/upload/tmp_register/",
+        //FolderOnServer              : "/sysdamrongdham/upload/sad/",
         EnableCrop                  : true,
         CropWindowStyle             : "Bootstrap"
     });
