@@ -41,6 +41,7 @@ class Complaint extends REST_Controller
         $overall = $this->get('overall');
         $user_id = $this->get('user_id');
         $no_status = $this->get('no_status');
+        $complaintParent = $this->get('complaint_parent');
         if (!is_null($channel)) {
             $filter['channel_id'] = $channel;
         }
@@ -50,6 +51,16 @@ class Complaint extends REST_Controller
         if (!is_null($complainType)) {
             $filter['complain_type_id'] = $complainType;
         }
+
+        if (!is_null($complaintParent)) {
+            $parent = array(
+                'where' => array('parent_id'=>$complaintParent),
+                'fields' => 'parent_id'
+            );
+        }else{
+            $parent = 'fields:parent_id';
+        }
+
         if (!is_null($address)) {
             $filter['address_id'] = $address;
         }elseif (!is_null($district)) {
@@ -104,6 +115,7 @@ class Complaint extends REST_Controller
                 ->with_wish('fields:wish_name')
                 ->with_current_status('fields:current_status_name')
                 ->with_attach_file('fields:file_name')
+                ->with_complaint_parent($parent)
                 ->get_all();
         }
         else {
@@ -117,9 +129,15 @@ class Complaint extends REST_Controller
                 ->with_wish('fields:wish_name')
                 ->with_current_status('fields:current_status_name')
                 ->with_attach_file('fields:file_name')
+                ->with_complaint_parent($parent)
                 ->get_all();
         }
         if ($complaint) {
+            foreach ($complaint as $item => $value){
+                $userData = $this->user_detail($value->update_user_id);
+                    $complaint[$item]->update_user = "{$userData['prename_th']}{$userData['first_name']}   {$userData['last_name']}";
+            }
+
             // Set the response and exit
             $this->response($complaint, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -609,19 +627,19 @@ class Complaint extends REST_Controller
         $config['upload_path'] = './upload/complaints/' . $keyin_id.'/';
         $config['allowed_types'] = '*';//gif|jpg|png
         $config['max_size'] = 256000;
-        $config['file_name'] = 'fileupload';    
+        $config['file_name'] = 'fileupload';
 
-        if (!is_dir($config['upload_path'])) 
+        if (!is_dir($config['upload_path']))
         {
             if (!mkdir($config['upload_path'], 0777, TRUE)) {
                 echo 'Failed to create folders...';
             }
         }
-        
+
 
         $this->load->library('upload', $config);
         $this->load->library('my_upload', $config);
-        
+
         $this->upload->initialize($config);
 
         $upload = $this->upload->do_multi_upload($field);
@@ -916,10 +934,18 @@ class Complaint extends REST_Controller
         }
     }
 
-    public function export_get(){
+    public function export_xml_get()
+    {
         $id = $this->get('id');
         if ($id === NULL) {
-            $complaint = $this->Key_in_model->with_complaint_type('fields:complain_type_name')->with_wish('fields:wish_name')->with_title_name('fields:prename')->with_subject('fields:subject_name')->with_channel('fields:channel_name')->with_attach_file('fields:file_id,file_name,file_system_name')->get_all();
+            $complaint = $this->Key_in_model
+                ->with_complaint_type('fields:complain_type_name')
+                ->with_wish('fields:wish_name')
+                ->with_title_name('fields:prename')
+                ->with_subject('fields:subject_name')
+                ->with_channel('fields:channel_name')
+                ->order_by('complain_no','DESC')
+                ->get_all();
             if ($complaint) {
                 $this->response($complaint, REST_Controller::HTTP_OK);
             }
@@ -934,11 +960,18 @@ class Complaint extends REST_Controller
         if ($id <= 0) {
             $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST);
         }
-        $complaint = $this->Key_in_model->with_complaint_type('fields:complain_type_name')->with_wish('fields:wish_name')->with_title_name('fields:prename')->with_subject('fields:subject_name')->with_channel('fields:channel_name')->with_attach_file('fields:file_id,file_name,file_system_name')->get($id);
+        $complaint = $this->Key_in_model
+            ->with_complaint_type('fields:complain_type_name')
+            ->with_wish('fields:wish_name')
+            ->with_title_name('fields:prename')
+            ->with_subject('fields:subject_name')
+            ->with_channel('fields:channel_name')
+            ->order_by('complain_no','DESC')
+            ->get($id);
         if (!empty($complaint)) {
             $complain_type_id = $complaint->complain_type_id;
             $complain_type_relation = $this->complain_type->sort_complain_type($complain_type_id);
-            foreach($complain_type_relation as $key => $value){
+            foreach ($complain_type_relation as $key => $value) {
                 $complaint->complain_type_relation[$key] = $value;
             }
 
