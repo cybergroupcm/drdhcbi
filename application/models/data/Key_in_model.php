@@ -12,6 +12,11 @@ class Key_in_model extends MY_Model
         $this->timestamps = TRUE;
         $this->_created_at_field = 'create_datetime';
         $this->_updated_at_field = 'update_datetime';
+        $this->has_one['complaint_parent'] = array(
+            'foreign_model'=>'data/Complaint_parent_model',
+            'foreign_table'=>'report_result_parent',
+            'foreign_key'=>'keyin_id',
+            'local_key'=>'keyin_id');
         $this->has_many['title_name'] = array(
             'foreign_model'=>'master/Title_name_model',
             'foreign_table'=>'ms_prename',
