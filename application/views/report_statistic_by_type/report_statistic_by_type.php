@@ -35,7 +35,8 @@ $this->load->view('report_statistic_by_type/search');
                     <h3 class="box-title"> รายงานสถิติเรื่องร้องเรียนร้องทุกข์(ประเภทเรื่อง)</h3>
                 </div>
                 <div class="box-body">
-                    <div class="col-xs-12 text-right" style="margin-bottom: 5px;">
+                    <?php if($_GET['bypass'] != 'on'){ ?>
+                    <div class="col-xs-12 text-right" style="margin-bottom: 5px; ">
                         <?php
                         $param_pdf = "?year=".$_GET['year']."&complain_type_id=".$_GET['complain_type_id']."&partid=".$_GET['partid']."&province_id=".$_GET['province_id']."&district_id=".$_GET['district_id']."&address_id=".$_GET['address_id'];
                         ?>
@@ -49,6 +50,7 @@ $this->load->view('report_statistic_by_type/search');
                             <i class="fa fa-file-excel-o" aria-hidden="true" style="cursor: pointer;font-size: 2em;"></i>
                         </a>
                     </div>
+                    <?php } ?>
                     <div class="col-xs-1"></div>
                     <div class="col-xs-10">
                         <div class="chart">
