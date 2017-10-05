@@ -53,7 +53,7 @@
         <section class="content-header">
           <h3>
             สรุปภาพรวมข้อมูลเรื่องร้องทุกข์
-            <small>ศูนย์ดำรงธรรม จังหวัดชลบุรี</small>
+            <small>ศูนย์ดำรงธรรม จังหวัดชลบุรี 4.0</small>
           </h3>
         </section>
 
@@ -336,7 +336,7 @@
                           animation: {
                               animateScale: true,
                               animateRotate: true
-                          }, 
+                          },
                           tooltips: {
                             callbacks: {
                                 title: function(tooltipItems, data) {
