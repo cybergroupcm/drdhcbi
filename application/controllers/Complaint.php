@@ -150,8 +150,10 @@ class Complaint extends CI_Controller
         $arr_data['ccaa_all'] = api_call_get($url);
 
         if(in_array(2, $user_modes_groups)){
+            $arr_data['action_to'] = 'dashboard_member';
             $this->libraries->template_member('complaint/' . $step, $arr_data);
         }else{
+            $arr_data['action_to'] = 'dashboard';
             $this->libraries->template('complaint/' . $step, $arr_data);
         }
 
@@ -676,7 +678,21 @@ class Complaint extends CI_Controller
         $arr_data['icon'] = $this->main->get_complain_type_icon($arr_data['key_in_data']['complain_type_id']);
         //$arr_data['icon'] = 'pin-map9.png';
         //echo"<pre>";print_r($arr_data['key_in_data']);echo"</pre>";
-        $this->libraries->template('complaint/view_detail', $arr_data);
+
+
+        $url = base_url("api/authen/token_info");
+        $user_data_id = api_call_get($url);
+        $url = base_url("api/complaint/user_detail/id/".$user_data_id['userid']);
+        $arr_data['user_login_data'] = api_call_get($url);
+        $arr_data['user_login_data']['userid']=$user_data_id['userid'];
+        $url = base_url("api/complaint/user_groups/user_id/" . $user_data_id['userid']);
+        $user_modes_groups = api_call_get($url);
+
+        if(in_array(2, $user_modes_groups)) {
+            $this->libraries->template_member('complaint/view_detail_member', $arr_data);
+        }else{
+            $this->libraries->template('complaint/view_detail', $arr_data);
+        }
     }
 
     public function getDataSend($id)
