@@ -68,11 +68,18 @@ class Template_libraries extends CI_Model {
 
 		}else{
 				$arr_title = array('title'=>'ศูนย์ดำรงธรรม จังหวัดชลบุรี 4.0','body_class'=>'hold-transition skin-blue fixed sidebar-mini');
-				$this->load->view('template/template_header', $arr_title);
-				$this->load->view('template/template_top_menu', $arr_header);
-				$this->load->view('template/template_left_menu', $arr_header);
-				$this->load->view($bodyFile, $arr_data);//file view show body
-				$this->load->view('template/template_footer');
+				if($_GET['bypass'] == 'on'){//รายงาน /report/report_statistic_by_type?bypass=on
+					$arr_title = array('title'=>'Home','body_class'=>'login-page');
+					$this->load->view('template/template_header', $arr_title);
+					$this->load->view($bodyFile, $arr_data);//file view show body
+				}else{
+					$this->load->view('template/template_header', $arr_title);
+					$this->load->view('template/template_top_menu', $arr_header);
+					$this->load->view('template/template_left_menu', $arr_header);
+					$this->load->view($bodyFile, $arr_data);//file view show body
+					$this->load->view('template/template_footer');
+				}
+
 		}
 	}
 
