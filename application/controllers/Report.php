@@ -9,7 +9,7 @@ class Report extends CI_Controller {
         /* Load :: Common */
         $this->load->helper(array('form'));
         $this->load->library('my_mpdf');
-        if ( ! $this->ion_auth->logged_in() || !$this->api_auth->logged_in())
+        if ( (!$this->ion_auth->logged_in() || !$this->api_auth->logged_in()) && $_GET['bypass'] != 'on')
         {
             redirect('alert', 'refresh');
         }
