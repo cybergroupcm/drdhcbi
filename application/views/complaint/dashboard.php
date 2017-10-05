@@ -130,7 +130,7 @@ $this->load->view('complaint/save_result');
                                     <td class="text-center open"><?php echo $complain_date; ?></td>
                                     <td class="open"><?php echo @$val['complaint_detail']; ?></td>
                                     <td class="open"><?php echo $user_complain; ?></td>
-                                    <td class="open"><?php echo @($user_group_type == 2?$val['update_user']:'จนท. ศูนย์ดำรงค์ธรรม'); ?></td>
+                                    <td class="open"><?php echo @($user_group_type == 2?$val['update_user']:'จนท. ศูนย์ดำรงธรรม'); ?></td>
                                     <td class="open">
                                         <?php
                                         if (@$val['current_status'][0]['current_status_id'] == '1') {
