@@ -22,7 +22,12 @@ class Auth extends MY_Controller {
         }
         else
         {
-            redirect('main', 'refresh');
+            if ($this->ion_auth->is_member()) {
+                redirect('complaint/dashboard_member2', 'refresh');
+            }
+            else {
+                redirect('main1', 'refresh');
+            }
         }
 	}
 
@@ -66,13 +71,17 @@ class Auth extends MY_Controller {
                         ];
                         $this->input->set_cookie($cookie);
                     }
-                    if ( ! $this->ion_auth->is_admin())
-                    {
+
+                    if ($this->ion_auth->is_admin()) {
                         $this->session->set_flashdata('message', $this->ion_auth->messages());
                         redirect('main', 'refresh');
+
                     }
-                    else
-                    {
+                    elseif ($this->ion_auth->is_member()) {
+                        $this->session->set_flashdata('message', $this->ion_auth->messages());
+                        redirect('complaint/dashboard_member', 'refresh');
+                    }
+                    else {
                         /* Data */
                         $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
@@ -113,7 +122,17 @@ class Auth extends MY_Controller {
         }
         else
         {
-            redirect('main', 'refresh');
+            //redirect('main', 'refresh');
+            if ($this->ion_auth->is_admin()) {
+                redirect('main', 'refresh');
+
+            }
+            elseif ($this->ion_auth->is_member()) {
+                redirect('complaint/dashboard_member', 'refresh');
+            }
+            else {
+                redirect('main', 'refresh');
+            }
         }
    }
 
@@ -124,7 +143,7 @@ class Auth extends MY_Controller {
 
         $this->session->set_flashdata('message', $this->ion_auth->messages());
 
-        delete_cookie('token','122.155.197.104','/sysdamrongdham/','api_');
+        delete_cookie('token','damrongdham.chonburi.go.th','/sysdamrongdham/','api_');
 
         if ($src == 'admin')
         {
@@ -245,6 +264,11 @@ class Auth extends MY_Controller {
 
 				$this->load->model('Ion_auth_model','user');
 				$count_user = $this->user->username_check($username);
+				//$query = $this->db->get_where('au_users', array('username' => $username));
+				//$row = $query->row_array();
+				/*echo "<pre>";
+				print_r($row);
+				echo "</pre>";*/
 				echo $count_user;
 				exit;
 		}

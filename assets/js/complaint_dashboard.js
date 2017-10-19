@@ -399,8 +399,8 @@ $(document).ready(function() {
     var table = $('#example1').DataTable({
         "order": [[ 1, "desc" ]],
         "columnDefs": [
-            { "targets": [0,6], "orderable": false },
-            { "targets": [0,6],"searchable": false }
+            { "targets": [0,7], "orderable": false },
+            { "targets": [0,7],"searchable": false }
         ],
         "language": {
             "search": "ค้นหา:",
@@ -422,9 +422,6 @@ $(document).ready(function() {
         var href = base_url+'complaint/view_detail/'+id;
         window.location.href = href;
     } );
-    $('[data-toggle="tooltip"]').tooltip({
-        container : 'body'
-    });
 } );
 
 var count_send_org = 0;

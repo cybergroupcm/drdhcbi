@@ -169,6 +169,7 @@ $( document ).ready(function() {
             }
         });
     });
+
 });
 function Accept(keyin_id,receive_status) {
     Number.prototype.padLeft = function(base,chr){
@@ -332,4 +333,12 @@ function checkFile(id) {
 
     $('#checkFile').append(file_show);
     //document.getElementById("checkFile").innerHTML = txt;
+}
+
+function bt_back(type_user) {
+    if(type_user == 'member') {
+        $(location).attr('href', base_url + 'complaint/dashboard_member');
+    }else{
+        $(location).attr('href', base_url + 'complaint/dashboard');
+    }
 }
