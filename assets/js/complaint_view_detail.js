@@ -214,6 +214,15 @@ function Accept(keyin_id,receive_status) {
         swal("ผิดพลาด",text_error, "error");
     });
 }
+
+var file_count = 0;
+function add_new_file(){
+    file_count++;
+    var input = '<input type="file" name="attach_file[]" class="attach_file" accept=".jpg, .png, .pdf" onchange="checkFile(\''+file_count.toString()+'\')" id="attach_file_'+file_count.toString()+'" style="display:none;">';
+    $('#file_add_space').append(input);
+    $('#attach_file_'+file_count.toString()).trigger('click');
+}
+
 function getDataSend(id){
     $('#keyin_id_send').val(id);
     var url = $('#base_url').attr("class")+"complaint/getDataSend/"+id;
@@ -294,4 +303,33 @@ function get_send_org_child(ele){
             $('#' + $('#' + ele.id).attr('has_child')).append(data);
         });
     }
+}
+
+function checkFile(id) {
+    var x = document.getElementById("attach_file_"+id);
+    var txt = "";
+    if ('files' in x) {
+        var j = 1;
+        for (var i = 0; i < x.files.length; i++) {
+            var file = x.files[i];
+            if (parseInt(file.size) > 1048576) {
+                txt += "ไม่สามารถแนบไฟล์ " + file.name + " ได้เนื่องจากไฟล์มีขนาดใหญ่เกินไป<br>";
+                var file_show = '<span id="show_file_'+id+'">'+txt+'</span><hr>';
+                $('#attach_file_'+id).remove();
+            } else {
+                //txt += "<br><strong>" + (j) + ". file</strong><br>";
+                if ('name' in file) {
+                    txt += "name: " + file.name + "<br>";
+                }
+                if ('size' in file) {
+                    txt += "size: " + file.size + " bytes <br>";
+                }
+                j++;
+                var file_show = '<span id="show_file_'+id+'">'+txt+'<input type="button" class="btn btn-danger" value="ลบ" onclick="delete_new_file(\''+id+'\')"></span><hr>';
+            }
+        }
+    }
+
+    $('#checkFile').append(file_show);
+    //document.getElementById("checkFile").innerHTML = txt;
 }

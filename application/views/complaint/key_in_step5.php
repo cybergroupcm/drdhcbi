@@ -159,7 +159,7 @@ if(@$_GET['debug']=='on'){
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    เรียน   นายอำเภอสัตหีบ
+                    เรียน   นายอำเภอ<?php echo str_replace('อำเภอ','',$district_list[substr(@$key_in_data['address_id'],0,4)."0000"]); ?>
                 </div>
             </div>
         </div>
@@ -179,7 +179,7 @@ if(@$_GET['debug']=='on'){
                         <input type="button" class="btn btn-bitbucket" value="หน้าก่อนหน้า" onclick="validateForm('key_in_step4','back')">
                     </label>
                     <label class="col-sm-5 right">
-                        <input type="button" class="btn btn-bitbucket" value="กลับหน้าหลัก" onclick="validateForm('dashboard','')">
+                        <input type="button" class="btn btn-bitbucket" value="เสร็จสิ้น" onclick="validateForm('dashboard','')">
                     </label>
                 </div>
             </div>
