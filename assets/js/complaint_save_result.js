@@ -1,3 +1,4 @@
+var jwt = Cookies.get("api_token");
 var base_url = $('#base_url').attr('class');
 $(document).ready(function () {
     $("#btSaveResult").click(function () {
@@ -98,7 +99,10 @@ function result_attach_file(keyin_id){
         async: false,
         cache: false,
         contentType: false,
-        processData: false
+        processData: false,
+        beforeSend: function (xhr) {   //Include the bearer token in header
+            xhr.setRequestHeader("Authorization", 'Bearer ' + jwt);
+        }
     }).done(function (response) {
         $('#result_id').val(response);
         $('#close_modal').trigger('click');

@@ -109,7 +109,7 @@ class Authen extends REST_Controller
             $this->response($output_data, REST_Controller::HTTP_OK);
         }else{
             $output_data = "";
-            $this->response($output_data, REST_Controller::HTTP_UNAUTHORIZED);
+            $this->response($output_data, REST_Controller::HTTP_OK);
         }
     }
 
@@ -119,6 +119,42 @@ class Authen extends REST_Controller
             'password' => $this->Ion_auth_model->hash_password($this->post('repassword'))
         );
         $ids = $this->db->update('au_users', $data, array('id' => $this->post('id')));
+        if($ids){
+            $this->response($ids, REST_Controller::HTTP_OK);
+        }else{
+            $output_data = "";
+            $this->response($output_data, REST_Controller::HTTP_OK);
+        }
+        exit;
+    }
+
+    public function re_password_info_get($username,$emai,$idcard)
+    {
+        $sql = "SELECT
+                    id
+                FROM
+                    au_users
+                WHERE
+                    username = '".$username."'
+                    AND email = '".$emai."'
+                    AND idcard = '".$idcard."'";
+        $query = $this->db->query($sql);
+        $data = $query->row_array();
+        if($data){
+            $output_data = $data['id'];
+            $this->response($output_data, REST_Controller::HTTP_OK);
+        }else{
+            $output_data = "";
+            $this->response($output_data, REST_Controller::HTTP_OK);
+        }
+    }
+
+    public function re_password_get($username,$repassword)
+    {
+        $data = array(
+            'password' => $this->Ion_auth_model->hash_password($repassword)
+        );
+        $ids = $this->db->update('au_users', $data, array('username' => $username));
         if($ids){
             $this->response($ids, REST_Controller::HTTP_OK);
         }else{
