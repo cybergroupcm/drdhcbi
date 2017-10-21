@@ -51,4 +51,3 @@ function save(){
     });
     document.getElementById('jsfields').value = checked_ids.join(",");
 }
-
