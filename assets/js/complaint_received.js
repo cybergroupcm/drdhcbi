@@ -1,5 +1,6 @@
 $(document).ready(function () {
     $("#btSaveReceived").click(function () {
+        var return_to = $('#return_to').attr('class');
         var base_url = $('#base_url').attr('class');
         var method = 'POST';
         var jwt = Cookies.get("api_token");
@@ -31,7 +32,8 @@ $(document).ready(function () {
                     showConfirmButton: false
                 });
                 setTimeout(function(){
-                    $(location).attr('href',base_url+'complaint/dashboard');
+                    //$(location).attr('href',base_url+'complaint/dashboard');
+                    $(location).attr('href',base_url+'complaint/'+return_to);
                 }, 2000);
             }
         }).fail(function (err) {

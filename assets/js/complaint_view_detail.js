@@ -158,7 +158,7 @@ $( document ).ready(function() {
             async:false
         }).done(function (result) {
             var  dataReceived = JSON.parse(result);
-            if(dataReceived.current_status_id == '4'){
+            if(dataReceived.current_status_id == '3' || dataReceived.current_status_id == '4'){
                 if(!$('#save_result_status').prop('checked')) {
                     $("#save_result_status").prop("checked", true);
                 }
@@ -224,6 +224,53 @@ function add_new_file(){
     $('#attach_file_'+file_count.toString()).trigger('click');
 }
 
+function getDataReceived(id){
+    var url = $('#base_url').attr("class")+"complaint/getDataReceived/"+id;
+    $.ajax({
+        method: "GET",
+        url: url,
+        async:false
+    }).done(function (result) {
+        var  dataReceived = JSON.parse(result);
+        $('#keyin_id').val(dataReceived.keyin_id);
+        $('#complain_no').val(dataReceived.complain_no);
+        $('#text_complain_no').html(dataReceived.complain_no);
+        $('#complain_name').val(dataReceived.complain_name);
+        $('#text_complain_name').html(dataReceived.complain_name);
+        $('#recipient').val(dataReceived.recipient);
+        $('#text_recipient').html(dataReceived.recipient);
+        if((dataReceived.doc_receive_date != '') && (dataReceived.doc_receive_date != '0000-00-00')) {
+            $('#doc_receive_date').val(dataReceived.doc_receive_date);
+            $('#text_doc_receive_date').html(thaidateformat(dataReceived.doc_receive_date));
+        }else{
+            $('#text_doc_receive_date').datepicker("setDate", "0");
+        }
+
+        if((dataReceived.receive_date != '') && (dataReceived.receive_date != '0000-00-00 00:00:00') && (dataReceived.receive_date != null)) {
+            var original_receive_date = dataReceived.receive_date.split(' ');
+            var new_receive_date = original_receive_date[0];
+            var new_receive_time = original_receive_date[1];
+            var arr_receive_date = new_receive_date.split('-');
+            var receive_date_eng = arr_receive_date[2]+'/'+arr_receive_date[1]+'/'+(parseInt(arr_receive_date[0])+543)+' '+new_receive_time;
+            //$('#receive_date').datepicker("setDate", receive_date_eng);  //กำหนดวัน
+            $('#receive_date').data("DateTimePicker").date(receive_date_eng);
+        }else{
+            //$('#receive_date').datepicker("setDate", "0");
+            $('#receive_date').data("DateTimePicker").date(moment(new Date ).format('DD/MM/BBBB HH:mm:ss'));
+        }
+
+        if(dataReceived.current_status_id == '2' || dataReceived.current_status_id == '3' || dataReceived.current_status_id == '4'){
+            if(!$('#receive_status').prop('checked')) {
+                $("#receive_status").prop("checked", true);
+            }
+        }else{
+            if($('#receive_status').prop('checked')) {
+                $("#receive_status").prop("checked", false);
+            }
+        }
+    });
+}
+
 function getDataSend(id){
     $('#keyin_id_send').val(id);
     var url = $('#base_url').attr("class")+"complaint/getDataSend/"+id;
@@ -279,7 +326,7 @@ function getDataSend(id){
          $('#send_org_id option[value=""]').prop('selected', 'selected');
          }*/
 
-        if(dataSend.current_status_id == '3' || dataSend.current_status_id == '4'){
+        if(dataSend.current_status_id == '2' ||dataSend.current_status_id == '3' || dataSend.current_status_id == '4'){
             if(!$('#send_status').prop('checked')) {
                 $("#send_status").prop("checked", true);
             }
@@ -341,4 +388,16 @@ function bt_back(type_user) {
     }else{
         $(location).attr('href', base_url + 'complaint/dashboard');
     }
+}
+
+function thaidateformat(d,long) {
+    var gD = new Date(d);
+    var thmonthCut = ["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
+    var thmonthLong = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+    if(long == 'S'){
+        thmonth = thmonthCut;
+    }else{
+        thmonth =  thmonthLong;
+    }
+    return gD.getDate() + ' ' + thmonth[gD.getMonth()] + ' ' + (gD.getFullYear() + 543);
 }

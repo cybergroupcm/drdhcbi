@@ -47,37 +47,51 @@
                         <?php $this->load->view('complaint/step_of_view_detail'); ?>
                         <div class="col-xs-6 text-left">
                             <?php
-                            echo '<i class="fa fa-inbox" style="cursor: pointer;font-size: 3em;color:#3c8dbc;" onclick="Accept(\'' . @$key_in_data['keyin_id'] . '\',\'2\');" title="รับเรื่อง"></i>';
-                            echo '<i class="fa fa-close" style="cursor: pointer;font-size: 3em;color:#3c8dbc;" onclick="Accept(\'' . @$key_in_data['keyin_id'] . '\',\'6\');" title="ไม่รับเรื่อง"></i>';
+                            if (@$key_in_data['current_status_id'] == '1') {
+                                echo '<i class="fa fa-inbox" style="cursor: pointer;font-size: 3em;color:#3c8dbc;padding-right: 4px;" onclick="Accept(\'' . @$key_in_data['keyin_id'] . '\',\'2\');" title="รับเรื่อง"></i>';
+                                echo '<i class="fa fa-close" style="cursor: pointer;font-size: 3em;color:#3c8dbc;" onclick="Accept(\'' . @$key_in_data['keyin_id'] . '\',\'6\');" title="ไม่รับเรื่อง"></i>';
+                            }elseif (@$key_in_data['current_status_id'] == '2') {
+                                ?>
+                                <i class="fa fa-send open-send" style="cursor: pointer;font-size: 38px;color:#3c8dbc;padding-right: 4px;" data-toggle="modal" data-target="#send" data-id="<?php echo @$key_in_data['keyin_id']; ?>" title="ส่งต่อ"></i>
+                                <?php
+                            }elseif (in_array(@$key_in_data['current_status_id'],['3','4'])) {
+                                echo '<i class="fa fa-gavel open-result" aria-hidden="true" style="cursor: pointer;font-size: 3em;color:#3c8dbc;padding-right: 4px;' . $displayFinish . '" data-toggle="modal" data-target="#save_result" data-id="' . @$key_in_data['keyin_id'] . '" title="บันทึกผล"></i>';
+                            }else {
+                                echo '';
+                            }
                             ?>
-                            <i class="fa fa-send open-send" style="cursor: pointer;font-size: 3em;color:#3c8dbc;" data-toggle="modal" data-target="#send" data-id="<?php echo @$key_in_data['keyin_id']; ?>" title="ส่งต่อ"></i>
-                            <?php
-                            echo '<i class="fa fa-gavel open-result" aria-hidden="true" style="cursor: pointer;font-size: 3em;color:#3c8dbc;' . $displayFinish . '" data-toggle="modal" data-target="#save_result" data-id="' . @$key_in_data['keyin_id'] . '" title="บันทึกผล"></i>';
-                            ?>
+<!--                            --><?php
+//                            echo '<i class="fa fa-inbox" style="cursor: pointer;font-size: 3em;color:#3c8dbc;" onclick="Accept(\'' . @$key_in_data['keyin_id'] . '\',\'2\');" title="รับเรื่อง"></i>';
+//                            echo '<i class="fa fa-close" style="cursor: pointer;font-size: 3em;color:#3c8dbc;" onclick="Accept(\'' . @$key_in_data['keyin_id'] . '\',\'6\');" title="ไม่รับเรื่อง"></i>';
+//                            ?>
+<!--                            <i class="fa fa-send open-send" style="cursor: pointer;font-size: 3em;color:#3c8dbc;" data-toggle="modal" data-target="#send" data-id="--><?php //echo @$key_in_data['keyin_id']; ?><!--" title="ส่งต่อ"></i>-->
+<!--                            --><?php
+//                            echo '<i class="fa fa-gavel open-result" aria-hidden="true" style="cursor: pointer;font-size: 3em;color:#3c8dbc;' . $displayFinish . '" data-toggle="modal" data-target="#save_result" data-id="' . @$key_in_data['keyin_id'] . '" title="บันทึกผล"></i>';
+//                            ?>
                         </div>
                         <div class="col-xs-6 text-right">
                             <span>
                                       <?php
-                                      //if (@$key_in_data['current_status_id'] == '1') {
-                                          ?>
-
-                                        <?php
-                                        //echo '<i class="fa fa-inbox" style="cursor: pointer;font-size: 3em;color:#3c8dbc;" onclick="Accept(\'' . @$key_in_data['keyin_id'] . '\',\'2\');" title="รับเรื่อง"></i>';
-                                        //echo '<i class="fa fa-close" style="cursor: pointer;font-size: 3em;color:#3c8dbc;" onclick="Accept(\'' . @$key_in_data['keyin_id'] . '\',\'6\');" title="ไม่รับเรื่อง"></i>';
-                                        ?>
-                                          </span>
-                                          <?php
-                                          //echo '<i class="fa fa-inbox open-received" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;' . $displayReceive . '" data-toggle="modal" data-target="#received" data-id="' . @$val['keyin_id'] . '"></i>';
-                                      //}elseif (@$key_in_data['current_status_id'] == '2') {
-                                          ?>
-<!--                                            <i class="fa fa-send open-send" style="cursor: pointer;font-size: 3em;color:#3c8dbc;" data-toggle="modal" data-target="#send" data-id="--><?php //echo @$key_in_data['keyin_id']; ?><!--" title="ส่งต่อ"></i>-->
-                                          <?php
-                                          //echo '<i class="fa  fa-send open-send" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;' . $displaySend . '" data-toggle="modal" data-target="#send" data-id="' . @$val['keyin_id'] . '"></i>';
-                                      //}elseif (in_array(@$key_in_data['current_status_id'],['3','4'])) {
-                                       //   echo '<i class="fa fa-gavel open-result" aria-hidden="true" style="cursor: pointer;font-size: 3em;color:#3c8dbc;' . $displayFinish . '" data-toggle="modal" data-target="#save_result" data-id="' . @$key_in_data['keyin_id'] . '" title="บันทึกผล"></i>';
-                                      //}else {
-                                          //echo '';
-                                      //}
+//                                      if (@$key_in_data['current_status_id'] == '1') {
+//                                          ?>
+<!---->
+<!--                                        --><?php
+//                                        echo '<i class="fa fa-inbox" style="cursor: pointer;font-size: 3em;color:#3c8dbc;padding-right: 4px;" onclick="Accept(\'' . @$key_in_data['keyin_id'] . '\',\'2\');" title="รับเรื่อง"></i>';
+//                                        echo '<i class="fa fa-close" style="cursor: pointer;font-size: 3em;color:#3c8dbc;" onclick="Accept(\'' . @$key_in_data['keyin_id'] . '\',\'6\');" title="ไม่รับเรื่อง"></i>';
+//                                        ?>
+<!--                                          </span>-->
+<!--                                          --><?php
+//                                          //echo '<i class="fa fa-inbox open-received" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;' . $displayReceive . '" data-toggle="modal" data-target="#received" data-id="' . @$val['keyin_id'] . '"></i>';
+//                                      }elseif (@$key_in_data['current_status_id'] == '2') {
+//                                          ?>
+<!--                                            <i class="fa fa-send open-send" style="cursor: pointer;font-size: 38px;color:#3c8dbc;padding-right: 4px;" data-toggle="modal" data-target="#send" data-id="--><?php //echo @$key_in_data['keyin_id']; ?><!--" title="ส่งต่อ"></i>-->
+<!--                                          --><?php
+////                                          echo '<i class="fa  fa-send open-send" aria-hidden="true" style="cursor: pointer;font-size: 1.5em;' . $displaySend . '" data-toggle="modal" data-target="#send" data-id="' . @$val['keyin_id'] . '"></i>';
+//                                      }elseif (in_array(@$key_in_data['current_status_id'],['3','4'])) {
+//                                          echo '<i class="fa fa-gavel open-result" aria-hidden="true" style="cursor: pointer;font-size: 3em;color:#3c8dbc;padding-right: 4px;' . $displayFinish . '" data-toggle="modal" data-target="#save_result" data-id="' . @$key_in_data['keyin_id'] . '" title="บันทึกผล"></i>';
+//                                      }else {
+//                                          echo '';
+//                                      }
                                       ?>
                                             </span>
                            <a href="<?php echo base_url('complaint/pdf_detail/' . @$key_in_data['keyin_id'])?>" target="_blank"><i class="fa fa-print" aria-hidden="true" style="cursor: pointer;font-size: 3em;" title="สั่งพิมพ์"></i>
