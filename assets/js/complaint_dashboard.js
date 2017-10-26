@@ -24,6 +24,9 @@ $( document ).ready(function() {
             selectTime: 'เลือกเวลา'
         }
     });
+    $('#receive_date').on("dp.change", function (e) {
+        $(this).data("DateTimePicker").hide();
+    });
 
     $('#reply_date').datetimepicker({
         locale: 'th',
@@ -36,6 +39,9 @@ $( document ).ready(function() {
             clear: 'ล้างค่า',
             selectTime: 'เลือกเวลา'
         }
+    });
+    $('#reply_date').on("dp.change", function (e) {
+        $(this).data("DateTimePicker").hide();
     });
 
     $('#send_org_date').datetimepicker({
@@ -50,6 +56,9 @@ $( document ).ready(function() {
             selectTime: 'เลือกเวลา'
         }
     });
+    $('#send_org_date').on("dp.change", function (e) {
+        $(this).data("DateTimePicker").hide();
+    });
 
     $('#result_date').datetimepicker({
         locale: 'th',
@@ -62,6 +71,9 @@ $( document ).ready(function() {
             clear: 'ล้างค่า',
             selectTime: 'เลือกเวลา'
         }
+    });
+    $('#result_date').on("dp.change", function (e) {
+        $(this).data("DateTimePicker").hide();
     });
     //start ปฏิทิน
     $('.datepickerstart').datepicker({
@@ -163,7 +175,7 @@ $( document ).ready(function() {
             async:false
         }).done(function (result) {
             var  dataReceived = JSON.parse(result);
-            if(dataReceived.current_status_id == '4'){
+            if(dataReceived.current_status_id == '3' || dataReceived.current_status_id == '4'){
                 if(!$('#save_result_status').prop('checked')) {
                     $("#save_result_status").prop("checked", true);
                 }
@@ -286,7 +298,7 @@ function getDataSend(id){
             $('#send_org_id option[value=""]').prop('selected', 'selected');
         }*/
 
-        if(dataSend.current_status_id == '3' || dataSend.current_status_id == '4'){
+        if(dataSend.current_status_id == '2' || dataSend.current_status_id == '3' || dataSend.current_status_id == '4'){
             if(!$('#send_status').prop('checked')) {
                 $("#send_status").prop("checked", true);
             }
