@@ -13,6 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <form action="../../index.html" method="post">
                 <input type="hidden" name="action_to" id="action_to" value="auth"/>
                 <input type="hidden" name="id" id="id" value="" />
+                <input type="hidden" name="company" id="company" value="999" />
                 <div class="form-group has-feedback">
                     <?php
                     echo form_dropdown([

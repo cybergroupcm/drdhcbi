@@ -546,8 +546,11 @@ public function create($id='')
         $url = base_url("api/dropdown/ccaa_lists/Aumpur/".$ccaa_code);
         $this->data['district_list'] = api_call_get($url);
 
-		$url = base_url("api/dropdown/au_group_list");
+		$url = base_url("api/dropdown/au_group_list/");
 		$this->data['user_group'] = api_call_get($url);
+
+		$url = base_url("api/dropdown/send_org_parent_lists/allow/1");
+		$this->data['org_user'] = api_call_get($url);
 
         if(@$this->data['data']['user']['address_id']!=''){
             $ccaa_code = substr(@$this->data['data']['address_id'], 0, 4);

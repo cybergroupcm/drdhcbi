@@ -198,12 +198,7 @@ $col_right = '3';
                 </div>
             </div>
         </div>
-    </div>
-<input type="hidden" name="update_user_id" value="<?php echo $user_login_data['userid']; ?>">
-<?php
-echo form_close();
-?>
-        <div class="row footer">
+        <div class="row ">
             <div class="col-md-12">
                 <div class="form-group">
                     <label class="col-sm-5">
@@ -215,6 +210,13 @@ echo form_close();
                 </div>
             </div>
         </div>
+    </div>
+<input type="hidden" name="update_user_id" value="<?php echo $user_login_data['userid']; ?>">
+
+<?php
+echo form_close();
+?>
+
     </div>
 <div id="base_url" class="<?php echo base_url(); ?>"></div>
 <?php
