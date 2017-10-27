@@ -22,11 +22,15 @@ class Auth extends MY_Controller {
         }
         else
         {
-            if ($this->ion_auth->is_member()) {
-                redirect('complaint/dashboard_member2', 'refresh');
-            }
-            else {
-                redirect('main1', 'refresh');
+            $url = base_url("api/authen/token_info");
+            $user_data_id = api_call_get($url);
+
+            $url = base_url("api/complaint/user_groups/user_id/".$user_data_id['userid']);
+            $user_groups = api_call_get($url);
+            if(in_array(2, $user_groups)) {
+                redirect('complaint/dashboard_member', 'refresh');
+            }else {
+                redirect('main', 'refresh');
             }
         }
 	}
@@ -72,22 +76,34 @@ class Auth extends MY_Controller {
                         $this->input->set_cookie($cookie);
                     }
 
-                    if ($this->ion_auth->is_admin()) {
-                        $this->session->set_flashdata('message', $this->ion_auth->messages());
-                        redirect('main', 'refresh');
+                    $url = base_url("api/authen/token_info");
+                    $user_data_id = api_call_get($url);
 
+                    $url = base_url("api/complaint/user_groups/user_id/".$user_data_id['userid']);
+                    $user_groups = api_call_get($url);
+                    if ( ! $this->ion_auth->is_admin())
+                    {
+                        if(in_array(2, $user_groups)) {
+                            $this->session->set_flashdata('message', $this->ion_auth->messages());
+                            redirect('complaint/dashboard_member', 'refresh');
+                        }else {
+                            $this->session->set_flashdata('message', $this->ion_auth->messages());
+                            redirect('main', 'refresh');
+                        }
                     }
-                    elseif ($this->ion_auth->is_member()) {
-                        $this->session->set_flashdata('message', $this->ion_auth->messages());
-                        redirect('complaint/dashboard_member', 'refresh');
-                    }
-                    else {
-                        /* Data */
-                        $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+                    else
+                    {
+                        if(in_array(2, $user_groups)) {
+                            $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+                            redirect('complaint/dashboard_member', 'refresh');
+                        }else {
+                            /* Data */
+                            $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
-                        /* Load Template */
-                        //$this->template->auth_render('main', $this->data);
-                        redirect('main', 'refresh');
+                            /* Load Template */
+                            //$this->template->auth_render('main', $this->data);
+                            redirect('main', 'refresh');
+                        }
                     }
                 }
                 else
@@ -122,17 +138,7 @@ class Auth extends MY_Controller {
         }
         else
         {
-            //redirect('main', 'refresh');
-            if ($this->ion_auth->is_admin()) {
-                redirect('main', 'refresh');
-
-            }
-            elseif ($this->ion_auth->is_member()) {
-                redirect('complaint/dashboard_member', 'refresh');
-            }
-            else {
-                redirect('main', 'refresh');
-            }
+            redirect('main', 'refresh');
         }
    }
 
@@ -143,7 +149,7 @@ class Auth extends MY_Controller {
 
         $this->session->set_flashdata('message', $this->ion_auth->messages());
 
-        delete_cookie('token','damrongdham.chonburi.go.th','/sysdamrongdham/','api_');
+        delete_cookie('token','123.242.172.133','/sysdamrongdham/','api_');
 
         if ($src == 'admin')
         {
