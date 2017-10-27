@@ -53,7 +53,7 @@
         <section class="content-header">
           <h3>
             สรุปภาพรวมข้อมูลเรื่องร้องทุกข์
-            <small>ศูนย์ดำรงธรรม จังหวัดชลบุรี</small>
+            <small>ศูนย์ดำรงธรรม จังหวัดชลบุรี 4.0</small>
           </h3>
         </section>
 
@@ -336,7 +336,7 @@
                           animation: {
                               animateScale: true,
                               animateRotate: true
-                          }, 
+                          },
                           tooltips: {
                             callbacks: {
                                 title: function(tooltipItems, data) {
@@ -370,7 +370,7 @@
 //                      var d = new Date();
 //                      var yyyy = parseInt(d.getFullYear())+543;
 //                      var date_now = d.getDay()+'/'+d.getMonth()+'/'+yyyy;
-                      window.location.href = encodeURI("http://damrongdham.chonburi.go.th/sysdamrongdham/complaint/dashboard?complain_type_id="+complain_typer_id+"&complaint_date_start=<?php echo date('d').'/'.date('m').'/'.(date('Y')+543);?>");
+                      window.location.href = encodeURI("http://damrongdham.chonburi.go.th/sysdamrongdham/complaint/dashboard?parent_type_id="+complain_typer_id+"&complaint_date_start=<?php echo date('d').'/'.date('m').'/'.(date('Y')+543);?>");
                   }
               </script>
           </div>

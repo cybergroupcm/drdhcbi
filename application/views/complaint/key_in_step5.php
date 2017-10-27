@@ -179,7 +179,7 @@ if(@$_GET['debug']=='on'){
                         <input type="button" class="btn btn-bitbucket" value="หน้าก่อนหน้า" onclick="validateForm('key_in_step4','back')">
                     </label>
                     <label class="col-sm-5 right">
-                        <input type="button" class="btn btn-bitbucket" value="กลับหน้าหลัก" onclick="validateForm('dashboard','')">
+                        <input type="button" class="btn btn-bitbucket" value="กลับหน้าหลัก" onclick="validateForm('<?php echo $action_to;?>','')">
                     </label>
                 </div>
             </div>

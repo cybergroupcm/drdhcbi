@@ -24,6 +24,9 @@ $( document ).ready(function() {
             selectTime: 'เลือกเวลา'
         }
     });
+    $('#receive_date').on("dp.change", function (e) {
+        $(this).data("DateTimePicker").hide();
+    });
 
     $('#reply_date').datetimepicker({
         locale: 'th',
@@ -36,6 +39,9 @@ $( document ).ready(function() {
             clear: 'ล้างค่า',
             selectTime: 'เลือกเวลา'
         }
+    });
+    $('#reply_date').on("dp.change", function (e) {
+        $(this).data("DateTimePicker").hide();
     });
 
     $('#send_org_date').datetimepicker({
@@ -50,6 +56,9 @@ $( document ).ready(function() {
             selectTime: 'เลือกเวลา'
         }
     });
+    $('#send_org_date').on("dp.change", function (e) {
+        $(this).data("DateTimePicker").hide();
+    });
 
     $('#result_date').datetimepicker({
         locale: 'th',
@@ -62,6 +71,9 @@ $( document ).ready(function() {
             clear: 'ล้างค่า',
             selectTime: 'เลือกเวลา'
         }
+    });
+    $('#result_date').on("dp.change", function (e) {
+        $(this).data("DateTimePicker").hide();
     });
     //start ปฏิทิน
     $('.datepickerstart').datepicker({
