@@ -61,8 +61,9 @@ class Main_model extends CI_Model {
 
     public function get_data_status($status_id){
         $to_day = date('Y-m-d');
-        //$to_day = '2017-08-16';
+        //$to_day = '2017-10-10';
         $sql = "SELECT
+                dt_keyin.keyin_id,
                 dt_keyin.complain_no,
                 dt_keyin.complain_name,
                 dt_keyin.latitude,

@@ -111,7 +111,7 @@ class Main extends MY_Controller {
 		$str =  "<markers>";
 		foreach($obj_data_status as $row){
 					$icon = $this->main->get_complain_type_icon($row->complain_type_id);
-					$name = 'เลขที่: '.$row->complain_no;
+					$name = 'เลขที่เรื่อง : '.$row->complain_no;
 					$lat = $row->latitude;
 					$lng = $row->longitude;
 					if($lat != "" && $lng != ""){
@@ -125,11 +125,18 @@ class Main extends MY_Controller {
 						$str .= 'shape_opacity="0.1" ';
 						$str .= 'picture="picture" ';
 						$str .= 'icon="'.base_url().'assets/images/'.$icon.'" ';
-						$str .= 'identify="" />';
+						$str .= 'identify="main/map_detail/'.$row->keyin_id.'" />';
 				}
 			}
 		$str .= "</markers>";
 		echo $str;
+	}
+	public function map_detail($keyin_id=''){
+			$this->load->model('main/Main_model','main');
+			$url = base_url("api/complaint/key_in/" . $keyin_id);
+			$arr_data['key_in_data'] = api_call_get($url);
+			$arr_data['keyin_id']= $keyin_id;
+			$this->load->view('map_detail', $arr_data);
 	}
 
 	public function get_xml_map($area_id='')
@@ -211,7 +218,15 @@ class Main extends MY_Controller {
             $arr_data['subdistrict_list'] = api_call_get($url);
         }
 
-        $this->libraries->template('register/register',$arr_data);
+
+      $url = base_url("api/complaint/user_groups/user_id/" . $id);
+      $user_modes_groups = api_call_get($url);
+
+      if(in_array(2, $user_modes_groups)) {
+          $this->libraries->template_member('register/register', $arr_data);
+      }else{
+          $this->libraries->template('register/register', $arr_data);
+      }
 
     }
 
