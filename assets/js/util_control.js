@@ -25,7 +25,7 @@ function addpoint(parr){
 	 var width = (width)?width:170;
 	 var height = (height)?height:100;
     var marker = new google.maps.Marker({position: latlng, icon:icon, title:name, map: map});
-	var str_html = '<table width="'+width+'" border="0" cellspacing="1" cellpadding="2"><tr><td>'+name+'</td></tr><tr><td><iframe src="'+identify+'" width="'+width+'" height="'+height+'" frameborder="0"></iframe></td></tr></table>';
+	var str_html = '<table width="'+width+'" border="0" cellspacing="1" cellpadding="2"><tr><td style="text-align:center;">'+name+'</td></tr><tr><td><iframe src="'+identify+'" width="'+width+'" height="'+height+'" frameborder="0"></iframe></td></tr></table>';
     google.maps.event.addListener(marker, "click", function() {
       if (infowindow) infowindow.close();
       infowindow = new google.maps.InfoWindow({content: str_html});

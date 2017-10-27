@@ -39,10 +39,11 @@ function initialize() {
 
           // Clear out the old markers.
 					var  p_arr = markers.push(marker);
+					//console.log(p_arr);
 					if(p_arr > 1){
-						for (var i = 0; i < p_arr; i++) {
-							markers[i].setMap(null);
-						}
+						//console.log(p_arr);
+						marker.setMap(null);
+
 					}
           /*markers.forEach(function(marker) {
             marker.setMap(null);

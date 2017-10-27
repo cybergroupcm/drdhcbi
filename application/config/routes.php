@@ -97,5 +97,6 @@ $route['api/setting/use_org/(:num)'] = 'api/setting/use_org/id/$1'; // Example 4
 $route['api/setting/use_complain_type/(:num)'] = 'api/setting/use_complain_type/id/$1'; // Example 4
 $route['api/setting/use_accused_type/(:num)'] = 'api/setting/use_accused_type/id/$1'; // Example 4
 $route['api/setting/complain_type_lists/(:num)'] = 'api/setting/complain_type_lists/id/$1'; // Example 4
+$route['api/authen/re_password_info/(:num)'] = 'api/authen/re_password_info/$1'; // Example 4
 
 

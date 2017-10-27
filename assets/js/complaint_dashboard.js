@@ -175,7 +175,7 @@ $( document ).ready(function() {
             async:false
         }).done(function (result) {
             var  dataReceived = JSON.parse(result);
-            if(dataReceived.current_status_id == '4'){
+            if(dataReceived.current_status_id == '3' || dataReceived.current_status_id == '4'){
                 if(!$('#save_result_status').prop('checked')) {
                     $("#save_result_status").prop("checked", true);
                 }
@@ -298,7 +298,7 @@ function getDataSend(id){
             $('#send_org_id option[value=""]').prop('selected', 'selected');
         }*/
 
-        if(dataSend.current_status_id == '3' || dataSend.current_status_id == '4'){
+        if(dataSend.current_status_id == '2' || dataSend.current_status_id == '3' || dataSend.current_status_id == '4'){
             if(!$('#send_status').prop('checked')) {
                 $("#send_status").prop("checked", true);
             }
