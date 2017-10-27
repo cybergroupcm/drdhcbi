@@ -41,6 +41,7 @@ class Complaint extends REST_Controller
         $overall = $this->get('overall');
         $user_id = $this->get('user_id');
         $no_status = $this->get('no_status');
+        $complaintParent = $this->get('complaint_parent');
         if (!is_null($channel)) {
             $filter['channel_id'] = $channel;
         }
@@ -50,6 +51,16 @@ class Complaint extends REST_Controller
         if (!is_null($complainType)) {
             $filter['complain_type_id'] = $complainType;
         }
+
+        if (!is_null($complaintParent)) {
+            $parent = array(
+                'where' => array('parent_id'=>$complaintParent),
+                'fields' => 'parent_id'
+            );
+        }else{
+            $parent = 'fields:parent_id';
+        }
+
         if (!is_null($address)) {
             $filter['address_id'] = $address;
         }elseif (!is_null($district)) {
@@ -94,6 +105,7 @@ class Complaint extends REST_Controller
             $filter['YEAR(complain_date)'] = date('Y');
         }
         $no_show_status['current_status_id <> '] = $no_status; #ไม่แสดงสถานะยกเลิก
+
         if ($overall == 1) { // มองเห็น เรื่องร้องเรียนทั้งหมด
             $complaint = $this->Key_in_model
                 ->where($no_show_status)
@@ -104,6 +116,7 @@ class Complaint extends REST_Controller
                 ->with_wish('fields:wish_name')
                 ->with_current_status('fields:current_status_name')
                 ->with_attach_file('fields:file_name')
+                ->with_complaint_parent($parent)
                 ->get_all();
         }
         else {
@@ -117,9 +130,15 @@ class Complaint extends REST_Controller
                 ->with_wish('fields:wish_name')
                 ->with_current_status('fields:current_status_name')
                 ->with_attach_file('fields:file_name')
+                ->with_complaint_parent($parent)
                 ->get_all();
         }
         if ($complaint) {
+            foreach ($complaint as $item => $value){
+                $userData = $this->user_detail($value->update_user_id);
+                    $complaint[$item]->update_user = "{$userData['prename_th']}{$userData['first_name']}   {$userData['last_name']}";
+            }
+
             // Set the response and exit
             $this->response($complaint, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
@@ -131,6 +150,152 @@ class Complaint extends REST_Controller
                 $filter
             ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
         }
+    }
+
+    public function dashboard_member_last_month_get()
+    {
+        $filter = [];
+        $channel = $this->get('channel_id');
+        $subject = $this->get('subject_id');
+        $complainType = $this->get('complain_type_id');
+        $province = $this->get('province_id');
+        $district = $this->get('district_id');
+        $address = $this->get('address_id');
+        $currentStatus = $this->get('current_status');
+        $complainNo = $this->get('complain_no');
+        $complaintDetail = $this->get('complaint_detail');
+        $petitioner = $this->get('petitioner');
+        $dateStart = $this->get('complaint_date_start');
+        $dateEnd = $this->get('complaint_date_end');
+        $timeStart = $this->get('time_start');
+        $timeEnd = $this->get('time_end');
+        $overall = $this->get('overall');
+        $user_id = $this->get('user_id');
+        $no_status = $this->get('no_status');
+        $complaintParent = $this->get('complaint_parent');
+        if (!is_null($channel)) {
+            $filter['channel_id'] = $channel;
+        }
+        if (!is_null($subject)) {
+            $filter['subject_id'] = $subject;
+        }
+        if (!is_null($complainType)) {
+            $filter['complain_type_id'] = $complainType;
+        }
+
+        if (!is_null($complaintParent)) {
+            $parent = array(
+                'where' => array('parent_id'=>$complaintParent),
+                'fields' => 'parent_id'
+            );
+        }else{
+            $parent = 'fields:parent_id';
+        }
+
+        if (!is_null($address)) {
+            $filter['address_id'] = $address;
+        }elseif (!is_null($district)) {
+            $filter['address_id LIKE'] = substr($district,0,4). '%';
+        }elseif (!is_null($province)) {
+            $filter['address_id LIKE'] = substr($province,0,2). '%';
+        }
+        if (!is_null($currentStatus) && $currentStatus >= 1 && $currentStatus <= 6) {
+            $filter['current_status_id'] = $currentStatus;
+        }
+        if (!is_null($complainNo)) {
+            $filter['complain_no LIKE'] = '%' . urldecode($complainNo) . '%';
+        }
+        if (!is_null($complaintDetail)) {
+            $filter['complaint_detail LIKE'] = '%' . urldecode($complaintDetail) . '%';
+        }
+        if (!is_null($petitioner)) {
+            $filter['CONCAT(first_name,last_name) LIKE'] = '%' . urldecode($petitioner) . '%';
+        }
+
+//        if (!is_null($dateStart) && !is_null($dateEnd)) {
+//            $filter['complain_date >='] = urldecode($dateStart);
+//            $filter['complain_date <='] = urldecode($dateEnd);
+//        }
+//        elseif (!is_null($dateStart) && is_null($dateEnd)) {
+//            $filter['complain_date >='] = urldecode($dateStart);
+//        }
+//        elseif (is_null($dateStart) && !is_null($dateEnd)) {
+//            $filter['complain_date <='] = urldecode($dateEnd);
+//        }
+//
+//        if (!is_null($timeStart) && !is_null($timeEnd)) {
+//            $filter['TIME(complain_date) >='] = urldecode($timeStart);
+//            $filter['TIME(complain_date) <='] = urldecode($timeEnd);
+//        }
+//        elseif (!is_null($timeStart) && is_null($timeEnd)) {
+//            $filter['TIME(complain_date) >='] = urldecode($timeStart);
+//        }
+//        elseif (is_null($timeStart) && !is_null($timeEnd)) {
+//            $filter['TIME(complain_date) <='] = urldecode($timeEnd);
+//        }
+//        if(count($filter)==0){
+//            $filter['MONTH(complain_date)'] = date('m');
+//            $filter['YEAR(complain_date)'] = date('Y');
+//        }
+        $no_show_status['current_status_id <> '] = $no_status; #ไม่แสดงสถานะยกเลิก
+
+        if ($overall == 1) { // มองเห็น เรื่องร้องเรียนทั้งหมด
+            $complaint = $this->Key_in_model
+                ->where($no_show_status)
+                ->where($filter)
+                ->order_by('complain_no', 'DESC')
+                ->with_title_name('fields:prename')
+                ->with_complaint_type('fields:complain_type_name')
+                ->with_wish('fields:wish_name')
+                ->with_current_status('fields:current_status_name')
+                ->with_attach_file('fields:file_name')
+                ->with_complaint_parent($parent)
+                ->get_all();
+        }
+        else {
+            $complaint = $this->Key_in_model
+                ->where($no_show_status)
+                ->where($filter)
+                ->where('create_user_id', $user_id)
+                ->order_by('complain_no', 'DESC')
+                ->with_title_name('fields:prename')
+                ->with_complaint_type('fields:complain_type_name')
+                ->with_wish('fields:wish_name')
+                ->with_current_status('fields:current_status_name')
+                ->with_attach_file('fields:file_name')
+                ->with_complaint_parent($parent)
+                ->get_all();
+        }
+        if ($complaint) {
+            foreach ($complaint as $item => $value){
+                $userData = $this->user_detail($value->update_user_id);
+                $complaint[$item]->update_user = "{$userData['prename_th']}{$userData['first_name']}   {$userData['last_name']}";
+            }
+
+            // Set the response and exit
+            $this->response($complaint, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }
+        else {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'No complaint were found',
+                $filter
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
+    private function user_detail($id)
+    {
+        $sql = "SELECT
+                    t1.first_name,
+                    t1.last_name,
+                    t1.prename_th
+                FROM
+                    au_users AS t1
+                WHERE t1.id = '{$id}'  ";
+        $query = $this->User_model->sql_query($sql)->row_array();
+        return $query;
     }
 
     public function dashboard_mobile_get()
@@ -386,6 +551,44 @@ class Complaint extends REST_Controller
 
     }
 
+    public function key_in_mobile_get()
+    {
+        $id = $this->get('id');
+        if ($id === NULL) {
+            $complaint = $this->Key_in_model->with_complaint_type('fields:complain_type_name')->with_wish('fields:wish_name')->with_title_name('fields:prename')->with_subject('fields:subject_name')->with_channel('fields:channel_name')->with_attach_file('fields:file_id,file_name,file_system_name')->get_all();
+            if ($complaint) {
+                $this->response($complaint, REST_Controller::HTTP_OK);
+            }
+            else {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'No complaint were found'
+                ], REST_Controller::HTTP_NOT_FOUND);
+            }
+        }
+        $id = (int)$id;
+        if ($id <= 0) {
+            $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST);
+        }
+        $complaint = $this->Key_in_model->with_complaint_type('fields:complain_type_name')->with_wish('fields:wish_name')->with_title_name('fields:prename')->with_subject('fields:subject_name')->with_channel('fields:channel_name')->with_attach_file('fields:file_id,file_name,file_system_name')->get($id);
+        if (!empty($complaint)) {
+            $complain_type_id = $complaint->complain_type_id;
+            $complain_type_relation = $this->complain_type->sort_complain_type($complain_type_id);
+            foreach($complain_type_relation as $key => $value){
+                $complaint->complain_type_relation[$key] = $value;
+            }
+
+            $this->set_response($complaint, REST_Controller::HTTP_OK);
+        }
+        else {
+            $this->set_response([
+                'status' => FALSE,
+                'message' => 'complaint could not be found'
+            ], REST_Controller::HTTP_NOT_FOUND);
+        }
+
+    }
+
     public function key_in_post()
     {
         $user = $this->jwt_decode($this->jwt_token());
@@ -431,6 +634,14 @@ class Complaint extends REST_Controller
             $step_now = $data['step_now'];
             unset($data['step_now']);
         }
+        if (array_key_exists('result_detail', $data)) {
+            $result_detail = $data['result_detail'];
+            unset($data['result_detail']);
+        }
+        if (array_key_exists('result_id', $data)) {
+            $result_id = $data['result_id'];
+            unset($data['result_id']);
+        }
         if (array_key_exists('province_id', $data)) {
             unset($data['province_id']);
         }
@@ -471,13 +682,23 @@ class Complaint extends REST_Controller
             }
         }
         if($step_now=='3') {
-                $this->Key_in_model->beforeInsertPivotWish($keyInID);
-                if (!empty($keyInID) && count($wish) > 0) {
-                    foreach ($wish as $item) {
-                        $this->Key_in_model->insertPivotWish($keyInID, $item);
-                    }
+            $this->Key_in_model->beforeInsertPivotWish($keyInID);
+            if (!empty($keyInID) && count($wish) > 0) {
+                foreach ($wish as $item) {
+                    $this->Key_in_model->insertPivotWish($keyInID, $item);
                 }
             }
+
+            $data_result = [];
+            $data_result['keyin_id'] = $keyInID;
+            $data_result['result_detail'] = $result_detail;
+            $data_result['result_date'] = date('d/m/Y H:i:s',strtotime('+543 year'));
+            if($result_id!=''){
+                $this->Result_model->update($data_result, array('keyin_id'=>$keyInID));
+            }else{
+                $this->Result_model->insert($data_result);
+            }
+        }
 
         $keyInID = (int)$keyInID;
         $this->set_response($keyInID, REST_Controller::HTTP_CREATED);
@@ -550,15 +771,23 @@ class Complaint extends REST_Controller
 
     private function do_uploads($keyin_id, $field)
     {
-        $config['upload_path'] = './upload/complaints/' . $keyin_id;
+        $config['upload_path'] = './upload/complaints/' . $keyin_id.'/';
         $config['allowed_types'] = '*';//gif|jpg|png
         $config['max_size'] = 256000;
         $config['file_name'] = 'fileupload';
 
-        if (!is_dir($config['upload_path'])) mkdir($config['upload_path'], 0777, TRUE);
+        if (!is_dir($config['upload_path']))
+        {
+            if (!mkdir($config['upload_path'], 0777, TRUE)) {
+                echo 'Failed to create folders...';
+            }
+        }
+
 
         $this->load->library('upload', $config);
         $this->load->library('my_upload', $config);
+
+        $this->upload->initialize($config);
 
         $upload = $this->upload->do_multi_upload($field);
         if (!$upload) {
@@ -725,6 +954,7 @@ class Complaint extends REST_Controller
             $this->response($id, REST_Controller::HTTP_OK);
         }
     }
+
     public function user_mode_permission_get()
     {
         $user_id = $this->get('user_id');
@@ -841,7 +1071,7 @@ class Complaint extends REST_Controller
     }
 
     public function send_org_get($id){
-        $types = $this->Send_org_model->where('send_org_id', $id)->get();
+        $types = $this->Send_org_model->where(array('send_org_id'=> $id,'active'=>'1'))->get();
         // Check if the users data store contains users (in case the database result returns NULL)
         if ($types) {
             // Set the response and exit
@@ -849,6 +1079,57 @@ class Complaint extends REST_Controller
         } else {
             // Set the response and exit
             $this->response('', REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
+    public function export_xml_get()
+    {
+        $id = $this->get('id');
+        if ($id === NULL) {
+            $complaint = $this->Key_in_model
+                ->with_complaint_type('fields:complain_type_name')
+                ->with_wish('fields:wish_name')
+                ->with_title_name('fields:prename')
+                ->with_subject('fields:subject_name')
+                ->with_channel('fields:channel_name')
+                ->order_by('complain_no','DESC')
+                ->get_all();
+            if ($complaint) {
+                $this->response($complaint, REST_Controller::HTTP_OK);
+            }
+            else {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'No complaint were found'
+                ], REST_Controller::HTTP_NOT_FOUND);
+            }
+        }
+        $id = (int)$id;
+        if ($id <= 0) {
+            $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST);
+        }
+        $complaint = $this->Key_in_model
+            ->with_complaint_type('fields:complain_type_name')
+            ->with_wish('fields:wish_name')
+            ->with_title_name('fields:prename')
+            ->with_subject('fields:subject_name')
+            ->with_channel('fields:channel_name')
+            ->order_by('complain_no','DESC')
+            ->get($id);
+        if (!empty($complaint)) {
+            $complain_type_id = $complaint->complain_type_id;
+            $complain_type_relation = $this->complain_type->sort_complain_type($complain_type_id);
+            foreach ($complain_type_relation as $key => $value) {
+                $complaint->complain_type_relation[$key] = $value;
+            }
+
+            $this->set_response($complaint, REST_Controller::HTTP_OK);
+        }
+        else {
+            $this->set_response([
+                'status' => FALSE,
+                'message' => 'complaint could not be found'
+            ], REST_Controller::HTTP_NOT_FOUND);
         }
     }
 }

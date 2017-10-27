@@ -38,6 +38,7 @@ class Complaint extends CI_Controller
         $user_data_id = api_call_get($url);
         $url = base_url("api/complaint/user_detail/id/".$user_data_id['userid']);
         $arr_data['user_login_data'] = api_call_get($url);
+        $arr_data['user_login_data']['userid']=$user_data_id['userid'];
         $url = base_url("api/complaint/user_groups/user_id/" . $user_data_id['userid']);
         $user_modes_groups = api_call_get($url);
         if(isset($user_modes_groups)){
@@ -59,6 +60,8 @@ class Complaint extends CI_Controller
             $arr_data['key_in_data'] = api_call_get($url);
             $arr_data['id'] = $id;
 
+            $url = base_url("api/complaint/result/" . $id);
+            $arr_data['data_result'] = api_call_get($url);
             $url = base_url("api/dropdown/accused_type_lists/0");
             $arr_data['accused_type'][] = api_call_get($url);
             if($arr_data['key_in_data']['accused_type_id']!='') {
@@ -386,6 +389,8 @@ class Complaint extends CI_Controller
 
     public function view_detail($id)
     {
+        $this->load->model('main/Main_model','main');
+
         $url = base_url("api/complaint/key_in/" . $id);
         $arr_data['key_in_data'] = api_call_get($url);
 
@@ -412,7 +417,23 @@ class Complaint extends CI_Controller
         $arr_data['result'] = api_call_get($url);
         $url = base_url("api/dropdown/accused_type_lists");
         $arr_data['accused_type_all'] = api_call_get($url);
-        //echo"<pre>";print_r($arr_data['result']);echo"</pre>";
+
+        //ข้อมูลเรื่องร้องทุกข์ทั้งหมดจำแนกรายพื้นที่
+    		$obj_area = $this->main->get_area();
+    		foreach($obj_area as $row_area){
+    			$arr_area_data[$row_area->area_id] = array('area_id'=>$row_area->area_id, 'area_name'=>$row_area->area_name);
+    		}
+    		$arr_data['area_data'] = $arr_area_data;
+    		//สัญลักษณ์ประเภทเรื่อง
+    		$obj_complain_type = $this->main->get_complain_type_list();
+    		foreach ($obj_complain_type as $row)
+    		{
+    			$arr_complain_type_list_icon[] = array('complain_type_name'=>$row->complain_type_name,'icon_pin'=>$row->icon_pin);
+    		}
+    		$arr_data['complain_type_list_icon'] = $arr_complain_type_list_icon;
+        $arr_data['icon'] = $this->main->get_complain_type_icon($arr_data['key_in_data']['complain_type_id']);
+        //$arr_data['icon'] = 'pin-map9.png';
+        //echo"<pre>";print_r($arr_data['key_in_data']);echo"</pre>";
         $this->libraries->template('complaint/view_detail', $arr_data);
     }
 
@@ -423,6 +444,14 @@ class Complaint extends CI_Controller
         $result = $arr_data['data_send'];
         echo json_encode($result);
         exit;
+    }
+
+    public function get_province_list($type, $id, $default = '')
+    {
+        $url = base_url("api/dropdown/ccaa_lists/" . $type . "/" . $id);
+        $arr_data['type'] = $type;
+        $arr_data['province_list'] = api_call_get($url);
+        $this->load->view('complaint/get_province_list', $arr_data);
     }
 
     public function get_district_list($type, $id, $default = '')

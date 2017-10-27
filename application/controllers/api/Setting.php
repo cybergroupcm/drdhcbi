@@ -468,9 +468,9 @@ class Setting extends REST_Controller
 
         if ($id === NULL) {
             if($type == 'parent'){
-                $data_result = $this->Send_org_model->where('parent_id', $parent_id)->order_by('send_org_id', 'DESC')->get_all();
+                $data_result = $this->Send_org_model->where(array('parent_id'=> $parent_id,'active'=>'1'))->order_by('send_org_id', 'DESC')->get_all();
             }else {
-                $data_result = $this->Send_org_model->where('parent_id', '0')->order_by('send_org_id', 'DESC')->get_all();
+                $data_result = $this->Send_org_model->where(array('parent_id'=>'0','active'=>'1'))->order_by('send_org_id', 'DESC')->get_all();
             }
             if ($data_result) {
                 $this->response($data_result, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code

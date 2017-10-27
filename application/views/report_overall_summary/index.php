@@ -107,7 +107,7 @@ if( !isset($_GET['mm']) || $_GET['mm'] == '' ){
 
                     <div class="modal-footer" style="text-align: center;">
                         <input type="submit" name="btSearch" id="btSearch" class="btn btn-primary" value="ค้นหาข้อมูล">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">ล้างค่า</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
                     </div>
                 </form>
             </div>

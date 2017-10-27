@@ -249,7 +249,17 @@ $link = array(
                             หน่วยงาน/แผนก ที่สังกัด :
                         </label>
                         <label class="col-sm-3">
-                            <input type="text"  name="company" id="section" class="form-control" value="<?php echo @$data['user']['company']?>" />
+<!--                            <input type="text"  name="company" id="section" class="form-control" value="--><?php //echo @$data['user']['company']?><!--" />-->
+                            <?php
+                            @$section_arr = @$org_user;
+                            @$section_arr[''] = 'กรุณาเลือก';
+                            ksort($section_arr);
+                            echo form_dropdown([
+                                'name' => 'company',
+                                'id' => 'section',
+                                'class' => 'form-control',
+                            ],$section_arr,@$data['user']['company']);
+                            ?>
                         </label>
                     </div>
                 </div>
@@ -350,7 +360,7 @@ $link = array(
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label class="col-sm-3 right">
+                        <label class="col-sm-3 right required">
                             หมายเลขโทรศัพท์ :
                         </label>
                         <label class="col-sm-4">
