@@ -7,6 +7,7 @@ $(document).ready(function () {
         var complain_no = $('#complain_no_send').val();
         var reply_date = $('#reply_date').val();
         var send_org_date = $('#send_org_date').val();
+        var return_to = $('#return_to').attr('class');
 
         /*if($('input[name=send_org_parent]:checked').val() == '2'){
             send_org_id = $('input[name=send_org_parent]:checked').val();
@@ -43,7 +44,7 @@ $(document).ready(function () {
                     showConfirmButton: false
                 });
                 setTimeout(function(){
-                    $(location).attr('href',base_url+'complaint/dashboard');
+                    $(location).attr('href',base_url+'complaint/'+return_to);
                 }, 2000);
             }
         }).fail(function (err) {

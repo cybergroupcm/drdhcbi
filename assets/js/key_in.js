@@ -73,7 +73,7 @@ function saveForm(action_to) {
                 showConfirmButton: false
             });
             setTimeout(function(){
-                if(action_to=='dashboard'){
+                if(action_to=='dashboard' || action_to=='dashboard_member'){
                     $(location).attr('href',base_url+'complaint/'+action_to);
                 }else if(action_to == 'key_in_step5_pdf'){
                     window.open(base_url+'complaint/'+action_to+'/'+keyin_id, "_blank");
@@ -335,6 +335,9 @@ $(document).ready(function () {
             clear: 'ล้างค่า',
             selectTime: 'เลือกเวลา'
         }
+    });
+    $('.datetimepicker').on("dp.change", function (e) {
+        $(this).data("DateTimePicker").hide();
     });
     $('.datepicker').each(function(){
         $(this).datepicker('update', $(this).val());

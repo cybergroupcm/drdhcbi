@@ -72,6 +72,9 @@ $route['api/complaint/key_in_file/(:num)'] = 'api/complaint/key_in_file/id/$1';
 $route['api/complaint/result/(:num)'] = 'api/complaint/result/id/$1';
 $route['api/complaint/user_detail/(:num)'] = 'api/complaint/user_detail/$1';
 
+$route['api/complaint/export/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'api/complaint/export/id/$1/format/$3$4';
+$route['api/complaint/export_xml/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'api/complaint/export/id/$1/format/$3$4';
+
 
 //User  REST API Routes
 $route['api/user/user'] = 'api/user/user';
@@ -94,13 +97,6 @@ $route['api/setting/use_org/(:num)'] = 'api/setting/use_org/id/$1'; // Example 4
 $route['api/setting/use_complain_type/(:num)'] = 'api/setting/use_complain_type/id/$1'; // Example 4
 $route['api/setting/use_accused_type/(:num)'] = 'api/setting/use_accused_type/id/$1'; // Example 4
 $route['api/setting/complain_type_lists/(:num)'] = 'api/setting/complain_type_lists/id/$1'; // Example 4
+$route['api/authen/re_password_info/(:num)'] = 'api/authen/re_password_info/$1'; // Example 4
 
 
-
-/*
-| -------------------------------------------------------------------------
-| Sample SOAP Routes
-| -------------------------------------------------------------------------
-*/
-
-$route['nuSoapServer/getMember/wsdl'] = 'nuSoapServer/index/wsdl';

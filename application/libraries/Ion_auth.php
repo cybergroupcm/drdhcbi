@@ -62,7 +62,7 @@ class Ion_auth
 		$this->load->config('ion_auth', TRUE);
 		$this->load->library(array('email'));
 		$this->lang->load('ion_auth');
-		$this->load->helper(array('cookie', 'language','url'));
+		$this->load->helper(array('cookie', 'language','url','api'));
 
 		$this->load->library('session');
 
@@ -465,6 +465,21 @@ class Ion_auth
 
 		return $this->in_group($admin_group, $id);
 	}
+
+    /**
+     * is_member
+     *
+     * @return bool
+     * @author Ben Edmunds
+     **/
+    public function is_member($id=false)
+    {
+        $this->ion_auth_model->trigger_events('is_member');
+
+        $admin_group = $this->config->item('member_group', 'ion_auth');
+
+        return $this->in_group($admin_group, $id);
+    }
 
 	/**
 	 * in_group
