@@ -81,7 +81,7 @@
               <div class="small-box bg-red">
                 <div class="inner">
                   <h4><?php echo @$sum_status['1'];?> <sup style="font-size: 18px">(รายการ)</sup></h4>
-                  <p><h5>อยู่ระหว่างรับเรื่อง</h5></p>
+                  <p><h5>อยู่ระหว่างตรวจสอบ</h5></p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-email-unread"></i>
@@ -120,7 +120,7 @@
               <div class="small-box bg-green">
                 <div class="inner">
                   <h4><?php echo @$sum_status['4'];?> <sup style="font-size: 18px">(รายการ)</sup></h4>
-                  <p><h5>บันทึกผลเรียบร้อย</h5></p>
+                  <p><h5>ยุติ/ดำเนินการแล้ว</h5></p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-checkmark-circled"></i>
