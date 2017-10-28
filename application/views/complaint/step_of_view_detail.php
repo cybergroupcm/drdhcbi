@@ -6,13 +6,13 @@ $link = array(
 );
 echo link_tag($link);
 $step_array = array();
-$step_array[1]['name'] = 'อยู่ระหว่างรับเรื่อง';
+$step_array[1]['name'] = 'อยู่ระหว่างตรวจสอบ';
 $step_array[1]['color'] = 'btn-danger';
 $step_array[2]['name'] = 'รับเรื่อง';
 $step_array[2]['color'] = 'btn-warning';
 $step_array[3]['name'] = 'ส่งต่อ';
 $step_array[3]['color'] = 'btn-primary';
-$step_array[4]['name'] = 'บันทึกผลเรียบร้อย';
+$step_array[4]['name'] = 'ยุติ/ดำเนินการแล้ว';
 $step_array[4]['color'] = 'btn-success';
 ?>
     <div class="container-fluid">

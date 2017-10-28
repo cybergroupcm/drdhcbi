@@ -81,7 +81,7 @@
               <div class="small-box bg-red">
                 <div class="inner">
                   <h4><?php echo @$sum_status['1'];?> <sup style="font-size: 18px">(รายการ)</sup></h4>
-                  <p><h5>อยู่ระหว่างรับเรื่อง</h5></p>
+                  <p><h5>อยู่ระหว่างตรวจสอบ</h5></p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-email-unread"></i>
@@ -120,7 +120,7 @@
               <div class="small-box bg-green">
                 <div class="inner">
                   <h4><?php echo @$sum_status['4'];?> <sup style="font-size: 18px">(รายการ)</sup></h4>
-                  <p><h5>บันทึกผลเรียบร้อย</h5></p>
+                  <p><h5>ยุติ/ดำเนินการแล้ว</h5></p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-checkmark-circled"></i>
@@ -370,7 +370,7 @@
 //                      var d = new Date();
 //                      var yyyy = parseInt(d.getFullYear())+543;
 //                      var date_now = d.getDay()+'/'+d.getMonth()+'/'+yyyy;
-                      window.location.href = encodeURI("http://damrongdham.chonburi.go.th/sysdamrongdham/complaint/dashboard?complain_type_id="+complain_typer_id+"&complaint_date_start=<?php echo date('d').'/'.date('m').'/'.(date('Y')+543);?>");
+                      window.location.href = encodeURI("http://damrongdham.chonburi.go.th/sysdamrongdham/complaint/dashboard?parent_type_id="+complain_typer_id+"&complaint_date_start=<?php echo date('d').'/'.date('m').'/'.(date('Y')+543);?>");
                   }
               </script>
           </div>
