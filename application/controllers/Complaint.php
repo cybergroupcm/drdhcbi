@@ -277,7 +277,6 @@ class Complaint extends CI_Controller
 
         $url = base_url("api/complaint/user_mode_permission/user_id/" . $user_data_id['userid']);
         $user_modes_groups = api_call_get($url);
-
         $url = base_url("api/complaint/user_groups/user_id/" . $user_data_id['userid']);
         $user_group_id = api_call_get($url);
         if(is_array($user_group_id) && in_array('2',$user_group_id)){
@@ -327,6 +326,10 @@ class Complaint extends CI_Controller
         $id=$arr_data['token']['userid'];
         $url = base_url()."api/user/user/".$id;
         $arr_data_user = api_call_get($url);
+        $company  = "/company/".$arr_data_user['user']['company'];
+        //echo $company;
+        //echo '<pre>'; print_r($arr_data_user); echo '</pre>';
+        //exit;
         $arr_group = array();
         foreach($arr_data_user['currentGroups'] AS $key=>$val){
             $arr_group[$key] = $val['id'];
@@ -346,7 +349,7 @@ class Complaint extends CI_Controller
         $total_row = api_call_get($url);
         $arr_data['total_row'] = $total_row;*/
 //        $url = base_url('/api/complaint/dashboard/overall/'.$overall.'/user_id/'.$user_data_id['userid'].'/page/'.$page);
-        $url = base_url('/api/complaint/dashboard_last_month/overall/' . $overall . '/user_id/' . $user_data_id['userid'] . $queryFilter.$check_no_status);
+        $url = base_url('/api/complaint/dashboard_last_month/overall/' . $overall . '/user_id/' . $user_data_id['userid'] . $queryFilter.$check_no_status.$company);
         $arr_data['data'] = api_call_get($url);
         if (isset($arr_data['data']['status'])) {
             $arr_data['data'] = [];
@@ -637,6 +640,15 @@ class Complaint extends CI_Controller
 
         $url = base_url("api/complaint/key_in/" . $id);
         $arr_data['key_in_data'] = api_call_get($url);
+        //echo"<pre>";print_r($arr_data['key_in_data']);exit;
+
+        $url = base_url("api/dropdown/send_org_lists_all");
+        $arr_data['send_org'] = api_call_get($url);
+        $arr_data['get_send_org'] = $this->send_org->sort_send_org($arr_data['key_in_data']['send_org_id']);
+        $arr_data['send_org_text'] = '';
+        foreach ($arr_data['get_send_org'] as $key => $value) {
+            $arr_data['send_org_text'] .= $arr_data['send_org'][$value]." ";
+        }
 
         $arr_data['get_accused_type'] = $this->accused_type->sort_accused($arr_data['key_in_data']['accused_type_id']);
         $arr_data['get_complain_type'] = $this->complain_type->sort_complain_type($arr_data['key_in_data']['complain_type_id']);
@@ -647,8 +659,8 @@ class Complaint extends CI_Controller
         $arr_data['create_user_detail'] = api_call_get($url);
         $url = base_url("api/user/user/".$arr_data['key_in_data']['create_user_id']);
         $arr_data['create_user_detail_authen'] = api_call_get($url);
-        //$arr_data['create_user_detail_authen']['currentGroups'][0]['name'];
-        //echo"<pre>";print_r($_SESSION);exit;
+        $url = base_url("api/user/user/".$this->session->userdata[user_id]);
+        $arr_data['current_user_login_data'] = api_call_get($url);
         $url = base_url("api/complaint/user_detail/id/".$arr_data['key_in_data']['update_user_id']);
         $arr_data['update_user_detail'] = api_call_get($url);
         $url = base_url("api/dropdown/ccaa_lists/Changwat");
@@ -663,6 +675,9 @@ class Complaint extends CI_Controller
         $arr_data['current_status'] = api_call_get($url);
         $url = base_url("api/complaint/result/".$id);
         $arr_data['result'] = api_call_get($url);
+        $url = base_url("api/complaint/user_detail/id/".$arr_data['result']['result_user_id']);
+        $arr_data['result_user_detail'] = api_call_get($url);
+        //echo"<pre>";print_r($arr_data['result_user_detail']);exit;
         $url = base_url("api/dropdown/accused_type_lists");
         $arr_data['accused_type_all'] = api_call_get($url);
 
@@ -810,6 +825,20 @@ class Complaint extends CI_Controller
             }
         }
         $this->load->view('complaint/get_send_org', $arr_data);
+    }
+
+    public function get_send_org_text($id)
+    {
+        $url = base_url("api/dropdown/send_org_lists_all");
+        $arr_data['send_org'] = api_call_get($url);
+        $arr_data['get_send_org'] = $this->send_org->sort_send_org($id);
+        $send_org_text = '';
+        foreach ($arr_data['get_send_org'] as $key => $value) {
+            $send_org_text .= $arr_data['send_org'][$value]." ";
+        }
+        //echo"<pre>";print_r($arr_data['send_org']);echo"</pre>";
+        echo $send_org_text;
+        exit;
     }
 
     public function key_in_step5_pdf($id)

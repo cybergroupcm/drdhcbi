@@ -24,6 +24,7 @@ class Complaint extends REST_Controller
     public function dashboard_last_month_get()
     {
         $filter = [];
+        $filterEx = [];
         $channel = $this->get('channel_id');
         $subject = $this->get('subject_id');
         $complainType = $this->get('complain_type_id');
@@ -42,6 +43,12 @@ class Complaint extends REST_Controller
         $user_id = $this->get('user_id');
         $no_status = $this->get('no_status');
         $complaintParent = $this->get('complaint_parent');
+        //$company = $this->get('company');
+        $company_parent = $this->Send_org_model->where(array('parent_id'=> $this->get('company')))->get_all();
+        $company = array();
+        foreach ($company_parent as $item => $value){
+            $company[$item] = $value->send_org_id;
+        }
         if (!is_null($channel)) {
             $filter['channel_id'] = $channel;
         }
@@ -69,7 +76,11 @@ class Complaint extends REST_Controller
             $filter['address_id LIKE'] = substr($province,0,2). '%';
         }
         if (!is_null($currentStatus) && $currentStatus >= 1 && $currentStatus <= 6) {
-            $filter['current_status_id'] = $currentStatus;
+            $filterEx = array($currentStatus); ;
+        }elseif (!is_null($currentStatus) && $currentStatus == 'other'){
+            $filterEx = array(4,5,6);
+        }elseif(!is_null($currentStatus) && $currentStatus == 'all'){
+            $filterEx = array(1,2,3,4,5,6);
         }
         if (!is_null($complainNo)) {
             $filter['complain_no LIKE'] = '%' . urldecode($complainNo) . '%';
@@ -100,14 +111,20 @@ class Complaint extends REST_Controller
         elseif (is_null($timeStart) && !is_null($timeEnd)) {
             $filter['TIME(complain_date) <='] = urldecode($timeEnd);
         }
-        if(count($filter)==0){
+        if(count($filter)==0 && count($filterEx)==0){
             $filter['MONTH(complain_date)'] = date('m');
             $filter['YEAR(complain_date)'] = date('Y');
+            $filterEx = array(1,2,3,4,5,6);
+        }else if(count($filter)!=0 && count($filterEx)==0){
+            $filterEx = array(1,2,3,4,5,6);
+        }else if(count($filter)==0 && count($filterEx)!=0){
+            $filter['1'] = '1';
         }
         $no_show_status['current_status_id <> '] = $no_status; #ไม่แสดงสถานะยกเลิก
 
         if ($overall == 1) { // มองเห็น เรื่องร้องเรียนทั้งหมด
             $complaint = $this->Key_in_model
+                ->where('current_status_id',$filterEx)
                 ->where($no_show_status)
                 ->where($filter)
                 ->order_by('complain_no', 'DESC')
@@ -116,29 +133,33 @@ class Complaint extends REST_Controller
                 ->with_wish('fields:wish_name')
                 ->with_current_status('fields:current_status_name')
                 ->with_attach_file('fields:file_name')
-                ->with_complaint_parent($parent)
+                ->with_complaint_parent($parent)->as_array()
                 ->get_all();
         }
         else {
+            $company_in =implode(',', $company);
             $complaint = $this->Key_in_model
+                ->where("(create_user_id = {$user_id} OR send_org_id IN ({$company_in}))",NULL,NULL,FALSE,FALSE,TRUE)
+                ->where('current_status_id',$filterEx)
                 ->where($no_show_status)
                 ->where($filter)
-                ->where('create_user_id', $user_id)
                 ->order_by('complain_no', 'DESC')
                 ->with_title_name('fields:prename')
                 ->with_complaint_type('fields:complain_type_name')
                 ->with_wish('fields:wish_name')
                 ->with_current_status('fields:current_status_name')
                 ->with_attach_file('fields:file_name')
-                ->with_complaint_parent($parent)
+                ->with_complaint_parent($parent)->as_array()
                 ->get_all();
+//            echo $this->db->last_query();
         }
+
         if ($complaint) {
             foreach ($complaint as $item => $value){
-                $userData = $this->user_detail($value->update_user_id);
-                    $complaint[$item]->update_user = "{$userData['prename_th']}{$userData['first_name']}   {$userData['last_name']}";
+                $userData = $this->user_detail($value['update_user_id']);
+                $complaint[$item] = (object)$value;
+                $complaint[$item]->update_user = "{$userData['prename_th']}{$userData['first_name']}   {$userData['last_name']}";
             }
-
             // Set the response and exit
             $this->response($complaint, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }

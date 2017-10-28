@@ -50,8 +50,17 @@ class Main_model extends CI_Model {
                 ";
             $query = $this->db->query($sql);
             $data_group = $query->result_array();
+
+            $sql_send_org = "SELECT send_org_id FROM ms_send_org WHERE  parent_id = '".$data_group[0]['company']."'";
+            $query_send_org = $this->db->query($sql_send_org);
+            $data_send_org = $query_send_org->result_array();
+            $company = array();
+            foreach ($data_send_org as $item => $value){
+                $company[$item] = $value['send_org_id'];
+            }
+            $company_in =implode(',', $company);
             if(!empty($data_group)){
-                $where_user = " OR (`dt_keyin`.send_org_id = '".$data_group[0]['company']."')";
+                $where_user = " OR (`dt_keyin`.send_org_id IN (".$company_in."))";
             }
         }
         $sql = "SELECT
