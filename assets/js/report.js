@@ -96,6 +96,24 @@ function thaidateformat(d,long) {
     return gD.getDate() + ' ' + thmonth[gD.getMonth()] + ' ' + (gD.getFullYear() + 543);
 }
 
+
+function get_province(value,defaule_value){
+    var base_url = $('#base_url').attr('class');
+    if(value!=''){
+        var part_code = value;
+        var url = base_url+'complaint/get_province_list/part/'+part_code+'/'+defaule_value;  //the url to call
+        $.post(url, {data: ''}, function (data) {
+            console.log(data);
+            $('#province_span').html(data);
+            //var province_span = '';
+            //province_span += '<select name="province_id" class="form-control" id="province_id">';
+            //province_span += '<option value="">กรุณาเลือก</option>';
+            //province_span += '</select>';
+            //$('#province_span').html(province_span);
+        });
+    }
+}
+
 function get_district(value,defaule_value){
     var base_url = $('#base_url').attr('class');
     if(value!=''){
@@ -122,5 +140,4 @@ function get_subdistrict(value,defaule_value){
         });
     }
 }
-
 

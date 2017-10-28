@@ -645,6 +645,10 @@ class Complaint extends CI_Controller
         $arr_data['user_detail'] = api_call_get($url);
         $url = base_url("api/complaint/user_detail/id/".$arr_data['key_in_data']['create_user_id']);
         $arr_data['create_user_detail'] = api_call_get($url);
+        $url = base_url("api/user/user/".$arr_data['key_in_data']['create_user_id']);
+        $arr_data['create_user_detail_authen'] = api_call_get($url);
+        //$arr_data['create_user_detail_authen']['currentGroups'][0]['name'];
+        //echo"<pre>";print_r($_SESSION);exit;
         $url = base_url("api/complaint/user_detail/id/".$arr_data['key_in_data']['update_user_id']);
         $arr_data['update_user_detail'] = api_call_get($url);
         $url = base_url("api/dropdown/ccaa_lists/Changwat");

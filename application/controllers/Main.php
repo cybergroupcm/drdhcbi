@@ -61,6 +61,11 @@ class Main extends MY_Controller {
         }else{
             $arr_data['sum_status'] = $this->main->get_sum_status();
         }
+        if( $overall == 0 ) {
+            $arr_data['sum_status_dashboard'] = $this->main->get_sum_status_without_ccaa($user_data_id['userid']);
+        }else{
+            $arr_data['sum_status_dashboard'] = $this->main->get_sum_status_without_ccaa();
+        }
 		//ข้อมูลเรื่องร้องทุกข์ทั้งหมดจำแนกรายพื้นที่
 		$obj_area = $this->main->get_area();
 		foreach($obj_area as $row_area){
@@ -219,8 +224,13 @@ class Main extends MY_Controller {
         }
 
 
+
       $url = base_url("api/complaint/user_groups/user_id/" . $id);
       $user_modes_groups = api_call_get($url);
+
+	  $url = base_url("api/dropdown/send_org_parent_lists/allow/1");
+	  $arr_data['data']['org_user'] = api_call_get($url);
+
 
       if(in_array(2, $user_modes_groups)) {
           $this->libraries->template_member('register/register', $arr_data);

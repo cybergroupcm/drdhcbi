@@ -103,7 +103,8 @@
                                         echo form_dropdown([
                                             'id' => 'partid',
                                             'name'=>'partid',
-                                            'class' => 'form-control'
+                                            'class' => 'form-control',
+                                            'onchange'=>"get_province(this.value,'')"
                                         ], $area_part_arr, @$_GET['partid']);
                                         ?>
                                     </label>
@@ -119,17 +120,19 @@
                                         จังหวัด :
                                     </label>
                                     <label class="col-sm-7">
+                                        <span id="province_span">
                                         <?php
                                         $province_arr = $province_list;
                                         $province_arr[''] = 'กรุณาเลือก';
                                         ksort($province_arr);
                                         echo form_dropdown([
                                             'id' => 'province_id',
-                                            'name'=>'province_id',
+                                            'name' => 'province_id',
                                             'class' => 'form-control',
-                                            'onchange'=>"get_district(this.value,'')"
+                                            'onchange' => "get_district(this.value,'')"
                                         ], $province_arr, @$_GET['province_id']);
                                         ?>
+                                        </span>
                                     </label>
                                 </div>
                             </div>
@@ -190,7 +193,7 @@
 
                 <div class="modal-footer" style="text-align: center;">
                     <input type="submit" name="btSearch" id="btSearch" class="btn btn-primary" value="ค้นหาข้อมูล">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">ล้างค่า</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
                 </div>
                 </form>
             </div>

@@ -35,6 +35,46 @@ class Main_model extends CI_Model {
       return $result;
     }
 
+    public function get_sum_status_without_ccaa($user_id='')
+    {
+
+        $where = "";
+        $where_user = "";
+        if( $user_id != '' ) {
+            $where = " AND dt_keyin.create_user_id = '" . $user_id . "' ";
+            $sql = "SELECT
+                  `au_users`.company,
+                  `au_users_groups`.group_id
+                FROM `au_users` INNER JOIN `au_users_groups` ON `au_users`.id = `au_users_groups`.user_id
+                WHERE `au_users`.id = '".$user_id."'
+                ";
+            $query = $this->db->query($sql);
+            $data_group = $query->result_array();
+            if(!empty($data_group)){
+                $where_user = " OR (`dt_keyin`.send_org_id = '".$data_group[0]['company']."')";
+            }
+        }
+        $sql = "SELECT
+                    IF(`dt_keyin`.`current_status_id`>=4,4,`dt_keyin`.`current_status_id`) AS `current_status_id`,
+                    count( `dt_keyin`.`keyin_id` ) AS `sum_complain` 
+                FROM `dt_keyin`
+                WHERE 1=1 ".$where." ".$where_user."
+                GROUP BY IF(`dt_keyin`.`current_status_id`>=4,4,`dt_keyin`.`current_status_id`)";
+        $query = $this->db->query($sql);
+        $sum_all = 0;
+        $result[1] = 0;
+        $result[2] = 0;
+        $result[3] = 0;
+        $result[4] = 0;
+        foreach ($query->result() as $row)
+        {
+            $result[$row->current_status_id] = $row->sum_complain;
+            $sum_all += $row->sum_complain;
+        }
+        $result['sum_all'] =  $sum_all;
+        return $result;
+    }
+
     public function get_sum_dashboard($user_id='')
     {
         $where = "";
