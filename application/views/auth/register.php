@@ -92,6 +92,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                            placeholder="นามสกุล (ภาษาอังกฤษ)"/>
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
+                <span class="text-danger">*</span>
                 <div class="form-group has-feedback">
                     <input type="text" class="form-control" name="address" id="address"
                            placeholder="ที่อยู่ติดต่อกลับ"/>
