@@ -70,6 +70,7 @@
                                             echo form_dropdown([
                                                 'id' => 'partid',
                                                 'class' => 'form-control',
+                                                'onchange'=>"get_province(this.value,'')"
                                             ], $area_part_arr, $_GET['partid']);
                                             ?>
                                         </label>
@@ -86,6 +87,7 @@
                                             จังหวัด :
                                         </label>
                                         <label class="col-sm-7">
+                                            <span id="province_span">
                                             <?php
                                             $province_arr = @$province_list;
                                             $province_arr[''] = '--ไม่ระบุ--';
@@ -96,6 +98,7 @@
                                                 'onchange'=>"get_district(this.value,'')"
                                             ], $province_arr, $_GET['province_id']);
                                             ?>
+                                            </span>
                                         </label>
                                     </div>
                                 </div>
@@ -157,7 +160,7 @@
                 </form>
                 <div class="modal-footer" style="text-align: center;">
                     <button type="button" name="btSearchSubject" id="btSearchSubject" class="btn btn-primary">ค้นหาข้อมูล</button>
-                    <button type="button" name="btClearSubject" id="btClearSubject" class="btn btn-default" data-dismiss="modal">ล้างค่า</button>
+                    <button type="button" name="btClearSubject" id="btClearSubject" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
                 </div>
             </div>
         </div>

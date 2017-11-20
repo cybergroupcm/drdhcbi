@@ -277,7 +277,6 @@ class Complaint extends CI_Controller
 
         $url = base_url("api/complaint/user_mode_permission/user_id/" . $user_data_id['userid']);
         $user_modes_groups = api_call_get($url);
-
         $url = base_url("api/complaint/user_groups/user_id/" . $user_data_id['userid']);
         $user_group_id = api_call_get($url);
         if(is_array($user_group_id) && in_array('2',$user_group_id)){
@@ -327,6 +326,10 @@ class Complaint extends CI_Controller
         $id=$arr_data['token']['userid'];
         $url = base_url()."api/user/user/".$id;
         $arr_data_user = api_call_get($url);
+        $company  = "/company/".$arr_data_user['user']['company'];
+        //echo $company;
+        //echo '<pre>'; print_r($arr_data_user); echo '</pre>';
+        //exit;
         $arr_group = array();
         foreach($arr_data_user['currentGroups'] AS $key=>$val){
             $arr_group[$key] = $val['id'];
@@ -346,7 +349,7 @@ class Complaint extends CI_Controller
         $total_row = api_call_get($url);
         $arr_data['total_row'] = $total_row;*/
 //        $url = base_url('/api/complaint/dashboard/overall/'.$overall.'/user_id/'.$user_data_id['userid'].'/page/'.$page);
-        $url = base_url('/api/complaint/dashboard_last_month/overall/' . $overall . '/user_id/' . $user_data_id['userid'] . $queryFilter.$check_no_status);
+        $url = base_url('/api/complaint/dashboard_last_month/overall/' . $overall . '/user_id/' . $user_data_id['userid'] . $queryFilter.$check_no_status.$company);
         $arr_data['data'] = api_call_get($url);
         if (isset($arr_data['data']['status'])) {
             $arr_data['data'] = [];

@@ -43,6 +43,16 @@ class Complaint extends REST_Controller
         $user_id = $this->get('user_id');
         $no_status = $this->get('no_status');
         $complaintParent = $this->get('complaint_parent');
+        //$company = $this->get('company');
+        $company_parent = $this->Send_org_model->where(array('parent_id'=> $this->get('company')))->get_all();
+        $company = array();
+        $i = 0;
+        foreach ($company_parent as $item => $value){
+            $company[$i] = $value->send_org_id;
+            $i++;
+        }
+        $company[$i] = $this->get('company');
+
         if (!is_null($channel)) {
             $filter['channel_id'] = $channel;
         }
@@ -131,11 +141,12 @@ class Complaint extends REST_Controller
                 ->get_all();
         }
         else {
+            $company_in =implode(',', $company);
             $complaint = $this->Key_in_model
+                ->where("(create_user_id = {$user_id} OR send_org_id IN ({$company_in}))",NULL,NULL,FALSE,FALSE,TRUE)
                 ->where('current_status_id',$filterEx)
                 ->where($no_show_status)
                 ->where($filter)
-                ->where('create_user_id', $user_id)
                 ->order_by('complain_no', 'DESC')
                 ->with_title_name('fields:prename')
                 ->with_complaint_type('fields:complain_type_name')
@@ -144,7 +155,9 @@ class Complaint extends REST_Controller
                 ->with_attach_file('fields:file_name')
                 ->with_complaint_parent($parent)->as_array()
                 ->get_all();
+//            echo $this->db->last_query();
         }
+
         if ($complaint) {
             foreach ($complaint as $item => $value){
                 $userData = $this->user_detail($value['update_user_id']);

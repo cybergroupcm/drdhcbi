@@ -13,6 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <form action="../../index.html" method="post">
                 <input type="hidden" name="action_to" id="action_to" value="auth"/>
                 <input type="hidden" name="id" id="id" value="" />
+                <input type="hidden" name="company" id="company" value="999" />
                 <div class="form-group has-feedback">
                     <?php
                     echo form_dropdown([
@@ -91,6 +92,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                            placeholder="นามสกุล (ภาษาอังกฤษ)"/>
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
+                <span class="text-danger">*</span>
                 <div class="form-group has-feedback">
                     <input type="text" class="form-control" name="address" id="address"
                            placeholder="ที่อยู่ติดต่อกลับ"/>

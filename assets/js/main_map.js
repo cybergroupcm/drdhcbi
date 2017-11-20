@@ -20,7 +20,7 @@ if(!xml[url]){
       for (var i = 0; i < markers.length; i++) {
         var latlng = new google.maps.LatLng(parseFloat(markers[i].getAttribute("lat")),
                     parseFloat(markers[i].getAttribute("lng")));
-        all_markers[url][i] = createMarker(markers[i].getAttribute("name"), markers[i].getAttribute("identify"), markers[i].getAttribute("icon"), latlng,150,50);
+        all_markers[url][i] = createMarker(markers[i].getAttribute("name"), markers[i].getAttribute("identify"), markers[i].getAttribute("icon"), latlng,250,150);
         if(markers[i].getAttribute("shape")){
             var plarr = markers[i].getAttribute("shape").split(" ");
             //alert(plarr);

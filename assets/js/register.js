@@ -70,6 +70,9 @@
             }
         }
 
+        if ($('#address').val() == "") {
+            text_warning += " - ที่อยู่ติดต่อกลับ\n";
+        }
         if ($('#phone_number').val() == "") {
             text_warning += " - เบอร์โทรศัพท์\n";
         }
