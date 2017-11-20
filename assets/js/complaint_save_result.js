@@ -10,6 +10,7 @@ $(document).ready(function () {
         }
         var jwt = Cookies.get("api_token");
         var keyin_id = $('#keyin_id_result').val();
+        var action_status_id = $('#action_status_id').val();
         var result_detail = $('#result_detail').val();
         var result_user_id = $('#result_user_id').val();
         //var result_date = $('#result_date').val();
@@ -27,7 +28,7 @@ $(document).ready(function () {
             current_status_id = '3';
         }
 
-        add_result(keyin_id,result_detail,result_date,result_user_id,method);
+        add_result(keyin_id,action_status_id,result_detail,result_date,result_user_id,method);
         update_status(keyin_id,current_status_id,result_detail,result_date,result_user_id);
         result_attach_file(keyin_id);
         setTimeout(function(){
@@ -61,11 +62,11 @@ function update_status(keyin_id,current_status_id,result_detail,result_date,resu
     });
 }
 
-function add_result(keyin_id,result_detail,result_date,result_user_id,method){
+function add_result(keyin_id,action_status_id,result_detail,result_date,result_user_id,method){
     $.ajax({
         type: method, //GET, POST, PUT
         url: base_url +'api/complaint/result/',  //the url to call
-        data: { keyin_id: keyin_id , result_detail: result_detail , result_date: result_date, result_user_id:result_user_id},     //Data sent to server
+        data: { keyin_id: keyin_id ,action_status_id:action_status_id, result_detail: result_detail , result_date: result_date, result_user_id:result_user_id},     //Data sent to server
         beforeSend: function (xhr) {   //Include the bearer token in header
             xhr.setRequestHeader("Authorization", 'Bearer ' + jwt);
         },

@@ -31,6 +31,20 @@
                             <div class="col-md-10">
                                 <div class="form-group">
                                     <label class="col-sm-5 text-right">
+                                        สถานะผลดำเนินการ :
+                                    </label>
+                                    <div class="col-sm-7">
+                                        <div id="get_action_status"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label class="col-sm-5 text-right">
                                         วันที่ดำเนินการ/ยุติ :
                                     </label>
                                     <label class="col-sm-7">

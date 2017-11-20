@@ -971,4 +971,18 @@ class Complaint extends CI_Controller
         $arr_data['ccaa_all'] = api_call_get($url);
         $this->load->view('complaint/key_in_step5_word',$arr_data);
     }
+
+    public function get_action_status($action_status_id=''){
+        $this->load->model('master/Action_status_model','action_status');
+        $obj_action_status = $this->action_status->get_action_status();
+    		$str =  '<select id="action_status_id" name="action_status_id">';
+    		foreach($obj_action_status as $key=>$row){
+            $select = ($row->action_status_id == $action_status_id)?'selected':'';
+            $str .= '<option '.$select.' value="'.$row->action_status_id.'">'.$row->action_status.'</option>';
+        }
+        $str .=  '<select>';
+        echo $str;
+        exit();
+    }
+
 }
