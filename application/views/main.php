@@ -65,13 +65,13 @@
               <!-- small box -->
               <div class="small-box bg-aqua">
                 <div class="inner">
-                  <h4><?php echo $sum_status['sum_all'];?> <sup style="font-size: 18px">(รายการ)</sup></h4>
+                  <h4><?php echo $sum_status_dashboard['sum_all'];?> <sup style="font-size: 18px">(รายการ)</sup></h4>
                   <p><h5>ข้อมูลเรื่องร้องทุกข์ทั้งหมด</h5></p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-ios-paper-outline"></i>
                 </div>
-                <a href="complaint/dashboard" class="small-box-footer">เพิ่มเติม <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="complaint/dashboard?current_status=all" class="small-box-footer">เพิ่มเติม <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->
           </div>
@@ -80,7 +80,7 @@
               <!-- small box -->
               <div class="small-box bg-red">
                 <div class="inner">
-                  <h4><?php echo @$sum_status['1'];?> <sup style="font-size: 18px">(รายการ)</sup></h4>
+                  <h4><?php echo @$sum_status_dashboard['1'];?> <sup style="font-size: 18px">(รายการ)</sup></h4>
                   <p><h5>อยู่ระหว่างตรวจสอบ</h5></p>
                 </div>
                 <div class="icon">
@@ -93,7 +93,7 @@
               <!-- small box -->
               <div class="small-box bg-yellow">
                 <div class="inner">
-                  <h4><?php echo @$sum_status['2'];?> <sup style="font-size: 18px">(รายการ)</sup></h4>
+                  <h4><?php echo @$sum_status_dashboard['2'];?> <sup style="font-size: 18px">(รายการ)</sup></h4>
                   <p><h5>รับเรื่อง</h5></p>
                 </div>
                 <div class="icon">
@@ -106,7 +106,7 @@
               <!-- small box -->
               <div class="small-box bg-blue">
                 <div class="inner">
-                  <h4><?php echo @$sum_status['3'];?> <sup style="font-size: 18px">(รายการ)</sup></h4>
+                  <h4><?php echo @$sum_status_dashboard['3'];?> <sup style="font-size: 18px">(รายการ)</sup></h4>
                   <p><h5>ส่งต่อเรื่อง</h5></p>
                 </div>
                 <div class="icon">
@@ -119,13 +119,13 @@
               <!-- small box -->
               <div class="small-box bg-green">
                 <div class="inner">
-                  <h4><?php echo @$sum_status['4'];?> <sup style="font-size: 18px">(รายการ)</sup></h4>
+                  <h4><?php echo @$sum_status_dashboard['4'];?> <sup style="font-size: 18px">(รายการ)</sup></h4>
                   <p><h5>ยุติ/ดำเนินการแล้ว</h5></p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-checkmark-circled"></i>
                 </div>
-                <a href="complaint/dashboard?current_status=4" class="small-box-footer">เพิ่มเติม <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="complaint/dashboard?current_status=other" class="small-box-footer">เพิ่มเติม <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->
           </div><!-- /.row -->
@@ -167,9 +167,11 @@
                   ?>
                   <?php
                   foreach ($current_status_data as $status_data) {
-                  ?>
-                  addlayerXML(document.getElementById('map_<?php echo $status_data['status_id'];?>'));
-                  <?php
+                    if($status_data['status_id'] != '5'){
+                    ?>
+                    addlayerXML(document.getElementById('map_<?php echo $status_data['status_id'];?>'));
+                    <?php
+                    }
                   }
                   ?>
                 }
@@ -204,7 +206,7 @@
                    ?>
                        <tr>
                           <td width="30" align="center">
-                          <input name="map_<?php echo $status_data['status_id'];?>" type="checkbox" checked="checked" onClick="addlayerXML(this);" value="main/get_xml_map_status/<?php echo $status_data['status_id'];?>" id="map_<?php echo $status_data['status_id'];?>" >
+                          <input name="map_<?php echo $status_data['status_id'];?>" type="checkbox" checked="checked" onClick="addlayerXML(this);" value="main/get_xml_map_status/<?php echo $status_data['status_id'];?>/<?php echo $user_id;?>" id="map_<?php echo $status_data['status_id'];?>" >
                         </td>
                             <td align="left"><?php echo $status_data['status_name'];?></td>
                         </tr>
@@ -370,7 +372,7 @@
 //                      var d = new Date();
 //                      var yyyy = parseInt(d.getFullYear())+543;
 //                      var date_now = d.getDay()+'/'+d.getMonth()+'/'+yyyy;
-                      window.location.href = encodeURI("http://damrongdham.chonburi.go.th/sysdamrongdham/complaint/dashboard?parent_type_id="+complain_typer_id+"&complaint_date_start=<?php echo date('d').'/'.date('m').'/'.(date('Y')+543);?>");
+                      window.location.href = encodeURI("http://damrongdham.chonburi.go.th/sysdamrongdham/complaint/dashboard?complaint_parent="+complain_typer_id+"&complaint_date_start=<?php echo date('d').'/'.date('m').'/'.(date('Y')+543);?>");
                   }
               </script>
           </div>
