@@ -115,16 +115,22 @@ class Authen extends REST_Controller
 
     public function repassword_post()
     {
-        $data = array(
-            'password' => $this->Ion_auth_model->hash_password($this->post('repassword'))
-        );
-        $ids = $this->db->update('au_users', $data, array('id' => $this->post('id')));
-        if($ids){
-            $this->response($ids, REST_Controller::HTTP_OK);
-        }else{
-            $output_data = "";
+        if($this->post('repassword') != $this->post('repassword2')){
+            $output_data = "error";
             $this->response($output_data, REST_Controller::HTTP_OK);
+        }else{
+            $data = array(
+                'password' => $this->Ion_auth_model->hash_password($this->post('repassword'))
+            );
+            $ids = $this->db->update('au_users', $data, array('id' => $this->post('id')));
+            if($ids){
+                $this->response($ids, REST_Controller::HTTP_OK);
+            }else{
+                $output_data = "";
+                $this->response($output_data, REST_Controller::HTTP_OK);
+            }
         }
+
         exit;
     }
 

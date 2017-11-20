@@ -20,6 +20,7 @@
                                         <input type="hidden" name="complain_no_result" id="complain_no_result" value="">
                                         <input type="hidden" name="keyin_id_result" id="keyin_id_result" value="">
                                         <input type="hidden" name="result_id" id="result_id" value="">
+                                        <input type="hidden" name="result_user_id" id="result_user_id" value="<?php echo $this->session->userdata[user_id]; ?>">
                                     </div>
                                 </div>
                             </div>

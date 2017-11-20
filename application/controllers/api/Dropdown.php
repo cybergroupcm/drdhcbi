@@ -235,6 +235,24 @@ class Dropdown extends REST_Controller
         }
     }
 
+    public function send_org_lists_all_get()
+    {
+        $arr_send_org = $this->Send_org_model->as_dropdown('send_org_name')->get_all();
+        $types = $arr_send_org;
+
+        // Check if the users data store contains users (in case the database result returns NULL)
+        if ($types) {
+            // Set the response and exit
+            $this->response($types, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        } else {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'No complain type were found'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
     public function area_part_lists_get()
     {
         $types = $this->Area_part_model->as_dropdown('area_part')->get_all();

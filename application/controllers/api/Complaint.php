@@ -46,9 +46,13 @@ class Complaint extends REST_Controller
         //$company = $this->get('company');
         $company_parent = $this->Send_org_model->where(array('parent_id'=> $this->get('company')))->get_all();
         $company = array();
+        $i = 0;
         foreach ($company_parent as $item => $value){
-            $company[$item] = $value->send_org_id;
+            $company[$i] = $value->send_org_id;
+            $i++;
         }
+        $company[$i] = $this->get('company');
+
         if (!is_null($channel)) {
             $filter['channel_id'] = $channel;
         }
