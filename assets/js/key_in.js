@@ -49,13 +49,15 @@ function saveForm(action_to) {
                 processData: false
             }).done(function (response,xhr) {
                 if(xhr.state = 201){
-                    swal({
-                        title: "สำเร็จ",
-                        text: text_ok,
-                        type: "success",
-                        timer: 2000,
-                        showConfirmButton: false
-                    });
+                    if(action_to == 'key_in_step5'){
+                      swal({
+                          title: "สำเร็จ",
+                          text: text_ok,
+                          type: "success",
+                          timer: 2000,
+                          showConfirmButton: false
+                      });
+                    }
                     setTimeout(function(){
                         $(location).attr('href',base_url+'complaint/key_in/'+action_to+'/'+keyin_id);
                     }, 2000);
@@ -65,13 +67,15 @@ function saveForm(action_to) {
             }).fail(function (err) {
             });
         }else if(xhr.state = 201){
-            swal({
-                title: "สำเร็จ",
-                text: text_ok,
-                type: "success",
-                timer: 3000,
-                showConfirmButton: false
-            });
+            if(action_to == 'key_in_step5'){
+              swal({
+                  title: "สำเร็จ",
+                  text: text_ok,
+                  type: "success",
+                  timer: 3000,
+                  showConfirmButton: false
+              });
+            }
             setTimeout(function(){
                 if(action_to=='dashboard' || action_to=='dashboard_member'){
                     $(location).attr('href',base_url+'complaint/'+action_to);
@@ -193,7 +197,7 @@ function checkFile(id) {
             //}
         }
     }
-    
+
     $('#checkFile').append(file_show);
     //document.getElementById("checkFile").innerHTML = txt;
 }
