@@ -350,7 +350,7 @@ $link = array(
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label class="col-sm-3 right">
+                        <label class="col-sm-3 right required">
                             หมายเลขโทรศัพท์ :
                         </label>
                         <label class="col-sm-4">

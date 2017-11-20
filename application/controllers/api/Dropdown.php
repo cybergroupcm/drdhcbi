@@ -186,9 +186,18 @@ class Dropdown extends REST_Controller
     {
 
         if($parent_id != ''){
-            $types = $this->Send_org_model->as_dropdown('send_org_name')->where('parent_id',$parent_id)->get_all();
+            if($this->get('allow') != '' && $this->get('allow') != '0'){
+                $types = $this->Send_org_model->as_dropdown('send_org_name')->where('parent_id',$parent_id)->get_all();
+            }else{
+                $types = $this->Send_org_model->as_dropdown('send_org_name')->where(array('parent_id'=>$parent_id,'active'=>'1'))->get_all();
+            }
+
         }else{
-            $types = $this->Send_org_model->as_dropdown('send_org_name')->get_all();
+            if($this->get('allow') != '' && $this->get('allow') != '0') {
+                $types = $this->Send_org_model->as_dropdown('send_org_name')->get_all();
+            }else{
+                $types = $this->Send_org_model->as_dropdown('send_org_name')->where('active', '1')->get_all();
+            }
         }
         // Check if the users data store contains users (in case the database result returns NULL)
         if ($types) {
@@ -205,12 +214,30 @@ class Dropdown extends REST_Controller
 
     public function send_org_lists_get()
     {
-        $parent_list = $this->Send_org_model->as_dropdown('send_org_name')->where('parent_id','0')->get_all();
+        $parent_list = $this->Send_org_model->as_dropdown('send_org_name')->where(array('parent_id'=>'0','active'=>'1'))->get_all();
         $arr_send_org = array();
         foreach($parent_list AS $parent_id => $parent_name) {
-            $arr_send_org[$parent_id] = $this->Send_org_model->as_dropdown('send_org_name')->where('parent_id',$parent_id)->get_all();
+            $arr_send_org[$parent_id] = $this->Send_org_model->as_dropdown('send_org_name')->where(array('parent_id'=>$parent_id,'active'=>'1'))->get_all();
         }
 
+        $types = $arr_send_org;
+
+        // Check if the users data store contains users (in case the database result returns NULL)
+        if ($types) {
+            // Set the response and exit
+            $this->response($types, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        } else {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'No complain type were found'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
+    public function send_org_lists_all_get()
+    {
+        $arr_send_org = $this->Send_org_model->as_dropdown('send_org_name')->get_all();
         $types = $arr_send_org;
 
         // Check if the users data store contains users (in case the database result returns NULL)

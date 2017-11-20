@@ -24,6 +24,149 @@ class Complaint extends REST_Controller
     public function dashboard_last_month_get()
     {
         $filter = [];
+        $filterEx = [];
+        $channel = $this->get('channel_id');
+        $subject = $this->get('subject_id');
+        $complainType = $this->get('complain_type_id');
+        $province = $this->get('province_id');
+        $district = $this->get('district_id');
+        $address = $this->get('address_id');
+        $currentStatus = $this->get('current_status');
+        $complainNo = $this->get('complain_no');
+        $complaintDetail = $this->get('complaint_detail');
+        $petitioner = $this->get('petitioner');
+        $dateStart = $this->get('complaint_date_start');
+        $dateEnd = $this->get('complaint_date_end');
+        $timeStart = $this->get('time_start');
+        $timeEnd = $this->get('time_end');
+        $overall = $this->get('overall');
+        $user_id = $this->get('user_id');
+        $no_status = $this->get('no_status');
+        $complaintParent = $this->get('complaint_parent');
+        if (!is_null($channel)) {
+            $filter['channel_id'] = $channel;
+        }
+        if (!is_null($subject)) {
+            $filter['subject_id'] = $subject;
+        }
+        if (!is_null($complainType)) {
+            $filter['complain_type_id'] = $complainType;
+        }
+
+        if (!is_null($complaintParent)) {
+            $parent = array(
+                'where' => array('parent_id'=>$complaintParent),
+                'fields' => 'parent_id'
+            );
+        }else{
+            $parent = 'fields:parent_id';
+        }
+
+        if (!is_null($address)) {
+            $filter['address_id'] = $address;
+        }elseif (!is_null($district)) {
+            $filter['address_id LIKE'] = substr($district,0,4). '%';
+        }elseif (!is_null($province)) {
+            $filter['address_id LIKE'] = substr($province,0,2). '%';
+        }
+        if (!is_null($currentStatus) && $currentStatus >= 1 && $currentStatus <= 6) {
+            $filterEx = array($currentStatus); ;
+        }elseif (!is_null($currentStatus) && $currentStatus == 'other'){
+            $filterEx = array(4,5,6);
+        }elseif(!is_null($currentStatus) && $currentStatus == 'all'){
+            $filterEx = array(1,2,3,4,5,6);
+        }
+        if (!is_null($complainNo)) {
+            $filter['complain_no LIKE'] = '%' . urldecode($complainNo) . '%';
+        }
+        if (!is_null($complaintDetail)) {
+            $filter['complaint_detail LIKE'] = '%' . urldecode($complaintDetail) . '%';
+        }
+        if (!is_null($petitioner)) {
+            $filter['CONCAT(first_name,last_name) LIKE'] = '%' . urldecode($petitioner) . '%';
+        }
+        if (!is_null($dateStart) && !is_null($dateEnd)) {
+            $filter['complain_date >='] = urldecode($dateStart);
+            $filter['complain_date <='] = urldecode($dateEnd);
+        }
+        elseif (!is_null($dateStart) && is_null($dateEnd)) {
+            $filter['complain_date >='] = urldecode($dateStart);
+        }
+        elseif (is_null($dateStart) && !is_null($dateEnd)) {
+            $filter['complain_date <='] = urldecode($dateEnd);
+        }
+        if (!is_null($timeStart) && !is_null($timeEnd)) {
+            $filter['TIME(complain_date) >='] = urldecode($timeStart);
+            $filter['TIME(complain_date) <='] = urldecode($timeEnd);
+        }
+        elseif (!is_null($timeStart) && is_null($timeEnd)) {
+            $filter['TIME(complain_date) >='] = urldecode($timeStart);
+        }
+        elseif (is_null($timeStart) && !is_null($timeEnd)) {
+            $filter['TIME(complain_date) <='] = urldecode($timeEnd);
+        }
+        if(count($filter)==0 && count($filterEx)==0){
+            $filter['MONTH(complain_date)'] = date('m');
+            $filter['YEAR(complain_date)'] = date('Y');
+            $filterEx = array(1,2,3,4,5,6);
+        }else if(count($filter)!=0 && count($filterEx)==0){
+            $filterEx = array(1,2,3,4,5,6);
+        }else if(count($filter)==0 && count($filterEx)!=0){
+            $filter['1'] = '1';
+        }
+        $no_show_status['current_status_id <> '] = $no_status; #ไม่แสดงสถานะยกเลิก
+
+        if ($overall == 1) { // มองเห็น เรื่องร้องเรียนทั้งหมด
+            $complaint = $this->Key_in_model
+                ->where('current_status_id',$filterEx)
+                ->where($no_show_status)
+                ->where($filter)
+                ->order_by('complain_no', 'DESC')
+                ->with_title_name('fields:prename')
+                ->with_complaint_type('fields:complain_type_name')
+                ->with_wish('fields:wish_name')
+                ->with_current_status('fields:current_status_name')
+                ->with_attach_file('fields:file_name')
+                ->with_complaint_parent($parent)->as_array()
+                ->get_all();
+        }
+        else {
+            $complaint = $this->Key_in_model
+                ->where('current_status_id',$filterEx)
+                ->where($no_show_status)
+                ->where($filter)
+                ->where('create_user_id', $user_id)
+                ->order_by('complain_no', 'DESC')
+                ->with_title_name('fields:prename')
+                ->with_complaint_type('fields:complain_type_name')
+                ->with_wish('fields:wish_name')
+                ->with_current_status('fields:current_status_name')
+                ->with_attach_file('fields:file_name')
+                ->with_complaint_parent($parent)->as_array()
+                ->get_all();
+        }
+        if ($complaint) {
+            foreach ($complaint as $item => $value){
+                $userData = $this->user_detail($value['update_user_id']);
+                $complaint[$item] = (object)$value;
+                $complaint[$item]->update_user = "{$userData['prename_th']}{$userData['first_name']}   {$userData['last_name']}";
+            }
+            // Set the response and exit
+            $this->response($complaint, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }
+        else {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'No complaint were found',
+                $filter
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
+    public function dashboard_member_last_month_get()
+    {
+        $filter = [];
         $channel = $this->get('channel_id');
         $subject = $this->get('subject_id');
         $complainType = $this->get('complain_type_id');
@@ -80,31 +223,34 @@ class Complaint extends REST_Controller
         if (!is_null($petitioner)) {
             $filter['CONCAT(first_name,last_name) LIKE'] = '%' . urldecode($petitioner) . '%';
         }
-        if (!is_null($dateStart) && !is_null($dateEnd)) {
-            $filter['complain_date >='] = urldecode($dateStart);
-            $filter['complain_date <='] = urldecode($dateEnd);
-        }
-        elseif (!is_null($dateStart) && is_null($dateEnd)) {
-            $filter['complain_date >='] = urldecode($dateStart);
-        }
-        elseif (is_null($dateStart) && !is_null($dateEnd)) {
-            $filter['complain_date <='] = urldecode($dateEnd);
-        }
-        if (!is_null($timeStart) && !is_null($timeEnd)) {
-            $filter['TIME(complain_date) >='] = urldecode($timeStart);
-            $filter['TIME(complain_date) <='] = urldecode($timeEnd);
-        }
-        elseif (!is_null($timeStart) && is_null($timeEnd)) {
-            $filter['TIME(complain_date) >='] = urldecode($timeStart);
-        }
-        elseif (is_null($timeStart) && !is_null($timeEnd)) {
-            $filter['TIME(complain_date) <='] = urldecode($timeEnd);
-        }
-        if(count($filter)==0){
-            $filter['MONTH(complain_date)'] = date('m');
-            $filter['YEAR(complain_date)'] = date('Y');
-        }
+
+//        if (!is_null($dateStart) && !is_null($dateEnd)) {
+//            $filter['complain_date >='] = urldecode($dateStart);
+//            $filter['complain_date <='] = urldecode($dateEnd);
+//        }
+//        elseif (!is_null($dateStart) && is_null($dateEnd)) {
+//            $filter['complain_date >='] = urldecode($dateStart);
+//        }
+//        elseif (is_null($dateStart) && !is_null($dateEnd)) {
+//            $filter['complain_date <='] = urldecode($dateEnd);
+//        }
+//
+//        if (!is_null($timeStart) && !is_null($timeEnd)) {
+//            $filter['TIME(complain_date) >='] = urldecode($timeStart);
+//            $filter['TIME(complain_date) <='] = urldecode($timeEnd);
+//        }
+//        elseif (!is_null($timeStart) && is_null($timeEnd)) {
+//            $filter['TIME(complain_date) >='] = urldecode($timeStart);
+//        }
+//        elseif (is_null($timeStart) && !is_null($timeEnd)) {
+//            $filter['TIME(complain_date) <='] = urldecode($timeEnd);
+//        }
+//        if(count($filter)==0){
+//            $filter['MONTH(complain_date)'] = date('m');
+//            $filter['YEAR(complain_date)'] = date('Y');
+//        }
         $no_show_status['current_status_id <> '] = $no_status; #ไม่แสดงสถานะยกเลิก
+
         if ($overall == 1) { // มองเห็น เรื่องร้องเรียนทั้งหมด
             $complaint = $this->Key_in_model
                 ->where($no_show_status)
@@ -135,7 +281,7 @@ class Complaint extends REST_Controller
         if ($complaint) {
             foreach ($complaint as $item => $value){
                 $userData = $this->user_detail($value->update_user_id);
-                    $complaint[$item]->update_user = "{$userData['prename_th']}{$userData['first_name']}   {$userData['last_name']}";
+                $complaint[$item]->update_user = "{$userData['prename_th']}{$userData['first_name']}   {$userData['last_name']}";
             }
 
             // Set the response and exit
@@ -149,6 +295,19 @@ class Complaint extends REST_Controller
                 $filter
             ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
         }
+    }
+
+    private function user_detail($id)
+    {
+        $sql = "SELECT
+                    t1.first_name,
+                    t1.last_name,
+                    t1.prename_th
+                FROM
+                    au_users AS t1
+                WHERE t1.id = '{$id}'  ";
+        $query = $this->User_model->sql_query($sql)->row_array();
+        return $query;
     }
 
     public function dashboard_mobile_get()
@@ -807,6 +966,7 @@ class Complaint extends REST_Controller
             $this->response($id, REST_Controller::HTTP_OK);
         }
     }
+
     public function user_mode_permission_get()
     {
         $user_id = $this->get('user_id');
@@ -923,7 +1083,7 @@ class Complaint extends REST_Controller
     }
 
     public function send_org_get($id){
-        $types = $this->Send_org_model->where('send_org_id', $id)->get();
+        $types = $this->Send_org_model->where(array('send_org_id'=> $id,'active'=>'1'))->get();
         // Check if the users data store contains users (in case the database result returns NULL)
         if ($types) {
             // Set the response and exit
