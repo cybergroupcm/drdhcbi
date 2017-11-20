@@ -9,7 +9,7 @@
                 <div class="box-body">
                     <table border="0" style="width: 100%;">
                         <tr>
-                            <td colspan="2" style="padding-bottom:20px;">ที่ ชบ 0017.1 (ศดธ.)/</td>
+                            <td colspan="2" style="padding-bottom:20px;">ที่ ชบ 0017.1 (ศดธ.)/<?php echo @$key_in_data['complain_no']; ?></td>
                         </tr>
                         <tr>
                             <td align="center" colspan="2" style="padding-bottom:10px;">แบบรายงานรับ – ส่งต่อ (Service Link)</td>
@@ -105,7 +105,7 @@
                         </tr>
                         <tr>
                             <td colspan="2" style="padding-bottom:10px;">
-                                เรียน   นายอำเภอสัตหีบ
+                                เรียน   นายอำเภอ<?php echo str_replace('อำเภอ','',$ccaa_all[substr(@$key_in_data['address_id'],0,4)."0000"]); ?>
                             </td>
                         </tr>
                         <tr>
@@ -119,7 +119,7 @@
                         <tr>
                             <td width="33%"></td>
                             <td width="33%"></td>
-                            <td width="33%" align="center" style="padding-bottom:10px;">(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</td>
+                            <td width="33%" align="center" style="padding-bottom:10px;">(<?php for($i=0;$i<=40;$i++) echo "&nbsp;"; ?>)</td>
                         </tr>
                         <tr>
                             <td width="33%"></td>

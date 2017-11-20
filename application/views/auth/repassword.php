@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                         </div>
                         <div class="form-group has-feedback">
-                            <input type="password" class="form-control" maxlength="10" id="repassword2" placeholder="ยืนยันรหัสผ่านใหม่">
+                            <input type="password" class="form-control" maxlength="10" name="repassword2" id="repassword2" placeholder="ยืนยันรหัสผ่านใหม่">
                             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                         </div>
                         <div class="row">

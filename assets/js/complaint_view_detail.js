@@ -116,6 +116,11 @@ $( document ).ready(function() {
         getDataSend(req_id);
     });
 
+    $(document).on("click", ".open_show_send", function () {
+        var req_id = $(this).data('id');
+        getDataSendDetail(req_id);
+    });
+
     $(document).on("click", ".open-result", function () {
         var id = $(this).data('id');
         $('#keyin_id_result').val(id);
@@ -147,6 +152,55 @@ $( document ).ready(function() {
                     txt_append = "<div id='file_" + result_attach_file[key].file_id + "'>name : <a href='" + $('#base_url').attr("class") + "upload/result_attach_file/" + result_attach_file[key].file_system_name + "' target='_blank'>" + result_attach_file[key].file_name + "</a><br>";
                     txt_append += "<input type='button' class='btn btn-danger' onclick=\"delete_result_file('" + result_attach_file[key].file_id + "', '" + result_attach_file[key].file_system_name + "')\" value='ลบ'></div>";
                     $('#checkFile').append(txt_append);
+                }
+            }
+        });
+
+        var url = $('#base_url').attr("class")+"complaint/getDataReceived/"+id;
+        $.ajax({
+            method: "GET",
+            url: url,
+            async:false
+        }).done(function (result) {
+            var  dataReceived = JSON.parse(result);
+            if(dataReceived.current_status_id == '3' || dataReceived.current_status_id == '4'){
+                if(!$('#save_result_status').prop('checked')) {
+                    $("#save_result_status").prop("checked", true);
+                }
+            }else{
+                if($('#save_result_status').prop('checked')) {
+                    $("#save_result_status").prop("checked", false);
+                }
+            }
+        });
+    });
+    $(document).on("click", ".open_show_result", function () {
+        var id = $(this).data('id');
+        $('#keyin_id_result').val(id);
+        var url = $('#base_url').attr("class")+"complaint/getDataResult/"+id;
+        $.ajax({
+            method: "GET",
+            url: url,
+            async:false
+        }).done(function (result) {
+            var dataReceived = JSON.parse(result);
+            if (dataReceived.result != null) {
+                $('#result_detail_show').html(dataReceived.result.result_detail);
+                if (dataReceived.result.result_date != '0000-00-00 00:00:00') {
+                    var original_result_date = dataReceived.result.result_date.split(' ');
+                    var new_result_date = original_result_date[0];
+                    var new_result_time = original_result_date[1];
+                    var arr_result_date = new_result_date.split('-');
+                    var result_date_eng = arr_result_date[2]+'/'+arr_result_date[1]+'/'+(parseInt(arr_result_date[0])+543)+' '+new_result_time;
+                    $('#result_date_show').html(result_date_eng);
+                }
+                var result_attach_file = dataReceived.result_attach_file;
+                $('#checkFile_show').html('');
+                for (var key in result_attach_file) {
+                    console.log(result_attach_file[key]);
+                    txt_append = "<div id='file_" + result_attach_file[key].file_id + "'><a href='" + $('#base_url').attr("class") + "upload/result_attach_file/" + result_attach_file[key].file_system_name + "' target='_blank'>" + result_attach_file[key].file_name + "</a><br>";
+                    //txt_append += "<input type='button' class='btn btn-danger' onclick=\"delete_result_file('" + result_attach_file[key].file_id + "', '" + result_attach_file[key].file_system_name + "')\" value='ลบ'></div>";
+                    $('#checkFile_show').append(txt_append);
                 }
             }
         });
@@ -400,4 +454,40 @@ function thaidateformat(d,long) {
         thmonth =  thmonthLong;
     }
     return gD.getDate() + ' ' + thmonth[gD.getMonth()] + ' ' + (gD.getFullYear() + 543);
+}
+
+function getDataSendDetail(id){
+    $('#keyin_id_send').val(id);
+    var url = $('#base_url').attr("class")+"complaint/getDataSend/"+id;
+    $.ajax({
+        method: "GET",
+        url: url,
+        async:false
+    }).done(function (result) {
+        var  dataSend = JSON.parse(result);
+        if((dataSend.reply_date != '') && (dataSend.reply_date != '0000-00-00 00:00:00') && (dataSend.reply_date != null)) {
+            var original_reply_date = dataSend.reply_date.split(' ');
+            var new_reply_date = original_reply_date[0];
+            var new_reply_time = original_reply_date[1];
+            var arr_reply_date = new_reply_date.split('-');
+            var reply_date_eng = arr_reply_date[2]+'/'+arr_reply_date[1]+'/'+(parseInt(arr_reply_date[0])+543)+' '+new_reply_time;
+            //$('#reply_date').datepicker("setDate", reply_date_eng);  //กำหนดวัน
+            $('#reply_date_show').html(reply_date_eng);
+        }
+        if((dataSend.send_org_date != '') && (dataSend.send_org_date != '0000-00-00 00:00:00') && (dataSend.send_org_date != null)) {
+            var original_send_org_date = dataSend.send_org_date.split(' ');
+            var new_send_org_date = original_send_org_date[0];
+            var new_send_org_time = original_send_org_date[1];
+            var arr_send_org_date = new_send_org_date.split('-');
+            var send_org_date_eng = arr_send_org_date[2]+'/'+arr_send_org_date[1]+'/'+(parseInt(arr_send_org_date[0])+543)+' '+new_send_org_time;
+
+            //$('#send_org_date').datepicker("setDate", send_org_date_eng);  //กำหนดวัน
+            $('#send_org_date_show').html(send_org_date_eng);
+        }
+        var send_org_id = dataSend.send_org_id;
+        var url = base_url+'complaint/get_send_org_text/'+send_org_id;  //the url to call
+        $.post(url, {data: ''}, function (data) {
+            $('#send_org_show').html(data);
+        });
+    });
 }
