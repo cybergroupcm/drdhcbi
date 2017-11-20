@@ -7,6 +7,8 @@
   $this->load->view('complaint/received');
   $this->load->view('complaint/send');
   $this->load->view('complaint/save_result');
+  $this->load->view('complaint/show_send');
+  $this->load->view('complaint/show_result');
   ?>
   <style>
       .edit.dropdown-menu {
@@ -266,6 +268,98 @@
                                 </div>
                             </div>
                         </div>
+<!-- //////////////////////////////////////////////////////////////////////////////////-->
+                    <?php if($create_user_detail_authen['currentGroups'][0]['name'] == 'members' && ($current_user_login_data['currentGroups'][0]['name'] == 'admin' || $current_user_login_data['currentGroups'][0]['name'] == 'officer')){ ?>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-sm-12">
+                                        <br>
+                                        ผู้ร้องทุกข์ :
+                                        <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'ไม่ประสงค์ออกนาม':''?></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-sm-12">
+                                        เลขบัตรประจำตัวประชาชน :
+                                        <span style="font-weight: normal;"><?php echo @$create_user_detail_authen['user']['idcard']; ?></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-sm-4">
+                                        ชื่อผู้ร้องทุกข์ :
+                                        <span style="font-weight: normal;">
+                                            <?php echo @$create_user_detail_authen['user']['prename_th'].@$create_user_detail_authen['user']['first_name']." ".@$create_user_detail_authen['user']['last_name']; ?>
+                                        </span>
+                                    </label>
+                                    <!--label class="col-sm-8">
+                                        อายุ :
+                                        <span style="font-weight: normal;"></span>
+                                    </label-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-sm-12">
+                                        ที่อยู่ปัจจุบันที่สามารถติดต่อได้ :
+                                        <span style="font-weight: normal;"><?php echo $create_user_detail['address']; ?></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-sm-4">
+                                        ตำบล/แขวง :
+                                        <span style="font-weight: normal;"><?php echo $subdistrict_list[@$create_user_detail['address_id']]; ?></span>
+                                    </label>
+                                    <label class="col-sm-8">
+                                        อำเภอ/เขต :
+                                        <span style="font-weight: normal;"><?php echo $district_list[@substr($create_user_detail['address_id'],0,4).'0000']?></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-sm-4">
+                                        จังหวัด :
+                                        <span style="font-weight: normal;"><?php echo $province_list[@substr($create_user_detail['address_id'],0,3).'00000']?></span>
+                                    </label>
+                                    <!--label class="col-sm-8">
+                                        รหัสไปรษณีย์ :
+                                        <span style="font-weight: normal;"></span>
+                                    </label-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-sm-4">
+                                        เบอร์โทรศัพท์ :
+                                        <span style="font-weight: normal;"><?php echo @$create_user_detail['phone']; ?></span>
+                                    </label>
+                                    <label class="col-sm-8">
+                                        เบอร์โทรศัพท์มือถือ :
+                                        <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'':@$key_in_data['phone_number'];?></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    <?php }else{ ?>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -358,6 +452,8 @@
                                 </div>
                             </div>
                         </div>
+                    <?php } ?>
+ <!-- //////////////////////////////////////////////////////////////////////////////////-->
                         <!--div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -474,7 +570,16 @@
                                 <div class="form-group">
                                     <label class="col-sm-12">
                                         สถานที่เกิดเหตุ :
-                                        <span style="font-weight: normal;"><?php echo @$key_in_data['place_scene'];?></span>
+                                        <!--<span style="font-weight: normal;"><?php echo @$key_in_data['place_scene'];?></span>-->
+                                        <span style="font-weight: normal;">
+                                            <?php
+                                            $district_id = substr(@$key_in_data['address_id'], 0, 4).'0000';
+
+                                            $subdistrict_id = @$key_in_data['address_id'];
+                                            ?>
+                                            ตำบล <?php echo $district_list[$district_id];?>
+                                            อำเภอ <?php echo $subdistrict_list[$subdistrict_id];?>
+                                        </span>
                                     </label>
                                 </div>
                             </div>
@@ -680,6 +785,7 @@
                                 <th width="25%" class="text-center">รายละเอียด</th>
                                 <!--th width="12%" class="text-center">จำนวนเงินชดเชย</th-->
                                 <th width="18%" class="text-center">ผู้รับผิดชอบ</th>
+                                <th width="12%" class="text-center">เพิ่มเติม</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -697,9 +803,11 @@
                                         $event_date = $key_in_data['receive_date']!='0000-00-00'?$key_in_data['receive_date']:'';
                                     }else if($key == '3'){
                                         $event_date = $key_in_data['send_org_date']!='0000-00-00'?$key_in_data['send_org_date']:'';
+                                        $update_user = $send_org_text;
                                     }else if($key == '4'){
                                         $event_date = $result['result']['result_date']!='0000-00-00'?$result['result']['result_date']:'';
                                         $detail = $result['result']['result_detail'];
+                                        $update_user = $result_user_detail['prename_th'].$result_user_detail['first_name']." ".$result_user_detail['last_name'];
                                     }
 
                                     ?>
@@ -710,6 +818,19 @@
                                         <td><?php echo $detail; ?></td>
                                         <!--td class="text-right">&nbsp;</td-->
                                         <td><?php echo $update_user; ?></td>
+                                        <td align="center">
+                                            <?php if($key=='3' || $key == '4'){
+                                                if($key=='3'){
+                                                    $modal_name = 'show_send';
+                                                    $class="open_show_send";
+                                                }else{
+                                                    $modal_name = 'show_result';
+                                                    $class="open_show_result";
+                                                }
+                                                ?>
+                                                <a class="<?php echo $class; ?>" data-toggle="modal" data-target="#<?php echo $modal_name; ?>" data-id="<?php echo @$key_in_data['keyin_id']; ?>" style="cursor:pointer;">รายละเอียดเพิ่มเติม</a>
+                                            <?php } ?>
+                                        </td>
                                     </tr>
                                     <?php
                                 }
