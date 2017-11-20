@@ -276,7 +276,16 @@
                         <tr>
                             <td colspan="3" style="text-align: left;">
                                 สถานที่เกิดเหตุ :
-                                <span style="font-weight: normal;"><?php echo @$key_in_data['place_scene'];?></span>
+                                <!--<span style="font-weight: normal;"><?php echo @$key_in_data['place_scene'];?></span>-->
+                                <span style="font-weight: normal;">
+                                <?php
+                                $district_id = substr(@$key_in_data['address_id'], 0, 4).'0000';
+
+                                $subdistrict_id = @$key_in_data['address_id'];
+                                ?>
+                                    ตำบล <?php echo $district_list[$district_id];?>
+                                    อำเภอ <?php echo $subdistrict_list[$subdistrict_id];?>
+                                </span>
                             </td>
                         </tr>
                         <tr>
