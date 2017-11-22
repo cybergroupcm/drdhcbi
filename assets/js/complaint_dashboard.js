@@ -136,6 +136,9 @@ $( document ).ready(function() {
     $(document).on("click", ".open-result", function () {
         var id = $(this).data('id');
         $('#keyin_id_result').val(id);
+
+
+
         var url = $('#base_url').attr("class")+"complaint/getDataResult/"+id;
         $.ajax({
             method: "GET",
@@ -146,6 +149,7 @@ $( document ).ready(function() {
             console.log(dataReceived.result);
             if (dataReceived.result != null) {
                 $('#result_detail').val(dataReceived.result.result_detail);
+                getActionStatus(dataReceived.result.action_status_id);
                 if (dataReceived.result.result_date != '0000-00-00 00:00:00') {
                     var original_result_date = dataReceived.result.result_date.split(' ');
                     var new_result_date = original_result_date[0];
@@ -165,6 +169,8 @@ $( document ).ready(function() {
                     txt_append += "<input type='button' class='btn btn-danger' onclick=\"delete_result_file('" + result_attach_file[key].file_id + "', '" + result_attach_file[key].file_system_name + "')\" value='ลบ'></div>";
                     $('#checkFile').append(txt_append);
                 }
+            }else{
+              getActionStatus('');
             }
         });
 
@@ -195,6 +201,16 @@ $( document ).ready(function() {
         $("#form_search").submit();
     });
 });
+
+function getActionStatus(action_status_id){
+    var url = $('#base_url').attr("class")+"complaint/get_action_status/"+action_status_id;
+    $.ajax({
+        method: "GET",
+        url: url
+    }).done(function (result) {
+        $('#get_action_status').html(result);
+    });
+}
 
 function getDataReceived(id){
     var url = $('#base_url').attr("class")+"complaint/getDataReceived/"+id;
