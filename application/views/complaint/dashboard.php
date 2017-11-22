@@ -123,10 +123,20 @@ $this->load->view('complaint/save_result');
                                     $user_complain = 'ไม่ประสงค์ออกนาม';
                                 }
                                 $complain_date = (@$val['complain_date'] != '' && @$val['complain_date'] != '0000-00-00') ? date_thai(@$val['complain_date'], true) : '';
+                                if(isset($val['keyin_id']) && $val['read_status'] == '1'){
+                                    $read_status_font = 'color:#000000;';
+                                    $read_status_icon = 'ion ion-android-drafts';
+                                }else{
+                                    $read_status_icon = 'ion ion-email-unread';
+                                    $read_status_font = 'color:#F87903;';
+                                }
                                 ?>
                                 <tr id="<?php echo @$val['keyin_id']; ?>">
                                     <td class="text-center open"><?php echo $start_row++; ?></td>
-                                    <td class="open"><?php echo @$val['complain_no']; ?></td>
+                                    <td class="open" nowrap>
+                                        <?php echo '<span style="'.$read_status_font.'"><i class="'.$read_status_icon.'"></i></span>'; ?>
+                                        <?php echo @$val['complain_no']; ?>
+                                    </td>
                                     <td class="text-center open"><?php echo $complain_date; ?></td>
                                     <td class="open"><?php echo @$val['complaint_detail']; ?></td>
                                     <td class="open"><?php echo $user_complain; ?></td>

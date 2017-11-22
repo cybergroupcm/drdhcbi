@@ -425,7 +425,7 @@ function checkFile(id) {
 }
 $(document).ready(function() {
     var table = $('#example1').DataTable({
-        "order": [[ 1, "desc" ]],
+        //"order": [[ 1, "desc" ]],
         "columnDefs": [
             { "targets": [0,7], "orderable": false },
             { "targets": [0,7],"searchable": false }

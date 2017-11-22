@@ -131,7 +131,7 @@ class Complaint extends REST_Controller
                 ->where('current_status_id',$filterEx)
                 ->where($no_show_status)
                 ->where($filter)
-                ->order_by('complain_no', 'DESC')
+                ->order_by('read_status ASC', 'complain_no DESC')
                 ->with_title_name('fields:prename')
                 ->with_complaint_type('fields:complain_type_name')
                 ->with_wish('fields:wish_name')
