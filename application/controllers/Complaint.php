@@ -1027,5 +1027,4 @@ class Complaint extends CI_Controller
         $result = $arr_data['accused_type_input'];
         echo json_encode($result);
     }
-
 }
