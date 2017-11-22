@@ -14,10 +14,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <input type="text" class="form-control" name="username" id="username" placeholder="ชื่อผู้ใช้">
                             <span class="glyphicon glyphicon-user form-control-feedback"></span>
                         </div>
-                        <div class="form-group has-feedback">
+                        <!--div class="form-group has-feedback">
                             <input type="text" class="form-control" name="email" id="email" placeholder="อีเมล์">
                             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                        </div>
+                        </div-->
                         <div class="form-group has-feedback">
                             <input type="text" class="form-control numbers" maxlength="13" name="idcard" id="idcard" placeholder="หมายเลขปัตรประชาชน หรือ หมายเลขหนังสือเดินทาง">
                             <span class="glyphicon glyphicon-credit-card form-control-feedback"></span>

@@ -13,19 +13,23 @@ function checkData() {
             cache: false
         }).done(function (response) {
             console.log(response);
-            $('#id').val(response);
-            swal({
-                title: "พบข้อมูล",
-                text: '',
-                type: "success",
-                timer: 2000,
-                showConfirmButton: false
-            });
-            setTimeout(function(){
-                $('#check_data').hide();
-                $('#show_repassword').show();
-            }, 2000);
+            if(response!='') {
 
+                $('#id').val(response);
+                swal({
+                    title: "พบข้อมูล",
+                    text: '',
+                    type: "success",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+                    $('#check_data').hide();
+                    $('#show_repassword').show();
+                }, 2000);
+            }else{
+                swal("ไม่พบข้อมูล",'', "error");
+            }
         }).fail(function (err) {
             swal("ไม่พบข้อมูล",'', "error");
         });
