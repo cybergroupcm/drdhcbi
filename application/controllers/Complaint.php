@@ -637,6 +637,7 @@ class Complaint extends CI_Controller
     public function view_detail($id)
     {
         $this->load->model('main/Main_model','main');
+        $this->load->model('data/Key_in_model','key_in');
 
         $url = base_url("api/complaint/key_in/" . $id);
         $arr_data['key_in_data'] = api_call_get($url);
@@ -716,6 +717,10 @@ class Complaint extends CI_Controller
             $arr_data['member_group'] = 'officer';
         }
 
+        if($arr_data['current_user_login_data']['currentGroups'][0]['name'] == 'admin'){
+            $this->key_in->updateReadStatus($id);
+        }
+      
         if(in_array(2, $user_modes_groups)) {
             $this->libraries->template_member('complaint/view_detail_member', $arr_data);
         }else{
