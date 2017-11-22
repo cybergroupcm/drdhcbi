@@ -681,6 +681,9 @@ class Complaint extends CI_Controller
         $url = base_url("api/dropdown/accused_type_lists");
         $arr_data['accused_type_all'] = api_call_get($url);
 
+        $url = base_url("api/complaint/accused_type/".$arr_data['key_in_data']['accused_type_id']);
+        $arr_data['accused_type_input'] = api_call_get($url);
+
         //ข้อมูลเรื่องร้องทุกข์ทั้งหมดจำแนกรายพื้นที่
     		$obj_area = $this->main->get_area();
     		foreach($obj_area as $row_area){
@@ -798,6 +801,9 @@ class Complaint extends CI_Controller
         $arr_data['accused_type_all'] = api_call_get($url);
         $url = base_url("api/complaint/user_detail/id/".$arr_data['result']['result_user_id']);
         $arr_data['result_user_detail'] = api_call_get($url);
+
+        $url = base_url("api/complaint/accused_type/".$arr_data['key_in_data']['accused_type_id']);
+        $arr_data['accused_type_input'] = api_call_get($url);
 
         $html = $this->load->view('complaint/pdf_detail', $arr_data, true);
         // As PDF creation takes a bit of memory, we're saving the created file in /downloads/reports/

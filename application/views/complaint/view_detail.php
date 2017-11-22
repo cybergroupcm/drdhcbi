@@ -515,6 +515,10 @@
                                             foreach(@$get_accused_type as $key => $value){
                                                 echo @$accused_type_all[$value]." ";
                                             }
+
+                                            if(@$accused_type_input['input_type'] == 'text') {
+                                                echo ' ' . @$key_in_data['accused_type_name'];
+                                            }
                                             ?>
                                         </span>
                                     </label>
@@ -799,15 +803,25 @@
                                     $update_user = @$update_user_detail['prename_th'].@$update_user_detail['first_name']." ".@$update_user_detail['last_name'];
                                     if($key == '1'){
                                         $event_date = $key_in_data['complain_date']!='0000-00-00'?$key_in_data['complain_date']:'';
+                                        $update_user = "เจ้าหน้าที่ศูนย์ดำรงค์ธรรม";
                                     }else if($key == '2'){
                                         $event_date = $key_in_data['receive_date']!='0000-00-00'?$key_in_data['receive_date']:'';
+                                        if($member_group=='member'){
+                                            $update_user = "เจ้าหน้าที่ศูนย์ดำรงค์ธรรม";
+                                        }else{
+                                            $update_user = @$update_user_detail['prename_th'].@$update_user_detail['first_name']." ".@$update_user_detail['last_name'];
+                                        }
                                     }else if($key == '3'){
                                         $event_date = $key_in_data['send_org_date']!='0000-00-00'?$key_in_data['send_org_date']:'';
                                         $update_user = $send_org_text;
                                     }else if($key == '4'){
                                         $event_date = $result['result']['result_date']!='0000-00-00'?$result['result']['result_date']:'';
                                         $detail = $result['result']['result_detail'];
-                                        $update_user = $result_user_detail['prename_th'].$result_user_detail['first_name']." ".$result_user_detail['last_name'];
+                                        if($member_group=='member'){
+                                            $update_user = "เจ้าหน้าที่ศูนย์ดำรงค์ธรรม";
+                                        }else{
+                                            $update_user = $result_user_detail['prename_th'].$result_user_detail['first_name']." ".$result_user_detail['last_name'];
+                                        }
                                     }
 
                                     ?>
