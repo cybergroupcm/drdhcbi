@@ -720,7 +720,7 @@ class Complaint extends CI_Controller
         if($arr_data['current_user_login_data']['currentGroups'][0]['name'] == 'admin'){
             $this->key_in->updateReadStatus($id);
         }
-
+      
         if(in_array(2, $user_modes_groups)) {
             $this->libraries->template_member('complaint/view_detail_member', $arr_data);
         }else{

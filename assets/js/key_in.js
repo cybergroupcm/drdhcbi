@@ -300,6 +300,8 @@ function get_accused_child(ele){
             $('#' + $('#' + ele.id).attr('has_child')).append(data);
         });
     }
+
+    checkTypeInput(value);
 }
 
 var count_complain_type = 0;
@@ -403,3 +405,23 @@ function checkIdCardRegister(element){
         }
     }
 }
+
+function checkTypeInput(id) {
+    var url = $('#base_url').attr("class")+"complaint/getaAcusedTypeInput/"+id;
+    $.ajax({
+        method: "GET",
+        url: url,
+        async:false
+    }).done(function (result) {
+        var dataTypeInput = JSON.parse(result);
+        if(dataTypeInput.input_type == 'text'){
+            $("#accused_type_name").show();
+        }else {
+            $("#accused_type_name").hide();
+        }
+    });
+}
+$( document ).ready(function() {
+    var id = $("#accused_type_id").val();
+    checkTypeInput(id);
+});
