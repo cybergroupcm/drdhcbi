@@ -162,6 +162,7 @@ $col_right = '3';
                         }
                     ?>
                         <input type="hidden" name="accused_type_id" id="accused_type_id" value="<?php echo @$key_in_data['accused_type_id']; ?>">
+                        <input type="text" name="accused_type_name" id="accused_type_name" class="form-control" value="<?php echo @$key_in_data['accused_type_name']; ?>">
                     </div>
                 </div>
             </div>
