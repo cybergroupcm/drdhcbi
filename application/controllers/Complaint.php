@@ -33,6 +33,9 @@ class Complaint extends CI_Controller
         $url = base_url("api/dropdown/title_name_lists");
         $arr_data['title_name'] = api_call_get($url);
 
+        $url = base_url("api/setting/setting_upload/1");
+        $arr_data['setting_upload'] = api_call_get($url);
+
         //กำหนดการแสดงผลหน้าบันทึกข้อมูล
         $url = base_url("api/authen/token_info");
         $user_data_id = api_call_get($url);
@@ -181,6 +184,9 @@ class Complaint extends CI_Controller
 
         $url = base_url("api/dropdown/ccaa_lists/Changwat");
         $arr_data['province_list'] = api_call_get($url);
+
+        $url = base_url("api/setting/setting_upload/1");
+        $arr_data['setting_upload'] = api_call_get($url);
 
         $queryFilter = '';
         $filter = $this->input->get();
@@ -651,6 +657,9 @@ class Complaint extends CI_Controller
             $arr_data['send_org_text'] .= $arr_data['send_org'][$value]." ";
         }
 
+        $url = base_url("api/setting/setting_upload/1");
+        $arr_data['setting_upload'] = api_call_get($url);
+
         $arr_data['get_accused_type'] = $this->accused_type->sort_accused($arr_data['key_in_data']['accused_type_id']);
         $arr_data['get_complain_type'] = $this->complain_type->sort_complain_type($arr_data['key_in_data']['complain_type_id']);
 
@@ -720,7 +729,7 @@ class Complaint extends CI_Controller
         if($arr_data['current_user_login_data']['currentGroups'][0]['name'] == 'admin'){
             $this->key_in->updateReadStatus($id);
         }
-      
+
         if(in_array(2, $user_modes_groups)) {
             $this->libraries->template_member('complaint/view_detail_member', $arr_data);
         }else{

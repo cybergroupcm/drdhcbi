@@ -14,18 +14,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <input type="text" class="form-control" name="username" id="username" placeholder="ชื่อผู้ใช้">
                             <span class="glyphicon glyphicon-user form-control-feedback"></span>
                         </div>
-                        <div class="form-group has-feedback">
+                        <!--div class="form-group has-feedback">
                             <input type="text" class="form-control" name="email" id="email" placeholder="อีเมล์">
                             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                        </div>
+                        </div-->
                         <div class="form-group has-feedback">
                             <input type="text" class="form-control numbers" maxlength="13" name="idcard" id="idcard" placeholder="หมายเลขปัตรประชาชน หรือ หมายเลขหนังสือเดินทาง">
                             <span class="glyphicon glyphicon-credit-card form-control-feedback"></span>
                         </div>
+                        <div class="form-group has-feedback">
+                            โทรศัพท์: 038-278370 , 038-196288 , 086-3740426
+                        </div>
                         <div class="row">
-                            <div class="col-xs-8">
+                            <div class="col-xs-7">
                             </div>
-                            <div class="col-xs-4">
+                            <div class="col-xs-5">
                                 <input type="button" class="btn btn-primary btn-block btn-flat" onclick="checkData();" value="ตรวจสอบ">
                             </div>
                         </div>

@@ -148,6 +148,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                            placeholder="หน่วยงาน/แผนก ที่สังกัด"/>
                     <span class="glyphicon glyphicon-briefcase form-control-feedback"></span>
                 </div>-->
+                <span class="text-danger">*</span>
                 <div class="form-group has-feedback">
                     <input type="text" class="form-control" onblur='return validateEmail(this)' name="email" id="email"
                            placeholder="อีเมล์"/>
@@ -160,6 +161,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                            placeholder="เบอร์โทรศัพท์"/>
                     <span class="glyphicon glyphicon-phone-alt form-control-feedback"></span>
                 </div>
+                <span class="text-danger">กรุณาระบุชื่อผู้ใช้อย่างน้อย 6 ตัวอักษร</span>
                 <span class="text-danger">*</span>
                 <div class="form-group has-feedback">
                     <input type="text" name="username" id="username" class="form-control letter_and_number"
@@ -167,11 +169,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                            maxlength='10' placeholder="ชื่อผู้ใช้"/>
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
+
+                <span class="text-danger">กรุณาระบุรหัสผ่านอย่างน้อย 6 ตัวอักษร</span>
                 <span class="text-danger">*</span>
                 <div class="form-group has-feedback">
                     <input type="password" name="password" id="password" class="form-control" placeholder="รหัสผ่าน"/>
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
+
                 <span class="text-danger">*</span>
                 <div class="form-group has-feedback">
                     <input type="password" id="password2"

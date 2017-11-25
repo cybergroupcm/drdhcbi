@@ -11,6 +11,7 @@ $(document).ready(function () {
         var jwt = Cookies.get("api_token");
         var keyin_id = $('#keyin_id_result').val();
         var action_status_id = $('#action_status_id').val();
+        console.log('action_status_id:'+action_status_id);
         var result_detail = $('#result_detail').val();
         var result_user_id = $('#result_user_id').val();
         //var result_date = $('#result_date').val();

@@ -78,8 +78,10 @@
                             <div class="col-md-10">
                                 <div class="form-group">
                             <span class="col-sm-12 right" style="color:red;">
-                                อนุญาตให้แนบไฟล์นามสกุล .jpg, .png, .pdf ขนาดไม่เกิน 1 MB
+                                อณุญาตให้แนบไฟล์นามสกุล <?php echo $setting_upload['upload_type'] ?> ขนาดไม่เกิน <?php echo $setting_upload['upload_size'] ?>MB
                             </span>
+                                    <input type="hidden" id="upload_type" value="<?php echo $setting_upload['upload_type'] ?>">
+                                    <input type="hidden" id="upload_size" value="<?php echo $setting_upload['upload_size'] ?>">
                                 </div>
                             </div>
                         </div>

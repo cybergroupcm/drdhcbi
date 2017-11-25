@@ -60,7 +60,7 @@
             text_warning += " - ตำบล\n";
         }
 
-        if(action != "") {
+        /*if(action != "") {
             if ($('#email').val() == "" ) {
                 text_warning += " - อีเมล์\n";
             }else{
@@ -68,21 +68,28 @@
                     text_warning += " - การยืนยัน email ไม่ตรงกัน\n";
                 }
             }
-        }
+        }*/
 
         if ($('#address').val() == "") {
             text_warning += " - ที่อยู่ติดต่อกลับ\n";
+        }
+        if ($('#email').val() == "" ) {
+            text_warning += " - อีเมล์\n";
         }
         if ($('#phone_number').val() == "") {
             text_warning += " - เบอร์โทรศัพท์\n";
         }
         if ($('#username').val() == "") {
             text_warning += " - ชื่อผู้ใช้งาน\n";
+        }else if($('#username').val().length < 6){
+            text_warning += " - ชื่อผู้ใช้งานมากกว่า 6 ตัวอักษร\n";
         }
 
         if(action == "") {
             if ($('#password').val() == "") {
                 text_warning += " - รหัสผ่าน\n";
+            }else if($('#password').val().length < 6){
+                text_warning += " - รหัสผ่านมากกว่า 6 ตัวอักษร\n";
             }else{
                 if ($('#password2').val() == "") {
                     text_warning += " - ยืนยันรหัสผ่าน\n";

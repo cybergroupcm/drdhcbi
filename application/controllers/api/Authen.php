@@ -94,14 +94,18 @@ class Authen extends REST_Controller
 
     public function repassword_info_post()
     {
+        $where = " AND username = '".$this->post('username')."' ";
+
+        $where .= " AND idcard = '".$this->post('idcard')."' ";
+        if($this->post('email')!=''){
+            $where .= " AND email = '".$this->post('email')."' ";
+        }
         $sql = "SELECT
                     id
                 FROM
                     au_users
-                WHERE
-                    username = '".$this->post('username')."'
-                    AND email = '".$this->post('email')."'
-                    AND idcard = '".$this->post('idcard')."'";
+                WHERE 1=1
+               ".$where;
         $query = $this->db->query($sql);
         $data = $query->row_array();
         if($data){
