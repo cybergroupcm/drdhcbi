@@ -195,4 +195,11 @@ class Key_in_model extends MY_Model
         return $this->db->delete('dt_wish',['keyin_id'=>$keyinId]);
     }
 
+    public function updateReadStatus($keyinId)
+    {
+      $sql = "UPDATE dt_keyin SET read_status='1' WHERE keyin_id='".$keyinId."' ";
+      return $this->db->query($sql);
+    }
+
+
 }
