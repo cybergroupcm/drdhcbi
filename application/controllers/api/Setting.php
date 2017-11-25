@@ -14,6 +14,7 @@ class Setting extends REST_Controller
         $this->load->model('master/Subject_model');
         $this->load->model('master/Wish_model');
         $this->load->model('master/Send_org_model');
+        $this->load->model('master/Setting_upload_model');
         $this->load->model('data/Key_in_model');
     }
 
@@ -573,6 +574,34 @@ class Setting extends REST_Controller
                 'status' => FALSE,
                 'message' => 'No users were found'
             ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
+    public function setting_upload_get($id)
+    {
+        $data_result = $this->Setting_upload_model->where('setting_id', $id)->get();
+        if ($data_result) {
+            $this->response($data_result, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        } else {
+            $this->response([
+                'status' => FALSE,
+                'message' => 'No users were found'
+            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
+    public function setting_upload_post()
+    {
+        //$ids = $this->Setting_upload_model->update(array(
+            //'upload_size' => $this->post('upload_size'),
+            //'upload_type' => $this->post('upload_type')
+        //), $this->post('setting_id'));
+            //echo $this->post('upload_size')." ".$this->post('upload_type')." ".$this->post('setting_id');
+        $ids = $this->db->query("UPDATE ms_setting_upload SET upload_size = '".$this->post('upload_size')."', upload_type = '".$this->post('upload_type')."' WHERE setting_id = '".$this->post('setting_id')."' ");
+        if ($ids) {
+            $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }else{
+            $this->response($ids, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
     }
 

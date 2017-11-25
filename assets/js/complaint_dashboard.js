@@ -386,7 +386,7 @@ function thaidateformat(d,long) {
 var file_count = 0;
 function add_new_file(){
     file_count++;
-    var input = '<input type="file" name="attach_file[]" class="attach_file" accept=".jpg, .png, .pdf" onchange="checkFile(\''+file_count.toString()+'\')" id="attach_file_'+file_count.toString()+'" style="display:none;">';
+    var input = '<input type="file" name="attach_file[]" class="attach_file" accept="'+$('#upload_type').val()+'" onchange="checkFile(\''+file_count.toString()+'\')" id="attach_file_'+file_count.toString()+'" style="display:none;">';
     $('#file_add_space').append(input);
     $('#attach_file_'+file_count.toString()).trigger('click');
 }
@@ -398,11 +398,13 @@ function delete_new_file(id){
 function checkFile(id) {
     var x = document.getElementById("attach_file_"+id);
     var txt = "";
+    var upload_size = $('#upload_size').val();
+    upload_size = parseInt(upload_size) * 1048576;
     if ('files' in x) {
         var j = 1;
         for (var i = 0; i < x.files.length; i++) {
             var file = x.files[i];
-            if (parseInt(file.size) > 1048576) {
+            if (parseInt(file.size) > upload_size) {
                 txt += "ไม่สามารถแนบไฟล์ " + file.name + " ได้เนื่องจากไฟล์มีขนาดใหญ่เกินไป<br>";
                 var file_show = '<span id="show_file_'+id+'">'+txt+'</span><hr>';
                 $('#attach_file_'+id).remove();
@@ -425,7 +427,7 @@ function checkFile(id) {
 }
 $(document).ready(function() {
     var table = $('#example1').DataTable({
-        "order": [[ 1, "desc" ]],
+        //"order": [[ 1, "desc" ]],
         "columnDefs": [
             { "targets": [0,7], "orderable": false },
             { "targets": [0,7],"searchable": false }

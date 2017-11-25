@@ -176,15 +176,17 @@ function validateForm(action_to,type) {
 function checkFile(id) {
     var x = document.getElementById("attach_file_"+id);
     var txt = "";
+    var upload_size = $('#upload_size').val();
+    upload_size = parseInt(upload_size) * 1048576;
     if ('files' in x) {
         var j = 1;
         for (var i = 0; i < x.files.length; i++) {
             var file = x.files[i];
-            /*if (parseInt(file.size) > 1048576) {
+            if (parseInt(file.size) > upload_size) {
                 txt += "ไม่สามารถแนบไฟล์ " + file.name + " ได้เนื่องจากไฟล์มีขนาดใหญ่เกินไป<br>";
                 var file_show = '<span id="show_file_'+id+'">'+txt+'</span><hr>';
                 $('#attach_file_'+id).remove();
-            } else {*/
+            } else {
                 //txt += "<br><strong>" + (j) + ". file</strong><br>";
                 if ('name' in file) {
                     txt += "name: " + file.name + "<br>";
@@ -194,7 +196,7 @@ function checkFile(id) {
                 }
                 j++;
                 var file_show = '<span id="show_file_'+id+'">'+txt+'<input type="button" class="btn btn-danger" value="ลบ" onclick="delete_new_file(\''+id+'\')"><hr></span>';
-            //}
+            }
         }
     }
 
@@ -213,7 +215,7 @@ function changeUserComplain() {
 var file_count = $("#file_count").val();
 function add_new_file(){
     file_count++;
-    var input = '<input type="file" name="attach_file[]" class="attach_file" onchange="checkFile(\''+file_count.toString()+'\')" id="attach_file_'+file_count.toString()+'" style="display:none;">';
+    var input = '<input type="file" name="attach_file[]" class="attach_file" onchange="checkFile(\''+file_count.toString()+'\')" id="attach_file_'+file_count.toString()+'" style="display:none;" accept="'+$('#upload_type').val()+'">';
     $('#file_add_space').append(input);
     $('#attach_file_'+file_count.toString()).trigger('click');
 }
@@ -300,6 +302,8 @@ function get_accused_child(ele){
             $('#' + $('#' + ele.id).attr('has_child')).append(data);
         });
     }
+
+    checkTypeInput(value);
 }
 
 var count_complain_type = 0;
@@ -403,3 +407,23 @@ function checkIdCardRegister(element){
         }
     }
 }
+
+function checkTypeInput(id) {
+    var url = $('#base_url').attr("class")+"complaint/getaAcusedTypeInput/"+id;
+    $.ajax({
+        method: "GET",
+        url: url,
+        async:false
+    }).done(function (result) {
+        var dataTypeInput = JSON.parse(result);
+        if(dataTypeInput.input_type == 'text'){
+            $("#accused_type_name").show();
+        }else {
+            $("#accused_type_name").hide();
+        }
+    });
+}
+$( document ).ready(function() {
+    var id = $("#accused_type_id").val();
+    checkTypeInput(id);
+});

@@ -33,6 +33,9 @@ class Complaint extends CI_Controller
         $url = base_url("api/dropdown/title_name_lists");
         $arr_data['title_name'] = api_call_get($url);
 
+        $url = base_url("api/setting/setting_upload/1");
+        $arr_data['setting_upload'] = api_call_get($url);
+
         //กำหนดการแสดงผลหน้าบันทึกข้อมูล
         $url = base_url("api/authen/token_info");
         $user_data_id = api_call_get($url);
@@ -181,6 +184,9 @@ class Complaint extends CI_Controller
 
         $url = base_url("api/dropdown/ccaa_lists/Changwat");
         $arr_data['province_list'] = api_call_get($url);
+
+        $url = base_url("api/setting/setting_upload/1");
+        $arr_data['setting_upload'] = api_call_get($url);
 
         $queryFilter = '';
         $filter = $this->input->get();
@@ -637,6 +643,7 @@ class Complaint extends CI_Controller
     public function view_detail($id)
     {
         $this->load->model('main/Main_model','main');
+        $this->load->model('data/Key_in_model','key_in');
 
         $url = base_url("api/complaint/key_in/" . $id);
         $arr_data['key_in_data'] = api_call_get($url);
@@ -649,6 +656,9 @@ class Complaint extends CI_Controller
         foreach ($arr_data['get_send_org'] as $key => $value) {
             $arr_data['send_org_text'] .= $arr_data['send_org'][$value]." ";
         }
+
+        $url = base_url("api/setting/setting_upload/1");
+        $arr_data['setting_upload'] = api_call_get($url);
 
         $arr_data['get_accused_type'] = $this->accused_type->sort_accused($arr_data['key_in_data']['accused_type_id']);
         $arr_data['get_complain_type'] = $this->complain_type->sort_complain_type($arr_data['key_in_data']['complain_type_id']);
@@ -681,6 +691,9 @@ class Complaint extends CI_Controller
         $url = base_url("api/dropdown/accused_type_lists");
         $arr_data['accused_type_all'] = api_call_get($url);
 
+        $url = base_url("api/complaint/accused_type/".$arr_data['key_in_data']['accused_type_id']);
+        $arr_data['accused_type_input'] = api_call_get($url);
+
         //ข้อมูลเรื่องร้องทุกข์ทั้งหมดจำแนกรายพื้นที่
     		$obj_area = $this->main->get_area();
     		foreach($obj_area as $row_area){
@@ -708,9 +721,25 @@ class Complaint extends CI_Controller
         $user_modes_groups = api_call_get($url);
 
         if(in_array(2, $user_modes_groups)) {
+            $arr_data['member_group'] = 'member';
+        }else{
+            $arr_data['member_group'] = 'officer';
+        }
+
+        if($arr_data['current_user_login_data']['currentGroups'][0]['name'] == 'admin'){
+            $this->key_in->updateReadStatus($id);
+        }
+
+        if(in_array(2, $user_modes_groups)) {
             $this->libraries->template_member('complaint/view_detail_member', $arr_data);
         }else{
             $this->libraries->template('complaint/view_detail', $arr_data);
+        }
+
+        if( $_GET['debug'] == 'on' ){
+            echo '<pre>';
+            print_r($arr_data);
+            echo '</pre>';
         }
     }
 
@@ -753,6 +782,14 @@ class Complaint extends CI_Controller
         $url = base_url("api/complaint/key_in/" . $id);
         $arr_data['key_in_data'] = api_call_get($url);
 
+        $url = base_url("api/dropdown/send_org_lists_all");
+        $arr_data['send_org'] = api_call_get($url);
+        $arr_data['get_send_org'] = $this->send_org->sort_send_org($arr_data['key_in_data']['send_org_id']);
+        $arr_data['send_org_text'] = '';
+        foreach ($arr_data['get_send_org'] as $key => $value) {
+            $arr_data['send_org_text'] .= $arr_data['send_org'][$value]." ";
+        }
+
         $arr_data['get_accused_type'] = $this->accused_type->sort_accused($arr_data['key_in_data']['accused_type_id']);
         $arr_data['get_complain_type'] = $this->complain_type->sort_complain_type($arr_data['key_in_data']['complain_type_id']);
 
@@ -776,8 +813,26 @@ class Complaint extends CI_Controller
         $arr_data['result'] = api_call_get($url);
         $url = base_url("api/dropdown/accused_type_lists");
         $arr_data['accused_type_all'] = api_call_get($url);
+        $url = base_url("api/complaint/user_detail/id/".$arr_data['result']['result_user_id']);
+        $arr_data['result_user_detail'] = api_call_get($url);
+
+        $url = base_url("api/complaint/accused_type/".$arr_data['key_in_data']['accused_type_id']);
+        $arr_data['accused_type_input'] = api_call_get($url);
+
         $html = $this->load->view('complaint/pdf_detail', $arr_data, true);
         // As PDF creation takes a bit of memory, we're saving the created file in /downloads/reports/
+
+        $url = base_url("api/authen/token_info");
+        $user_data_id = api_call_get($url);
+
+        $url = base_url("api/complaint/user_mode_permission/user_id/" . $user_data_id['userid']);
+        $user_modes_groups = api_call_get($url);
+
+        if(in_array(2, $user_modes_groups)) {
+            $arr_data['member_group'] = 'member';
+        }else{
+            $arr_data['member_group'] = 'officer';
+        }
 
         $this->my_mpdf->SetDisplayMode('fullpage');
         $this->my_mpdf->list_indent_first_level = 0;
@@ -985,4 +1040,11 @@ class Complaint extends CI_Controller
         exit();
     }
 
+    public function getaAcusedTypeInput($id)
+    {
+        $url = base_url("api/complaint/accused_type/".$id);
+        $arr_data['accused_type_input'] = api_call_get($url);
+        $result = $arr_data['accused_type_input'];
+        echo json_encode($result);
+    }
 }

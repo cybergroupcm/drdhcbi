@@ -5,7 +5,7 @@
                     <div class="box-header">
                         <h3 class="box-title"></h3>
                     </div>
-                    <div class="box-body" style="height: 400px;">
+                    <div class="box-body" style="height: 500px;">
                         <div class="col-xs-12">
                             <div class="row" style="margin-bottom: 25px;">
                                 <div class="col-xs-4 text-center">
@@ -44,6 +44,14 @@
                                     <span onclick="window.location.href='<?php echo base_url('setting_org/dashboard')?>';">
                                          <?php echo img(array('src'=>'assets/images/setting.png', 'title'=> 'ตั้งค่าข้อมูลหน่วยงาน','width'=>'128px','style'=>'cursor:pointer'));?>
                                         <div>ตั้งค่าข้อมูลหน่วยงาน</div>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4 text-center">
+                                    <span onclick="window.location.href='<?php echo base_url('setting_upload/dashboard')?>';">
+                                         <?php echo img(array('src'=>'assets/images/setting.png', 'title'=> 'ตั้งค่าข้อมูลอัพโหลดเอกสาร','width'=>'128px','style'=>'cursor:pointer'));?>
+                                        <div>ตั้งค่าข้อมูลอัพโหลดเอกสาร</div>
                                     </span>
                                 </div>
                             </div>
