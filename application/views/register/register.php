@@ -13,7 +13,7 @@ $link = array(
 <div class="row frame">
     <div class="row title">
         <div class="col-md-12">
-            <div class="form-group">สมัครสมาชิก</div>
+            <div class="form-group">ข้อมูลผู้ใช้</div>
         </div>
     </div>
 
@@ -222,6 +222,14 @@ $link = array(
             </div>
         </div>
     </div>
+    <?php
+    //หน่วยงาน/สังกัด" "ตำแหน่ง" สำหรับผู้ใช้ทั่วไป ไม่ให้แสดง
+    $arr_group = array();
+    foreach ($data['currentGroups'] AS $group) {
+        $arr_group[] = $group['id'];
+    }
+    if(! in_array('2',$arr_group)){
+    ?>
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
@@ -247,6 +255,7 @@ $link = array(
             </div>
         </div>
     </div>
+    <?php } ?>
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
