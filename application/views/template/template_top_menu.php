@@ -23,7 +23,7 @@
                     echo img(array('src' => 'assets/images/person_mono.jpg', 'alt' => 'User Image', 'class' => 'user-image'));
                   }
                   ?>
-                  <span class="hidden-xs"><?php echo $user_data['user']['first_name'] ?></span>
+                  <span class="hidden-xs"><?php echo $user_data['user']['first_name']." ".$user_data['user']['last_name'] ?></span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
