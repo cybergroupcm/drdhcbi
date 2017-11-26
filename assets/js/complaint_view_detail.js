@@ -134,6 +134,7 @@ $( document ).ready(function() {
             console.log(dataReceived.result);
             if (dataReceived.result != null) {
                 $('#result_detail').val(dataReceived.result.result_detail);
+                getActionStatus(dataReceived.result.action_status_id);
                 if (dataReceived.result.result_date != '0000-00-00 00:00:00') {
                     var original_result_date = dataReceived.result.result_date.split(' ');
                     var new_result_date = original_result_date[0];
@@ -153,6 +154,8 @@ $( document ).ready(function() {
                     txt_append += "<input type='button' class='btn btn-danger' onclick=\"delete_result_file('" + result_attach_file[key].file_id + "', '" + result_attach_file[key].file_system_name + "')\" value='ลบ'></div>";
                     $('#checkFile').append(txt_append);
                 }
+            }else{
+                getActionStatus('');
             }
         });
 
@@ -277,7 +280,15 @@ function add_new_file(){
     $('#file_add_space').append(input);
     $('#attach_file_'+file_count.toString()).trigger('click');
 }
-
+function getActionStatus(action_status_id){
+    var url = $('#base_url').attr("class")+"complaint/get_action_status/"+action_status_id;
+    $.ajax({
+        method: "GET",
+        url: url
+    }).done(function (result) {
+        $('#get_action_status').html(result);
+    });
+}
 function getDataReceived(id){
     var url = $('#base_url').attr("class")+"complaint/getDataReceived/"+id;
     $.ajax({
@@ -368,7 +379,7 @@ function getDataSend(id){
         $.post(url, {data: ''}, function (data) {
             $('#send_org').html(data);
         });
-
+        $('#send_detail').html(dataSend.send_detail);
         /*if(send_org_id != '' && send_org_id != '0') {
          if (send_org_id == '2') {
          $('input[name=send_org_parent][value="2"]').prop('checked', true);
@@ -491,5 +502,7 @@ function getDataSendDetail(id){
         $.post(url, {data: ''}, function (data) {
             $('#send_org_show').html(data);
         });
+
+        $('#show_send_detail').html(dataSend.send_detail);
     });
 }
