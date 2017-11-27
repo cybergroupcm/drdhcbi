@@ -76,6 +76,7 @@ class User extends REST_Controller
             'idcard' => $this->post('idcard'),
             'prename_th_id'=> $this->post('prename_th_id'),
             'prename_th'=> $this->post('prename_th'),
+            'prename_en_id'=> $this->post('prename_en_id'),
             'prename_en'=> $this->post('prename_en'),
             'first_name_en' => $this->post('first_name_en'),
             'last_name_en'  => $this->post('last_name_en'),
