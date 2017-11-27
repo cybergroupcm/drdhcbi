@@ -1,4 +1,4 @@
-<?php 
+<?php
 $link = array(
                 'href' => '/assets/css/key_in.css',
                 'type' => 'text/css',
@@ -21,12 +21,13 @@ $link = array(
         <div class="col-md-12">
             <div class="form-group">
                 <label class="col-sm-3 right required">
-                    ชื่อผู้ใช้งาน : 
+                    ชื่อผู้ใช้งาน :
                 </label>
                 <label class="col-sm-3">
                     <?php
                         echo $data['user']['username'];
                     ?>
+                    <input type="hidden" name="username" value="<?php echo $data['user']['username'];?>" id="username"  />
                     <!--<input type="text" name="username" id="username" class="form-control letter_and_number" onkeypress="check_first_letters(this, event)" maxlength='10' />-->
                 </label>
             </div>
@@ -46,7 +47,7 @@ $link = array(
         <div class="col-md-12">
             <div class="form-group">
                 <label class="col-sm-3 right required">
-                    รหัสผ่าน : 
+                    รหัสผ่าน :
                 </label>
                 <label class="col-sm-3">
                     <input type="password" name="password" id="password" class="form-control no_symbol" maxlength='10' />
@@ -68,7 +69,7 @@ $link = array(
         <div class="col-md-12">
             <div class="form-group">
                 <label class="col-sm-3 right required">
-                    ยืนยันรหัสผ่าน : 
+                    ยืนยันรหัสผ่าน :
                 </label>
                 <label class="col-sm-3">
                     <input type="password" id="password2" onblur="confirm_input('password','password2','password_confirm_text')" id="password2" class="form-control" />
@@ -81,7 +82,7 @@ $link = array(
         <div class="col-md-12">
             <div class="form-group">
                 <label class="col-sm-3 right required">
-                    อีเมล์ : 
+                    อีเมล์ :
                 </label>
                 <label class="col-sm-3">
                     <input type="text" name="email" id="email"  onblur='return validateEmail(this)' class="form-control" value="<?php echo $data['user']['email']?>" />
@@ -93,7 +94,7 @@ $link = array(
         <div class="col-md-12">
             <div class="form-group">
                 <label class="col-sm-3 right required">
-                    ยืนยันอีเมล์ : 
+                    ยืนยันอีเมล์ :
                 </label>
                 <label class="col-sm-3">
                     <input type="text" id="email2" onblur="confirm_input('email','email2','email_confirm_text')" class="form-control" value="<?php echo $data['user']['email']?>" />
@@ -106,7 +107,7 @@ $link = array(
         <div class="col-md-12">
             <div class="form-group">
                 <label class="col-sm-3 right required">
-                    รหัสประจำตัวประชาชน : 
+                    รหัสประจำตัวประชาชน :
                 </label>
                 <label class="col-sm-3">
                     <input type="text" name="idcard" id="idcard" class="form-control numbers" maxlength='13' value="<?php echo $data['user']['idcard']?>" />
@@ -118,7 +119,7 @@ $link = array(
         <div class="col-md-12">
             <div class="form-group">
                 <label class="col-sm-3 right required">
-                    คำนำหน้าชื่อ : 
+                    คำนำหน้าชื่อ :
                 </label>
                 <label class="col-sm-3">
                     <?php
@@ -141,7 +142,7 @@ $link = array(
         <div class="col-md-12">
             <div class="form-group">
                 <label class="col-sm-3 right required">
-                    ชื่อ : 
+                    ชื่อ :
                 </label>
                 <label class="col-sm-3">
                     <input type="text" id="name_th" name="first_name" class="form-control" value="<?php echo $data['user']['first_name']?>" />
@@ -153,7 +154,7 @@ $link = array(
         <div class="col-md-12">
             <div class="form-group">
                 <label class="col-sm-3 right required">
-                    นามสกุล : 
+                    นามสกุล :
                 </label>
                 <label class="col-sm-3">
                     <input type="text" id="surname_th" name="last_name" class="form-control" value="<?php echo $data['user']['last_name']?>" />
@@ -272,7 +273,7 @@ $link = array(
         <div class="col-md-12">
             <div class="form-group">
                 <label class="col-sm-3 right required">
-                    จังหวัด : 
+                    จังหวัด :
                 </label>
                 <label class="col-sm-3">
                     <?php
@@ -294,7 +295,7 @@ $link = array(
         <div class="col-md-12">
             <div class="form-group">
                 <label class="col-sm-3 right required">
-                    อำเภอ : 
+                    อำเภอ :
                 </label>
                 <label class="col-sm-3">
                     <span id="district_span">
@@ -318,7 +319,7 @@ $link = array(
         <div class="col-md-12">
             <div class="form-group">
                 <label class="col-sm-3 right required">
-                    ตำบล : 
+                    ตำบล :
                 </label>
                 <label class="col-sm-3">
                     <span id="subdistrict_span">
@@ -332,7 +333,7 @@ $link = array(
                             'class' => 'form-control'
                         ], $subdistrict_arr, @$data['user']['address_id']);
                         ?>
-                    </span>  
+                    </span>
                 </label>
             </div>
         </div>
