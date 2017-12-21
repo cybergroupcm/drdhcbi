@@ -138,7 +138,9 @@ $this->load->view('complaint/save_result');
                                         <?php echo @$val['complain_no']; ?>
                                     </td>
                                     <td class="text-center open"><?php echo $complain_date; ?></td>
-                                    <td class="open"><?php echo @$val['complaint_detail']; ?></td>
+                                    <td class="open">
+                                        <?php echo (@$val['complaint_detail'])?iconv_substr(@$val['complaint_detail'], 0, 50,"UTF-8").'...':''; ?>
+                                    </td>
                                     <td class="open"><?php echo $user_complain; ?></td>
                                     <td class="open"><?php echo @($user_group_type == 2?$val['update_user']:'จนท. ศูนย์ดำรงธรรม'); ?></td>
                                     <td class="open">
