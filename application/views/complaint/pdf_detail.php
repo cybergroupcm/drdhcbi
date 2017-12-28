@@ -13,7 +13,7 @@
                             <td style="width: 40%;"></td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <td><img src="<?php echo base_url().'assets/images/logo.png';?>" width="25%"/></td>
                             <td></td>
                             <td style="text-align: right;">
                                 เลขที่เรื่องร้องทุกข์ :
@@ -88,7 +88,7 @@
                             <td></td>
                             <td style="text-align: right;">
                                 ผู้บันทึก :
-                                <span style="font-weight: normal;"><?php echo $create_user_detail['prename_th'].$create_user_detail['first_name']." ".$create_user_detail['last_name']; ?></span>
+                                <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'ประชาชน':$create_user_detail['prename_th'].$create_user_detail['first_name']." ".$create_user_detail['last_name']; ?></span>
                             </td>
                         </tr>
                         <tr>
@@ -134,9 +134,10 @@
                             <td colspan="3" style="text-align: left;">
                                 <br>
                                 ผู้ร้องทุกข์ :
-                                <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'ไม่ประสงค์ออกนาม':''?></span>
+                                <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'ประชาชน':''?></span>
                             </td>
                         </tr>
+                        <?php if((@$key_in_data['user_complain_type_id']!='1')){?>
                         <tr>
                             <td colspan="3" style="text-align: left;">
                                 เลขบัตรประจำตัวประชาชน :
@@ -194,6 +195,7 @@
                                 <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'':@$key_in_data['phone_number'];?></span>
                             </td>
                         </tr>
+                        <?php } ?>
                         <tr>
                             <td colspan="3" style="text-align: left;">
                                 <!--เบอร์โทรสาร :-->

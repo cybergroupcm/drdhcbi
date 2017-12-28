@@ -201,7 +201,7 @@
                                     <label class="col-sm-8"></label>
                                     <label class="col-sm-4 text-right">
                                         ผู้บันทึก :
-                                        <span style="font-weight: normal;"><?php echo $create_user_detail['prename_th'].$create_user_detail['first_name']." ".$create_user_detail['last_name']; ?></span>
+                                        <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'ประชาชน':$create_user_detail['prename_th'].$create_user_detail['first_name']." ".$create_user_detail['last_name']; ?></span>
                                     </label>
                                 </div>
                             </div>
@@ -276,17 +276,18 @@
                                     <label class="col-sm-12">
                                         <br>
                                         ผู้ร้องทุกข์ :
-                                        <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'ไม่ประสงค์ออกนาม':''?></span>
+                                        <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'ประชาชน':''?></span>
                                     </label>
                                 </div>
                             </div>
                         </div>
+                        <?php if((@$key_in_data['user_complain_type_id']!='1')){?>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="col-sm-12">
                                         เลขบัตรประจำตัวประชาชน :
-                                        <span style="font-weight: normal;"><?php echo @$create_user_detail_authen['user']['idcard']; ?></span>
+                                        <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'':@$create_user_detail_authen['user']['idcard']; ?></span>
                                     </label>
                                 </div>
                             </div>
@@ -297,7 +298,7 @@
                                     <label class="col-sm-4">
                                         ชื่อผู้ร้องทุกข์ :
                                         <span style="font-weight: normal;">
-                                            <?php echo @$create_user_detail_authen['user']['prename_th'].@$create_user_detail_authen['user']['first_name']." ".@$create_user_detail_authen['user']['last_name']; ?>
+                                            <?php echo (@$key_in_data['user_complain_type_id']=='1')?'':@$create_user_detail_authen['user']['prename_th'].@$create_user_detail_authen['user']['first_name']." ".@$create_user_detail_authen['user']['last_name']; ?>
                                         </span>
                                     </label>
                                     <!--label class="col-sm-8">
@@ -312,7 +313,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-12">
                                         ที่อยู่ปัจจุบันที่สามารถติดต่อได้ :
-                                        <span style="font-weight: normal;"><?php echo $create_user_detail['address']; ?></span>
+                                        <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'':$create_user_detail['address']; ?></span>
                                     </label>
                                 </div>
                             </div>
@@ -322,11 +323,11 @@
                                 <div class="form-group">
                                     <label class="col-sm-4">
                                         ตำบล/แขวง :
-                                        <span style="font-weight: normal;"><?php echo $subdistrict_list[@$create_user_detail['address_id']]; ?></span>
+                                        <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'':$subdistrict_list[@$create_user_detail['address_id']]; ?></span>
                                     </label>
                                     <label class="col-sm-8">
                                         อำเภอ/เขต :
-                                        <span style="font-weight: normal;"><?php echo $district_list[@substr($create_user_detail['address_id'],0,4).'0000']?></span>
+                                        <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'':$district_list[@substr($create_user_detail['address_id'],0,4).'0000']?></span>
                                     </label>
                                 </div>
                             </div>
@@ -336,7 +337,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-4">
                                         จังหวัด :
-                                        <span style="font-weight: normal;"><?php echo $province_list[@substr($create_user_detail['address_id'],0,3).'00000']?></span>
+                                        <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'':$province_list[@substr($create_user_detail['address_id'],0,3).'00000']?></span>
                                     </label>
                                     <!--label class="col-sm-8">
                                         รหัสไปรษณีย์ :
@@ -350,7 +351,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-4">
                                         เบอร์โทรศัพท์ :
-                                        <span style="font-weight: normal;"><?php echo @$create_user_detail['phone']; ?></span>
+                                        <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'':@$create_user_detail['phone']; ?></span>
                                     </label>
                                     <label class="col-sm-8">
                                         เบอร์โทรศัพท์มือถือ :
@@ -359,6 +360,7 @@
                                 </div>
                             </div>
                         </div>
+                    <?php }?>
                     <?php }else{ ?>
                         <div class="row">
                             <div class="col-md-12">
