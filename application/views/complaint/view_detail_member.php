@@ -175,7 +175,7 @@
                                     <label class="col-sm-8"></label>
                                     <label class="col-sm-4 text-right">
                                         ผู้บันทึก :
-                                        <span style="font-weight: normal;"><?php echo $create_user_detail['prename_th'].$create_user_detail['first_name']." ".$create_user_detail['last_name']; ?></span>
+                                        <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'ประชาชน':$create_user_detail['prename_th'].$create_user_detail['first_name']." ".$create_user_detail['last_name']; ?></span>
                                     </label>
                                 </div>
                             </div>
@@ -248,11 +248,12 @@
                                     <label class="col-sm-12">
                                         <br>
                                         ผู้ร้องทุกข์ :
-                                        <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'ไม่ประสงค์ออกนาม':''?></span>
+                                        <span style="font-weight: normal;"><?php echo (@$key_in_data['user_complain_type_id']=='1')?'ประชาชน':''?></span>
                                     </label>
                                 </div>
                             </div>
                         </div>
+                        <?php if((@$key_in_data['user_complain_type_id']!='1')){?>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -334,6 +335,7 @@
                                 </div>
                             </div>
                         </div>
+                        <?php }?>
                         <!--div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
