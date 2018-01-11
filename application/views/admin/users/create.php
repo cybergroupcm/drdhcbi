@@ -38,6 +38,9 @@ $link = array(
                             <?php
                             if(@$id!=''){
                                 echo @$data['user']['username'];
+                            ?>
+                                <input type="hidden" name="username" id="username" class="form-control letter_and_number" value="<?php echo @$data['user']['username'];?>" />
+                                <?php
                             }else{
                             ?>
                             <input type="text" name="username" id="username" class="form-control letter_and_number" onblur="check_username(this.value)" onkeypress="check_first_letters(this, event)" maxlength='10' />
@@ -452,7 +455,6 @@ echo script_tag($link);
         InputOfImageDirectory       : "register_photo",
         PluginFolderOnServer        : "sysdamrongdham/assets/frameworks/picture_cut/",
         FolderOnServer              : "/sysdamrongdham/upload/tmp_register/",
-        //FolderOnServer              : "/sysdamrongdham/upload/sad/",
         EnableCrop                  : true,
         CropWindowStyle             : "Bootstrap"
     });
