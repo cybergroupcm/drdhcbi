@@ -677,45 +677,61 @@
                             <?php
                             $runno = 0;
                             foreach($current_status AS $key => $value) {
-                                if($key <= @$key_in_data['current_status_id'] ) {
-                                    $runno++;
+                                //if($key <= @$key_in_data['current_status_id'] ) {
+                                //    $runno++;
                                     $event_date = '';
                                     $detail = '';
                                     $update_user = @$update_user_detail['prename_th'].@$update_user_detail['first_name']." ".@$update_user_detail['last_name'];
-                                    if($key == '1'){
-                                        $event_date = $key_in_data['complain_date']!='0000-00-00'?$key_in_data['complain_date']:'';
-                                        $update_user = "เจ้าหน้าที่ศูนย์ดำรงค์ธรรม";
-                                    }else if($key == '2'){
-                                        $event_date = $key_in_data['receive_date']!='0000-00-00'?$key_in_data['receive_date']:'';
-                                        if($member_group=='member'){
+                                    if($key_in_data['current_status_id'] == '6'){
+                                        if ($key == '1') {
+                                            $event_date = $key_in_data['complain_date'] != '0000-00-00' ? $key_in_data['complain_date'] : '';
                                             $update_user = "เจ้าหน้าที่ศูนย์ดำรงค์ธรรม";
-                                        }else{
-                                            $update_user = @$update_user_detail['prename_th'].@$update_user_detail['first_name']." ".@$update_user_detail['last_name'];
+                                        } else if ($key == '6') {
+                                            $event_date = $key_in_data['receive_date'] != '0000-00-00' ? $key_in_data['receive_date'] : '';
+                                            if ($member_group == 'member') {
+                                                $update_user = "เจ้าหน้าที่ศูนย์ดำรงค์ธรรม";
+                                            } else {
+                                                $update_user = @$update_user_detail['prename_th'] . @$update_user_detail['first_name'] . " " . @$update_user_detail['last_name'];
+                                            }
                                         }
-                                    }else if($key == '3'){
-                                        $event_date = $key_in_data['send_org_date']!='0000-00-00'?$key_in_data['send_org_date']:'';
-                                        $update_user = $send_org_text;
-                                    }else if($key == '4'){
-                                        $event_date = $result['result']['result_date']!='0000-00-00'?$result['result']['result_date']:'';
-                                        $detail = $result['result']['result_detail'];
-                                        if($member_group=='member'){
+                                    }else {
+                                        if ($key == '1') {
+                                            $event_date = $key_in_data['complain_date'] != '0000-00-00' ? $key_in_data['complain_date'] : '';
                                             $update_user = "เจ้าหน้าที่ศูนย์ดำรงค์ธรรม";
-                                        }else{
-                                            $update_user = $result_user_detail['prename_th'].$result_user_detail['first_name']." ".$result_user_detail['last_name'];
+                                        } else if ($key == '2') {
+                                            $event_date = $key_in_data['receive_date'] != '0000-00-00' ? $key_in_data['receive_date'] : '';
+                                            if ($member_group == 'member') {
+                                                $update_user = "เจ้าหน้าที่ศูนย์ดำรงค์ธรรม";
+                                            } else {
+                                                $update_user = @$update_user_detail['prename_th'] . @$update_user_detail['first_name'] . " " . @$update_user_detail['last_name'];
+                                            }
+                                        } else if ($key == '3') {
+                                            $event_date = $key_in_data['send_org_date'] != '0000-00-00' ? $key_in_data['send_org_date'] : '';
+                                            $update_user = $send_org_text;
+                                        } else if ($key == '4') {
+                                            $event_date = $result['result']['result_date'] != '0000-00-00' ? $result['result']['result_date'] : '';
+                                            $detail = $result['result']['result_detail'];
+                                            if ($member_group == 'member') {
+                                                $update_user = "เจ้าหน้าที่ศูนย์ดำรงค์ธรรม";
+                                            } else {
+                                                $update_user = $result_user_detail['prename_th'] . $result_user_detail['first_name'] . " " . $result_user_detail['last_name'];
+                                            }
                                         }
                                     }
-
+                                    if($event_date != '' && $event_date != '0000-00-00 00:00:00') {
+                                    $runno++;
                                     ?>
                                     <tr>
                                         <td class="text-center"><?php echo $runno; ?></td>
                                         <td><?php echo $value; ?></td>
-                                        <td class="text-center"><?php echo $event_date!=''?date_thai($event_date,true):''; ?></td>
+                                        <td class="text-center"><?php echo $event_date != '' ? date_thai($event_date, true) : ''; ?></td>
                                         <td><?php echo $detail; ?></td>
                                         <!--td class="text-right">&nbsp;</td-->
                                         <td><?php echo $update_user; ?></td>
                                     </tr>
                                     <?php
-                                }
+                                    }
+                                //}
                             }
                             ?>
                             </tbody>

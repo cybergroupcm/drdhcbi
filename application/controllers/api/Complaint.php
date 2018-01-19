@@ -131,7 +131,8 @@ class Complaint extends REST_Controller
                 ->where('current_status_id',$filterEx)
                 ->where($no_show_status)
                 ->where($filter)
-                ->order_by('read_status ASC', 'complain_no DESC')
+//                ->order_by('read_status ASC', 'complain_no DESC')
+                ->order_by(['read_status'=>'ASC','complain_no'=>'DESC'])
                 ->with_title_name('fields:prename')
                 ->with_complaint_type('fields:complain_type_name')
                 ->with_wish('fields:wish_name')
@@ -717,7 +718,7 @@ class Complaint extends REST_Controller
             $data_result = [];
             $data_result['keyin_id'] = $keyInID;
             $data_result['result_detail'] = $result_detail;
-            $data_result['result_date'] = date('d/m/Y H:i:s',strtotime('+543 year'));
+            //$data_result['result_date'] = date('d/m/Y H:i:s',strtotime('+543 year'));
             if($result_id!=''){
                 $this->Result_model->update($data_result, array('keyin_id'=>$keyInID));
             }else{
